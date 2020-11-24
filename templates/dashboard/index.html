@@ -1,0 +1,348 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block title %}Home {% endblock %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+     
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Profiles</span>
+                <span class="info-box-number">
+                  2
+                  
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-home"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Structures</span>
+                <span class="info-box-number">4,410</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+
+          <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
+
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-map"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Plots</span>
+                <span class="info-box-number">760</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Plot Owners</span>
+                <span class="info-box-number">2,000</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Records Table</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <th>Rendering engine</th>
+                      <th>Browser</th>
+                      <th>Platform(s)</th>
+                      <th>Engine version</th>
+                      <th>CSS grade</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td>Trident</td>
+                      <td>Internet
+                        Explorer 4.0
+                      </td>
+                      <td>Win 95+</td>
+                      <td> 4</td>
+                      <td>X</td>
+                    </tr>
+                    <tr>
+                      <td>Trident</td>
+                      <td>Internet
+                        Explorer 5.0
+                      </td>
+                      <td>Win 95+</td>
+                      <td>5</td>
+                      <td>C</td>
+                    </tr>
+                    <tr>
+                      <td>Trident</td>
+                      <td>Internet
+                        Explorer 5.5
+                      </td>
+                      <td>Win 95+</td>
+                      <td>5.5</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Trident</td>
+                      <td>Internet
+                        Explorer 6
+                      </td>
+                      <td>Win 98+</td>
+                      <td>6</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Trident</td>
+                      <td>Internet Explorer 7</td>
+                      <td>Win XP SP2+</td>
+                      <td>7</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Trident</td>
+                      <td>AOL browser (AOL desktop)</td>
+                      <td>Win XP</td>
+                      <td>6</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Gecko</td>
+                      <td>Firefox 1.0</td>
+                      <td>Win 98+ / OSX.2+</td>
+                      <td>1.7</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Gecko</td>
+                      <td>Firefox 1.5</td>
+                      <td>Win 98+ / OSX.2+</td>
+                      <td>1.8</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Gecko</td>
+                      <td>Firefox 2.0</td>
+                      <td>Win 98+ / OSX.2+</td>
+                      <td>1.8</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Gecko</td>
+                      <td>Firefox 3.0</td>
+                      <td>Win 2k+ / OSX.3+</td>
+                      <td>1.9</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Gecko</td>
+                      <td>Camino 1.0</td>
+                      <td>OSX.2+</td>
+                      <td>1.8</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Gecko</td>
+                      <td>Camino 1.5</td>
+                      <td>OSX.3+</td>
+                      <td>1.8</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Gecko</td>
+                      <td>Netscape 7.2</td>
+                      <td>Win 95+ / Mac OS 8.6-9.2</td>
+                      <td>1.7</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Gecko</td>
+                      <td>Netscape Browser 8</td>
+                      <td>Win 98SE+</td>
+                      <td>1.7</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Gecko</td>
+                      <td>Netscape Navigator 9</td>
+                      <td>Win 98+ / OSX.2+</td>
+                      <td>1.8</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Gecko</td>
+                      <td>Mozilla 1.0</td>
+                      <td>Win 95+ / OSX.1+</td>
+                      <td>1</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Gecko</td>
+                      <td>Mozilla 1.1</td>
+                      <td>Win 95+ / OSX.1+</td>
+                      <td>1.1</td>
+                      <td>A</td>
+                    </tr>
+                    <tr>
+                      <td>Gecko</td>
+                      <td>Mozilla 1.2</td>
+                      <td>Win 95+ / OSX.1+</td>
+                      <td>1.2</td>
+                      <td>A</td>
+                    </tr>
+                    
+                    </tfoot>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <!-- Main row -->
+        <div class="row">
+          <!-- Left col -->
+          <div class="col-md-12">
+            <!-- BAR CHART -->
+            <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Bar Chart</h3>
+  
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="chart">
+                    <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+  
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script>
+  <script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+      });
+      $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
+
+      var areaChartData = {
+      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label               : 'Plots',
+          backgroundColor     : 'rgba(60,141,188,0.9)',
+          borderColor         : 'rgba(60,141,188,0.8)',
+          pointRadius          : false,
+          pointColor          : '#3b8bba',
+          pointStrokeColor    : 'rgba(60,141,188,1)',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(60,141,188,1)',
+          data                : [28, 48, 40, 19, 86, 27, 90]
+        },
+        {
+          label               : 'Structures',
+          backgroundColor     : 'rgba(210, 214, 222, 1)',
+          borderColor         : 'rgba(210, 214, 222, 1)',
+          pointRadius         : false,
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : [65, 59, 80, 81, 56, 55, 40]
+        },
+      ]
+    }
+
+    //-------------
+    //- BAR CHART -
+    //-------------
+    var barChartCanvas = $('#barChart').get(0).getContext('2d')
+    var barChartData = jQuery.extend(true, {}, areaChartData)
+    var temp0 = areaChartData.datasets[0]
+    var temp1 = areaChartData.datasets[1]
+    barChartData.datasets[0] = temp1
+    barChartData.datasets[1] = temp0
+
+    var barChartOptions = {
+      responsive              : true,
+      maintainAspectRatio     : false,
+      datasetFill             : false
+    }
+
+    var barChart = new Chart(barChartCanvas, {
+      type: 'bar', 
+      data: barChartData,
+      options: barChartOptions
+    })
+    });
+  </script>
+
+{% endblock content %}
