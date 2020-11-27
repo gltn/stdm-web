@@ -12,7 +12,7 @@ cd venv && . bin/activate
 ```
 ## Clone the system
 ```
-git clone https://github.com/wanjohikibui/Geodjango-series.git
+git clone https://github.com/gltn/stdm-web.git
 ```
 ## Setting up DB
 ```
@@ -27,7 +27,7 @@ pip install -r requirements.txt
 ```
 ## Sync and Running application
 ```
-cd agricom
+cd stdmweb
 python manage.py migrate
 python manage.py runserver
 on browser: localhost:8000

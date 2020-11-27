@@ -1,0 +1,383 @@
+<!DOCTYPE HTML>
+<!-- BEGIN html -->
+{% load static %}
+<html lang = "en">
+	<!-- BEGIN head -->
+	<head>
+		<title>STDMWeb | GLTN</title>
+
+		<!-- Meta Tags -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="description" content="" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
+
+		<!-- Stylesheets -->
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/reset.min.css' %}" />
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/portus.min.css' %}" />
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/font-awesome.min.css' %}" />
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/themify-icons.min.css' %}" />
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/weather-icons.min.css' %}" />
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/bootstrap.min.css' %}" />
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/owl.carousel.min.css' %}" />
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/main-stylesheet.min.css' %}" />
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/ot-lightbox.min.css' %}" />
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/shortcodes.min.css' %}" />
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/responsive.min.css' %}" />
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/dat-menu.min.css' %}" />
+		<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&amp;subset=latin,latin-ext" />
+		<link type="text/css" rel="stylesheet" href='https://fonts.googleapis.com/css?family=Montserrat:400,700' />
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+		<!--[if lte IE 8]>
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/ie-ancient.css' %}" />
+		<![endif]-->
+
+		<!-- Demo Only -->
+		<link type="text/css" rel="stylesheet" href="{% static 'landing/css/_ot-demo.min.css' %}" />
+
+	<!-- END head -->
+	</head>
+
+	<!-- BEGIN body -->
+	<body class="ot-menu-will-follow">
+
+		<!-- BEGIN .boxed -->
+		<div class="boxed">
+			
+			<!-- BEGIN #header -->
+			<div id="header">
+
+
+				
+
+				<!-- BEGIN #top-menu -->
+				<nav id="top-menu">
+				
+					<!-- BEGIN .wrapper -->
+					<div class="wrapper">
+
+						<div class="top-panel-weather right">
+							
+							{% if user.is_authenticated %}
+							<strong><a href="/admin/">Staff</a></li></strong>
+							{% else %}
+							<strong><a href="{% url 'login' %}">Sign In</a></li></strong>
+							{% endif %}
+							
+						</div>
+
+						<ul class="load-responsive" rel="Main Menu">
+							<li><a href="index.html"><i class="fa fa-home"></i></a></li>
+							
+						</ul>
+
+					<!-- END .wrapper -->
+					</div>
+
+				<!-- END #top-menu -->
+				</nav>
+				
+				<!-- BEGIN .wrapper -->
+				<div class="wrapper">
+
+					<div class="header-panels">
+						
+						<!-- BEGIN .header-logo -->
+						<div class="header-logo">
+							<a href="/"><img src="{% static 'landing/images/logo.png' %}" data-ot-retina="{% static 'landing/images/logo.png' %}" style="height: 70px;" alt="STDM" />Social Tenure Domain Model</a>
+						<!-- END .header-logo -->
+						</div>
+						
+					
+			
+
+					</div>
+					
+				<!-- END .wrapper -->
+				</div>
+
+
+				<!-- BEGIN #main-menu -->
+				<nav id="main-menu">
+
+					<a href="full-width.html#dat-menu" class="dat-menu-button"><i class="fa fa-bars"></i>Show Menu</a>
+					<div class="main-menu-placeholder">
+
+						<!-- BEGIN .wrapper -->
+						<div class="wrapper">
+<!-- 
+							<div class="search-nav right">
+								<form action="full-width.html#">
+									<input type="text" value="" placeholder="Search" />
+									<button type="submit"><i class="fa fa-search"></i></button>
+								</form>
+							</div> -->
+							
+							<ul class="load-responsive" rel="Main Menu">
+								<li><a href="#">Home</a></li>
+								<li><a href="#">About</a></li>
+								<li><a href="#">GLTN</a></li>
+								<li><a href="#">UN-HABITAT</a></li>
+								<li><a href="#">Contact us</a></li>
+								
+							</ul>
+							
+						<!-- END .wrapper -->
+						</div>
+					
+					</div>
+
+				<!-- END #main-menu -->
+				</nav>
+				
+				
+			<!-- END #header -->
+			</div>
+			
+			<!-- BEGIN #content -->
+			<div id="content">
+
+				
+				
+				<!-- BEGIN .wrapper -->
+				<div class="wrapper">
+					<!-- BEGIN .portus-main-content-panel -->
+					<div class="paragraph-row portus-main-content-panel">
+						<div class="column12">
+
+							<div class="portus-main-content-s-block">
+
+								<div class="portus-main-content portus-main-content-s-4">
+									<div class="theiaStickySidebar">
+										<div class="portus-content-title">
+											<h2>STDM Features?</h2>											
+										</div>
+										<div class="portus-main-article-block">
+											<div class="google-maps">												
+												<img src="{% static 'landing/images/slider1.png' %}" style="width: 100%;height: 50vh;">
+											</div>
+											
+											<div class="portus-content-title">
+												<h2>Why STDM?</h2>											
+											</div>
+											<div class="paragraph-row">												
+												<div class="column12">
+													<p>Habeo quodsi volumus te duo. Vis ullum scriptorem an, nam choro audire liberavisse in. Meis choro albucius ea usu. Inimicus accusamus nam te, sit ut habemus signiferumque.</p>
+
+													<p>Vim corpora definitionem ad, est et tritani argumentum, ei nec adhuc inermis pericula. Necongue electram dignissim eos, ius verterem. </p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<aside class="sidebar portus-sidebar-large">
+									<div class="theiaStickySidebar">
+
+										<div class="widget">
+											<h3>Important Links</h3>
+											<div class="widget">
+												<ul class="menu">
+													<li><a href="/">Resources</li>
+													<li><a href="/">Media</a></li>
+													
+												</ul>	
+																					
+												
+											</div>
+										</div>
+
+										<!-- BEGIN .widget -->
+										<div class="widget">
+
+											<div class="do-space">
+												<a href="contact-us.html#" target="_blank"><img src="images/pob-3.jpg" alt="" /></a>
+											</div>
+
+										<!-- END .widget -->
+										</div>
+
+										<!-- BEGIN .widget -->
+										<div class="widget">
+
+											<h3>Our Newsletter</h3>
+											<div class="widget-subscribe">
+												<div>
+													<p>Ne congue electram dignissim eos, ius verterem gubergren temporibus te, cu inciderint definitiones usu.</p>
+												</div>
+												
+												<form action="contact-us.html#">
+													<label class="label-input">
+														<span>Your name</span>
+														<input type="text" value="" />
+													</label>
+													<label class="label-input">
+														<span>E-mail address</span>
+														<input type="email" value="" />
+													</label>
+													<input type="submit" class="button" value="Subscribe" />
+												</form>
+											</div>
+
+										<!-- END .widget -->
+										</div>
+
+									</div>
+								</aside>
+
+							</div>
+
+						</div>
+					<!-- ENd .portus-main-content-panel -->
+					</div>
+
+
+					
+
+				<!-- END .wrapper -->
+				</div>
+				
+			<!-- BEGIN #content -->
+			</div>
+			
+			<!-- BEGIN #footer -->
+			<hr>
+			<div id="footer">
+				<div id="footer-info">
+					<div class="wrapper">
+						
+						<p class="text-center">Social Tenure Domain Model is a tool developed by Global Land Tool Network (GLTN).</p>	
+						<p class="text-center"><img src="{% static 'landing/images/gltn.jpg' %}"><img src="{% static 'landing/images/unhabitat.jpg' %}"></p>					
+						<p class="text-center">Copyright © 2020 UN Habitat and its implementing partners. All rights reserved</p>
+						<p class="text-center"><a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank">All content is licensed under</a></p>
+						<p class="text-center"><a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank">Creative Commons Attribution-ShareAlike 3.0 licence (CC BY-SA)</a></p>
+					</div>
+				</div>
+				
+			<!-- END #footer -->
+			</div>
+			
+		<!-- END .boxed -->
+		</div>
+
+		<!-- Scripts -->
+		<script type="text/javascript" src="{% static 'landing/jscript/jquery-latest.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'landing/jscript/bootstrap.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'landing/jscript/owl.carousel.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'landing/jscript/theia-sticky-sidebar.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'landing/jscript/parallax.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'landing/jscript/modernizr.custom.50878.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'landing/jscript/iscroll.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'landing/jscript/dat-menu.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'landing/jscript/theme-scripts.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'landing/jscript/ot-lightbox.min.js' %}"></script>
+		
+
+		<script>
+			jQuery('.portus-article-slider-min').owlCarousel({
+				loop: true,
+				margin: 22,
+				responsiveClass: true,
+				responsive:{
+					0:{
+						items: 1,
+						nav: true
+					},
+					600:{
+						items: 3,
+						nav: false
+					},
+					1000:{
+						items: 5,
+						nav: true,
+						loop: false
+					}
+				}
+			});
+
+			jQuery('.portus-video-slider-min').owlCarousel({
+				loop: true,
+				margin: 22,
+				responsiveClass: true,
+				responsive:{
+					0:{
+						items: 1,
+						nav: true
+					},
+					600:{
+						items: 2,
+						nav: false
+					},
+					1000:{
+						items: 4,
+						nav: true,
+						loop: false
+					}
+				}
+			});
+
+			jQuery('.portus-article-slider-big').owlCarousel({
+				loop: true,
+				margin: 0,
+				responsiveClass: true,
+				responsive:{
+					0:{
+						items: 1,
+						nav: true
+					},
+					600:{
+						items: 1,
+						nav: false
+					},
+					1000:{
+						items: 2,
+						nav: true,
+						loop: false
+					}
+				}
+			});
+
+			jQuery('.article-slider-full-small').owlCarousel({
+				loop: true,
+				margin: 20,
+				responsiveClass: true,
+				items: 1,
+				nav: true,
+				loop: false
+			});
+
+			jQuery('.w-gallery-slider .item-header').owlCarousel({
+				loop: true,
+				margin: 20,
+				responsiveClass: true,
+				items: 1,
+				nav: true,
+				loop: false
+			});
+
+			jQuery('.photo-gallery-blocks .item-header').owlCarousel({
+				loop: true,
+				margin: 20,
+				responsiveClass: true,
+				items: 1,
+				nav: true,
+				dots: true,
+				loop: false
+			});
+		</script>
+
+	<!-- END body -->
+	</body>
+<!-- END html -->
+</html>
