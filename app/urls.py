@@ -7,7 +7,9 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
+    path('dashboard/map/', MapView.as_view(), name='map'),
     path('', LandingView.as_view(), name='landing'),
+    path('profiles/', ProfileListView.as_view(), name='profiles'),
     path('accounts/login/', user_login, name='login'),
     path('accounts/logout/', user_logout, name='logout'),
     path('password_change/',auth_views.PasswordChangeView.as_view(), {'post_change_redirect' : '/password_change/done/'}, name="password_change"), 

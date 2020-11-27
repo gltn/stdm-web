@@ -71,6 +71,7 @@
 							
 							{% if user.is_authenticated %}
 							<strong><a href="/admin/">Staff</a></li></strong>
+							<strong><a href="{% url 'dashboard' %}">Dashboard</a></li></strong>  
 							{% else %}
 							<strong><a href="{% url 'login' %}">Sign In</a></li></strong>
 							{% endif %}

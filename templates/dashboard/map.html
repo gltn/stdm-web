@@ -1,0 +1,221 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block title %}Dashboard {% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'dashboard/leaflet/leaflet.css' %}" />
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+     
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">       
+
+        <div class="row">
+        
+              <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">Query</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="form-group">
+                        <label>Unit/Layer</label>
+                        <select class="form-control">
+                            <option>Layer 1</option>
+                            <option>Layer 2</option>
+                            <option>Layer 3</option>
+                            <option>Layer 4</option>
+                            
+                        </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Column/Field</label>
+                            <select class="form-control">
+                              <option>Field 1</option>
+                              <option>Field 2</option>
+                              <option>Field 3</option>
+                              <option>Field 4</option>
+                              <option>Field 5</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label>Operator</label>
+                            <select class="form-control">
+                              <option>=</option>
+                              <option>></option>
+                              <option>=!</option>
+                              <option><</option>
+                            
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label>Value</label>
+                            <input type="text" class="form-control" placeholder="Enter Value ...">
+                          </div>
+                          <hr>
+                          <a href="#" class="btn btn-primary btn-block">Run Query</a>
+                      
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+
+              </div>
+              <div class="col-md-9">
+                <div id="mapid" style="height: 740px; min-width: 100%;"></div>
+              </div>
+            
+              <!-- /.card -->
+            <!-- /.card -->
+          
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <!-- /.row -->
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'dashboard/leaflet/leaflet.js' %}"></script>
+
+  <!-- <script src="{% static 'js/dashboard.js' %}"></script> -->
+<script>
+    var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+    attribution: 'Map developed by Stella & Shem- GIS analysts'
+});
+
+var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+  maxZoom: 20,
+  subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+});
+
+
+var usgsImagery = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+  maxZoom: 20,
+  subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+});
+var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
+  maxZoom: 19,
+  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+});
+
+var mymap;
+
+var countystyle = {
+  'default': {
+      'color': 'black',
+      'fillOpacity':0,
+      'opacity': 0.5,
+      'weight': 1
+  },
+  'highlight': {
+      'color': 'deepskyblue',
+      'fillColor':'deepskyblue'
+  }
+};
+
+function targetStyle(feature){
+	return {
+  	fillColor: 'green',
+    weight: 2,
+    opacity: 1,
+    color: 'brown',
+    fillOpacity: 0.3
+  }
+};
+ 
+var highlight;
+
+function setHighlight (layer) {
+  // Check if something's highlighted, if so unset highlight
+  if (highlight) {
+    unsetHighlight(highlight);
+  }
+  // Set highlight style on layer and store to variable
+  layer.setStyle(countystyle.highlight);
+  highlight = layer;
+}
+
+function unsetHighlight (layer) {
+  // Set default style and clear variable
+  layer.setStyle(countystyle.default);
+  highlight = null;
+}
+
+function onEachFeature(feature, layer) {
+  layer.on('click', function (e) {                                                                                                                                                                                                                                            
+
+//   layer.bindPopup(popup).openPopup(e.latlng);
+  if (!L.Browser.ie && !L.Browser.opera) {
+    layer.bringToFront();
+  }
+  setHighlight(layer);
+  //map.fitBounds(e.target.getBounds());
+});
+unsetHighlight(layer);
+}
+
+var countiesurl = "//localhost:8000/counties/api";
+
+function mapFilter(feature) {
+  if (feature.properties.name === '{{ counties.name }}') return true
+}
+
+var target_county = L.geoJson(null, {
+  style: targetStyle,
+  filter : mapFilter
+});
+
+
+var counties = L.geoJson(null, {
+    style: countystyle,
+    onEachFeature: onEachFeature
+});
+$.getJSON(countiesurl, function (data) {
+  target_county.addData(data).setStyle(targetStyle);
+  mymap.fitBounds(target_county.getBounds());
+});
+
+$.getJSON(countiesurl, function (data) {
+    counties.addData(data).setStyle(countystyle);
+});
+
+// var mymap = L.map('mapid',{interactive: false}).setView([0.830522, 37.729050], 6);
+mymap = L.map("mapid", {
+    zoom: 5,
+    center: [0.830522, 37.729050],
+    layers: [googleStreets,counties, target_county]
+});
+
+// var baseLayers = {
+//   "Carto Light": cartoLight,
+//   "Google Streets": googleStreets,
+//   "Google Hybridy": googleHybrid,
+// };
+
+// var groupedOverlays = {
+//   "Administrative": {
+//     "Counties": counties,
+    
+//   }
+// };
+
+// var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays).addTo(mymap);
+
+
+
+
+</script>
+
+
+{% endblock content %}

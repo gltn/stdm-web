@@ -8,13 +8,25 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.template.context_processors import csrf
 from django.contrib import messages
+from rest_framework import generics
+from .models import Profile
+from .serializers import ProfileSerializer
 # Create your views here.
 class LandingView(TemplateView):
 	template_name = 'main/landing.html'
 
+class ProfileListView(generics.ListAPIView):
+	queryset = Profile.objects.all()
+	serializer_class = ProfileSerializer
+
 class DashboardView(LoginRequiredMixin,TemplateView):
 	template_name = 'dashboard/index.html'
 
+	def profiletype(self):
+		return Profile.objects.all()
+
+class MapView(LoginRequiredMixin,TemplateView):
+	template_name = 'dashboard/map.html'
 
 def user_login(request):
 	args = {}
