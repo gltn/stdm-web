@@ -12,8 +12,6 @@ from rest_framework import generics
 from .models import Profile
 from .serializers import ProfileSerializer
 # Create your views here.
-class LandingView(TemplateView):
-	template_name = 'main/landing.html'
 
 class ProfileListView(generics.ListAPIView):
 	queryset = Profile.objects.all()

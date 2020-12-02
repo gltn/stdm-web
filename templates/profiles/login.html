@@ -22,59 +22,73 @@
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
-  <div class="login-logo">
-    <p><a href="/"><img src="{% static 'landing/images/logo.png' %}" style="height: 70px;"><h4>Social Tenure Domain Model</h4></a></p>
-  </div>
+  
   <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+  <div class="row">
+    <div class="col-md-8">
+      
+      <div class="login-logo">
+       
+        
+        <p><a href="/"><img src="{% static 'dashboard/dist/img/stdm.png' %}" style="height: 70px;"></a></p>
+      </div>
+      <p>A web interface for visualizing and querying datasets in the STDM database based on a data profile defined in the desktop version</p>
 
-      <form class="form account-form" role="form" method="post" action="">
-        {% csrf_token %}
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-danger alert-dismissable">
-          {{message}}
-        </div>
-        {% endfor %}
-        {% endif %}
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Username" id="id_username" name="username" type="text" tabindex="1" required autofocus >
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password" id="id_password" name="password"  tabindex="2" required >
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          
-          <!-- /.col -->
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-          </div>
-          <!-- /.col -->
-        </div>
-      </form>
-
-      <!-- /.social-auth-links -->
-      <hr>
-
-      <p class="mb-1">
-        Forgot password? <a href="{% url 'password_reset' %}">Reset</a>
-      </p>
-   
+      
     </div>
-    <!-- /.login-card-body -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body login-card-body">
+          <!-- <p class="login-box-msg">Sign in to start your session</p> -->
+    
+          <form class="form account-form" role="form" method="post" action="">
+            {% csrf_token %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-danger alert-dismissable">
+              {{message}}
+            </div>
+            {% endfor %}
+            {% endif %}
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Username" id="id_username" name="username" type="text" tabindex="1" required autofocus >
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-envelope"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" placeholder="Password" id="id_password" name="password"  tabindex="2" required >
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              
+              <!-- /.col -->
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+              </div>
+              <!-- /.col -->
+            </div>
+          </form>
+    
+          <!-- /.social-auth-links -->
+          <hr>
+    
+          <p class="mb-1">
+            Forgot password? <a href="{% url 'password_reset' %}">Reset</a>
+          </p>
+       
+        </div>
+        <!-- /.login-card-body -->
+      </div>
+    </div>
   </div>
+  
 </div>
 <!-- /.login-box -->
 

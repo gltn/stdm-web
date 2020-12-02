@@ -1,4 +1,7 @@
-## Set Up
+# stdm-web
+A web interface for visualizing and querying STDM data based on an existing data profile.
+
+## Setting Up
 To set up the project, follow the steps;
 ```
 sudo apt-get install postgresql postgresql-contrib \ postgis \ git
