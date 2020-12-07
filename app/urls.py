@@ -8,7 +8,11 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', DashboardView.as_view(), name='dashboard'),
     path('map/', MapView.as_view(), name='map'),
+    path('data-import/', ImportView.as_view(), name='data'),
+    path('settings/', SettingsView.as_view(), name='settings'),
+    path('settings/update/<pk>', SettingsUpdateView.as_view(), name='settings_update'),
     path('profiles/', ProfileListView.as_view(), name='profiles'),
+    path('profiles/api/<profile>', EntityUpdatingView, name='profile_detail'),
     path('accounts/login/', user_login, name='login'),
     path('accounts/logout/', user_logout, name='logout'),
     path('password_change/',auth_views.PasswordChangeView.as_view(), {'post_change_redirect' : '/password_change/done/'}, name="password_change"), 

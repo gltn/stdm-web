@@ -9,8 +9,13 @@ from django.urls import reverse_lazy, reverse
 from django.template.context_processors import csrf
 from django.contrib import messages
 from rest_framework import generics
-from .models import Profile
+from .models import Profile,Setting, Entity
+from django.urls import reverse_lazy
 from .serializers import ProfileSerializer
+from .forms import SettingForm
+from django.views.decorators.csrf import csrf_exempt
+from django.template.loader import render_to_string
+from django.http import HttpResponse
 # Create your views here.
 
 class ProfileListView(generics.ListAPIView):
@@ -25,6 +30,35 @@ class DashboardView(LoginRequiredMixin,TemplateView):
 
 class MapView(LoginRequiredMixin,TemplateView):
 	template_name = 'dashboard/map.html'
+
+class ImportView(LoginRequiredMixin,TemplateView):
+	template_name = 'dashboard/data.html'
+
+class SettingsView(LoginRequiredMixin,TemplateView):
+	template_name = 'dashboard/settings.html'
+
+class SettingsUpdateView(LoginRequiredMixin,UpdateView):
+	form_class = SettingForm
+	model = Setting
+	template_name = 'dashboard/settings_update.html'
+	success_url = reverse_lazy('settings')
+
+	def get_initial(self):
+		initial = super(SettingsUpdateView, self).get_initial()
+		if self.request.user.is_authenticated:
+			setting = Setting.objects.get(id=1)
+			initial.update({'site_name': setting.site_name, 'logo': setting.logo,'header_color': setting.header_color,'background_color': setting.background_color,'sidebar_color': setting.sidebar_color,'footer_color': setting.footer_color,'default_profile': setting.default_profile,})
+		return initial
+
+	def form_valid(self, form):
+		form.save()
+		return super(SettingsUpdateView, self).form_valid(form)
+
+# def SettingsUpdateView(request):
+# 	setting = Setting.objects.get(id=1) # just an example
+# 	data = {'site_name': setting.site_name, 'logo': setting.logo,'header_color': setting.header_color}
+# 	form = SettingForm(initial=data)
+# 	return render_to_response('dashboard/settings_update.html', {'form': form})
 
 def user_login(request):
 	args = {}
@@ -59,3 +93,10 @@ def user_login(request):
 def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect('/')
+
+@csrf_exempt
+def EntityUpdatingView(request, profile):
+	print(profile)
+	entities = Entity.objects.filter(profile__name=profile)
+	print(entities)
+	return render_to_response('dashboard/profile_detail.html', { 'entities':entities,})

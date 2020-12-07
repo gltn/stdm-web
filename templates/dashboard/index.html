@@ -78,7 +78,9 @@
           <!-- /.col -->
         </div>
         <!-- /.row -->
+        <div id="datasets">
 
+        </div>
         <div class="row">
           <div class="col-md-12">
             <div class="col-12 col-sm-12">
@@ -286,6 +288,7 @@
                         </div>      
                 
                         <div class="row">
+                          
                         
                               <div class="col-md-3" id="query-widget-card">
                                 <div class="card">
@@ -337,8 +340,10 @@
                 
                               </div>
                               <div class="col-md-9" id="mapdiv">
-                                <div id="mapid" style="height: 690px; min-width: 100%;"></div>
+                                <div id="mapid" class="map-space"></div>
                               </div>
+
+                              
                             
                               <!-- /.card -->
                             <!-- /.card -->
@@ -571,7 +576,11 @@
  });
  
  
- $("#query-widget").click(function() {
+ 
+ 
+ </script>
+ <script type="text/javascript">
+  $("#query-widget").click(function() {
    animateSidebar();
    return false;
  });
@@ -580,13 +589,28 @@
  function animateSidebar() {
    $("#query-widget-card").animate({
      width: "toggle"
-   }, 350, function() {
+   }, 350, function() {    
+    return true;
+     $("#mapdiv").toggleClass('col-md-12');
      
-     $("#mapdiv").addClass('col-md-12');
+     
    });
  }
  
- 
- </script>
+ $('#profiles').change(function(){        
+        $.ajax({
+                url: "/profiles/api/" + this.value,
+                dataType: 'json',
+               
+                success: function (data) {   
+                  console.log(data);    
+                  $('#dynamicDiv').empty();       
+                    $('#dynamicDiv').html(data);
+                    
+                    
+                }
+            });
+    });
+</script>
 
 {% endblock content %}

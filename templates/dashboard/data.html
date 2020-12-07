@@ -1,0 +1,116 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block title %}Import Data {% endblock %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+     
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        Import Data Tool (Mobile Data)
+                    </div>
+                </div>  
+                
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="col-12 col-sm-12">
+              <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card-header p-0 border-bottom-0">
+                  <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Import From File</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Import From Server</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <div class="tab-content" id="custom-tabs-four-tabContent">
+                    <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">                                           
+                       <div class="row">
+                           <div class="col-md-6">
+                            <div class="form-group">
+                                <!-- <label for="customFile">Custom File</label> -->
+            
+                                <div class="custom-file">
+                                  <input type="file" class="custom-file-input" id="customFile">
+                                  <label class="custom-file-label btn-info" for="customFile">Choose file</label>
+                                </div>
+                                <hr>
+                                <button type="button" class="btn btn-info">Import Data</button>
+                              </div>
+                            
+                           </div>
+                       
+                       </div>
+                      
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                      <div class="container-fluid">     
+                
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Enter Server Url ...">
+                                    <span class="input-group-append">
+                                      <button type="button" class="btn btn-info btn-flat">Validate Link</button>
+                                    </span>
+                                  </div>
+                                  <hr>
+                                  <button type="button" class="btn btn-info">Import Data</button>
+                              </div>
+                        
+                            
+                              <!-- /.card -->
+                            <!-- /.card -->
+                          
+                          <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                
+                        <!-- /.row -->
+                      </div><!--/. container-fluid -->
+                    </div>
+                   
+                  </div>
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+            
+              <!-- /.card -->
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+       
+        <!-- /.row -->
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      bsCustomFileInput.init();
+    });
+    </script>
+
+
+{% endblock content %}

@@ -1,0 +1,39 @@
+.font-weight-light {
+    font-size: 24px;
+    font-weight: 800!important;
+  }
+  .login-page, .register-page {
+    -ms-flex-align: center;
+    align-items: center;
+    background: #e3e9f9;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 100vh;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #138abd;
+  border-color: #138abd;
+  box-shadow: none;
+}
+
+.login-box, .register-box {
+  width: 960px;
+}
+.logos-to-bottom {
+  position:absolute;
+  bottom: 5%;
+  
+  
+}
+
+
+.map-space {
+  height:100%;
+  overflow: hidden;
+}
+
