@@ -1,5 +1,5 @@
-
-{% for entity in entities %}
+{% if entity_list %}
+{% for entity in entity_list %}
 <li class="nav-item">
   <a href="{% url 'dashboard' %}" class="nav-link">
     <i class="nav-icon fas fa-th"></i>
@@ -8,3 +8,6 @@
   </a>
 </li>
 {% endfor %}
+{% else %}
+<li class="nav-item"><p style="color: white;">No Entities Available!</p></li>
+{% endif %}

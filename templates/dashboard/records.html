@@ -1,0 +1,23 @@
+{% for entity in entity_list %}                                          
+<h4>{{entity.shortName}}</h4>
+<table id="example1" class="table table-bordered table-striped">
+<thead>
+    
+<tr>
+    {% for entity in entity_list %}
+    <th>{{entity.documentTypeLookup}}</th>                              
+    {% endfor %}                              
+</tr>
+</thead>
+<tbody>
+    {% for rows in entity.documentTypeLookup.codeValues %}
+    <tr>
+    <td>{{rows}}</td>
+    
+    </tr>
+    {% endfor %}  
+</tbody>
+
+</tfoot>
+</table>
+{% endfor %}

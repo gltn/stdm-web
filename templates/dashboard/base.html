@@ -105,7 +105,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
+          <li class="nav-item has-treeview">
             <a href="{% url 'dashboard' %}" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
@@ -126,7 +126,7 @@
             </li>
             {% endfor %}
           </div>
-          <!-- {% include 'dashboard/profile_detail.html' %} -->
+          
       
          
           <hr>
@@ -240,5 +240,24 @@
 <script>
   $("#profiles").val("{{default_profile}}");
 </script>
+<script>
+  $(document).ready(function () {
+    $('#profiles').change(function(){        
+  $.ajax({
+          url: "/profiles/api/" + this.value,
+          type: 'POST',
+          traditional: true,      
+          success: function (data) {   
+            console.log(data);          
+              $('#dynamicDiv').html(data);
+              
+              
+          }
+      });
+});
+    });
+
+</script>
+
 </body>
 </html>

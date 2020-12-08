@@ -97,6 +97,13 @@ def user_logout(request):
 @csrf_exempt
 def EntityUpdatingView(request, profile):
 	print(profile)
-	entities = Entity.objects.filter(profile__name=profile)
-	print(entities)
-	return render_to_response('dashboard/profile_detail.html', { 'entities':entities,})
+	entity_list = Entity.objects.filter(profile__name=profile)
+	print(entity_list)
+	return render(request,'dashboard/profile_detail.html', { 'entity_list':entity_list,})
+
+
+@csrf_exempt
+def SummaryUpdatingView(request, profile):
+	entity_list = Entity.objects.filter(profile__name=profile)
+	valuelists = Entity.objects.select_related('documentTypeLookup')
+	return render(request,'dashboard/records.html', { 'entity_list':entity_list,'valuelists':valuelists})
