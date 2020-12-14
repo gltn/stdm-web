@@ -1,4 +1,5 @@
 
+import os
 from datetime import timedelta,datetime
 from django.db import connection
 from .models import Setting
@@ -12,7 +13,8 @@ from django.db import connection
 from django.contrib.auth.decorators import login_required
 today = datetime.now().date()
 
-CONFIG_PATH = '/home/sam/blackbox/STDM/Project Docs/samplestcfiles/default_configuration.xml'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CONFIG_PATH = os.path.join(BASE_DIR, 'config/default_configuration.xml')
 
 def settings(request):
     reader = StdmConfigurationReader(CONFIG_PATH)

@@ -1,3 +1,4 @@
+import os
 from stdm_config import StdmConfigurationReader, StdmConfiguration
 from app.models import Profile, Entity, ValueList, CodeValue, SocialTenure
 from django.core.exceptions import ValidationError
@@ -9,8 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 # from psycopg2 import connect, sql
 # from psycopg2.extras import RealDictCursor
-
-CONFIG_PATH = '/home/sam/blackbox/STDM/Project Docs/samplestcfiles/default_configuration.xml'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CONFIG_PATH = os.path.join(BASE_DIR, 'config/default_configuration.xml')
 @login_required
 def STDMReader(request):
 	reader = StdmConfigurationReader(CONFIG_PATH)
