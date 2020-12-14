@@ -34,8 +34,8 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Profiles</span>
-                <span class="info-box-number">
-                {{profiles.count}}
+                <span class="info-box-number">{{profiles|length}}</span>
+                
                   
                 </span>
               </div>
@@ -97,7 +97,7 @@
                 <div class="card-header p-0 border-bottom-0">
                   <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                     <li class="nav-item">
-                      <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Records(Summaries)</a>
+                      <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_details" role="tab" aria-controls="profile_details" aria-selected="true">Records(Summaries)</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Map</a>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="card-body">
                   <div class="tab-content" id="custom-tabs-four-tabContent">
-                    <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab"> 
+                    <div class="tab-pane fade show active" id="profile_details" role="tabpanel" aria-labelledby="profile_details-tab"> 
 
                                                                    
                           <h4>{{default_entity.short_name}}</h4>
@@ -488,13 +488,12 @@
   $(document).ready(function () {
     $('#profiles').change(function(){        
   $.ajax({
-          url: "/records/api/" + this.value,
+          url: "/api/" + this.value,
           type: 'POST',
           traditional: true,      
           success: function (data) {   
             console.log(data);          
-              $('#custom-tabs-four-home').html(data);
-              
+              $('#profile_details').html(data);             
               
           }
       });

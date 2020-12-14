@@ -259,7 +259,7 @@
   $(document).ready(function () {
     $('#profiles').change(function(){        
   $.ajax({
-          url: "/profiles/api/" + this.value,
+          url: "/profile/api/" + this.value,
           type: 'POST',
           traditional: true,      
           success: function (data) {   

@@ -1,23 +1,22 @@
-{% for entity in entity_list %}                                          
-<h4>{{entity.shortName}}</h4>
+<h4>{{default_entity.short_name}}</h4>
 <table id="example1" class="table table-bordered table-striped">
 <thead>
     
 <tr>
-    {% for entity in entity_list %}
-    <th>{{entity.documentTypeLookup}}</th>                              
+    {% for column in default_entity.columns.values %}
+    <th>{{column.name}}</th>                              
     {% endfor %}                              
 </tr>
 </thead>
 <tbody>
     {% for row in data %}
     <tr>
-    <td>{{row}}</td>
-    
+    {% for dt in row %}
+    <td>{{dt}}</td>  
+    {% endfor %}                              
     </tr>
     {% endfor %}  
 </tbody>
 
 </tfoot>
 </table>
-{% endfor %}

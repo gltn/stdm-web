@@ -17,13 +17,13 @@ class Profile(models.Model):
         verbose_name_plural = 'Profiles'
 
 class Setting(models.Model):
-    site_name = models.CharField(max_length=20)
+    site_name = models.CharField(max_length=20, default='STDM Web')
     logo = models.ImageField(upload_to=upload_logo, default='static/dashboard/dist/img/logo.png')
     header_color = models.CharField(max_length=7, default='#fff')
     background_color = models.CharField(max_length=7, default='#fff')
     sidebar_color = models.CharField(max_length=7, default='#343a40')
     footer_color = models.CharField(max_length=7,default='#fff')
-    default_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    default_profile = models.CharField(max_length=50)
 
     def __str__(self):
         return self.site_name
