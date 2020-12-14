@@ -69,8 +69,8 @@ TEMPLATES = [
                 "django.template.context_processors.media",
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
-                "app.context_processors.profiler",
-                "app.context_processors.settings",
+                # "app.context_processors.profiler",
+                # "app.context_processors.settings",
             ],
         },
     },
@@ -85,11 +85,25 @@ WSGI_APPLICATION = 'stdmweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'stdm',
+        'OPTIONS' : {
+            'options': '-c search_path=config,public'
+        },
+        'NAME': 'configuration',
         'USER': 'postgres',
         'PASSWORD': 'maestro123',
         'HOST': 'localhost',
         'PORT': '5432'
+    },
+    'config': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'OPTIONS': {
+            'options': '-c search_path=config'
+        },
+       'NAME': 'configuration',
+       'USER': 'postgres',
+       'PASSWORD': 'maestro123',
+       'HOST': 'localhost',
+       'PORT': '5432'
     }
 }
 

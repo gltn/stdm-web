@@ -2,11 +2,12 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import *
+from stdm_config.views import STDMReader
 from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
-    path('', DashboardView.as_view(), name='dashboard'),
+    path('', STDMReader, name='dashboard'),
     path('map/', MapView.as_view(), name='map'),
     path('data-import/', ImportView.as_view(), name='data'),
     path('settings/', SettingsView.as_view(), name='settings'),

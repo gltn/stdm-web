@@ -9,7 +9,7 @@ from django.urls import reverse_lazy, reverse
 from django.template.context_processors import csrf
 from django.contrib import messages
 from rest_framework import generics
-from .models import Profile,Setting, Entity
+from .models import Profile,Setting, Entity, CodeValue
 from django.urls import reverse_lazy
 from .serializers import ProfileSerializer
 from .forms import SettingForm
@@ -105,5 +105,8 @@ def EntityUpdatingView(request, profile):
 @csrf_exempt
 def SummaryUpdatingView(request, profile):
 	entity_list = Entity.objects.filter(profile__name=profile)
-	valuelists = Entity.objects.select_related('documentTypeLookup')
-	return render(request,'dashboard/records.html', { 'entity_list':entity_list,'valuelists':valuelists})
+	# valuelists = Entity.objects.select_related('documentTypeLookup')
+	for entity in entity_list:
+		data = CodeValue.objects.filter(valueList=entity.documentTypeLookup)
+		print(data)
+	return render(request,'dashboard/records.html', { 'entity_list':entity_list,'data':data})

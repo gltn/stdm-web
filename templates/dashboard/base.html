@@ -41,11 +41,19 @@
         <div class="form-group">
           <!-- <label>Select Profile</label> -->
           <select class="form-control" id="profiles">
-            {% for prof in profile %}
-            <option>{{prof.name}}</option>
-            {% endfor %}
+            {% block profiler %}
+            {% if profiles %}          
+              {% for profile in profiles %}
+              <option>{{profile.name}}</option>
+              {% endfor %}
+            {% else %}
+            <p>No profiles available!</p>
+            {% endif %}
+            {% endblock profiler %}
+            
           </select>
         </div>
+       
       </li>
      
     </ul>
@@ -116,15 +124,22 @@
            
           </li>
           <div class="nav-item" id="dynamicDiv">
-            {% for entity in entities %}
-            <li class="nav-item">
-              <a href="{% url 'dashboard' %}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>{{entity.shortName}}           
-                </p>
-              </a>
-            </li>
-            {% endfor %}
+            {% block profiler_entities %}
+            {% if entities %}          
+              {% for entity in entities %}
+              <li class="nav-item">
+                <a href="{% url 'dashboard' %}" class="nav-link">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>{{entity.short_name}}
+                  </p>
+                </a>
+              </li>
+              {% endfor %}
+            {% else %}
+            <p>No entities available!</p>
+            {% endif %}
+            {% endblock profiler_entities %}
+       
           </div>
           
       

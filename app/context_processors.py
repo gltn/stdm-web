@@ -12,6 +12,4 @@ def profiler(request):
 def settings(request):
     configs = Setting.objects.get(id=1)
     default_profile = configs.default_profile
-    entities = Entity.objects.filter(profile=default_profile)
-    valuelists = Entity.objects.select_related('documentTypeLookup')
-    return {'configs': configs,'default_profile':default_profile,'entities':entities,'valuelists':valuelists}
+    return {'configs': configs,'default_profile':default_profile}

@@ -10,17 +10,19 @@ class ProfileAdmin(admin.ModelAdmin):
 class SettingAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Configuration)
-class ConfigurationAdmin(admin.ModelAdmin):
-    pass
 
 @admin.register(UserConfig)
 class UserConfigAdmin(admin.ModelAdmin):
     pass
 
+class CodeValueInline(admin.TabularInline):
+    model = CodeValue
+
 @admin.register(ValueList)
 class ValueListAdmin(admin.ModelAdmin):
-    pass
+    inlines = [
+        CodeValueInline,
+    ]
 
 @admin.register(Entity)
 class EntityAdmin(admin.ModelAdmin):
@@ -28,4 +30,20 @@ class EntityAdmin(admin.ModelAdmin):
 
 @admin.register(EntityRelation)
 class EntityRelationAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Column)
+class ColumnAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(SocialTenure)
+class SocialTenureAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Validity)
+class ValidityAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(CodeValue)
+class CodeValueAdmin(admin.ModelAdmin):
     pass

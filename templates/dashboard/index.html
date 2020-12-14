@@ -1,6 +1,17 @@
-{% extends "dashboard/base.html" %}
+{% extends "dashboard/base.html"%}
 {% load static %}
 {% block title %}Dashboard {% endblock %}
+{% block profiler %}
+{% with profiles=profiles %}
+  {{ block.super }}
+{% endwith %}
+{% endblock profiler %}
+<!-- Loading entities -->
+{% block profiler_entities %}
+{% with entities=entities %}
+  {{ block.super }}
+{% endwith %}
+{% endblock profiler_entities %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'dashboard/leaflet/leaflet.css' %}" />
 <div class="content-wrapper">
@@ -24,7 +35,7 @@
               <div class="info-box-content">
                 <span class="info-box-text">Profiles</span>
                 <span class="info-box-number">
-                {{profile.count}}
+                {{profiles.count}}
                   
                 </span>
               </div>
@@ -96,29 +107,31 @@
                 <div class="card-body">
                   <div class="tab-content" id="custom-tabs-four-tabContent">
                     <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab"> 
-                          {% for entity in entities %}                                          
-                          <h4>{{entity.shortName}}</h4>
+
+                                                                   
+                          <h4>{{default_entity.short_name}}</h4>
                           <table id="example1" class="table table-bordered table-striped">
                             <thead>
                               
                             <tr>
-                              {% for entity in entities %}
-                              <th>{{entity.documentTypeLookup}}</th>                              
+                              {% for column in default_entity.columns.values %}
+                              <th>{{column.name}}</th>                              
                               {% endfor %}                              
                             </tr>
                             </thead>
                             <tbody>
-                              {% for rows in entity.documentTypeLookup.codeValues %}
+                              {% for row in data %}
                               <tr>
-                                <td>{{rows}}</td>
-                                
+                                {% for dt in row %}
+                                <td>{{dt}}</td>  
+                                {% endfor %}                              
                               </tr>
                               {% endfor %}  
                             </tbody>
                             
                             </tfoot>
                           </table>
-                          {% endfor %}
+                          
                           <br>
                           <hr>
                           <!-- <h4> Chart</h4>
