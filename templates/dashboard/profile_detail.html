@@ -1,7 +1,7 @@
 {% if entity_list %}
 {% for entity in entity_list %}
-<li class="nav-item">
-  <a href="{% url 'dashboard' %}" class="nav-link">
+<li class="nav-item" id="{{entity.short_name}}">
+  <a href="" class="nav-link">
     <i class="nav-icon fas fa-th"></i>
     <p>{{entity.short_name}}           
     </p>

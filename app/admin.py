@@ -10,6 +10,9 @@ class ProfileAdmin(admin.ModelAdmin):
 class SettingAdmin(admin.ModelAdmin):
     pass
 
+    def has_add_permission(self, *args, **kwargs):
+        return not Setting.objects.exists()
+
 
 @admin.register(UserConfig)
 class UserConfigAdmin(admin.ModelAdmin):

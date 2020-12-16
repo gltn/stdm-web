@@ -9,5 +9,6 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [  
     path('api/<profile>', ProfileUpdatingView, name='profile_detail'),
     path('profile/api/<profile>', EntityListingUpdatingView, name='profiles_detail'),
+    path('entity/<entity_name>', EntityDetailView, name='entity_detail'),
    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

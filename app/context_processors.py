@@ -23,10 +23,12 @@ def settings(request):
     profiles = []       
     for profile in stdm_config.profiles.values():
         profiles.append(profile.name)
-    print(profiles[0]) 
-    configs, created = Setting.objects.get_or_create(default_profile=profiles[0])
-    configs.default_profile = profiles[0]
-    configs.save()
-    print(configs)
-    default_profile = configs.default_profile
+    if Setting.objects.exists():
+        configs =Setting.objects.all().first()
+        if configs:
+            default_profile = configs.default_profile
+    else:
+        configs = Setting.objects.create(default_profile=profiles[0])
+        configs.save()
+        default_profile = configs.default_profile
     return {'configs': configs,'default_profile':default_profile}

@@ -1,0 +1,22 @@
+<h4>{{entity_name}}</h4>
+<table id="example1" class="table table-bordered table-striped">
+<thead>
+    
+<tr>
+    {% for column in default_entity.columns.values %}
+    <th>{{column.name}}</th>                              
+    {% endfor %}                              
+</tr>
+</thead>
+<tbody>
+    {% for row in data %}
+    <tr>
+    {% for dt in row %}
+    <td>{{dt}}</td>  
+    {% endfor %}                              
+    </tr>
+    {% endfor %}  
+</tbody>
+
+</tfoot>
+</table>

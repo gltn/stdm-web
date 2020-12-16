@@ -1,0 +1,774 @@
+<Configuration version="1.3">
+ <Profile description="सुकुम्बासी, भूमिहीन, अव्यवस्थित बसोबास एवं किसन घरधुरी सर्वाक्षण फारम" name="Belaka">
+  <ValueLists>
+   <ValueList name="check_social_tenure_relationship_document_type">
+    <CodeValue value="General" code=""/>
+    <CodeValue value="Temporary ownership document" code=""/>
+    <CodeValue value="Tax recipt" code=""/>
+    <CodeValue value="House/Land usage document" code=""/>
+    <CodeValue value="Recommendation" code=""/>
+   </ValueList>
+   <ValueList name="check_tenure_type">
+    <CodeValue value="general" code=""/>
+   </ValueList>
+   <ValueList name="check_enumeration_document_type">
+    <CodeValue value="General" code=""/>
+   </ValueList>
+   <ValueList name="check_household_document_type">
+    <CodeValue value="General" code=""/>
+    <CodeValue value="National ID of household head Male" code=""/>
+    <CodeValue value="Household head photo" code=""/>
+    <CodeValue value="Family Photo" code=""/>
+    <CodeValue value="Social Vulnerability Status Evidence" code=""/>
+    <CodeValue value="Residency Proof Document" code=""/>
+    <CodeValue value="Formal recognition document" code=""/>
+    <CodeValue value="National ID of household head Female" code=""/>
+   </ValueList>
+   <ValueList name="check_household_members_document_type">
+    <CodeValue value="General" code=""/>
+    <CodeValue value="National ID" code=""/>
+    <CodeValue value="Member Photo" code=""/>
+   </ValueList>
+   <ValueList name="check_house_document_type">
+    <CodeValue value="General" code=""/>
+    <CodeValue value="document proof of house usage" code=""/>
+    <CodeValue value="Evidence Document" code=""/>
+    <CodeValue value="Vulnerability document proof" code=""/>
+   </ValueList>
+   <ValueList name="check_land_document_type">
+    <CodeValue value="General" code=""/>
+   </ValueList>
+   <ValueList name="check_gender">
+    <CodeValue value="male" code=""/>
+    <CodeValue value="female" code=""/>
+    <CodeValue value="other" code=""/>
+   </ValueList>
+   <ValueList name="check_literacy">
+    <CodeValue value="Illiterate" code=""/>
+    <CodeValue value="Primary" code=""/>
+    <CodeValue value="Secondary" code=""/>
+    <CodeValue value="Higher Education" code=""/>
+    <CodeValue value="Literate" code="2"/>
+    <CodeValue value="Informal Education" code="6"/>
+   </ValueList>
+   <ValueList name="check_relation_with_household_head">
+    <CodeValue value="Father" code=""/>
+    <CodeValue value="Mother" code=""/>
+    <CodeValue value="Son" code=""/>
+    <CodeValue value="Daughter" code=""/>
+    <CodeValue value="Son in law" code=""/>
+    <CodeValue value="Daughter in law" code=""/>
+    <CodeValue value="Father in law" code=""/>
+    <CodeValue value="Mother in law" code=""/>
+    <CodeValue value="Grandfather" code=""/>
+    <CodeValue value="Grandmother" code=""/>
+    <CodeValue value="Brother" code=""/>
+    <CodeValue value="Sister" code=""/>
+    <CodeValue value="Cousin" code=""/>
+    <CodeValue value="Other" code=""/>
+    <CodeValue value="Wife" code=""/>
+    <CodeValue value="Husband" code=""/>
+    <CodeValue value="Grandson" code=""/>
+    <CodeValue value="Granddaughter" code=""/>
+    <CodeValue value="Self" code=""/>
+   </ValueList>
+   <ValueList name="check_roof_type">
+    <CodeValue value="Strraw" code=""/>
+    <CodeValue value="Tin" code=""/>
+    <CodeValue value="Cement Mortar" code=""/>
+    <CodeValue value="Tile" code=""/>
+    <CodeValue value="Other" code=""/>
+   </ValueList>
+   <ValueList name="check_type_of_land">
+    <CodeValue value="Private" code=""/>
+    <CodeValue value="Ailani" code=""/>
+    <CodeValue value="Government" code=""/>
+    <CodeValue value="Other" code=""/>
+    <CodeValue value="Forest" code=""/>
+   </ValueList>
+   <ValueList name="check_community_settlement_type">
+    <CodeValue value="Managed" code=""/>
+    <CodeValue value="Unmanaged" code=""/>
+   </ValueList>
+   <ValueList name="check_fuel_type">
+    <CodeValue value="Firewood" code=""/>
+    <CodeValue value="Kerosene" code=""/>
+    <CodeValue value="Gas" code=""/>
+    <CodeValue value="Dung" code=""/>
+    <CodeValue value="Other" code=""/>
+   </ValueList>
+   <ValueList name="check_toilet_alternative">
+    <CodeValue value="River Bank" code=""/>
+    <CodeValue value="Open Space" code=""/>
+    <CodeValue value="Neighbours Toilet" code=""/>
+    <CodeValue value="Public Toilet" code=""/>
+   </ValueList>
+   <ValueList name="check_water_resources_type">
+    <CodeValue value="Tap" code=""/>
+    <CodeValue value="Well" code=""/>
+    <CodeValue value="Hand Pump" code=""/>
+    <CodeValue value="Other" code=""/>
+   </ValueList>
+   <ValueList name="check_water_resource_alternative">
+    <CodeValue value="Community Tap" code=""/>
+    <CodeValue value="Community Well" code=""/>
+    <CodeValue value="Community Hand Pump" code=""/>
+    <CodeValue value="Neighbours" code=""/>
+    <CodeValue value="Other" code=""/>
+   </ValueList>
+   <ValueList name="check_dispose_waste">
+    <CodeValue value="Make Compost" code=""/>
+    <CodeValue value="Near River" code=""/>
+    <CodeValue value="Near Road" code=""/>
+    <CodeValue value="Burn" code=""/>
+    <CodeValue value="Managed by Municipality" code=""/>
+    <CodeValue value="Other" code=""/>
+   </ValueList>
+   <ValueList name="check_social_vulnerability_state">
+    <CodeValue value="Freed Kamaiya/Freed Haliya/Haruwa Charuwa/Kamlari" code=""/>
+    <CodeValue value="Conflict victim" code=""/>
+    <CodeValue value="Disaster Victim" code=""/>
+    <CodeValue value="Landless/Homeless" code=""/>
+    <CodeValue value="unmanaged/Informal settlers- having house/land in" code=""/>
+    <CodeValue value="Internal migrants" code=""/>
+    <CodeValue value="Other" code=""/>
+    <CodeValue value="Daily Wage" code=""/>
+   </ValueList>
+   <ValueList name="check_family_priority">
+    <CodeValue value="Renovation of house" code=""/>
+    <CodeValue value="Water" code=""/>
+    <CodeValue value="Education" code=""/>
+    <CodeValue value="Electricity" code=""/>
+    <CodeValue value="Toilet" code=""/>
+    <CodeValue value="Skill based job" code=""/>
+    <CodeValue value="Others" code=""/>
+   </ValueList>
+   <ValueList name="check_community_priority">
+    <CodeValue value="Health Center" code=""/>
+    <CodeValue value="Road improvement" code=""/>
+    <CodeValue value="Water drainage Management" code=""/>
+    <CodeValue value="School/ Education service" code=""/>
+    <CodeValue value="Drainage Management" code=""/>
+    <CodeValue value="Open Park" code=""/>
+    <CodeValue value="Open space" code=""/>
+    <CodeValue value="Police station" code=""/>
+    <CodeValue value="Others" code=""/>
+   </ValueList>
+   <ValueList name="check_house_usage_document_type">
+    <CodeValue value="Temporary tenure ship" code=""/>
+    <CodeValue value="Tax receipt" code=""/>
+    <CodeValue value="Recommendation" code=""/>
+    <CodeValue value="No document" code=""/>
+    <CodeValue value="Others" code=""/>
+   </ValueList>
+   <ValueList name="check_vulnerability_state_of_house">
+    <CodeValue value="No" code=""/>
+    <CodeValue value="Flood" code=""/>
+    <CodeValue value="Landslide" code=""/>
+    <CodeValue value="High tension" code=""/>
+    <CodeValue value="Wild Animal" code=""/>
+    <CodeValue value="Demarcation by forest / resorts" code=""/>
+    <CodeValue value="Pond" code=""/>
+    <CodeValue value="River" code=""/>
+    <CodeValue value="Ownership of other bodies (Institutional)" code=""/>
+    <CodeValue value="Other" code=""/>
+   </ValueList>
+   <ValueList name="check_land_use_document_type">
+    <CodeValue value="Temporary tenure ship" code=""/>
+    <CodeValue value="Tax receipt" code=""/>
+    <CodeValue value="Recommendation" code=""/>
+    <CodeValue value="No document" code=""/>
+    <CodeValue value="Others" code=""/>
+   </ValueList>
+   <ValueList name="check_permission_to_stay">
+    <CodeValue value="Family members" code=""/>
+    <CodeValue value="Friends" code=""/>
+    <CodeValue value="Self" code=""/>
+    <CodeValue value="Political Party" code=""/>
+    <CodeValue value="Other" code=""/>
+   </ValueList>
+   <ValueList name="check_employment">
+    <CodeValue value="Agriculture" code="1"/>
+    <CodeValue value="Government Sector" code="2"/>
+    <CodeValue value="Private Sector" code="3"/>
+    <CodeValue value="Daily Wage" code="4"/>
+    <CodeValue value="Seasonal Stay" code="5"/>
+    <CodeValue value="Foreign Employment" code="6"/>
+    <CodeValue value="Business" code="7"/>
+    <CodeValue value="Student" code="8"/>
+    <CodeValue value="Unimployed" code="9"/>
+    <CodeValue value="Other" code="10"/>
+   </ValueList>
+   <ValueList name="check_residency_evidence_document_type">
+    <CodeValue value="Water receipt" code=""/>
+    <CodeValue value="Electricity receipt" code=""/>
+    <CodeValue value="Citizenship card" code=""/>
+    <CodeValue value="Voters ID" code=""/>
+    <CodeValue value="Any other evidence" code=""/>
+   </ValueList>
+   <ValueList name="check_marital_status">
+    <CodeValue value="Married" code="1"/>
+    <CodeValue value="Unmarried" code="2"/>
+    <CodeValue value="Divorced" code="3"/>
+    <CodeValue value="Widow/Widower" code="4"/>
+   </ValueList>
+   <ValueList name="check_national_document_type">
+    <CodeValue value="Citizenship" code="1"/>
+    <CodeValue value="Birth certificate" code="2"/>
+    <CodeValue value="None" code="3"/>
+    <CodeValue value="Other" code="4"/>
+   </ValueList>
+   <ValueList name="check_physical_condition">
+    <CodeValue value="Fine" code=""/>
+    <CodeValue value="Physical Disability" code="2"/>
+    <CodeValue value="Blind and poor vision" code="3"/>
+    <CodeValue value="Deaf or poor listening" code="4"/>
+    <CodeValue value="Blind and deaf" code="5"/>
+    <CodeValue value="Difficulty to speak" code="6"/>
+    <CodeValue value="Mental Problem" code="7"/>
+    <CodeValue value="Mental Disability" code=""/>
+    <CodeValue value="Multiple Disability" code="9"/>
+   </ValueList>
+   <ValueList name="check_reason_for_migration">
+    <CodeValue value="Better Opportunity" code="1"/>
+    <CodeValue value="Due to Natural Calamities" code="3"/>
+    <CodeValue value="Conflict" code="4"/>
+    <CodeValue value="Due to Development Work" code="5"/>
+    <CodeValue value="For Land and House" code="6"/>
+    <CodeValue value="Rehabilitation" code="6"/>
+    <CodeValue value="Other" code="7"/>
+    <CodeValue value="Better Education of Children" code="2"/>
+   </ValueList>
+   <ValueList name="check_formality_of_land">
+    <CodeValue value="informal" code=""/>
+    <CodeValue value="formal but unregistered" code=""/>
+    <CodeValue value="formal" code=""/>
+   </ValueList>
+   <ValueList name="check_land_obtained_by">
+    <CodeValue value="Inheritance" code="1"/>
+    <CodeValue value="Relatives" code="2"/>
+    <CodeValue value="Buy" code="3"/>
+    <CodeValue value="Deforestation" code="4"/>
+    <CodeValue value="Settled by others" code="5"/>
+    <CodeValue value="Other" code="6"/>
+   </ValueList>
+   <ValueList name="check_farming_document_type">
+    <CodeValue value="General" code=""/>
+   </ValueList>
+   <ValueList name="check_farming_type">
+    <CodeValue value="vegetation" code=""/>
+    <CodeValue value="animal farming" code="2"/>
+    <CodeValue value="vegetation and animal" code="3"/>
+    <CodeValue value="Other" code="4"/>
+   </ValueList>
+   <ValueList name="check_production_not_sufficient_for">
+    <CodeValue value="less than 3 months" code=""/>
+    <CodeValue value="3 to 6 months" code="2"/>
+    <CodeValue value="6 to 9 months" code="3"/>
+    <CodeValue value="9 to 12 months" code="4"/>
+    <CodeValue value="12 months" code="5"/>
+   </ValueList>
+   <ValueList name="check_manage_foodgrain">
+    <CodeValue value="Exchange" code="1"/>
+    <CodeValue value="Borrow food grains" code="2"/>
+    <CodeValue value="Buy from market" code="3"/>
+    <CodeValue value="Consuming Less" code="4"/>
+    <CodeValue value="Skipping Meals" code="5"/>
+    <CodeValue value="Other" code="6"/>
+   </ValueList>
+   <ValueList name="check_irrigation">
+    <CodeValue value="Yes" code="1"/>
+    <CodeValue value="Yes but partial" code="2"/>
+    <CodeValue value="No" code="3"/>
+   </ValueList>
+   <ValueList name="check_irrigation_type">
+    <CodeValue value="River" code=""/>
+    <CodeValue value="Kulo" code="2"/>
+    <CodeValue value="Water pump" code="3"/>
+    <CodeValue value="Thopa Sinchai" code="3"/>
+    <CodeValue value="Other" code="4"/>
+   </ValueList>
+   <ValueList name="check_crop_pruduction_raise">
+    <CodeValue value="Animal waste" code="1"/>
+    <CodeValue value="Chemical fertilizer" code="2"/>
+    <CodeValue value="Agriculture processing equipments" code="3"/>
+   </ValueList>
+   <ValueList name="check_agriculture_facility">
+    <CodeValue value="Loan" code="1"/>
+    <CodeValue value="Insurance" code="2"/>
+    <CodeValue value="Grant" code="3"/>
+    <CodeValue value="Hybrid brewing" code="4"/>
+    <CodeValue value="Training" code=""/>
+    <CodeValue value="Technology" code="6"/>
+    <CodeValue value="Other" code="7"/>
+   </ValueList>
+   <ValueList name="check_organization">
+    <CodeValue value="Land rights forum" code="1"/>
+    <CodeValue value="Farmers association" code=""/>
+    <CodeValue value="Agriculture Cooperation" code="3"/>
+    <CodeValue value="Other" code="4"/>
+   </ValueList>
+  </ValueLists>
+  <Associations>
+   <Association secondParent="Household" firstParent="check_reason_for_migration" shortName="reason_for_migration" name="be_reason_for_migration"/>
+   <Association secondParent="Household" firstParent="check_social_vulnerability_state" shortName="social_vulnerability_state" name="be_social_vulnerability_state"/>
+   <Association secondParent="Household" firstParent="check_family_priority" shortName="family_priority" name="be_family_priority"/>
+   <Association secondParent="Household" firstParent="check_community_priority" shortName="community_priority" name="be_community_priority"/>
+   <Association secondParent="Household" firstParent="check_agriculture_facility" shortName="agriculture_facility_check" name="be_agriculture_facility_check"/>
+   <Association secondParent="Household" firstParent="check_organization" shortName="which_organization" name="be_which_organization"/>
+   <Association secondParent="House" firstParent="check_house_usage_document_type" shortName="house_usage_document_type" name="be_house_usage_document_type"/>
+   <Association secondParent="House" firstParent="check_residency_evidence_document_type" shortName="evidence_document_type" name="be_evidence_document_type"/>
+   <Association secondParent="House" firstParent="check_vulnerability_state_of_house" shortName="state_of_vulnerability_of_house" name="be_state_of_vulnerability_of_house"/>
+   <Association secondParent="Land" firstParent="check_land_use_document_type" shortName="land_use_document_type" name="be_land_use_document_type"/>
+   <Association secondParent="Household Members" firstParent="check_national_document_type" shortName="national_id_type" name="be_national_id_type"/>
+   <Association secondParent="Farming" firstParent="check_manage_foodgrain" shortName="manage_foodgrain" name="be_manage_foodgrain"/>
+   <Association secondParent="Farming" firstParent="check_irrigation_type" shortName="irrigation_type" name="be_irrigation_type"/>
+   <Association secondParent="Farming" firstParent="check_crop_pruduction_raise" shortName="crop_production_raise" name="be_crop_production_raise"/>
+  </Associations>
+  <Entity editable="False" global="False" rowindex="-1" associative="False" description="" proxy="False" createId="True" supportsDocuments="False" shortName="check_tenure_type_str_attrs" name="be_check_tenure_type_str_attrs" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="2147483647" description="" index="False" name="social_tenure_relationship_id" searchable="True" TYPE_INFO="FOREIGN_KEY" label="" mandatory="False">
+     <Relation name="fk_be_social_tenure_relationship_id_be_check_tenure_type_str_attrs_social_tenure_relationship_id"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="1" description="" index="False" name="dummy_custom_str" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="0" associative="False" description="Details of enumerators and verifiers" documentTypeLookup="check_enumeration_document_type" proxy="False" createId="True" supportsDocuments="True" shortName="Enumeration" name="be_enumeration" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="0" minimum="0" maximum="30" description="Questionnaire Number" index="False" name="questionnaire_number" searchable="True" TYPE_INFO="VARCHAR" label="प्रस्नावाली नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="1" minimum="0001-01-01" maximum="9999-12-31" description="Date of Enumeration" index="False" name="date" searchable="False" TYPE_INFO="DATE" label="प्रस्नावाली भरिएको मिति" mandatory="False">
+     <currentDate minimum="False" maximum="False"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="2" minimum="-2147483648" maximum="2147483647" description="" index="False" name="ward_no" searchable="True" TYPE_INFO="INT" label="वडा नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="3" minimum="0" maximum="50" description="" index="False" name="community_name" searchable="True" TYPE_INFO="VARCHAR" label="टोलेको नाम" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="4" minimum="0" maximum="30" description="" index="False" name="community_code" searchable="True" TYPE_INFO="VARCHAR" label="टोलेको कोड" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="5" minimum="0" maximum="50" description="" index="False" name="household_number" searchable="True" TYPE_INFO="VARCHAR" label="घरधुरी नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="6" minimum="0" maximum="30" description="Full Name of Household Head" index="False" name="household_head" searchable="True" TYPE_INFO="VARCHAR" label="घरमुलीको नामथर" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="7" minimum="0" maximum="100" description="" index="False" name="respondent" searchable="True" TYPE_INFO="VARCHAR" label="उत्तरदाताको नाम" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="8" minimum="0" maximum="2147483647" description="Relation of respondent with Household Head" index="False" name="relation_of_respondent" searchable="True" TYPE_INFO="LOOKUP" label="उत्तरदाताको घरमुलिसंगको नाता" mandatory="False">
+     <Relation name="fk_be_check_relation_with_household_head_id_be_enumeration_relation_of_respondent"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="9" minimum="0" maximum="30" description="" index="False" name="respondent_contact" searchable="True" TYPE_INFO="VARCHAR" label="उत्तरदाताको मोबाइल नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="10" minimum="0" maximum="30" description="" index="False" name="gps_id_no" searchable="True" TYPE_INFO="VARCHAR" label="जीपीएस नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="11" minimum="0" maximum="30" description="" index="False" name="camera_id_no" searchable="True" TYPE_INFO="VARCHAR" label="क्यामेरा नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="12" minimum="0" maximum="50" description="Name of Enumerator" index="False" name="enumerator" searchable="True" TYPE_INFO="VARCHAR" label="प्रस्नावाली भर्नेको नाम" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="13" minimum="0" maximum="50" description="" index="False" name="form_filled_by" searchable="True" TYPE_INFO="VARCHAR" label="फारम भर्नेको नाम" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="14" minimum="0" maximum="50" description="" index="False" name="witness" searchable="True" TYPE_INFO="VARCHAR" label="रहोवर" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="15" minimum="0" maximum="50" description="Name of Supervisor" index="False" name="supervisor" searchable="True" TYPE_INFO="VARCHAR" label="सुपरभाईजरको नाम" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="16" minimum="0" maximum="50" description="Checked by" index="False" name="checked_by" searchable="True" TYPE_INFO="VARCHAR" label="तथ्यांक प्रबिस्ट गर्ने" mandatory="False"/>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="1" associative="False" description="Represents non spatial unit or party." documentTypeLookup="check_household_document_type" proxy="False" createId="True" supportsDocuments="True" shortName="Household" name="be_household" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="0" minimum="0" maximum="30" description="" index="False" name="household_number" searchable="True" TYPE_INFO="VARCHAR" label="घरधुरी नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="1" minimum="0" maximum="50" description="Household head name" index="False" name="household_head" searchable="True" TYPE_INFO="VARCHAR" label="घरमुलीको नाम" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="2" minimum="1752-09-14" maximum="7999-12-31" description="" index="False" name="living_since" searchable="False" TYPE_INFO="DATE" label="कहिले देखि बस्दै हुनुहुन्छ" mandatory="False">
+     <currentDate minimum="False" maximum="False"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="3" minimum="0" maximum="2147483647" description="" index="False" name="land_obtained_by" searchable="True" TYPE_INFO="LOOKUP" label="बसोबास गरेको जग्गा कसरि प्राप्त भयो?" mandatory="False">
+     <Relation name="fk_be_check_land_obtained_by_id_be_household_land_obtained_by"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="4" description="" index="False" name="migrated_check" searchable="False" TYPE_INFO="BOOL" label="बाहिरबाट बसाई सर्नु भएको हो?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="5" description="What is the reason for migration" index="False" name="reason_for_migration" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="बसाई सराइको कारण" mandatory="False">
+     <associationEntity name="be_reason_for_migration"/>
+    </Column>
+    <Column unique="False" tip="अन्दाजी रू." rowindex="6" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="Total estimated monthly income of the family" index="False" name="family_income" searchable="True" TYPE_INFO="DOUBLE" label="परिवारको मासिक आय" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="7" minimum="0" maximum="2147483647" description="What is the roof type of your house?" index="False" name="roof_type_of_house" searchable="True" TYPE_INFO="LOOKUP" label="घरको छानाको किसिम" mandatory="False">
+     <Relation name="fk_be_check_roof_type_id_be_household_roof_type_of_house"/>
+    </Column>
+    <Column unique="False" tip="in sq. meters" rowindex="8" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="The area of the house you have been living" index="False" name="estimated_area_of_current_house" searchable="True" TYPE_INFO="DOUBLE" label="घरजग्गाको अन्दाजी क्षत्रफल" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="9" minimum="0" maximum="2147483647" description="Type of land" index="False" name="type_of_land" searchable="True" TYPE_INFO="LOOKUP" label="जग्गाको किसिम" mandatory="False">
+     <Relation name="fk_be_check_type_of_land_id_be_household_type_of_land"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="10" minimum="0" maximum="50" description="If other type of land please mention" index="False" name="other_type_of_land" searchable="True" TYPE_INFO="VARCHAR" label="अन्य जग्गाको प्रकार" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="11" description="Do you have toilet or not?" index="False" name="toilet_check" searchable="False" TYPE_INFO="BOOL" label="चर्पी छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="12" description="Do you have access to private water resource at your home?" index="False" name="water_resource_check" searchable="False" TYPE_INFO="BOOL" label="निजि पानीको श्रोत छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="13" minimum="0" maximum="50" description="National ID of household head Male" index="False" name="national_id_of_household_head_male" searchable="True" TYPE_INFO="VARCHAR" label="घरमुली श्रीमानको राष्ट्रिय परिचय पत्र नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="14" minimum="0" maximum="50" description="National ID of household head Male" index="False" name="national_id_of_household_head_female" searchable="True" TYPE_INFO="VARCHAR" label="घरमुली श्रीमतीको राष्ट्रिय परिचय पत्र नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="15" description="State of social vulnerability of family" index="False" name="social_vulnerability_state" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="सामाजिक जोखिम अवस्था" mandatory="False">
+     <associationEntity name="be_social_vulnerability_state"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="16" minimum="0" maximum="50" description="If other, mention social vulnerability status" index="False" name="other_social_vulnerability_status" searchable="True" TYPE_INFO="VARCHAR" label="अन्य सामाजिक जोखिम अवस्था" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="17" minimum="0" maximum="2147483647" description="Community Settlement type" index="False" name="community_settlement_type" searchable="True" TYPE_INFO="LOOKUP" label="समुदायको बसोबास" mandatory="False">
+     <Relation name="fk_be_check_community_settlement_type_id_be_household_community_settlement_type"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="18" description="Priority of Family" index="False" name="family_priority" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="घरपरिवारको प्राथमिकता" mandatory="False">
+     <associationEntity name="be_family_priority"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="19" minimum="0" maximum="50" description="If other, mention family priority" index="False" name="other_family_priority" searchable="True" TYPE_INFO="VARCHAR" label="घरपरिवारको अन्य प्राथमिकता" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="20" description="Priority of Community" index="False" name="community_priority" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="समुदायको प्राथमिकता" mandatory="False">
+     <associationEntity name="be_community_priority"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="21" minimum="0" maximum="50" description="Other priorities of the community" index="False" name="other_community_priority" searchable="True" TYPE_INFO="VARCHAR" label="समुदायको अन्य प्रथिमकता" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="22" description="" index="False" name="check_land_hired_by_others" searchable="False" TYPE_INFO="BOOL" label="तपाइको जग्गा अरुलाई कमाउन दिनु भएको छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="23" description="" index="False" name="agriculture_facility_check" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="कृषि सम्बन्धि सुबिधा" mandatory="False">
+     <associationEntity name="be_agriculture_facility_check"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="24" minimum="0" maximum="30" description="" index="False" name="other_agriculture_facility" searchable="True" TYPE_INFO="VARCHAR" label="अन्य कृषि सुबिधा" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="25" description="" index="False" name="check_organization" searchable="False" TYPE_INFO="BOOL" label="कुनै संगठनमा आबद्ध हुनुन्छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="26" description="" index="False" name="which_organization" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="कुन संगठनमा आबद्ध हुनुन्छ?" mandatory="False">
+     <associationEntity name="be_which_organization"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="27" minimum="0" maximum="50" description="" index="False" name="other_organization" searchable="True" TYPE_INFO="VARCHAR" label="अरु कुन संगठनमा आबद्ध हुनुन्छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="28" description="" index="False" name="registered_land_in_this_ward" searchable="False" TYPE_INFO="BOOL" label="एस वडामा दर्ता भएको जग्गा छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="29" description="" index="False" name="registered_land_in_this_municipality" searchable="False" TYPE_INFO="BOOL" label="एस वडा बाहिर एस नगरपालिकामा जग्गा छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="30" description="" index="False" name="registered_land_outside_municipality" searchable="False" TYPE_INFO="BOOL" label="नगरपालिका बाहिर जग्गा छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="31" minimum="0" maximum="50" description="" index="False" name="owner_of_land_outside_minicipality" searchable="True" TYPE_INFO="VARCHAR" label="नगरपालिका बाहिरको जग्गा कस्को नाममा छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="32" minimum="0" maximum="50" description="" index="False" name="location_of_land_outside" searchable="True" TYPE_INFO="VARCHAR" label="एस नगरपालिका बाहिर कुन ठाउमा जग्गा छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="33" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="estimated_area_of_the_land" searchable="True" TYPE_INFO="DOUBLE" label="जग्गाको क्षत्रफल" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" description="" index="False" name="bank_account_check" searchable="False" TYPE_INFO="BOOL" label="कुनै संस्थामा खाता छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="50" description="" index="False" name="account_holder_name" searchable="True" TYPE_INFO="VARCHAR" label="खाता कस्को नाममा छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="50" description="" index="False" name="account_number" searchable="True" TYPE_INFO="VARCHAR" label="खाता नं" mandatory="False"/>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="2" associative="False" description="Individual members of each households" documentTypeLookup="check_household_members_document_type" proxy="False" createId="True" supportsDocuments="True" shortName="Household Members" name="be_household_members" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="0" minimum="0" maximum="50" description="" index="False" name="name" searchable="True" TYPE_INFO="VARCHAR" label="नाम" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="1" minimum="0" maximum="2147483647" description="" index="False" name="gender" searchable="True" TYPE_INFO="LOOKUP" label="लिङ्ग" mandatory="False">
+     <Relation name="fk_be_check_gender_id_be_household_members_gender"/>
+    </Column>
+    <Column unique="False" tip="in A.D." rowindex="2" minimum="0001-01-01" maximum="9999-12-31" description="" index="False" name="date_of_birth" searchable="False" TYPE_INFO="DATE" label="जन्म मिति" mandatory="False">
+     <currentDate minimum="False" maximum="False"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="3" minimum="0" maximum="2147483647" description="Marital Status" index="False" name="marital_status" searchable="True" TYPE_INFO="LOOKUP" label="बैबाहिक स्थिति" mandatory="False">
+     <Relation name="fk_be_check_marital_status_id_be_household_members_marital_status"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="4" minimum="0" maximum="2147483647" description="" index="False" name="literacy" searchable="True" TYPE_INFO="LOOKUP" label="साक्षरता अवस्था" mandatory="False">
+     <Relation name="fk_be_check_literacy_id_be_household_members_literacy"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="5" minimum="0" maximum="2147483647" description="" index="False" name="employment" searchable="True" TYPE_INFO="LOOKUP" label="रोजगारी किसिम" mandatory="False">
+     <Relation name="fk_be_check_employment_id_be_household_members_employment"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="6" minimum="0" maximum="50" description="" index="False" name="other_employment" searchable="True" TYPE_INFO="VARCHAR" label="अन्य रोजगारी किसिम" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="7" description="National Document ID type" index="False" name="national_id_type" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="राष्ट्रिय परिचय पत्र" mandatory="False">
+     <associationEntity name="be_national_id_type"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="8" minimum="0" maximum="2147483647" description="Physical Condition" index="False" name="physical_condition" searchable="True" TYPE_INFO="LOOKUP" label="सररिक अवस्था" mandatory="False">
+     <Relation name="fk_be_check_physical_condition_id_be_household_members_physical_condition"/>
+    </Column>
+    <Column unique="False" tip="in NRs." rowindex="9" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="monthly_income" searchable="True" TYPE_INFO="DOUBLE" label="मासिक आय" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="10" minimum="0" maximum="2147483647" description="" index="False" name="relation_with_household_head" searchable="True" TYPE_INFO="LOOKUP" label="घरमुलिसंगको सम्बन्ध" mandatory="False">
+     <Relation name="fk_be_check_relation_with_household_head_id_be_household_members_relation_with_household_head"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="11" minimum="0" maximum="2147483647" description="" index="False" name="related_household" searchable="False" TYPE_INFO="FOREIGN_KEY" label="" mandatory="False">
+     <Relation name="fk_be_household_id_be_household_members_related_household"/>
+    </Column>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="3" associative="False" description="Spatial unit. Represents individual house unit. Point." documentTypeLookup="check_house_document_type" proxy="False" createId="True" supportsDocuments="True" shortName="House" name="be_house" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="0" minimum="0" maximum="30" description="" index="False" name="house_code" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="1" minimum="0" maximum="30" description="GPS file number of the house" index="False" name="gps_file_number" searchable="True" TYPE_INFO="VARCHAR" label="जीपीएस फाइल नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="2" minimum="0" maximum="50" description="Photo number of the house" index="False" name="photo_no_of_house" searchable="True" TYPE_INFO="VARCHAR" label="घरको फोटो फाइल नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="3" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="estimated_area_of_house" searchable="True" TYPE_INFO="DOUBLE" label="घरको अन्दाजी क्षत्रफल" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="4" description="The document type that prove the use of the house" index="False" name="house_usage_document_type" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="घर भोग प्रमाण कागजात" mandatory="False">
+     <associationEntity name="be_house_usage_document_type"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="5" minimum="0" maximum="30" description="If other type of document of house usage please mention" index="False" name="other_house_usage_document_type" searchable="True" TYPE_INFO="VARCHAR" label="अन्य घर भोग प्रमाण कागजात" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="6" minimum="0" maximum="50" description="Photo Number of house usage document" index="False" name="house_usage_document_photo_number" searchable="True" TYPE_INFO="VARCHAR" label="घरभोग कागजात फोटो नं" mandatory="False"/>
+    <Column unique="False" tip="Name, Address" rowindex="7" minimum="0" maximum="100" description="If there is informal agreement of the house/land transaction, please provide the detail Name and address of the seller" index="False" name="seller_detail" searchable="True" TYPE_INFO="VARCHAR" label="घरसार कागज दिने व्यक्तिको बिवरण" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="8" description="Documents which provide evidence that your family members live in this place" index="False" name="evidence_document_check" searchable="False" TYPE_INFO="BOOL" label="घरपरिवार बसाई प्रमिनत कागजात छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="9" description="Type of such document" index="False" name="evidence_document_type" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="घरपरिवार बसाई प्रमिनत कागजात" mandatory="False">
+     <associationEntity name="be_evidence_document_type"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="10" minimum="0" maximum="50" description="" index="False" name="photo_file_name_of_evidence_document" searchable="True" TYPE_INFO="VARCHAR" label="घरपरिवार बसाई प्रमिनत कागजात फोटो नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="11" description="State of Vulnerability of house" index="False" name="state_of_vulnerability_of_house" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="घर जोखिम" mandatory="False">
+     <associationEntity name="be_state_of_vulnerability_of_house"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="12" minimum="0" maximum="50" description="Other state of Vulnerability of house" index="False" name="other_state_of_vulnerability_of_house" searchable="True" TYPE_INFO="VARCHAR" label="अन्य घर जोखिम" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="13" minimum="0" maximum="50" description="" index="False" name="photo_filename_of_vulnerability_state" searchable="True" TYPE_INFO="VARCHAR" label="घर जोखिम फोटो नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="14" description="" index="False" name="formal_recognition_check" searchable="False" TYPE_INFO="BOOL" label="निकायबाट मान्यता प्राप्त" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="15" minimum="0" maximum="30" description="" index="False" name="formal_recognition_document_photo" searchable="True" TYPE_INFO="VARCHAR" label="मान्यता प्राप्त प्रमाण फोटो फाइल नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="16" description="" index="False" name="point" searchable="False" TYPE_INFO="GEOMETRY" label="" mandatory="False">
+     <Geometry layerDisplay="" srid="4326" type="0"/>
+    </Column>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="4" associative="False" description="Spatial unit. Repsesents individual land. Polygon." documentTypeLookup="check_land_document_type" proxy="False" createId="True" supportsDocuments="True" shortName="Land" name="be_land" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="0" minimum="0" maximum="30" description="" index="False" name="land_code" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="1" minimum="0" maximum="2147483647" description="Check if land is formal or informal" index="False" name="land_formal_check" searchable="True" TYPE_INFO="LOOKUP" label="औपचारिक जग्गा हो?" mandatory="False">
+     <Relation name="fk_be_check_formality_of_land_id_be_land_land_formal_check"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="2" description="" index="False" name="check_this_municipality_other_ward" searchable="False" TYPE_INFO="BOOL" label="एस नगरपालिका अन्य वडामा" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="3" description="" index="False" name="check_this_municipality_this_ward" searchable="False" TYPE_INFO="BOOL" label="एस नगरपालिका एस वडामा" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="4" minimum="0" maximum="30" description="" index="False" name="gps_file_number" searchable="True" TYPE_INFO="VARCHAR" label="जीपीएस फाइल नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="5" description="The document type that prove the use of the land" index="False" name="land_use_document_type" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="जग्गा भोग कागजात प्रकार" mandatory="False">
+     <associationEntity name="be_land_use_document_type"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="6" minimum="0" maximum="50" description="If other type of land use docuemnt type please specify" index="False" name="other_land_use_document_type" searchable="True" TYPE_INFO="VARCHAR" label="अन्य जग्गा भोग कागजात" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="7" minimum="0" maximum="50" description="Photo filename of land use document type" index="False" name="photo_filename_of_land_use_document_type" searchable="True" TYPE_INFO="VARCHAR" label="जग्गा भोग कागजातको फोटो नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="8" minimum="0" maximum="100" description="If there is informal agreement of the land transaction, please provide the detail Name and address of the seller" index="False" name="seller_detail" searchable="True" TYPE_INFO="VARCHAR" label="बिक्रेताको नाम, ठेगाना" mandatory="False"/>
+    <Column unique="False" tip="जिल्ला/नपा/गापा/वडा" rowindex="9" minimum="0" maximum="80" description="Location of the land jilla/nagarpalika/gaunpalika/ward" index="False" name="location" searchable="True" TYPE_INFO="VARCHAR" label="ठेगाना" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="10" minimum="0" maximum="2147483647" description="The type of land" index="False" name="type_of_land" searchable="True" TYPE_INFO="LOOKUP" label="जग्गाको प्रकार" mandatory="False">
+     <Relation name="fk_be_check_type_of_land_id_be_land_type_of_land"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="11" minimum="0" maximum="50" description="If other type of land please mention" index="False" name="other_type_of_land" searchable="True" TYPE_INFO="VARCHAR" label="अन्य जग्गाको प्रकार" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="12" minimum="0" maximum="30" description="Map number of the parcel" index="False" name="map_number" searchable="True" TYPE_INFO="VARCHAR" label="नक्सा नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="13" minimum="-2147483648" maximum="2147483647" description="Parcel number of the land" index="False" name="parcel_number" searchable="True" TYPE_INFO="INT" label="कित्ता नं" mandatory="False"/>
+    <Column unique="False" tip="in sq. meter" rowindex="14" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="The Estimated area of the land in other place (in Square metre)  " index="False" name="estimated_area" searchable="True" TYPE_INFO="DOUBLE" label="अन्दाजी क्षत्रफल" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="15" minimum="0" maximum="30" description="Photo file number of the any file related to land" index="False" name="photo_number_land_certificate" searchable="True" TYPE_INFO="VARCHAR" label="कागजात फोटो नं" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="16" description="" index="False" name="polygon" searchable="False" TYPE_INFO="GEOMETRY" label="" mandatory="False">
+     <Geometry layerDisplay="" srid="4326" type="2"/>
+    </Column>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="5" associative="False" description="Farming details of individual household." documentTypeLookup="check_farming_document_type" proxy="False" createId="True" supportsDocuments="True" shortName="Farming" name="be_farming" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="0" minimum="0" maximum="30" description="" index="False" name="household_number" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="True"/>
+    <Column unique="False" tip="" rowindex="1" minimum="0" maximum="2147483647" description="" index="False" name="related_household" searchable="False" TYPE_INFO="FOREIGN_KEY" label="" mandatory="False">
+     <Relation name="fk_be_household_id_be_farming_related_household"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="2" minimum="0" maximum="2147483647" description="" index="False" name="farming_type" searchable="True" TYPE_INFO="LOOKUP" label="कस्तो कृषिमा सम्लग्न हुनुन्छ?" mandatory="False">
+     <Relation name="fk_be_check_farming_type_id_be_farming_farming_type"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="3" minimum="0" maximum="30" description="" index="False" name="other_farming_type" searchable="True" TYPE_INFO="VARCHAR" label="अन्य कृषि प्रकार" mandatory="False"/>
+    <Column unique="False" tip="in Kg" rowindex="4" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="rice_generation" searchable="True" TYPE_INFO="DOUBLE" label="धान उत्पादन" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="5" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="rice_income" searchable="True" TYPE_INFO="DOUBLE" label="धान बाट आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="in Kg" rowindex="6" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="wheat_production" searchable="True" TYPE_INFO="DOUBLE" label="गहु उत्पादन" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="7" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="wheat_income" searchable="True" TYPE_INFO="DOUBLE" label="गहु आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="in Kg" rowindex="8" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="corn_production" searchable="True" TYPE_INFO="DOUBLE" label="मकै उत्पादन" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="9" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="corn_income" searchable="True" TYPE_INFO="DOUBLE" label="मकैबाट आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="in Kg" rowindex="10" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="millet_production" searchable="True" TYPE_INFO="DOUBLE" label="कोदो उत्पादन" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="11" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="millet_income" searchable="True" TYPE_INFO="DOUBLE" label="कोदोबाट आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="in Kg" rowindex="12" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="vegetable_production" searchable="True" TYPE_INFO="DOUBLE" label="तरकारीबाट आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="13" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="vegetable_income" searchable="True" TYPE_INFO="DOUBLE" label="तरकारीबाट आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="in Kg" rowindex="14" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="lentils_production" searchable="True" TYPE_INFO="DOUBLE" label="ध्यलहन उत्पादन" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="15" minimum="-0" maximum="179769313485999993463412110191957867872176903147024190229169150664616720223488549064776002732213849498804348433116986060126989671666306060788674238031081950882294921586851551818012975619342999042256679071052330673321513805402276774228700884740900574397999799640549171929913383207407537025048827210712192385024" description="" index="False" name="lentils_income" searchable="True" TYPE_INFO="DOUBLE" label="ध्यलहन आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="in Kg" rowindex="16" minimum="-0" maximum="179769313485999993463412110191957867872176903147024190229169150664616720223488549064776002732213849498804348433116986060126989671666306060788674238031081950882294921586851551818012975619342999042256679071052330673321513805402276774228700884740900574397999799640549171929913383207407537025048827210712192385024" description="" index="False" name="cash_crop_production" searchable="True" TYPE_INFO="DOUBLE" label="नगदे बाली उत्पादन" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="17" minimum="-0" maximum="179769313485999993463412110191957867872176903147024190229169150664616720223488549064776002732213849498804348433116986060126989671666306060788674238031081950882294921586851551818012975619342999042256679071052330673321513805402276774228700884740900574397999799640549171929913383207407537025048827210712192385024" description="" index="False" name="cash_crop_income" searchable="True" TYPE_INFO="DOUBLE" label="नगदे बाली आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="in Kg" rowindex="18" minimum="-0" maximum="179769313485999993463412110191957867872176903147024190229169150664616720223488549064776002732213849498804348433116986060126989671666306060788674238031081950882294921586851551818012975619342999042256679071052330673321513805402276774228700884740900574397999799640549171929913383207407537025048827210712192385024" description="" index="False" name="fruits_production" searchable="True" TYPE_INFO="DOUBLE" label="फलफुल उत्पादन" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="19" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="fruits_income" searchable="True" TYPE_INFO="DOUBLE" label="फलफुल आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="20" description="के यो उत्पादनले तपाइको घरपरिवारका लागि वर्ष भारीलाई खान पुग्छ?" index="False" name="production_suffucuent_for_a_year" searchable="False" TYPE_INFO="BOOL" label="यो उत्पादनले वर्षभरि खान पुग्छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="21" minimum="0" maximum="2147483647" description="" index="False" name="production_not_sufficient_for" searchable="True" TYPE_INFO="LOOKUP" label="कति महिनालाई पुग्दैन?" mandatory="False">
+     <Relation name="fk_be_check_production_not_sufficient_for_id_be_farming_production_not_sufficient_for"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="22" description="" index="False" name="manage_foodgrain" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="खाद्यान्न कसरि व्यवस्थापन गर्नुहुन्छ?" mandatory="False">
+     <associationEntity name="be_manage_foodgrain"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="23" minimum="0" maximum="30" description="" index="False" name="other_manage_foodgrains" searchable="True" TYPE_INFO="VARCHAR" label="अन्य खाद्यान्न व्यवस्थापन" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="24" minimum="0" maximum="2147483647" description="" index="False" name="check_irrigation" searchable="True" TYPE_INFO="LOOKUP" label="सिंचाई उपलब्ध छ?" mandatory="False">
+     <Relation name="fk_be_check_irrigation_id_be_farming_check_irrigation"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="25" description="" index="False" name="irrigation_type" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="कस्तो सिंचाई उपभोग गर्नुहुन्छ?" mandatory="False">
+     <associationEntity name="be_irrigation_type"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="26" minimum="0" maximum="30" description="" index="False" name="other_irrigation_type" searchable="True" TYPE_INFO="VARCHAR" label="अन्य सिंचाई सुबिधा" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="27" description="" index="False" name="crop_production_raise" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="बाली उत्पादन वृद्धि गर्न के प्रयोग गर्नुहुन्छ?" mandatory="False">
+     <associationEntity name="be_crop_production_raise"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="28" minimum="0" maximum="30" description="" index="False" name="time_to_reach_agriculture_animal_care" searchable="True" TYPE_INFO="VARCHAR" label="कृषि तथा पशु साखा पुग्न कति समय लाग्छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="29" description="" index="False" name="animal_check" searchable="False" TYPE_INFO="BOOL" label="पशु पन्छीपालनमा सम्लग्न हुनुन्छ?" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="30" minimum="-2147483648" maximum="2147483647" description="" index="False" name="cow_local" searchable="True" TYPE_INFO="INT" label="गई संख्या (स्थानीय)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="31" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="local_cow_income" searchable="True" TYPE_INFO="DOUBLE" label="स्थानीय गई आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="32" minimum="-2147483648" maximum="2147483647" description="" index="False" name="cow_hybrid" searchable="True" TYPE_INFO="INT" label="गई संख्या (उन्नत)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="33" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="hybrid_cow_income" searchable="True" TYPE_INFO="DOUBLE" label="उन्नत गई आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="34" minimum="-2147483648" maximum="2147483647" description="" index="False" name="bull_local" searchable="True" TYPE_INFO="INT" label="गोरु संख्या (स्थानीय)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="35" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="local_bull_income" searchable="True" TYPE_INFO="DOUBLE" label="स्थानीय गोरुबाट आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="36" minimum="-2147483648" maximum="2147483647" description="" index="False" name="bull_hybrid" searchable="True" TYPE_INFO="INT" label="गोरु संख्या (उन्नत)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="37" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="hybrid_bull_income" searchable="True" TYPE_INFO="DOUBLE" label="उन्नत गोरुबाट आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="38" minimum="-2147483648" maximum="2147483647" description="" index="False" name="female_buffalo_local" searchable="True" TYPE_INFO="INT" label="भैसी संख्या (sthaniya)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="39" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="local_buffalo_income" searchable="True" TYPE_INFO="DOUBLE" label="स्थानीय माउ भैसीबाट आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="40" minimum="-2147483648" maximum="2147483647" description="" index="False" name="femali_buffalo_hybrid" searchable="True" TYPE_INFO="INT" label="माउ भैसी संख्या (उन्नत)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="41" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="hybrid_buffalo_income" searchable="True" TYPE_INFO="DOUBLE" label="उन्नत भैसीबाट आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="42" minimum="-2147483648" maximum="2147483647" description="" index="False" name="calf_local" searchable="True" TYPE_INFO="INT" label="पाडा पाडी संख्या (स्थानीय)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="43" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="local_calf_income" searchable="True" TYPE_INFO="DOUBLE" label="स्थानीय पाडा पाडी बाट आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="44" minimum="0" maximum="30" description="" index="False" name="calf_hybrid" searchable="True" TYPE_INFO="VARCHAR" label="पाडा पाडी संख्या (उन्नत)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="45" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="hybrid_calf_income" searchable="True" TYPE_INFO="DOUBLE" label="उन्नत पाडा बाट आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="46" minimum="-2147483648" maximum="2147483647" description="" index="False" name="goat_local" searchable="True" TYPE_INFO="INT" label="बाख्रा संख्या (स्थानीय)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="47" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="local_goat_income" searchable="True" TYPE_INFO="DOUBLE" label="स्थानीय बाख्रा आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="48" minimum="-2147483648" maximum="2147483647" description="" index="False" name="goat_hybrid" searchable="True" TYPE_INFO="INT" label="बाख्रा संख्या (उन्नत)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="49" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="hybrid_goat_income" searchable="True" TYPE_INFO="DOUBLE" label="उन्नत बाख्राबाट आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="50" minimum="-2147483648" maximum="2147483647" description="" index="False" name="kid_local" searchable="True" TYPE_INFO="INT" label="पाठापाठी संख्या (स्थानीय)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="51" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="local_kid_income" searchable="True" TYPE_INFO="DOUBLE" label="स्थानीय पाठापाठी आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="52" minimum="-2147483648" maximum="2147483647" description="" index="False" name="kid_hybrid" searchable="True" TYPE_INFO="INT" label="पाठापाठी संख्या (उन्नत)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="53" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="hybrid_kid_income" searchable="True" TYPE_INFO="DOUBLE" label="उन्नत पाठापाठी आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="54" minimum="-2147483648" maximum="2147483647" description="" index="False" name="chicken_local" searchable="True" TYPE_INFO="INT" label="कुखुरा संख्या (स्थानीय)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="55" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="local_chicken_income" searchable="True" TYPE_INFO="DOUBLE" label="स्थानीय कुखुरा आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="56" minimum="-2147483648" maximum="2147483647" description="" index="False" name="chicken_hybrid" searchable="True" TYPE_INFO="INT" label="कुखुरा संख्या (उन्नत)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="57" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="hybrid_chicken_income" searchable="True" TYPE_INFO="DOUBLE" label="उन्नत कुखुरा आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="58" minimum="-2147483648" maximum="2147483647" description="" index="False" name="duck_local" searchable="True" TYPE_INFO="INT" label="हाँस संख्या (स्थानीय)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="59" minimum="-0" maximum="179769313485999993463412110191957867872176903147024190229169150664616720223488549064776002732213849498804348433116986060126989671666306060788674238031081950882294921586851551818012975619342999042256679071052330673321513805402276774228700884740900574397999799640549171929913383207407537025048827210712192385024" description="" index="False" name="local_duck_income" searchable="True" TYPE_INFO="DOUBLE" label="स्थानीय हाँस आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="60" minimum="-2147483648" maximum="2147483647" description="" index="False" name="duck_hybrid" searchable="True" TYPE_INFO="INT" label="हाँस संख्या (उन्नत)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="61" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="hybrid_duck_income" searchable="True" TYPE_INFO="DOUBLE" label="उन्नत हाँस आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="62" minimum="-2147483648" maximum="2147483647" description="" index="False" name="pig_local" searchable="True" TYPE_INFO="INT" label="सुँगुर संख्या (स्थानीय)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="63" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="local_pig_income" searchable="True" TYPE_INFO="DOUBLE" label="स्थानीय सुँगुर बाट आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="64" minimum="-2147483648" maximum="2147483647" description="" index="False" name="pig_hybrid" searchable="True" TYPE_INFO="INT" label="सुँगुर संख्या (उन्नत)" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="65" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="hybrid_pig_income" searchable="True" TYPE_INFO="DOUBLE" label="उन्नत सुँगुर आम्दानी" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="66" minimum="0" maximum="30" description="" index="False" name="time_to_reach_veterinary_hospital" searchable="True" TYPE_INFO="VARCHAR" label="पशु अस्पताल पुग्ने समय" mandatory="False"/>
+   </Columns>
+  </Entity>
+  <Relations>
+   <EntityRelation displayColumns="name,code" child="social_tenure_relationship_supporting_document" showInParent="True" parent="check_social_tenure_relationship_document_type" name="fk_be_check_social_tenure_relationship_document_type_id_be_social_tenure_relationship_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type"/>
+   <EntityRelation displayColumns="" child="social_tenure_relationship_supporting_document" showInParent="True" parent="social_tenure_relationship" name="fk_be_social_tenure_relationship_id_be_social_tenure_relationship_supporting_document_social_tenure_relationship_id" parentColumn="id" showInChild="True" childColumn="social_tenure_relationship_id"/>
+   <EntityRelation displayColumns="" child="social_tenure_relationship_supporting_document" showInParent="True" parent="supporting_document" name="fk_be_supporting_document_id_be_social_tenure_relationship_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id"/>
+   <EntityRelation displayColumns="name,code" child="social_tenure_relationship" showInParent="True" parent="check_tenure_type" name="fk_be_check_tenure_type_id_be_social_tenure_relationship_tenure_type" parentColumn="id" showInChild="True" childColumn="tenure_type"/>
+   <EntityRelation displayColumns="" child="admin_spatial_unit_set" showInParent="True" parent="admin_spatial_unit_set" name="fk_admin_spatial_unit_set_id_admin_spatial_unit_set_parent_id" parentColumn="id" showInChild="True" childColumn="parent_id"/>
+   <EntityRelation displayColumns="name,code" child="Enumeration_supporting_document" showInParent="True" parent="check_enumeration_document_type" name="fk_be_check_enumeration_document_type_id_be_enumeration_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type"/>
+   <EntityRelation displayColumns="" child="Enumeration_supporting_document" showInParent="True" parent="Enumeration" name="fk_be_enumeration_id_be_enumeration_supporting_document_enumeration_id" parentColumn="id" showInChild="True" childColumn="enumeration_id"/>
+   <EntityRelation displayColumns="" child="Enumeration_supporting_document" showInParent="True" parent="supporting_document" name="fk_be_supporting_document_id_be_enumeration_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id"/>
+   <EntityRelation displayColumns="name,code" child="Enumeration" showInParent="True" parent="check_relation_with_household_head" name="fk_be_check_relation_with_household_head_id_be_enumeration_relation_of_respondent" parentColumn="id" showInChild="True" childColumn="relation_of_respondent"/>
+   <EntityRelation displayColumns="name,code" child="Household_supporting_document" showInParent="True" parent="check_household_document_type" name="fk_be_check_household_document_type_id_be_household_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type"/>
+   <EntityRelation displayColumns="" child="Household_supporting_document" showInParent="True" parent="Household" name="fk_be_household_id_be_household_supporting_document_household_id" parentColumn="id" showInChild="True" childColumn="household_id"/>
+   <EntityRelation displayColumns="" child="Household_supporting_document" showInParent="True" parent="supporting_document" name="fk_be_supporting_document_id_be_household_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id"/>
+   <EntityRelation displayColumns="name,code" child="Household" showInParent="True" parent="check_land_obtained_by" name="fk_be_check_land_obtained_by_id_be_household_land_obtained_by" parentColumn="id" showInChild="True" childColumn="land_obtained_by"/>
+   <EntityRelation displayColumns="" child="reason_for_migration" showInParent="True" parent="check_reason_for_migration" name="fk_be_check_reason_for_migration_id_be_reason_for_migration_be_check_reason_for_migration_id" parentColumn="id" showInChild="True" childColumn="be_check_reason_for_migration_id"/>
+   <EntityRelation displayColumns="" child="reason_for_migration" showInParent="True" parent="Household" name="fk_be_household_id_be_reason_for_migration_be_household_id" parentColumn="id" showInChild="True" childColumn="be_household_id"/>
+   <EntityRelation displayColumns="name,code" child="Household" showInParent="True" parent="check_roof_type" name="fk_be_check_roof_type_id_be_household_roof_type_of_house" parentColumn="id" showInChild="True" childColumn="roof_type_of_house"/>
+   <EntityRelation displayColumns="name,code" child="Household" showInParent="True" parent="check_type_of_land" name="fk_be_check_type_of_land_id_be_household_type_of_land" parentColumn="id" showInChild="True" childColumn="type_of_land"/>
+   <EntityRelation displayColumns="" child="social_vulnerability_state" showInParent="True" parent="check_social_vulnerability_state" name="fk_be_check_social_vulnerability_state_id_be_social_vulnerability_state_be_check_social_vulnerability_state_id" parentColumn="id" showInChild="True" childColumn="be_check_social_vulnerability_state_id"/>
+   <EntityRelation displayColumns="" child="social_vulnerability_state" showInParent="True" parent="Household" name="fk_be_household_id_be_social_vulnerability_state_be_household_id" parentColumn="id" showInChild="True" childColumn="be_household_id"/>
+   <EntityRelation displayColumns="name,code" child="Household" showInParent="True" parent="check_community_settlement_type" name="fk_be_check_community_settlement_type_id_be_household_community_settlement_type" parentColumn="id" showInChild="True" childColumn="community_settlement_type"/>
+   <EntityRelation displayColumns="" child="family_priority" showInParent="True" parent="check_family_priority" name="fk_be_check_family_priority_id_be_family_priority_be_check_family_priority_id" parentColumn="id" showInChild="True" childColumn="be_check_family_priority_id"/>
+   <EntityRelation displayColumns="" child="family_priority" showInParent="True" parent="Household" name="fk_be_household_id_be_family_priority_be_household_id" parentColumn="id" showInChild="True" childColumn="be_household_id"/>
+   <EntityRelation displayColumns="" child="community_priority" showInParent="True" parent="check_community_priority" name="fk_be_check_community_priority_id_be_community_priority_be_check_community_priority_id" parentColumn="id" showInChild="True" childColumn="be_check_community_priority_id"/>
+   <EntityRelation displayColumns="" child="community_priority" showInParent="True" parent="Household" name="fk_be_household_id_be_community_priority_be_household_id" parentColumn="id" showInChild="True" childColumn="be_household_id"/>
+   <EntityRelation displayColumns="" child="agriculture_facility_check" showInParent="True" parent="check_agriculture_facility" name="fk_be_check_agriculture_facility_id_be_agriculture_facility_check_be_check_agriculture_facility_id" parentColumn="id" showInChild="True" childColumn="be_check_agriculture_facility_id"/>
+   <EntityRelation displayColumns="" child="agriculture_facility_check" showInParent="True" parent="Household" name="fk_be_household_id_be_agriculture_facility_check_be_household_id" parentColumn="id" showInChild="True" childColumn="be_household_id"/>
+   <EntityRelation displayColumns="" child="which_organization" showInParent="True" parent="check_organization" name="fk_be_check_organization_id_be_which_organization_be_check_organization_id" parentColumn="id" showInChild="True" childColumn="be_check_organization_id"/>
+   <EntityRelation displayColumns="" child="which_organization" showInParent="True" parent="Household" name="fk_be_household_id_be_which_organization_be_household_id" parentColumn="id" showInChild="True" childColumn="be_household_id"/>
+   <EntityRelation displayColumns="name,code" child="House_supporting_document" showInParent="True" parent="check_house_document_type" name="fk_be_check_house_document_type_id_be_house_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type"/>
+   <EntityRelation displayColumns="" child="House_supporting_document" showInParent="True" parent="House" name="fk_be_house_id_be_house_supporting_document_house_id" parentColumn="id" showInChild="True" childColumn="house_id"/>
+   <EntityRelation displayColumns="" child="House_supporting_document" showInParent="True" parent="supporting_document" name="fk_be_supporting_document_id_be_house_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id"/>
+   <EntityRelation displayColumns="" child="house_usage_document_type" showInParent="True" parent="check_house_usage_document_type" name="fk_be_check_house_usage_document_type_id_be_house_usage_document_type_be_check_house_usage_document_type_id" parentColumn="id" showInChild="True" childColumn="be_check_house_usage_document_type_id"/>
+   <EntityRelation displayColumns="" child="house_usage_document_type" showInParent="True" parent="House" name="fk_be_house_id_be_house_usage_document_type_be_house_id" parentColumn="id" showInChild="True" childColumn="be_house_id"/>
+   <EntityRelation displayColumns="" child="evidence_document_type" showInParent="True" parent="check_residency_evidence_document_type" name="fk_be_check_residency_evidence_document_type_id_be_evidence_document_type_be_check_residency_evidence_document_type_id" parentColumn="id" showInChild="True" childColumn="be_check_residency_evidence_document_type_id"/>
+   <EntityRelation displayColumns="" child="evidence_document_type" showInParent="True" parent="House" name="fk_be_house_id_be_evidence_document_type_be_house_id" parentColumn="id" showInChild="True" childColumn="be_house_id"/>
+   <EntityRelation displayColumns="" child="state_of_vulnerability_of_house" showInParent="True" parent="check_vulnerability_state_of_house" name="fk_be_check_vulnerability_state_of_house_id_be_state_of_vulnerability_of_house_be_check_vulnerability_state_of_house_id" parentColumn="id" showInChild="True" childColumn="be_check_vulnerability_state_of_house_id"/>
+   <EntityRelation displayColumns="" child="state_of_vulnerability_of_house" showInParent="True" parent="House" name="fk_be_house_id_be_state_of_vulnerability_of_house_be_house_id" parentColumn="id" showInChild="True" childColumn="be_house_id"/>
+   <EntityRelation displayColumns="name,code" child="Land_supporting_document" showInParent="True" parent="check_land_document_type" name="fk_be_check_land_document_type_id_be_land_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type"/>
+   <EntityRelation displayColumns="" child="Land_supporting_document" showInParent="True" parent="Land" name="fk_be_land_id_be_land_supporting_document_land_id" parentColumn="id" showInChild="True" childColumn="land_id"/>
+   <EntityRelation displayColumns="" child="Land_supporting_document" showInParent="True" parent="supporting_document" name="fk_be_supporting_document_id_be_land_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id"/>
+   <EntityRelation displayColumns="name,code" child="Land" showInParent="True" parent="check_formality_of_land" name="fk_be_check_formality_of_land_id_be_land_land_formal_check" parentColumn="id" showInChild="True" childColumn="land_formal_check"/>
+   <EntityRelation displayColumns="" child="land_use_document_type" showInParent="True" parent="check_land_use_document_type" name="fk_be_check_land_use_document_type_id_be_land_use_document_type_be_check_land_use_document_type_id" parentColumn="id" showInChild="True" childColumn="be_check_land_use_document_type_id"/>
+   <EntityRelation displayColumns="" child="land_use_document_type" showInParent="True" parent="Land" name="fk_be_land_id_be_land_use_document_type_be_land_id" parentColumn="id" showInChild="True" childColumn="be_land_id"/>
+   <EntityRelation displayColumns="name,code" child="Land" showInParent="True" parent="check_type_of_land" name="fk_be_check_type_of_land_id_be_land_type_of_land" parentColumn="id" showInChild="True" childColumn="type_of_land"/>
+   <EntityRelation displayColumns="" child="check_tenure_type_str_attrs" showInParent="True" parent="social_tenure_relationship" name="fk_be_social_tenure_relationship_id_be_check_tenure_type_str_attrs_social_tenure_relationship_id" parentColumn="id" showInChild="True" childColumn="social_tenure_relationship_id"/>
+   <EntityRelation displayColumns="name,code" child="Household Members_supporting_document" showInParent="True" parent="check_household_members_document_type" name="fk_be_check_household_members_document_type_id_be_household_members_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type"/>
+   <EntityRelation displayColumns="" child="Household Members_supporting_document" showInParent="True" parent="Household Members" name="fk_be_household_members_id_be_household_members_supporting_document_household_members_id" parentColumn="id" showInChild="True" childColumn="household_members_id"/>
+   <EntityRelation displayColumns="" child="Household Members_supporting_document" showInParent="True" parent="supporting_document" name="fk_be_supporting_document_id_be_household_members_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id"/>
+   <EntityRelation displayColumns="name,code" child="Household Members" showInParent="True" parent="check_gender" name="fk_be_check_gender_id_be_household_members_gender" parentColumn="id" showInChild="True" childColumn="gender"/>
+   <EntityRelation displayColumns="name,code" child="Household Members" showInParent="True" parent="check_marital_status" name="fk_be_check_marital_status_id_be_household_members_marital_status" parentColumn="id" showInChild="True" childColumn="marital_status"/>
+   <EntityRelation displayColumns="name,code" child="Household Members" showInParent="True" parent="check_literacy" name="fk_be_check_literacy_id_be_household_members_literacy" parentColumn="id" showInChild="True" childColumn="literacy"/>
+   <EntityRelation displayColumns="name,code" child="Household Members" showInParent="True" parent="check_employment" name="fk_be_check_employment_id_be_household_members_employment" parentColumn="id" showInChild="True" childColumn="employment"/>
+   <EntityRelation displayColumns="" child="national_id_type" showInParent="True" parent="check_national_document_type" name="fk_be_check_national_document_type_id_be_national_id_type_be_check_national_document_type_id" parentColumn="id" showInChild="True" childColumn="be_check_national_document_type_id"/>
+   <EntityRelation displayColumns="" child="national_id_type" showInParent="True" parent="Household Members" name="fk_be_household_members_id_be_national_id_type_be_household_members_id" parentColumn="id" showInChild="True" childColumn="be_household_members_id"/>
+   <EntityRelation displayColumns="name,code" child="Household Members" showInParent="True" parent="check_physical_condition" name="fk_be_check_physical_condition_id_be_household_members_physical_condition" parentColumn="id" showInChild="True" childColumn="physical_condition"/>
+   <EntityRelation displayColumns="name,code" child="Household Members" showInParent="True" parent="check_relation_with_household_head" name="fk_be_check_relation_with_household_head_id_be_household_members_relation_with_household_head" parentColumn="id" showInChild="True" childColumn="relation_with_household_head"/>
+   <EntityRelation displayColumns="household_number" child="Household Members" showInParent="True" parent="Household" name="fk_be_household_id_be_household_members_related_household" parentColumn="id" showInChild="True" childColumn="related_household"/>
+   <EntityRelation displayColumns="name,code" child="Farming_supporting_document" showInParent="True" parent="check_farming_document_type" name="fk_be_check_farming_document_type_id_be_farming_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type"/>
+   <EntityRelation displayColumns="" child="Farming_supporting_document" showInParent="True" parent="Farming" name="fk_be_farming_id_be_farming_supporting_document_farming_id" parentColumn="id" showInChild="True" childColumn="farming_id"/>
+   <EntityRelation displayColumns="" child="Farming_supporting_document" showInParent="True" parent="supporting_document" name="fk_be_supporting_document_id_be_farming_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id"/>
+   <EntityRelation displayColumns="household_number" child="Farming" showInParent="True" parent="Household" name="fk_be_household_id_be_farming_related_household" parentColumn="id" showInChild="True" childColumn="related_household"/>
+   <EntityRelation displayColumns="name,code" child="Farming" showInParent="True" parent="check_farming_type" name="fk_be_check_farming_type_id_be_farming_farming_type" parentColumn="id" showInChild="True" childColumn="farming_type"/>
+   <EntityRelation displayColumns="name,code" child="Farming" showInParent="True" parent="check_production_not_sufficient_for" name="fk_be_check_production_not_sufficient_for_id_be_farming_production_not_sufficient_for" parentColumn="id" showInChild="True" childColumn="production_not_sufficient_for"/>
+   <EntityRelation displayColumns="" child="manage_foodgrain" showInParent="True" parent="check_manage_foodgrain" name="fk_be_check_manage_foodgrain_id_be_manage_foodgrain_be_check_manage_foodgrain_id" parentColumn="id" showInChild="True" childColumn="be_check_manage_foodgrain_id"/>
+   <EntityRelation displayColumns="" child="manage_foodgrain" showInParent="True" parent="Farming" name="fk_be_farming_id_be_manage_foodgrain_be_farming_id" parentColumn="id" showInChild="True" childColumn="be_farming_id"/>
+   <EntityRelation displayColumns="name,code" child="Farming" showInParent="True" parent="check_irrigation" name="fk_be_check_irrigation_id_be_farming_check_irrigation" parentColumn="id" showInChild="True" childColumn="check_irrigation"/>
+   <EntityRelation displayColumns="" child="irrigation_type" showInParent="True" parent="check_irrigation_type" name="fk_be_check_irrigation_type_id_be_irrigation_type_be_check_irrigation_type_id" parentColumn="id" showInChild="True" childColumn="be_check_irrigation_type_id"/>
+   <EntityRelation displayColumns="" child="irrigation_type" showInParent="True" parent="Farming" name="fk_be_farming_id_be_irrigation_type_be_farming_id" parentColumn="id" showInChild="True" childColumn="be_farming_id"/>
+   <EntityRelation displayColumns="" child="crop_production_raise" showInParent="True" parent="check_crop_pruduction_raise" name="fk_be_check_crop_pruduction_raise_id_be_crop_production_raise_be_check_crop_pruduction_raise_id" parentColumn="id" showInChild="True" childColumn="be_check_crop_pruduction_raise_id"/>
+   <EntityRelation displayColumns="" child="crop_production_raise" showInParent="True" parent="Farming" name="fk_be_farming_id_be_crop_production_raise_be_farming_id" parentColumn="id" showInChild="True" childColumn="be_farming_id"/>
+   <EntityRelation displayColumns="" child="social_tenure_relationship" showInParent="True" parent="Household" name="fk_be_household_id_be_social_tenure_relationship_household_id" parentColumn="id" showInChild="True" childColumn="household_id"/>
+   <EntityRelation displayColumns="" child="social_tenure_relationship" showInParent="True" parent="Household Members" name="fk_be_household_members_id_be_social_tenure_relationship_household_members_id" parentColumn="id" showInChild="True" childColumn="household_members_id"/>
+   <EntityRelation displayColumns="" child="social_tenure_relationship" showInParent="True" parent="House" name="fk_be_house_id_be_social_tenure_relationship_house_id" parentColumn="id" showInChild="True" childColumn="house_id"/>
+   <EntityRelation displayColumns="" child="social_tenure_relationship" showInParent="True" parent="Land" name="fk_be_land_id_be_social_tenure_relationship_land_id" parentColumn="id" showInChild="True" childColumn="land_id"/>
+  </Relations>
+  <SocialTenure layerDisplay="" tenureTypeList="check_tenure_type" spatialUnit="House,Land" supportsMultipleParties="True" party="Household,Household Members">
+   <SpatialUnitTenureMappings>
+    <Mapping tenureTypeList="check_tenure_type" spatialUnit="House"/>
+    <Mapping tenureTypeList="check_tenure_type" spatialUnit="Land"/>
+   </SpatialUnitTenureMappings>
+   <CustomAttributes>
+    <TenureEntity tenureTypeList="check_tenure_type" entity="check_tenure_type_str_attrs"/>
+   </CustomAttributes>
+  </SocialTenure>
+ </Profile>
+</Configuration>

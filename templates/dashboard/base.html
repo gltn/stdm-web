@@ -44,7 +44,7 @@
             {% block profiler %}
             {% if profiles %}          
               {% for profile in profiles %}
-              <option>{{profile.name}}</option>
+              <option>{{profile}}</option>
               {% endfor %}
             {% else %}
             <p>No profiles available!</p>
@@ -100,7 +100,7 @@
     <!-- Brand Logo -->
     <a href="{% url 'dashboard' %}" class="brand-link">
       
-      <img src="/{{configs.logo}}" alt="STDM Web" class="brand-image img-circle elevation-3">
+      <img src="{{configs.logo.url}}" alt="STDM Web" class="brand-image img-circle elevation-3">
       
       <span class="brand-text font-weight-light">  {{configs.site_name}}</span>
     </a>
@@ -127,8 +127,8 @@
             {% block profiler_entities %}
             {% if entities %}          
               {% for entity in entities %}
-              <li class="nav-item">
-                <a href="{% url 'dashboard' %}" class="nav-link">
+              <li class="nav-item" id="{{entity.short_name}}">
+                <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-th"></i>
                   <p>{{entity.short_name}}
                   </p>
@@ -273,6 +273,22 @@
     });
 
 </script>
+<script>
+  $(document).ready(function () {
+    $('#profiles').change(function(){        
+  $.ajax({
+          url: "/api/" + this.value,
+          type: 'POST',
+          traditional: true,      
+          success: function (data) {   
+            console.log(data);          
+              $('#profile_details').html(data);             
+              
+          }
+      });
+});
+    });
 
+</script>
 </body>
 </html>

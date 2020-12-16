@@ -4,7 +4,7 @@ from django.contrib.postgres.fields import JSONField, HStoreField
 
 def upload_logo(instance, filename):
    # return "title_images/%s" % (filename)
-    return '/'.join(['logo', str(instance.site_name), filename])
+    return '/'.join(['stdm', str(instance.site_name), filename])
 
 # Create your models here.
 class Profile(models.Model):
@@ -24,6 +24,11 @@ class Setting(models.Model):
     sidebar_color = models.CharField(max_length=7, default='#343a40')
     footer_color = models.CharField(max_length=7,default='#fff')
     default_profile = models.CharField(max_length=50)
+
+    def save(self, *args, **kwargs):
+        if self.__class__.objects.count():
+            self.pk = self.__class__.objects.first().pk
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.site_name

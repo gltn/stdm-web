@@ -126,6 +126,7 @@
                                 <td>{{dt}}</td>  
                                 {% endfor %}                              
                               </tr>
+                             
                               {% endfor %}  
                             </tbody>
                             
@@ -498,6 +499,25 @@
           }
       });
 });
+
+$("#dynamicDiv").on("click", "li", function() {
+    var list_id = $(this).attr('id');
+    console.log(list_id)
+    $.ajax({
+          url: "/entity/" + list_id,
+          type: 'POST',
+          traditional: true,      
+          success: function (data) {   
+            console.log(data);          
+              $('#profile_details').html(data);             
+              
+          }
+      });
+    
+});
+
+
+
     });
 
 </script>
