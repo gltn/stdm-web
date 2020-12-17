@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 {% load static %}
-
+{% load i18n %}
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -255,40 +255,7 @@
 <script>
   $("#profiles").val("{{default_profile}}");
 </script>
-<script>
-  $(document).ready(function () {
-    $('#profiles').change(function(){        
-  $.ajax({
-          url: "/profile/api/" + this.value,
-          type: 'POST',
-          traditional: true,      
-          success: function (data) {   
-            console.log(data);          
-              $('#dynamicDiv').html(data);
-              
-              
-          }
-      });
-});
-    });
 
-</script>
-<script>
-  $(document).ready(function () {
-    $('#profiles').change(function(){        
-  $.ajax({
-          url: "/api/" + this.value,
-          type: 'POST',
-          traditional: true,      
-          success: function (data) {   
-            console.log(data);          
-              $('#profile_details').html(data);             
-              
-          }
-      });
-});
-    });
 
-</script>
 </body>
 </html>

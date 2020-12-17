@@ -27,14 +27,16 @@
     <section class="content">
       <div class="container-fluid">
         <!-- Info boxes -->
-        <div class="row">
+        <div class="row" id="summary">
+          {% if entities %}
+          {% for entity in entities|slice:":4" %}
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Profiles</span>
-                <span class="info-box-number">{{profiles|length}}</span>
+                <span class="info-box-text">{{entity.short_name}}</span>
+                <span class="info-box-number">{{entity|length}}</span>
                 
                   
                 </span>
@@ -43,50 +45,9 @@
             </div>
             <!-- /.info-box -->
           </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-home"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Structures</span>
-                <span class="info-box-number">4,410</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-
-          <!-- fix for small devices only -->
-          <div class="clearfix hidden-md-up"></div>
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-map"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Plots</span>
-                <span class="info-box-number">760</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Plot Owners</span>
-                <span class="info-box-number">2,000</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
+          {%endfor %}
+          {% endif %}
+        
         </div>
         <!-- /.row -->
         
@@ -114,8 +75,12 @@
                             <thead>
                               
                             <tr>
+                              <!-- {{default_entity.columns.values.pop.0}} -->
                               {% for column in default_entity.columns.values %}
-                              <th>{{column.name}}</th>                              
+                              {% if column.header != "Id" %}
+                              <th>{{column.header}}</th> 
+                              {% endif %}                              
+                                                           
                               {% endfor %}                              
                             </tr>
                             </thead>
@@ -518,6 +483,44 @@ $("#dynamicDiv").on("click", "li", function() {
 
 
 
+    });
+
+</script>
+<script>
+  $(document).ready(function () {
+    $('#profiles').change(function(){        
+      $.ajax({
+          url: "/profile/api/" + this.value,
+          type: 'POST',
+          traditional: true,      
+          success: function (data) {   
+            console.log(data);          
+              $('#dynamicDiv').html(data);
+              
+              
+          }
+      });
+      $.ajax({
+          url: "/api/" + this.value,
+          type: 'POST',
+          traditional: true,      
+          success: function (data) {   
+            console.log(data);          
+              $('#profile_details').html(data);             
+              
+          }
+      });
+      $.ajax({
+          url: "/summary/" + this.value,
+          type: 'POST',
+          traditional: true,      
+          success: function (data) {   
+            console.log(data);          
+              $('#summary').html(data);             
+              
+          }
+      });
+});
     });
 
 </script>

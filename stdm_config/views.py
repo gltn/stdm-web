@@ -21,6 +21,7 @@ def STDMReader(request):
 	entities = []
 	default_profile = None
 	configs = None
+	columns = []
 	for profile in stdm_config.profiles.values(): 
 		profiles_list.append(profile.name)
 
@@ -46,10 +47,11 @@ def STDMReader(request):
 			profiler= profile          
 			for entity in profiler.entities.values():
 				if entity.TYPE_INFO == 'ENTITY':
-					entities.append(entity)
-					columns = []
-					for column in entity.columns.values():
-						columns.append(column.name)
+					entities.append(entity)				
+	
+	#Loop through columns with type geometry and filter records to display on map
+						
+	print(columns)
 	print('default', default_profile)
 	default_entity =  None
 	data = []
@@ -124,3 +126,27 @@ def EntityDetailView(request, entity_name):
 		data = cursor.fetchall()
 		print(data)
 	return render(request,'dashboard/records.html', {'default_entity':default_entity,'entity_name':entity_name,'data':data,'col_name':col_name})
+
+@csrf_exempt
+def SummaryUpdatingView(request, profile):
+	reader = StdmConfigurationReader(CONFIG_PATH)
+	reader.load()
+	stdm_config = StdmConfiguration.instance() 
+	entities = []
+	for profiles in stdm_config.profiles.values():
+		if profiles.name == profile:
+			profiler= profiles         
+			for entity in profiler.entities.values():
+				if entity.TYPE_INFO == 'ENTITY':					
+					entities.append(entity)
+					columns = []
+					for column in entity.columns.values():
+						columns.append(column.name)
+
+	with connection.cursor() as cursor:
+		for en in entities:
+			query = "SELECT * FROM {0}".format(en.name)
+			cursor.execute(query)
+			data = cursor.fetchall()
+			print('records',en,':',len(list(cursor)))
+	return render(request,'dashboard/summary.html', {'entities':entities})

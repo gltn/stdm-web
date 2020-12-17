@@ -4,7 +4,9 @@
     
 <tr>
     {% for column in default_entity.columns.values %}
-    <th>{{column.name}}</th>                              
+    {% if column.header != "Id" %}
+    <th>{{column.header}}</th> 
+    {% endif %}                              
     {% endfor %}                              
 </tr>
 </thead>

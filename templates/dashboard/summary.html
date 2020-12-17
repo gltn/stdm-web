@@ -1,0 +1,20 @@
+{% if entities %}
+{% for entity in entities|slice:":4" %}
+<div class="col-12 col-sm-6 col-md-3">
+<div class="info-box">
+    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+
+    <div class="info-box-content">
+    <span class="info-box-text">{{entity.short_name}}</span>
+    <span class="info-box-number">{{entity|length}}</span>
+    
+        
+    </span>
+    </div>
+    <!-- /.info-box-content -->
+</div>
+<!-- /.info-box -->
+</div>
+{%endfor %}
+{% endif %}
+        

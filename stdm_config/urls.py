@@ -10,5 +10,7 @@ urlpatterns = [
     path('api/<profile>', ProfileUpdatingView, name='profile_detail'),
     path('profile/api/<profile>', EntityListingUpdatingView, name='profiles_detail'),
     path('entity/<entity_name>', EntityDetailView, name='entity_detail'),
+    path('summary/<profile>', SummaryUpdatingView, name='summary_detail'),
+    
    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
