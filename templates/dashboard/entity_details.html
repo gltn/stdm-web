@@ -1,5 +1,6 @@
+{% load static %}
 <h4>{{entity_name}}</h4>
-<table id="example1" class="table table-bordered table-striped">
+<table id="newtable" class="table table-bordered table-striped">
 <thead>
     
 <tr>
@@ -22,3 +23,10 @@
 
 </tfoot>
 </table>
+<script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script>
+<script>
+$("#newtable").DataTable({
+    "responsive": true,
+    "autoWidth": false,
+});
+</script>

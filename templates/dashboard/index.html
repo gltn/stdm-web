@@ -28,15 +28,15 @@
       <div class="container-fluid">
         <!-- Info boxes -->
         <div class="row" id="summary">
-          {% if entities %}
-          {% for entity in entities|slice:":4" %}
+          {% if summaries %}
+          {% for summary,counts in summaries|slice:":3" %}
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">{{entity.short_name}}</span>
-                <span class="info-box-number">{{entity|length}}</span>
+                <span class="info-box-text">{{summary}}</span>
+                <span class="info-box-number">{{counts}}</span>
                 
                   
                 </span>
@@ -75,7 +75,7 @@
                             <thead>
                               
                             <tr>
-                              <!-- {{default_entity.columns.values.pop.0}} -->
+                              <!-- {{default_entity.columns.values}} -->
                               {% for column in default_entity.columns.values %}
                               {% if column.header != "Id" %}
                               <th>{{column.header}}</th> 
