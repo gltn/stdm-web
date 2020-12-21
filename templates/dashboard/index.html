@@ -76,19 +76,20 @@
                               
                             <tr>
                               <!-- {{default_entity.columns.values}} -->
-                              {% for column in default_entity.columns.values %}
-                              {% if column.header != "Id" %}
-                              <th>{{column.header}}</th> 
-                              {% endif %}                              
+                              
+                              {% for column in columns %}                              
+                              <th>{{column}}</th>                               
+                              {% endfor %}                            
                                                            
-                              {% endfor %}                              
+                                                        
                             </tr>
                             </thead>
                             <tbody>
                               {% for row in data %}
+                              
                               <tr>
                                 {% for dt in row %}
-                                <td>{{dt}}</td>  
+                                <td>{{dt.1}}</td>  
                                 {% endfor %}                              
                               </tr>
                              
@@ -137,9 +138,8 @@
                             </nav>
                           </div>
                         </div>      
-                
+                       
                         <div class="row">
-                          
                         
                               <div class="col-md-3" id="query-widget-card">
                                 <div class="card">
@@ -298,7 +298,7 @@
    <script src="{% static 'dashboard/leaflet/leaflet.js' %}"></script>
  
    <!-- <script src="{% static 'js/dashboard.js' %}"></script> -->
- <script>
+ <script type="text/javascript">
      var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
      maxZoom: 20,
      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
@@ -320,14 +320,18 @@
    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
  });
  
- var mymap;
+ mymap = L.map("mapid", {
+     zoom: 5,
+     center: [0.830522, 37.729050],
+     layers: [googleStreets, target_county]
+ });
  
- var countystyle = {
+ var layerStyle = {
    'default': {
-       'color': 'black',
-       'fillOpacity':0,
+       'color': 'brown',
+       'fillOpacity':0.3,
        'opacity': 0.5,
-       'weight': 1
+       'weight': 2
    },
    'highlight': {
        'color': 'deepskyblue',
@@ -353,13 +357,13 @@
      unsetHighlight(highlight);
    }
    // Set highlight style on layer and store to variable
-   layer.setStyle(countystyle.highlight);
+   layer.setStyle(layerStyle.highlight);
    highlight = layer;
  }
  
  function unsetHighlight (layer) {
    // Set default style and clear variable
-   layer.setStyle(countystyle.default);
+   layer.setStyle(layerStyle.default);
    highlight = null;
  }
  
@@ -376,7 +380,7 @@
  unsetHighlight(layer);
  }
  
- var countiesurl = "//localhost:8000/counties/api";
+
  
  function mapFilter(feature) {
    if (feature.properties.name === '{{ counties.name }}') return true
@@ -388,26 +392,18 @@
  });
  
  
- var counties = L.geoJson(null, {
-     style: countystyle,
-     onEachFeature: onEachFeature
- });
- $.getJSON(countiesurl, function (data) {
-   target_county.addData(data).setStyle(targetStyle);
-   mymap.fitBounds(target_county.getBounds());
- });
+
  
- $.getJSON(countiesurl, function (data) {
-     counties.addData(data).setStyle(countystyle);
- });
- 
+
+
  // var mymap = L.map('mapid',{interactive: false}).setView([0.830522, 37.729050], 6);
- mymap = L.map("mapid", {
-     zoom: 5,
-     center: [0.830522, 37.729050],
-     layers: [googleStreets,counties, target_county]
- });
  
+ 
+ var layer = L.geoJson({{spatial_result | safe}}, {
+     style: layerStyle,
+     onEachFeature: onEachFeature
+ }).addTo(mymap);
+ mymap.fitBounds(layer.getBounds());
  // var baseLayers = {
  //   "Carto Light": cartoLight,
  //   "Google Streets": googleStreets,

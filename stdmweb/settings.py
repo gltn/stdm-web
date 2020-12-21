@@ -75,6 +75,10 @@ TEMPLATES = [
     },
 ]
 
+SERIALIZATION_MODULES = {
+    "geojson": "django.contrib.gis.serializers.geojson", 
+ }
+ 
 WSGI_APPLICATION = 'stdmweb.wsgi.application'
 
 
