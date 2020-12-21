@@ -102,7 +102,7 @@ def STDMReader(request):
 				FROM \
 					(SELECT 'Feature' AS TYPE, \
 							ST_AsGeoJSON(g.spatial_geometery,4326)::JSON AS geometry, \
-							row_to_json( (SELECT p FROM ( SELECT code) AS p)) AS properties \
+							row_to_json( (SELECT p FROM ( SELECT code,area,value) AS p)) AS properties \
 					FROM {0} AS g ) AS f) AS fc;	".format(spatial_entity_query)
 			# query = "SELECT * FROM {0}".format(spatial_entity_query)
 			cursor.execute(query)
@@ -110,7 +110,7 @@ def STDMReader(request):
 			map_data = spatial_result[0]
 			spatial_results = json.dumps(map_data)
 			# serialize('geojson',dataset,geometry_field="spatial_geometery",srid=4326,fields=('name',))
-			# print(spatial_results)		
+			print(spatial_results)		
 		
 
 	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'default_entity':default_entity,'data':items,'summaries':zipped_summaries,'spatial_result':spatial_results})

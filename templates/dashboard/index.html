@@ -13,7 +13,7 @@
 {% endwith %}
 {% endblock profiler_entities %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'dashboard/leaflet/leaflet.css' %}" />
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -141,12 +141,12 @@
                        
                         <div class="row">
                         
-                              <div class="col-md-3" id="query-widget-card">
+                              <div class="col-md-4" id="query-widget-card">
                                 <div class="card">
                                     <div class="card-header">
                                       <h3 class="card-title">Query</h3>
                                     </div>
-                                    <!-- /.card-header -->
+                                    
                                     <div class="card-body">
                                         <div class="form-group">
                                         <label>Unit/Layer</label>
@@ -186,11 +186,11 @@
                                           <a href="#" class="btn btn-primary btn-block">Run Query</a>
                                       
                                     </div>
-                                    <!-- /.card-body -->
+                                    
                                 </div>
                 
                               </div>
-                              <div class="col-md-9" id="mapdiv">
+                              <div class="col-md-8" id="mapdiv">
                                 <div id="mapid" class="map-space"></div>
                               </div>
 
@@ -227,6 +227,8 @@
     <!-- /.content -->
   </div>
   <script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'dashboard/leaflet/leaflet.css' %}" />
+  <script src="{% static 'dashboard/leaflet/leaflet.js' %}"></script>
   <script>
     $(function () {
       $("#example1").DataTable({
@@ -294,12 +296,12 @@
     })
     });
   </script>
-   <script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script>
-   <script src="{% static 'dashboard/leaflet/leaflet.js' %}"></script>
- 
+  
    <!-- <script src="{% static 'js/dashboard.js' %}"></script> -->
  <script type="text/javascript">
-     var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+
+ var mymap = L.map('mapid').setView([0.830522, 37.729050], 5);
+  var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
      maxZoom: 20,
      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
      attribution: 'Map developed by Stella & Shem- GIS analysts'
@@ -308,7 +310,7 @@
  var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
    maxZoom: 20,
    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
- });
+ }).addTo(mymap);
  
  
  var usgsImagery = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
@@ -320,12 +322,6 @@
    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
  });
  
- mymap = L.map("mapid", {
-     zoom: 5,
-     center: [0.830522, 37.729050],
-     layers: [googleStreets, target_county]
- });
- 
  var layerStyle = {
    'default': {
        'color': 'brown',
@@ -335,71 +331,49 @@
    },
    'highlight': {
        'color': 'deepskyblue',
-       'fillColor':'deepskyblue'
+       'fillColor':'deepskyblue',
+       'fillOpacity':0.3,
+       'opacity': 0.5,
+       'weight': 2
    }
  };
- 
- function targetStyle(feature){
-   return {
-     fillColor: 'green',
-     weight: 2,
-     opacity: 1,
-     color: 'brown',
-     fillOpacity: 0.3
-   }
- };
-  
- var highlight;
- 
- function setHighlight (layer) {
-   // Check if something's highlighted, if so unset highlight
-   if (highlight) {
-     unsetHighlight(highlight);
-   }
-   // Set highlight style on layer and store to variable
-   layer.setStyle(layerStyle.highlight);
-   highlight = layer;
- }
- 
- function unsetHighlight (layer) {
-   // Set default style and clear variable
-   layer.setStyle(layerStyle.default);
-   highlight = null;
- }
  
  function onEachFeature(feature, layer) {
-   layer.on('click', function (e) {                                                                                                                                                                                                                                            
  
- //   layer.bindPopup(popup).openPopup(e.latlng);
-   if (!L.Browser.ie && !L.Browser.opera) {
-     layer.bringToFront();
-   }
-   setHighlight(layer);
-   //map.fitBounds(e.target.getBounds());
- });
- unsetHighlight(layer);
- }
- 
+  if (feature.properties) {
+    
+    var columnValues = [];
+    for (column in feature.properties){
+        console.log('Started')  
+        console.log('Map columns are here',feature.properties.column);
+        columnValues.push("<tr><th>"+column+"</th><td>" + feature.properties[''+column+''] + "</td></tr>")
+      }  
+    
+    layer.on({
+      click: function (e) { 
+         
+        console.log(columnValues)
+        var content = "<table class='table table-striped table-bordered table-condensed'>" + columnValues.join("") + "<table>";
+        layer.bindPopup(content).openPopup(e.latlng);
+        this.setStyle(layerStyle.highlight);
+      }
+    });
+    layer.on('mouseover', function () {
+      this.setStyle(layerStyle.highlight);
+    });
+    layer.on('mouseout', function () {
+      this.setStyle(layerStyle.default);
+    });
+   
+  }
 
- 
- function mapFilter(feature) {
-   if (feature.properties.name === '{{ counties.name }}') return true
  }
- 
- var target_county = L.geoJson(null, {
-   style: targetStyle,
-   filter : mapFilter
- });
- 
- 
-
- 
 
 
  // var mymap = L.map('mapid',{interactive: false}).setView([0.830522, 37.729050], 6);
  
  
- var layer = L.geoJson({{spatial_result | safe}}, {
+ var layer = L.geoJSON({{spatial_result | safe}}, {
      style: layerStyle,
      onEachFeature: onEachFeature
  }).addTo(mymap);
@@ -427,22 +401,22 @@
  
  </script>
  <script type="text/javascript">
-  $("#query-widget").click(function() {
-   animateSidebar();
-   return false;
- });
+//   $("#query-widget").click(function() {
+//    animateSidebar();
+//    return false;
+//  });
  
  
- function animateSidebar() {
-   $("#query-widget-card").animate({
-     width: "toggle"
-   }, 350, function() {    
-    return true;
-     $("#mapdiv").toggleClass('col-md-12');
+//  function animateSidebar() {
+//    $("#query-widget-card").animate({
+//      width: "toggle"
+//    }, 350, function() {    
+//     return true;
+//      $("#mapdiv").toggleClass('col-md-12');
      
      
-   });
- }
+//    });
+//  }
  
 
 </script>
