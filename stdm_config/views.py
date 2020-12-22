@@ -14,7 +14,7 @@ from django.core.serializers import serialize
 # from psycopg2 import connect, sql
 # from psycopg2.extras import RealDictCursor
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIG_PATH = os.path.join(BASE_DIR, 'config/default_configuration.xml')
+CONFIG_PATH = os.path.join(BASE_DIR, 'config/configuration.stc')
 reader = StdmConfigurationReader(CONFIG_PATH)
 reader.load()
 stdm_config = StdmConfiguration.instance()
@@ -45,6 +45,7 @@ def STDMReader(request):
 	# Loop through profiles and get entities
 	spatial_entity = []
 	spatial_columns = []
+	other_columns = []
 	for profile in stdm_config.profiles.values(): 
 		if profile.name == default_profile:
 			profiler= profile          
@@ -55,9 +56,13 @@ def STDMReader(request):
 						if column.TYPE_INFO == 'GEOMETRY':
 							spatial_entity.append(entity.name)
 							spatial_columns.append(column.name)
-							spatial_columns.append('name')
+							for col in entity.columns.values():
+								if col.name != 'id' and col.name not in spatial_columns:
+									other_columns.append(col.name)
+
 
 	print('Spatial Entity', spatial_entity)
+	print(other_columns)
 	dataset = []
 	default_entity =  None
 	data = []
@@ -67,8 +72,7 @@ def STDMReader(request):
 			# query = "CREATE OR REPLACE VIEW default_entities_ko AS SELECT * FROM {0}".format(default_entity.name)			
 			# cursor.execute(query)
 			query1 = "SELECT * FROM {0}".format(default_entity.name)
-			cursor.execute(query1)
-					
+			cursor.execute(query1)					
 			for col in cursor.description:
 				query_columns.append(col.name)
 			for column in default_entity.columns.values():
@@ -101,16 +105,16 @@ def STDMReader(request):
 						array_to_json(array_agg(f)) AS features \
 				FROM \
 					(SELECT 'Feature' AS TYPE, \
-							ST_AsGeoJSON(g.spatial_geometery,4326)::JSON AS geometry, \
-							row_to_json( (SELECT p FROM ( SELECT code,area,value) AS p)) AS properties \
-					FROM {0} AS g ) AS f) AS fc;	".format(spatial_entity_query)
+							ST_AsGeoJSON(g.{},4326)::JSON AS geometry, \
+							row_to_json( (SELECT p FROM ( SELECT {}) AS p)) AS properties \
+					FROM {} AS g ) AS f) AS fc;	".format(spatial_columns[0],other_columns[0],spatial_entity[0])
 			# query = "SELECT * FROM {0}".format(spatial_entity_query)
 			cursor.execute(query)
 			spatial_result = cursor.fetchone()
 			map_data = spatial_result[0]
 			spatial_results = json.dumps(map_data)
 			# serialize('geojson',dataset,geometry_field="spatial_geometery",srid=4326,fields=('name',))
-			print(spatial_results)		
+			# print(spatial_results)		
 		
 
 	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'default_entity':default_entity,'data':items,'summaries':zipped_summaries,'spatial_result':spatial_results})
