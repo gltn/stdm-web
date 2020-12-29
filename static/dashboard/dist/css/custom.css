@@ -36,4 +36,18 @@
   height:100%;
   /* overflow: hidden; */
 }
+.stdm-logo {
+  color: #2E5AA7;
+}
 
+.layout-navbar-fixed .wrapper .brand-link-footer {
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  transition: width .3s ease-in-out;
+  width: 250px;
+  z-index: 1035;
+  background-color: #343a40;
+  border-top: 1px solid #4b545c;
+  padding: 0.68rem;
+}

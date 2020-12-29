@@ -48,20 +48,29 @@ def STDMReader(request):
 	other_columns = []
 	for profile in stdm_config.profiles.values(): 
 		if profile.name == default_profile:
-			profiler= profile          
+			profiler= profile 
+			party = profiler.social_tenure.parties[0]
+			spatial_unit = profiler.social_tenure.spatial_units[0]
+			entities.append(party)
+			entities.append(spatial_unit)            
 			for entity in profiler.entities.values():
 				if entity.TYPE_INFO == 'ENTITY':
-					entities.append(entity)
-					for column in entity.columns.values():
-						if column.TYPE_INFO == 'GEOMETRY':
-							spatial_entity.append(entity.name)
-							spatial_columns.append(column.name)
-							for col in entity.columns.values():
-								if col.name != 'id' and col.name not in spatial_columns:
-									other_columns.append(col.name)
+					if entity.user_editable == True:
+						if entity is not party and 	entity is not spatial_unit:
+							entities.append(entity)
+						for column in entity.columns.values():
+							if column.TYPE_INFO == 'GEOMETRY':
+								spatial_entity.append(entity.name)
+								spatial_columns.append(column.name)
+								for col in entity.columns.values():
+									if col.name != 'id' and col.name not in spatial_columns:
+										other_columns.append(col.name)
+					
 
 
 	print('Spatial Entity', spatial_entity)
+	print('Entities', entities)
+
 	print(other_columns)
 	dataset = []
 	default_entity =  None
@@ -81,18 +90,21 @@ def STDMReader(request):
 					if column.name != 'id':
 						columns.append(column.header())				
 			rsot = cursor.fetchall()
-			for row in rsot:
-				datas = row[1:]
-			items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], datas) for row in rsot]
+			
+			datas = []
+			
+			
+			items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], row[1:]) for row in rsot]
+			print(datas)
 			
 		summaries = {'name':[],'count':[]}
 		with connection.cursor() as cursor:
 			for en in entities:
 				query = "SELECT * FROM {0}".format(en.name)
 				cursor.execute(query)
-				datas = cursor.fetchall()
-				summaries["name"].append(en.short_name)
-				summaries["count"].append(len(datas))
+				records = cursor.fetchall()
+				summaries["name"].append(en.ui_display())
+				summaries["count"].append(len(records))
 		zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])
 
 	print(spatial_columns)
@@ -130,8 +142,9 @@ def ProfileUpdatingView(request, profile):
 		if profiles.name == profile:
 			profiler= profiles         
 			for entity in profiler.entities.values():
-				if entity.TYPE_INFO == 'ENTITY':					
-					entities.append(entity)
+				if entity.TYPE_INFO == 'ENTITY':
+					if entity.user_editable == True:					
+						entities.append(entity)
 	default_entity = entities[0]
 	print(default_entity)
 	with connection.cursor() as cursor:
@@ -149,7 +162,8 @@ def ProfileUpdatingView(request, profile):
 		# print(entity_columns)
 		for row in rsot:
 			data = row[1:]
-		items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], data) for row in rsot]
+		# items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], data) for row in rsot]
+		items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], row[1:]) for row in rsot]
 	return render(request,'dashboard/records.html', {'entities':entities,'default_entity':default_entity,'data_items':items,'columns':columns})
 
 @csrf_exempt
@@ -160,38 +174,44 @@ def EntityListingUpdatingView(request, profile):
 			profiler= profiles
 			for entity in profiler.entities.values():
 				if entity.TYPE_INFO == 'ENTITY':
-					entity_list.append(entity)
+					if entity.user_editable == True:
+						entity_list.append(entity)
 	print('Entities for profile', entity_list)					
 	return render(request,'dashboard/profile_detail.html', { 'entity_list':entity_list,})
 
 @csrf_exempt
-def EntityDetailView(request, entity_name):
+def EntityDetailView(request, profile,entity_name):
 	entity_detail = None
 	entities = []
 	entity_columns = []
 	query_columns = []
 	columns = [] 
-	for profiles in stdm_config.profiles.values():      
-		for entity in profiles.entities.values():
-			if entity.TYPE_INFO == 'ENTITY':
-				if entity.short_name == entity_name:
-					entity_detail = entity.name
-					entities.append(entity)
-	default_entity = entities[0]
 	print(entity_name)
+	for prof in stdm_config.profiles.values():
+		if profile == prof.name:       
+			for entity in prof.entities.values():
+				if entity.TYPE_INFO == 'ENTITY':					
+					if entity_name == entity.short_name:
+						print('The display ni', entity.short_name)
+						entity_detail = entity.name
+						entities.append(entity)
+	default_entity = entities[0]
+	print('Entitity Detail',entity_detail)
 	with connection.cursor() as cursor:
 		query = "SELECT * FROM {0}".format(entity_detail)
 		cursor.execute(query)
 		col_name = [col[0] for col in cursor.description]
-		data = cursor.fetchall()
+		data1 = cursor.fetchall()
 		for col in cursor.description:
 				query_columns.append(col.name)
 		for column in default_entity.columns.values():
 			entity_columns.append(column.name)
 			if column.name in query_columns:
 				if column.name != 'id':
-					columns.append(column.header())	
-	return render(request,'dashboard/records.html', {'default_entity':default_entity,'entity_name':entity_name,'data':data,'columns':columns})
+					columns.append(column.header())
+		items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], row[1:]) for row in data1]
+		# print(items)	
+	return render(request,'dashboard/records.html', {'default_entity':default_entity,'entity_name':entity_name,'data':items,'columns':columns})
 
 @csrf_exempt
 def SummaryUpdatingView(request, profile):

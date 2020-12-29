@@ -127,10 +127,10 @@
             {% block profiler_entities %}
             {% if entities %}          
               {% for entity in entities %}
-              <li class="nav-item" id="{{entity.short_name}}">
+              <li class="nav-item" id="{{entity.ui_display}}">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-th"></i>
-                  <p>{{entity.short_name}}
+                  <p>{{entity.ui_display}}
                   </p>
                 </a>
               </li>
@@ -186,11 +186,14 @@
           
         </ul>
       </nav>
-      <!-- /.sidebar-menu -->
-      <div class="row logos-to-bottom">
+      <!-- /.sidebar-footer -->
+      
+    </div>
+    <div class="brand-link-footer">
+      <div class="row">
         <div class="col-md-6"><a href="https://gltn.net/" target="_blank"><img src="{% static 'dashboard/dist/img/gltn.png'%}" style="max-width: 90%; max-height: 70%; padding-top:2px; "/></a></div>
         <div class="col-md-6"><a href="https://unhabitat.org/" target="_blank"><img src="{% static 'dashboard/dist/img/unhabitat.png'%}"  style="max-width: 90%; max-height: 70%; padding-top:2px; "/></a></div>
-    </div>
+      </div>
     </div>
     <!-- /.sidebar -->
   </aside>

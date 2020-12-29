@@ -6,25 +6,34 @@
 <script src="{% static 'dashboard/plugins/datatables/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'dashboard/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
 <script src="{% static 'dashboard/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
-<h4>{{default_entity.short_name}}</h4>
+<h4>{{default_entity.ui_display}}</h4>
 <table id="example2" class="table table-bordered table-striped">
 <thead>
     
 <tr>
-    {% for column in columns %}                              
+    <!-- {% for column in columns %}                              
     <th>{{column}}</th>                               
-    {% endfor %}                            
+    {% endfor %}      
+                         -->
+    {% for row in data|slice:":1" %}
+    {% for dt in row %}
+    <th>{{dt.0}}</th>
+    {% endfor %} 
+    {% endfor %}
 </tr>
 </thead>
 <tbody>
+  {% for row in data %}
+                              
+  <tr>
+    {% for dt in row %}
+   
+    <td> {{dt.1}}</td>
     
-    {% for row in data_items %}
-    <tr>
-    {% for value in row %}
-    <td>{{value.1}}</td>  
-    {% endfor %}                    
-    </tr>
-    {% endfor %}  
+    {% endfor %}                              
+  </tr>
+ 
+  {% endfor %}    
 </tbody>
 
 </tfoot>

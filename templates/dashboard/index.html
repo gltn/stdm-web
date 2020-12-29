@@ -29,7 +29,7 @@
         <!-- Info boxes -->
         <div class="row" id="summary">
           {% if summaries %}
-          {% for summary,counts in summaries|slice:":3" %}
+          {% for summary,counts in summaries %}
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
@@ -72,6 +72,7 @@
                                                                    
                           <h4>{{default_entity.short_name}}</h4>
                           <table id="example1" class="table table-bordered table-striped">
+                           
                             <thead>
                               
                             <tr>
@@ -89,7 +90,9 @@
                               
                               <tr>
                                 {% for dt in row %}
-                                <td>{{dt.1}}</td>  
+                               
+                                <td> {{dt.1}}</td>
+                                
                                 {% endfor %}                              
                               </tr>
                              
@@ -437,9 +440,11 @@
 
 $("#dynamicDiv").on("click", "li", function() {
     var list_id = $(this).attr('id');
-    console.log(list_id)
+    var profile = $("#profiles :selected").val();
+    console.log('Entity',list_id)
+    console.log('Profile',profile)
     $.ajax({
-          url: "/entity/" + list_id,
+          url: profile + "/entity/" + list_id,
           type: 'POST',
           traditional: true,      
           success: function (data) {   
