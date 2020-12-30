@@ -14,7 +14,7 @@ from django.core.serializers import serialize
 # from psycopg2 import connect, sql
 # from psycopg2.extras import RealDictCursor
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIG_PATH = os.path.join(BASE_DIR, 'config/configuration.stc')
+CONFIG_PATH = os.path.join(BASE_DIR, 'config/default_configuration.xml')
 reader = StdmConfigurationReader(CONFIG_PATH)
 reader.load()
 stdm_config = StdmConfiguration.instance()
@@ -90,13 +90,8 @@ def STDMReader(request):
 					if column.name != 'id':
 						columns.append(column.header())				
 			rsot = cursor.fetchall()
-			
-			datas = []
-			
-			
 			items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], row[1:]) for row in rsot]
-			print(datas)
-			
+			print(items)
 		summaries = {'name':[],'count':[]}
 		with connection.cursor() as cursor:
 			for en in entities:
@@ -139,7 +134,7 @@ def ProfileUpdatingView(request, profile):
 	columns = []
 	items = []
 	for profiles in stdm_config.profiles.values():
-		if profiles.name == profile:
+		if profile == profiles.name:
 			profiler= profiles         
 			for entity in profiler.entities.values():
 				if entity.TYPE_INFO == 'ENTITY':
@@ -149,8 +144,9 @@ def ProfileUpdatingView(request, profile):
 	print(default_entity)
 	with connection.cursor() as cursor:
 		query = "SELECT * FROM {0}".format(default_entity.name)	
-		results = cursor.execute(query)
+		cursor.execute(query)
 		rsot = cursor.fetchall()
+		print(rsot)
 		for col in cursor.description:
 				query_columns.append(col.name)
 		for column in default_entity.columns.values():
@@ -158,13 +154,8 @@ def ProfileUpdatingView(request, profile):
 			if column.name in query_columns:
 				if column.name != 'id':
 					columns.append(column.header())
-		# print(query_columns)
-		# print(entity_columns)
-		for row in rsot:
-			data = row[1:]
-		# items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], data) for row in rsot]
 		items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], row[1:]) for row in rsot]
-	return render(request,'dashboard/records.html', {'entities':entities,'default_entity':default_entity,'data_items':items,'columns':columns})
+	return render(request,'dashboard/records.html', {'entities':entities,'default_entity':default_entity,'data':items,'columns':columns})
 
 @csrf_exempt
 def EntityListingUpdatingView(request, profile):  
@@ -191,8 +182,8 @@ def EntityDetailView(request, profile,entity_name):
 		if profile == prof.name:       
 			for entity in prof.entities.values():
 				if entity.TYPE_INFO == 'ENTITY':					
-					if entity_name == entity.short_name:
-						print('The display ni', entity.short_name)
+					if entity_name == entity.ui_display():
+						print('The display ni', entity.ui_display())
 						entity_detail = entity.name
 						entities.append(entity)
 	default_entity = entities[0]
@@ -200,7 +191,6 @@ def EntityDetailView(request, profile,entity_name):
 	with connection.cursor() as cursor:
 		query = "SELECT * FROM {0}".format(entity_detail)
 		cursor.execute(query)
-		col_name = [col[0] for col in cursor.description]
 		data1 = cursor.fetchall()
 		for col in cursor.description:
 				query_columns.append(col.name)
@@ -210,7 +200,7 @@ def EntityDetailView(request, profile,entity_name):
 				if column.name != 'id':
 					columns.append(column.header())
 		items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], row[1:]) for row in data1]
-		# print(items)	
+		print(items)	
 	return render(request,'dashboard/records.html', {'default_entity':default_entity,'entity_name':entity_name,'data':items,'columns':columns})
 
 @csrf_exempt

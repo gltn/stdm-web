@@ -11,15 +11,10 @@
 <thead>
     
 <tr>
-    <!-- {% for column in columns %}                              
+    {% for column in columns %}                              
     <th>{{column}}</th>                               
     {% endfor %}      
-                         -->
-    {% for row in data|slice:":1" %}
-    {% for dt in row %}
-    <th>{{dt.0}}</th>
-    {% endfor %} 
-    {% endfor %}
+                        
 </tr>
 </thead>
 <tbody>
@@ -36,7 +31,6 @@
   {% endfor %}    
 </tbody>
 
-</tfoot>
 </table>
 <script>
     $(function () {
