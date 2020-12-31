@@ -14,7 +14,7 @@ from django.core.serializers import serialize
 # from psycopg2 import connect, sql
 # from psycopg2.extras import RealDictCursor
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIG_PATH = os.path.join(BASE_DIR, 'config/default_configuration.xml')
+CONFIG_PATH = os.path.join(BASE_DIR, 'config/configuration.stc')
 reader = StdmConfigurationReader(CONFIG_PATH)
 reader.load()
 stdm_config = StdmConfiguration.instance()
@@ -124,7 +124,7 @@ def STDMReader(request):
 			# print(spatial_results)		
 		
 
-	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'default_entity':default_entity,'data':items,'summaries':zipped_summaries,'spatial_result':spatial_results})
+	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'default_entity':default_entity,'data':items,'summaries':zipped_summaries,'spatial_result':spatial_results,'charts':summaries})
 
 @csrf_exempt
 def ProfileUpdatingView(request, profile):
@@ -226,3 +226,36 @@ def SummaryUpdatingView(request, profile):
 			summaries["count"].append(len(data))
 	zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])
 	return render(request,'dashboard/summary.html', {'entities':entities,'summaries':zipped_summaries})
+
+
+def createView(query):
+	with connection.cursor as cursor:
+		cursor.execute(query)
+
+
+def createViews(request):
+   for profile in stdm_config.profiles.values():
+	   str = profile.social_tenure
+	   prefix =  profile.prefix
+	
+	   """ str_spatial_unit_entities = str.spatial_units
+	   str_party_entities = str.parties
+	   str_table_name = prefix + "_social_tenure_relationship child" """
+
+	   for entity in profile.entities.values():
+		   all_columns =[]
+		   parent_columns = entity.columns.values()
+		   all_columns.extend(parent_columns)
+		   view_name = entity.name + '_view'
+		   query_string_list = []
+		   
+		   for relation in entity.parent_relations:
+			   parent_columns.extend(relation.parent.columns.values())
+			   query_string_list.append(' inner join '+ relation.parent.name + 'on' + relation.parent.name +'.'+ relation.parent_column + '=' + relation.child.name + '.' + child_column)
+			   all_columns.extend(relation.parent.columns.values())
+		   all_columns.remove('id')
+		   query_string_list.append('CREATE OR REPLACE VIEW '+ view_name + 'AS')
+		   query_string_list.append('SELECT '+ ",".join(all_columns) +' from ' + entity.name)
+		   query = ''.join(query_string_list)
+		   print(query)
+		   ##createView(query)
