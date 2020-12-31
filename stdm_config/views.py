@@ -91,7 +91,7 @@ def STDMReader(request):
 						columns.append(column.header())				
 			rsot = cursor.fetchall()
 			items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], row[1:]) for row in rsot]
-			print(items)
+			
 		summaries = {'name':[],'count':[]}
 		with connection.cursor() as cursor:
 			for en in entities:
@@ -114,12 +114,13 @@ def STDMReader(request):
 					(SELECT 'Feature' AS TYPE, \
 							ST_AsGeoJSON(g.{},4326)::JSON AS geometry, \
 							row_to_json( (SELECT p FROM ( SELECT {}) AS p)) AS properties \
-					FROM {} AS g ) AS f) AS fc;	".format(spatial_columns[0],other_columns[0],spatial_entity[0])
+					FROM {} AS g ) AS f) AS fc;	".format(spatial_columns[0], ','.join(other_columns),spatial_entity[0])
 			# query = "SELECT * FROM {0}".format(spatial_entity_query)
 			cursor.execute(query)
 			spatial_result = cursor.fetchone()
 			map_data = spatial_result[0]
 			spatial_results = json.dumps(map_data)
+			
 			# serialize('geojson',dataset,geometry_field="spatial_geometery",srid=4326,fields=('name',))
 			# print(spatial_results)		
 		
@@ -200,7 +201,7 @@ def EntityDetailView(request, profile,entity_name):
 				if column.name != 'id':
 					columns.append(column.header())
 		items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], row[1:]) for row in data1]
-		print(items)	
+			
 	return render(request,'dashboard/records.html', {'default_entity':default_entity,'entity_name':entity_name,'data':items,'columns':columns})
 
 @csrf_exempt
