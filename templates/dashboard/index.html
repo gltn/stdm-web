@@ -25,8 +25,6 @@
 <script src="{% static 'dashboard/dist/maps/leaflet.spin.min.js' %}"></script>
 <script src="https://unpkg.com/@turf/turf@5.1.6/turf.min.js"></script>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 
 <div class="content-wrapper">
@@ -200,7 +198,7 @@
                           </div> -->
                           <span id="feature-count" class="text-muted" style="padding-left: 15px;"></span>
                         </div>
-                        <table id="sttable" class="display cell-border responsive nowrap" style="width: 100%;">
+                        <table id="sttable" class="cell-border responsive nowrap" style="width: 100%;">
                          
                         </table>
                       </div>
@@ -251,6 +249,17 @@
       $("#example1").DataTable({
         "responsive": true,
         "autoWidth": false,
+        "buttons": [            
+          {
+              extend: 'collection',
+              text: 'Export',
+              buttons: [               
+                  'excel',
+                  'csv',
+                  'pdf',                
+              ]
+          }
+      ]
       });
       $('#example2').DataTable({
         "paging": true,
@@ -260,6 +269,17 @@
         "info": true,
         "autoWidth": false,
         "responsive": true,
+        buttons: [            
+          {
+              extend: 'collection',
+              text: 'Export',
+              buttons: [               
+                  'excel',
+                  'csv',
+                  'pdf',                
+              ]
+          }
+      ]
       });
 
     });
@@ -397,7 +417,7 @@ mymap.addLayer(selectionFeatures);
     },
     // disable toolbar item by setting it to false
     polyline: false,
-    circle: true, // Turns off this drawing tool
+    circle: false, // Turns off this drawing tool
     rectangle: true,
     marker: false,
     },
@@ -406,9 +426,8 @@ mymap.addLayer(selectionFeatures);
 };
 
 var drawControl = new L.Control.Draw(drawPluginOptions).addTo(mymap);
-var interLayer;
+var interLayer = null;
 mymap.on('draw:created', function(e) {
-  mymap.spin(true);
   selectionFeatures.clearLayers();
   layer = e.layer;  
   console.log('My Polygon:');
@@ -417,27 +436,27 @@ mymap.on('draw:created', function(e) {
   console.log('Selection Features:');
   console.log(selectionFeatures);
   if (mymap.hasLayer(interLayer)){
-    mymap.removeLayer(interLayer);
-  }
+    interLayer.clearLayers();
+  }  
+  
   SelectFeatures(layer);
 
   
 });
-
-
 var featuresWithin = [];
 var tableData =[];
 function SelectFeatures(layer) {
-  
+  mymap.spin(true);
   console.log(featuresWithin.length);
   console.log('BEGINNING')
   console.log(geom.features[0])
+  featuresWithin = [];
   geom.features.forEach(function(layer1) {
     var intersect; 
     try {
       intersect = turf.intersect(layer1, layer.toGeoJSON());
     } catch (e){
-      console.log(e)
+      // console.log(e)
       intersect = undefined
     }
     if(intersect != undefined) {
@@ -447,6 +466,10 @@ function SelectFeatures(layer) {
     
   })
   interLayer = L.geoJson(featuresWithin).setStyle(layerStyle.highlight).addTo(mymap);
+
+  // interLayer.bindTooltip(,
+  //  {permanent: true, direction:"center"}
+  // ).openTooltip();
   interLayer.setZIndex(999);
    
   var columns =[];
@@ -470,9 +493,24 @@ function SelectFeatures(layer) {
     "searching": true,
     "responsive": true,
     "autoWidth": true,
+    "select": {
+      "style": 'single'
+    },
     data: data,
-    columns: columns
+    columns: columns,
+    buttons: [            
+        {
+            extend: 'collection',
+            text: 'Export',
+            buttons: [               
+                'excel',
+                'csv',
+                'pdf',                
+            ]
+        }
+    ]
   });
+  
   var featureCount = featuresWithin.length;
   if (featureCount == 1) {
     $("#feature-count").html(featureCount + " selected feature");
@@ -481,7 +519,13 @@ function SelectFeatures(layer) {
   }
   mymap.spin(false);
 }
+$('#sttable tbody').on( 'click', 'td', function () 
+{
+    var tr = $(this).closest("tr");
+    var rowindex = tr.index();
 
+     alert(rowindex);
+});
 
  $("#full-extent-btn").click(function() {
   mymap.fitBounds(layerFeatures.getBounds());
