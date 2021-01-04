@@ -16,10 +16,11 @@ today = datetime.now().date()
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG_PATH = os.path.join(BASE_DIR, 'config/default_configuration.xml')
 
-def settings(request):
-    reader = StdmConfigurationReader(CONFIG_PATH)
-    reader.load()
-    stdm_config = StdmConfiguration.instance()
+reader = StdmConfigurationReader(CONFIG_PATH)
+reader.load()
+stdm_config = StdmConfiguration.instance()
+
+def settings(request):    
     profiles = []       
     for profile in stdm_config.profiles.values():
         profiles.append(profile.name)

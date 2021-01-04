@@ -23,6 +23,7 @@
 <script src="{% static 'dashboard/dist/maps/leaflet.draw.js' %}"></script>
 <script src="{% static 'dashboard/dist/maps/spin.min.js' %}"></script>
 <script src="{% static 'dashboard/dist/maps/leaflet.spin.min.js' %}"></script>
+<script src="{% static 'dashboard/dist/js/loadingoverlay.js' %}"></script>
 <script src="https://unpkg.com/@turf/turf@5.1.6/turf.min.js"></script>
 
 
@@ -41,10 +42,44 @@
       <div class="container-fluid">
         <!-- Info boxes -->
         <div class="row" id="summary">
+          {{summaries.summary}}
           {% if summaries %}
           {% for summary,counts in summaries %}
+          {% if forloop.first %}                   
           <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
+            <div class="info-box">              
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">{{summary}} (Party)</span>
+                <span class="info-box-number">{{counts}}</span>
+                
+                  
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          {% elif forloop.counter == 2 %}
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">              
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-map"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">{{summary}} (Spatial Unit)</span>
+                <span class="info-box-number">{{counts}}</span>
+                
+                  
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          {% else %}
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">              
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
               <div class="info-box-content">
@@ -58,6 +93,7 @@
             </div>
             <!-- /.info-box -->
           </div>
+          {% endif %}
           {% endfor %}
           {% endif %}
         
@@ -223,8 +259,14 @@
             </div>
             {% if summaries %}
             <div class="card card-primary">
-              <div class="card-header"> Chart</div>
+              <div class="card-header"> Summary</div>
               <div class="card-body">
+                <button id="column" disabled>Column chart</button>
+                <button id="bar">Bar chart</button>
+                <button id="line">Line chart</button>
+                <button id="spline">Spline chart</button>
+                <button id="pie">Pie chart</button>
+                <hr>
                 <div id="strChart" style="height: 40vh;"></div>
               </div>
             </div>
@@ -249,6 +291,8 @@
       $("#example1").DataTable({
         "responsive": true,
         "autoWidth": false,
+        "processing": true,
+        oLanguage: {sProcessing: "<div id='loader'></div>"},
         "buttons": [            
           {
               extend: 'collection',
@@ -268,7 +312,9 @@
         "ordering": true,
         "info": true,
         "autoWidth": false,
-        "responsive": true,
+        "processing": true,
+        responsive: true,
+        oLanguage: {sProcessing: "<div id='loader'></div>"},
         buttons: [            
           {
               extend: 'collection',
@@ -496,6 +542,10 @@ function SelectFeatures(layer) {
     "select": {
       "style": 'single'
     },
+    'language': {
+        'loadingRecords': '&nbsp;',
+        'processing': '<div class="spinner"></div>'
+    },
     data: data,
     columns: columns,
     buttons: [            
@@ -600,7 +650,7 @@ $("#dynamicDiv").on("click", "li", function() {
       $.ajax({
           url: "/profile/api/" + this.value,
           type: 'POST',
-          traditional: true,      
+          traditional: true,    
           success: function (data) {   
             console.log(data);          
               $('#dynamicDiv').html(data);
@@ -634,6 +684,12 @@ $("#dynamicDiv").on("click", "li", function() {
 </script>
 <script type="text/javascript">
   $(function () {
+    Highcharts.setOptions({
+        lang: {
+            decimalPoint: '.',
+            thousandsSep: ','
+        }
+        });
       $('#strChart').highcharts({
           chart: {
               type: 'column',
@@ -654,7 +710,7 @@ $("#dynamicDiv").on("click", "li", function() {
           min: 0,
           allowDecimals: false,
           title: {
-              text: 'Counts'
+              text: 'Number of records'
           },
           labels: {
               formatter: function () {
@@ -673,9 +729,15 @@ $("#dynamicDiv").on("click", "li", function() {
       plotOptions: {
           pointWidth: 40,
           column: {
-              colorByPoint: true
+              colorByPoint: true,
+              dataLabels: {
+                enabled: true,
+                format: '{point.y:,.0f}',
+                color: '#777'
+            }
           }
       },
+      
       credits: {
           "enabled": false
       },
@@ -690,6 +752,79 @@ $("#dynamicDiv").on("click", "li", function() {
 
       ]
     });
+    clickedButton = $('#column');
+    var chart = $('#strChart').highcharts(),
+    checkIfInverted = function(check, nameOfButton) {
+      if (check) {
+        chart.inverted = !chart.inverted;
+        chart.xAxis[0].update({}, false);
+        chart.yAxis[0].update({}, false);
+      }
+    },
+    buttonEnabling = function(thisButton) {
+      clickedButton.removeAttr('disabled');
+      clickedButton = $(thisButton);
+      clickedButton.attr('disabled', 'disabled');
+    },
+    changeTypeOfSeries = function(typ) {
+      chart.series.forEach(function(el, inx) {
+        el.update({
+          type: typ
+        });
+      });
+    };
+
+  $('#column').bind('click', function() {
+    checkIfInverted(chart.inverted);
+    changeTypeOfSeries('column');
+    buttonEnabling(this);
+  });
+
+  $('#bar').bind('click', function() {
+    checkIfInverted(!chart.inverted);
+    changeTypeOfSeries('bar');
+    buttonEnabling(this);
+  });
+
+  $('#line').bind('click', function() {
+    checkIfInverted(chart.inverted);
+    changeTypeOfSeries('line');
+    buttonEnabling(this);
+  });
+
+  $('#spline').bind('click', function() {
+    checkIfInverted(chart.inverted);
+    changeTypeOfSeries('spline');
+    buttonEnabling(this);
+  });
+  $('#pie').bind('click', function() {
+    checkIfInverted(chart.inverted);
+
+    chart.series.forEach(function(series, index) {
+      var pieOffset = 1 * 150,
+        correctedData = [],
+        newName;
+
+      series.points.forEach(function(pt) {
+        newName = pt.category;
+        correctedData.push([newName, pt.y]);
+      });
+
+      series.update({
+        type: 'pie',
+        data: correctedData,
+        showInLegend: true,
+        size: '100%',
+        center: [pieOffset + 50, null],
+        dataLabels: {
+          distance: -10
+        }
+      });
+    });
+
+    buttonEnabling(this);
+  });
+
   });
 </script>
 

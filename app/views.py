@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 from django.views.generic import FormView, CreateView, DetailView, ListView, UpdateView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,7 +17,16 @@ from .forms import SettingForm
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import render_to_string
 from django.http import HttpResponse
+from django.db import connection
+from stdm_config import StdmConfigurationReader, StdmConfiguration
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 # Create your views here.
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CONFIG_PATH = os.path.join(BASE_DIR, 'config/default_configuration.xml')
+reader = StdmConfigurationReader(CONFIG_PATH)
+reader.load()
+stdm_config = StdmConfiguration.instance()
 
 class ProfileListView(generics.ListAPIView):
 	queryset = Profile.objects.all()
@@ -34,8 +44,26 @@ class MapView(LoginRequiredMixin,TemplateView):
 class ImportView(LoginRequiredMixin,TemplateView):
 	template_name = 'dashboard/data.html'
 
-class SettingsView(LoginRequiredMixin,TemplateView):
-	template_name = 'dashboard/settings.html'
+@login_required
+def SettingsView(request):
+	profiles_list = []
+	default_profile = None
+	configs = None      
+	for profile in stdm_config.profiles.values():
+		profiles_list.append(profile.name)
+	if profiles_list:
+		if Setting.objects.exists():
+			configs =Setting.objects.all().first()
+			if configs:
+				if configs.default_profile in profiles_list:
+					default_profile = configs.default_profile
+				else:
+					default_profile = profiles_list[0]
+		else:
+			configs = Setting.objects.create(default_profile=profiles_list[0])
+			configs.save()
+			default_profile = configs.default_profile
+	return render(request,'dashboard/settings.html', { 'configs':configs,'default_profile':default_profile,'profiles':profiles_list})
 
 class SettingsUpdateView(LoginRequiredMixin,UpdateView):
 	form_class = SettingForm
@@ -46,13 +74,22 @@ class SettingsUpdateView(LoginRequiredMixin,UpdateView):
 	def get_initial(self):
 		initial = super(SettingsUpdateView, self).get_initial()
 		if self.request.user.is_authenticated:
-			setting = Setting.objects.get(id=1)
+			setting = Setting.objects.all().first()
 			initial.update({'site_name': setting.site_name, 'logo': setting.logo,'header_color': setting.header_color,'background_color': setting.background_color,'sidebar_color': setting.sidebar_color,'footer_color': setting.footer_color,'default_profile': setting.default_profile,})
 		return initial
 
 	def form_valid(self, form):
 		form.save()
 		return super(SettingsUpdateView, self).form_valid(form)
+
+	def profileList(self):
+		profiles_list = []
+		for profile in stdm_config.profiles.values():
+			profiles_list.append(profile.name)
+		return profiles_list
+	def defaultProfile(self):
+		configs =Setting.objects.all().first()
+		return configs.default_profile
 
 # def SettingsUpdateView(request):
 # 	setting = Setting.objects.get(id=1) # just an example

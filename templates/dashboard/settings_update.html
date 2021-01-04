@@ -33,19 +33,25 @@
                                         <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
                                         {% endfor %}
                                         {% endif %}
+                                       
                                         
                                         <label for="id_site_name">Site name:</label>
                                         {{form.site_name}}                                         
                                         <label for="id_header_color">Header color:</label>
-                                        <input type="text" name="header_color" value="{{configs.header_color}}" maxlength="7" class="form-control my-colorpicker1" onchange="changeHeaderBg(this.value)" required id="id_header_color">
+                                        <input type="text" name="header_color" value="{{form.header_color.value}}" maxlength="7" class="form-control my-colorpicker1" onchange="changeHeaderBg(this.value)" required id="id_header_color">
                                         <label for="id_background_color">Background color:</label>
-                                        <input type="text" name="background_color" value="{{configs.background_color}}" maxlength="7" class="form-control my-colorpicker2" onchange="changePageBg(this.value)" required id="id_background_color">
+                                        <input type="text" name="background_color" value="{{form.background_color.value}}" maxlength="7" class="form-control my-colorpicker2" onchange="changePageBg(this.value)" required id="id_background_color">
                                         <label for="id_sidebar_color">Sidebar color:</label>
-                                        <input type="text" name="sidebar_color" value="{{configs.sidebar_color}}" maxlength="7" class="form-control my-colorpicker3" onchange="changeSidebarBg(this.value)" required id="id_sidebar_color">
+                                        <input type="text" name="sidebar_color" value="{{form.sidebar_color.value}}" maxlength="7" class="form-control my-colorpicker3" onchange="changeSidebarBg(this.value)" required id="id_sidebar_color">
                                         <label for="id_footer_color">Footer color:</label>
-                                        <input type="text" name="footer_color" value="{{configs.footer_color}}" maxlength="7" class="form-control my-colorpicker4" onchange="changeFooterBg(this.value)" required id="id_footer_color">
+                                        <input type="text" name="footer_color" value="{{form.footer_color.value}}" maxlength="7" class="form-control my-colorpicker4" onchange="changeFooterBg(this.value)" required id="id_footer_color">
                                         <label for="id_default_profile">Default Profile:</label>
-                                        {{form.default_profile}}
+                                        <!-- {{form.default_profile}} -->
+                                        <select class="form-control" name="default_profile" required id="id_default_profile">
+                                          {% for profile in view.profileList %}
+                                          <option>{{profile}}</option>                                         
+                                          {% endfor %}
+                                        </select>
                                         
                                         <hr>
                                         <a href="{% url 'settings' %}" class="btn btn-danger"><i class="fa fa-close 5x"></i> Cancel</a>
@@ -122,6 +128,10 @@
             $('.my-colorpicker3').colorpicker();
             $('.my-colorpicker4').colorpicker();
         })
+    </script>
+    <script>
+      $("#id_default_profile").val("{{view.defaultProfile}}");
+      $("#profiles").val("{{view.defaultProfile}}");
     </script>
 
 

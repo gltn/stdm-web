@@ -1,6 +1,11 @@
 {% extends "dashboard/base.html" %}
 {% load static %}
 {% block title %}Settings {% endblock %}
+{% block profiler %}
+{% with profiles=profiles %}
+  {{ block.super }}
+{% endwith %}
+{% endblock profiler %}
 {% block content %}
 <!-- Bootstrap Color Picker -->
 <link rel="stylesheet" href="{% static 'dashboard/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css' %}">
@@ -82,14 +87,14 @@
                        
                     </div>
                     <div class="card-footer">
-                      <a href="{% url 'settings_update' configs.pk %}" class="btn btn-primary">Edit Changes</a>
+                      <a href="{% url 'settings_update' configs.pk %}" class="btn btn-primary">Edit </a>
                       
                     </div>   
                 </div>
                 
                 <div class="card card-primary collapsed-card">
                     <div class="card-header">
-                      <h3 class="card-title">Additional Settings</h3>
+                      <h3 class="card-title">Chart Presets</h3>
       
                       <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>

@@ -37,11 +37,15 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <div class="nav-link"><label>Current Profile: </label></div>
+        
+      </li>
       
       
       <li class="nav-item d-none d-sm-inline-block">
         <div class="form-group">
-          <!-- <label>Select Profile</label> -->
+          
           <select class="form-control" id="profiles">
             {% block profiler %}
             {% if profiles %}          
@@ -152,7 +156,6 @@
               <i class="nav-icon fas fa-database"></i>
               <p>
                 Import Data
-               
               </p>
             </a>
           </li>
@@ -214,8 +217,9 @@
 
   <!-- Main Footer -->
   <footer class="main-footer" id="footer" style="background: {{configs.footer_color}}">
-    <strong>Copyright &copy; 2017 </strong> UN Habitat and its implementing partners. 
-    All rights reserved.
+  
+    <strong> <script>new Date().getFullYear() >  document.write(new Date().getFullYear());</script></strong> UN Habitat and its implementing partners. 
+    All rights reserved..
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 1.0.0
     </div>
