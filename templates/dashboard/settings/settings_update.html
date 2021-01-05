@@ -1,6 +1,7 @@
-{% extends "dashboard/base.html" %}
+{% extends "dashboard/settings/base_settings.html" %}
 {% load static %}
 {% block title %}Settings {% endblock %}
+
 {% block content %}
 <!-- Bootstrap Color Picker -->
 <link rel="stylesheet" href="{% static 'dashboard/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css' %}">
@@ -18,6 +19,7 @@
         <!-- Info boxes -->
         <div class="row">
             <div class="col-12 col-md-12">
+              {{configs}}{{object.logo}}
                 <div class="card card-primary">
                     <div class="card-header">
                         Settings Section

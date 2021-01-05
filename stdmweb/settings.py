@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'app',
     'leaflet',
     'rest_framework',
+    'stdm_config'
 ]
 
 MIDDLEWARE = [
@@ -89,7 +90,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'OPTIONS' : {
-            'options': '-c search_path=config,public'
+            'options': '-c search_path=config,public,information_schema'
         },
         'NAME': 'configuration',
         'USER': 'postgres',

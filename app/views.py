@@ -63,12 +63,12 @@ def SettingsView(request):
 			configs = Setting.objects.create(default_profile=profiles_list[0])
 			configs.save()
 			default_profile = configs.default_profile
-	return render(request,'dashboard/settings.html', { 'configs':configs,'default_profile':default_profile,'profiles':profiles_list})
+	return render(request,'dashboard/settings/settings.html', { 'configs':configs,'default_profile':default_profile,'profiles':profiles_list})
 
 class SettingsUpdateView(LoginRequiredMixin,UpdateView):
 	form_class = SettingForm
 	model = Setting
-	template_name = 'dashboard/settings_update.html'
+	template_name = 'dashboard/settings/settings_update.html'
 	success_url = reverse_lazy('settings')
 
 	def get_initial(self):
@@ -76,7 +76,7 @@ class SettingsUpdateView(LoginRequiredMixin,UpdateView):
 		if self.request.user.is_authenticated:
 			setting = Setting.objects.all().first()
 			initial.update({'site_name': setting.site_name, 'logo': setting.logo,'header_color': setting.header_color,'background_color': setting.background_color,'sidebar_color': setting.sidebar_color,'footer_color': setting.footer_color,'default_profile': setting.default_profile,})
-		return initial
+		return {'initial': initial,'configs':self.object}
 
 	def form_valid(self, form):
 		form.save()
@@ -91,11 +91,6 @@ class SettingsUpdateView(LoginRequiredMixin,UpdateView):
 		configs =Setting.objects.all().first()
 		return configs.default_profile
 
-# def SettingsUpdateView(request):
-# 	setting = Setting.objects.get(id=1) # just an example
-# 	data = {'site_name': setting.site_name, 'logo': setting.logo,'header_color': setting.header_color}
-# 	form = SettingForm(initial=data)
-# 	return render_to_response('dashboard/settings_update.html', {'form': form})
 
 def user_login(request):
 	args = {}

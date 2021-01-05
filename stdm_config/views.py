@@ -18,10 +18,35 @@ CONFIG_PATH = os.path.join(BASE_DIR, 'config/default_configuration.xml')
 reader = StdmConfigurationReader(CONFIG_PATH)
 reader.load()
 stdm_config = StdmConfiguration.instance()
+
+
+def checkColumns(table_name):
+	db_columns = []	
+	with connection.cursor() as cursor:
+		query="SELECT column_name FROM information_schema.columns WHERE table_name="+ "'" +table_name + "';"
+		cursor.execute(query)
+		result = cursor.fetchall()
+		for field_name in result:
+			db_columns.append(field_name[0])	
+	return db_columns
+
+def checkEntity(prefix):
+	db_entity_list = []
+	with connection.cursor() as cursor:
+		query="SELECT table_name FROM information_schema.tables WHERE table_schema='public' and table_name like " + "'" +prefix + "_%" +"';"
+		print(query)
+		cursor.execute(query)
+		result = cursor.fetchall()
+		for entity_name in result:
+			db_entity_list.append(entity_name[0])	
+	return db_entity_list
+
+
 @login_required
 def STDMReader(request):	
 	profiles_list = []
 	entities = []
+	config_entities = []
 	default_profile = None
 	configs = None
 	entity_columns = []
@@ -46,18 +71,18 @@ def STDMReader(request):
 	spatial_entity = []
 	spatial_columns = []
 	other_columns = []
-	for profile in stdm_config.profiles.values(): 
+	for profile in stdm_config.profiles.values():
 		if profile.name == default_profile:
 			profiler= profile 
 			party = profiler.social_tenure.parties[0]
 			spatial_unit = profiler.social_tenure.spatial_units[0]
-			entities.append(party)
-			entities.append(spatial_unit)            
+			config_entities.append(party)
+			config_entities.append(spatial_unit)            
 			for entity in profiler.entities.values():
 				if entity.TYPE_INFO == 'ENTITY':
 					if entity.user_editable == True:
 						if entity is not party and 	entity is not spatial_unit:
-							entities.append(entity)
+							config_entities.append(entity)
 						for column in entity.columns.values():
 							if column.TYPE_INFO == 'GEOMETRY':
 								spatial_entity.append(entity.name)
@@ -65,13 +90,14 @@ def STDMReader(request):
 								for col in entity.columns.values():
 									if col.name != 'id' and col.name not in spatial_columns:
 										other_columns.append(col.name)
-					
-
+	default_profile_object = [prof.prefix for prof in stdm_config.profiles.values() if prof.name==default_profile]
+	db_entities = checkEntity(','.join(default_profile_object))
+	for entity in config_entities:
+		if entity.name in db_entities:
+			entities.append(entity)
 
 	print('Spatial Entity', spatial_entity)
-	print('Entities', entities)
-
-	print(other_columns)
+	# print('Entities', entities)
 	dataset = []
 	default_entity =  None
 	data = []
@@ -103,8 +129,16 @@ def STDMReader(request):
 		zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])
 
 	print(spatial_columns)
-	if spatial_entity:
-		spatial_entity_query = spatial_entity[0]
+	columns_to_query = []
+	if spatial_entity:		
+		db_columns = checkColumns(spatial_entity[0])
+		print('Db Columns',db_columns)
+		print(other_columns)
+		for col in other_columns:
+			if col in db_columns:
+				columns_to_query.append(col)
+		print(columns_to_query)
+
 		with connection.cursor() as cursor:
 			query="SELECT row_to_json(fc) \
 				FROM \
@@ -114,7 +148,7 @@ def STDMReader(request):
 					(SELECT 'Feature' AS TYPE, \
 							ST_AsGeoJSON(g.{},4326)::JSON AS geometry, \
 							row_to_json( (SELECT p FROM ( SELECT {}) AS p)) AS properties \
-					FROM {} AS g ) AS f) AS fc;	".format(spatial_columns[0], ','.join(other_columns),spatial_entity[0])
+					FROM {} AS g ) AS f) AS fc;	".format(spatial_columns[0], ','.join(columns_to_query),spatial_entity[0])
 			# query = "SELECT * FROM {0}".format(spatial_entity_query)
 			cursor.execute(query)
 			spatial_result = cursor.fetchone()
@@ -123,8 +157,6 @@ def STDMReader(request):
 			
 			# serialize('geojson',dataset,geometry_field="spatial_geometery",srid=4326,fields=('name',))
 			# print(spatial_results)		
-		
-
 	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'default_entity':default_entity,'data':items,'summaries':zipped_summaries,'spatial_result':spatial_results,'charts':summaries})
 
 @csrf_exempt
