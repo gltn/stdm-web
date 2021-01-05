@@ -153,6 +153,20 @@
                           
                           <br>
                           <hr>
+                          {% if summaries %}
+                          <div class="card card-primary">
+                            <div class="card-header"> Summary</div>
+                            <div class="card-body">
+                              <button id="column" disabled>Column chart</button>
+                              <button id="bar">Bar chart</button>
+                              <button id="line">Line chart</button>
+                              <button id="spline">Spline chart</button>
+                              <button id="pie">Pie chart</button>
+                              <hr>
+                              <div id="strChart" style="height: 40vh;"></div>
+                            </div>
+                          </div>
+                          {% endif %}
                           
                           
                          
@@ -224,14 +238,7 @@
                         <div id="mapid" style="height: 70vh; width: auto;box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
                       </div>
                       <div id="table-container">
-                        <div id="toolbar" style="width: 400px;">
-                          
-                          <!-- <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#filterModal">
-                              <i class="fa fa-filter"></i> Filter Data
-                            </button>
-                            
-                          </div> -->
+                        <div id="toolbar" style="width: 400px;">                          
                           <span id="feature-count" class="text-muted" style="padding-left: 15px;"></span>
                         </div>
                         <table id="sttable" class="cell-border responsive nowrap" style="width: 100%;">
@@ -257,20 +264,7 @@
                 <!-- /.card -->
               </div>
             </div>
-            {% if summaries %}
-            <div class="card card-primary">
-              <div class="card-header"> Summary</div>
-              <div class="card-body">
-                <button id="column" disabled>Column chart</button>
-                <button id="bar">Bar chart</button>
-                <button id="line">Line chart</button>
-                <button id="spline">Spline chart</button>
-                <button id="pie">Pie chart</button>
-                <hr>
-                <div id="strChart" style="height: 40vh;"></div>
-              </div>
-            </div>
-            {% endif %}
+           
             
               <!-- /.card -->
             <!-- /.card -->
