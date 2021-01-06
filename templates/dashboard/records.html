@@ -6,6 +6,18 @@
 <script src="{% static 'dashboard/plugins/datatables/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'dashboard/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
 <script src="{% static 'dashboard/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script>
+  $(function () {
+ if ({{has_spatial_column}}){
+
+       document.getElementById('maps-tab').style.display = "block";
+       // $('#maps-tab').style.display = "block";
+     }
+ else{
+   document.getElementById('maps-tab').style.display = "none";
+ }
+   });
+</script>
 <div class="card-header"> <h4>{{default_entity.ui_display}}</h4></div>
 <div class="card-body"> 
 
@@ -64,13 +76,5 @@
       ]
       });
       
-    });
-</script>
-<script>
-   $(function () {
-  if ({{has_spatial_column}}){
-        document.getElementById('maps-tab').style.display = "block";
-        // $('#maps-tab').style.display = "block";
-      }
     });
 </script>
