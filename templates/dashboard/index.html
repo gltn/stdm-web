@@ -15,6 +15,7 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}" />
 <script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script> 
+<link href="//datatables.net/download/build/nightly/jquery.dataTables.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 
@@ -25,6 +26,7 @@
 <script src="{% static 'dashboard/dist/maps/leaflet.spin.min.js' %}"></script>
 <script src="{% static 'dashboard/dist/js/loadingoverlay.js' %}"></script>
 <script src="https://unpkg.com/@turf/turf@5.1.6/turf.min.js"></script>
+
 
 
 
@@ -45,33 +47,33 @@
           
           {% if summaries %}
           {% for summary,counts in summaries %}
-          {% if forloop.first %}                   
+          {% if forloop.first %} 
+                            
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">              
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">{{summary}} (Party)</span>
-                <span class="info-box-number">{{counts}}</span>
-                
-                  
-                </span>
+              <div class="info-box-content" id="{{summary}}">
+                <a href="#">
+                  <span class="info-box-text">{{summary}} (Party)</span>
+                  <span class="info-box-number">{{counts}}</span> 
+                </a>
               </div>
               <!-- /.info-box-content -->
             </div>
             <!-- /.info-box -->
           </div>
+          
           {% elif forloop.counter == 2 %}
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">              
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-map"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">{{summary}} (Spatial Unit)</span>
-                <span class="info-box-number">{{counts}}</span>
-                
-                  
-                </span>
+              <div class="info-box-content" id="{{summary}}">
+                <a href="#">
+                  <span class="info-box-text">{{summary}} (Spatial Unit)</span>
+                  <span class="info-box-number">{{counts}}</span> 
+                </a>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -82,12 +84,11 @@
             <div class="info-box">              
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">{{summary}}</span>
-                <span class="info-box-number">{{counts}}</span>
-                
-                  
-                </span>
+              <div class="info-box-content" id="{{summary}}">
+                <a href="#">
+                  <span class="info-box-text">{{summary}}</span>
+                  <span class="info-box-number">{{counts}}</span> 
+                </a>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -107,30 +108,31 @@
                 <div class="card-header p-0 border-bottom-0">
                   <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                     <li class="nav-item">
-                      <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_details" role="tab" aria-controls="profile_details" aria-selected="true">Records(Summaries)</a>
+                      <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_tab_details" role="tab" aria-controls="profile_tab_details" aria-selected="true">Records(Summaries)</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" id="maps-tab" data-toggle="pill" href="#maps" role="tab" aria-controls="maps" aria-selected="false">Map</a>
+                      <a class="nav-link" id="maps-tab" data-toggle="pill" href="#maps" role="tab" aria-controls="maps" aria-selected="false" style="display:none">Map</a>
                     </li>
                   </ul>
                 </div>
                 <div class="card-body">
                   <div class="tab-content" id="custom-tabs-four-tabContent">
-                    <div class="tab-pane fade show active" id="profile_details" role="tabpanel" aria-labelledby="profile_details-tab"> 
-
-                                                                   
-                          <h4>{{default_entity.short_name}}</h4>
+                    <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details" aria-labelledby="profile_details-tab"> 
+                      <div class="card card-primary"  id="profile_details">
+                        <!-- <div class="card-header"> <h4>{{default_entity.short_name}}</h4></div>
+                          <div class="card-body">           
+                          
                           <table id="example1" class="table table-bordered table-striped">
                            
                             <thead>
                               
                             <tr>
-                              <!-- {{default_entity.columns.values}} -->
+                             
                               {% for column in columns %}                              
                               <th>{{column}}</th>                               
                               {% endfor %}      
                                                   
-                                              
+                              <th>Action</th>           
                                                            
                                                         
                             </tr>
@@ -139,11 +141,11 @@
                               {% for row in data %}
                               
                               <tr>
-                                {% for dt in row %}
-                               
-                                <td> {{dt.1}}</td>
-                                
-                                {% endfor %}                              
+                                {% for dt in row %}                               
+                                <td> {{dt.1}}</td> 
+                                                               
+                                {% endfor %}   
+                                <td><a href="#">View More</a></td>                           
                               </tr>
                              
                               {% endfor %}  
@@ -153,9 +155,17 @@
                           
                           <br>
                           <hr>
-                          {% if summaries %}
+                        </div> -->
+                          
+                          
+                    </div>
+                         
+                          
+                      
+                        <!-- /.card-body -->
+                        {% if summaries %}
                           <div class="card card-primary">
-                            <div class="card-header"> Summary</div>
+                            <div class="card-header"> <h4>Summary</h4></div>
                             <div class="card-body">
                               <button id="column" disabled>Column chart</button>
                               <button id="bar">Bar chart</button>
@@ -167,12 +177,6 @@
                             </div>
                           </div>
                           {% endif %}
-                          
-                          
-                         
-                          
-                      
-                        <!-- /.card-body -->
                       
                     </div>
                     <div class="tab-pane fade" id="maps" role="tabpanel" aria-labelledby="maps-tab">
@@ -284,8 +288,9 @@
     $(function () {
       $("#example1").DataTable({
         "responsive": true,
+        mark: true,
         "autoWidth": false,
-        "processing": true,
+        searchHighlight: true,
         oLanguage: {sProcessing: "<div id='loader'></div>"},
         "buttons": [            
           {
@@ -299,7 +304,9 @@
           }
       ]
       });
+       
       $('#example2').DataTable({
+        mark: true,
         "paging": true,
         "lengthChange": true,
         "searching": false,
@@ -307,6 +314,7 @@
         "info": true,
         "autoWidth": false,
         "processing": true,
+        searchHighlight: true,
         responsive: true,
         oLanguage: {sProcessing: "<div id='loader'></div>"},
         buttons: [            
@@ -533,13 +541,14 @@ function SelectFeatures(layer) {
     "searching": true,
     "responsive": true,
     "autoWidth": true,
+    "processing": true,
+    "language": {
+      "loadingRecords": "Please wait - loading..."
+    },
     "select": {
       "style": 'single'
     },
-    'language': {
-        'loadingRecords': '&nbsp;',
-        'processing': '<div class="spinner"></div>'
-    },
+   
     data: data,
     columns: columns,
     buttons: [            
@@ -619,6 +628,23 @@ $("#dynamicDiv").on("click", "li", function() {
     var list_id = $(this).attr('id');
     var profile = $("#profiles :selected").val();
     console.log('Entity',list_id)
+    console.log('Profile',profile)
+    $.ajax({
+          url: profile + "/entity/" + list_id,
+          type: 'POST',
+          traditional: true,      
+          success: function (data) {   
+            console.log(data);          
+              $('#profile_details').html(data);             
+              
+          }
+      });
+    
+});
+$("#summary").on("click", "div", function() {
+    var list_id = $(this).attr('id');
+    var profile = $("#profiles :selected").val();
+    console.log('Entity clicked',list_id)
     console.log('Profile',profile)
     $.ajax({
           url: profile + "/entity/" + list_id,

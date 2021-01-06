@@ -6,7 +6,9 @@
 <script src="{% static 'dashboard/plugins/datatables/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'dashboard/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
 <script src="{% static 'dashboard/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
-<h4>{{default_entity.ui_display}}</h4>
+<div class="card-header"> <h4>{{default_entity.ui_display}}</h4></div>
+<div class="card-body"> 
+
 <table id="example2" class="table table-bordered table-striped">
 <thead>
     
@@ -32,6 +34,7 @@
 </tbody>
 
 </table>
+</div>
 <script>
     $(function () {
     //   $("#example2").DataTable({
@@ -41,10 +44,13 @@
       $('#example2').DataTable( {
         "destroy": true,
         "searching": true,
+        mark: true,
         "responsive": true,
         "autoWidth": true,
-        "processing": true,
-        oLanguage: {sProcessing: "<div id='loader'></div>"},
+        searchHighlight: true,
+        language: {
+          processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>'
+        },
         buttons: [            
           {
               extend: 'collection',
@@ -57,5 +63,14 @@
           }
       ]
       });
+      
+    });
+</script>
+<script>
+   $(function () {
+  if ({{has_spatial_column}}){
+        document.getElementById('maps-tab').style.display = "block";
+        // $('#maps-tab').style.display = "block";
+      }
     });
 </script>

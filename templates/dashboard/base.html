@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="{% static 'dashboard/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'  %}">
   <link rel="stylesheet" href="{% static 'dashboard/plugins/datatables-select/css/select.bootstrap4.min.css'  %}">
   <link rel="stylesheet" href="{% static 'dashboard/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'  %}">
+  <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/1.10.13/features/mark.js/datatables.mark.min.css">
    <!-- Bootstrap Color Picker -->
    <link rel="stylesheet" href="{% static 'dashboard/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css' %}">
   <!-- Theme style -->
@@ -234,10 +235,6 @@
 <script src="{% static 'dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <!-- overlayScrollbars -->
 <script src="{% static 'dashboard/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
-<!-- AdminLTE App -->
-<script src="{% static 'dashboard/dist/js/adminlte.js' %}"></script>
-
-
 <!-- DataTables -->
 <script src="{% static 'dashboard/plugins/datatables/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'dashboard/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
@@ -245,7 +242,10 @@
 <script src="{% static 'dashboard/plugins/datatables-select/js/dataTables.select.min.js' %}"></script>
 <script src="{% static 'dashboard/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
 <script src="{% static 'dashboard/plugins/pdfmake/pdfmake.min.js' %}"></script>
-
+<script src="https://cdn.jsdelivr.net/g/mark.js(jquery.mark.min.js)"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.13/features/mark.js/datatables.mark.js"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dashboard/dist/js/adminlte.js' %}"></script>
  <!-- bootstrap color picker -->
  <script src="{% static 'dashboard/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js' %}"></script>
 
@@ -259,6 +259,7 @@
 
 <script>
   $("#profiles").val("{{default_profile}}");
+  
 </script>
 
 

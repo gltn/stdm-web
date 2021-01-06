@@ -14,7 +14,7 @@ from django.core.serializers import serialize
 # from psycopg2 import connect, sql
 # from psycopg2.extras import RealDictCursor
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIG_PATH = os.path.join(BASE_DIR, 'config/default_configuration.xml')
+CONFIG_PATH = os.path.join(BASE_DIR, 'config/configuration.stc')
 reader = StdmConfigurationReader(CONFIG_PATH)
 reader.load()
 stdm_config = StdmConfiguration.instance()
@@ -209,16 +209,19 @@ def EntityDetailView(request, profile,entity_name):
 	entities = []
 	entity_columns = []
 	query_columns = []
-	columns = [] 
-	print(entity_name)
+	columns = []
+	has_spatial_column = None 
 	for prof in stdm_config.profiles.values():
 		if profile == prof.name:       
 			for entity in prof.entities.values():
 				if entity.TYPE_INFO == 'ENTITY':					
 					if entity_name == entity.ui_display():
-						print('The display ni', entity.ui_display())
 						entity_detail = entity.name
 						entities.append(entity)
+						if entity.has_geometry_column():
+							has_spatial_column = 'true'
+						else:
+							has_spatial_column = 'false'
 	default_entity = entities[0]
 	print('Entitity Detail',entity_detail)
 	with connection.cursor() as cursor:
@@ -234,7 +237,7 @@ def EntityDetailView(request, profile,entity_name):
 					columns.append(column.header())
 		items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], row[1:]) for row in data1]
 			
-	return render(request,'dashboard/records.html', {'default_entity':default_entity,'entity_name':entity_name,'data':items,'columns':columns})
+	return render(request,'dashboard/records.html', {'default_entity':default_entity,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column })
 
 @csrf_exempt
 def SummaryUpdatingView(request, profile):
