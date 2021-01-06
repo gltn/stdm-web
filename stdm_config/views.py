@@ -19,6 +19,22 @@ reader = StdmConfigurationReader(CONFIG_PATH)
 reader.load()
 stdm_config = StdmConfiguration.instance()
 
+def toHeader(s):
+	"""
+	:return: Returns the column name formatted with the first character
+	for each word in uppercase. Underscores are replaced with a space and
+	'_id' is removed if it exists.
+	:rtype: str
+	"""
+	id_text = '_id'
+	if id_text in s:
+		display_name = s.title()
+		display_name = display_name.replace('Id', 'ID')
+
+	else:
+		display_name = s.title()
+
+	return display_name.replace('_', ' ')
 
 def checkColumns(table_name):
 	db_columns = []	
@@ -26,7 +42,7 @@ def checkColumns(table_name):
 		query="SELECT column_name FROM information_schema.columns WHERE table_name="+ "'" +table_name + "';"
 		cursor.execute(query)
 		result = cursor.fetchall()
-		for field_name in result:
+		for field_name in result:			
 			db_columns.append(field_name[0])	
 	return db_columns
 
@@ -218,24 +234,39 @@ def EntityDetailView(request, profile,entity_name):
 					if entity_name == entity.ui_display():
 						entity_detail = entity.name
 						entities.append(entity)
+						query_columns = checkColumns(entity_detail)
+						for column in entity.columns.values():
+							if column not in entity.geometry_columns():
+								entity_columns.append(column.name)
 						if entity.has_geometry_column():
 							has_spatial_column = 'true'
 						else:
 							has_spatial_column = 'false'
 	default_entity = entities[0]
+	format_query_columns = []
+	
+
+	for col in query_columns:
+		if col in entity_columns:
+			columns.append(toHeader(col))
+			format_query_columns.append(col)
+	print('Query columns',query_columns)
+	print('entity columns',entity_columns)
+	print('final Columns', columns)
 	print('Entitity Detail',entity_detail)
 	with connection.cursor() as cursor:
-		query = "SELECT * FROM {0}".format(entity_detail)
+		query = "SELECT {0} FROM {1}".format(','.join(format_query_columns), entity_detail)
 		cursor.execute(query)
 		data1 = cursor.fetchall()
-		for col in cursor.description:
-				query_columns.append(col.name)
-		for column in default_entity.columns.values():
-			entity_columns.append(column.name)
-			if column.name in query_columns:
-				if column.name != 'id':
-					columns.append(column.header())
-		items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], row[1:]) for row in data1]
+		
+		# for col in cursor.description:
+		# 		query_columns.append(col.name)
+		# for column in default_entity.columns.values():
+		# 	entity_columns.append(column.name)
+		# 	if column.name in query_columns:
+		# 		if column.name != 'id':
+		# 			columns.append(column.header())
+		items = [zip([key[0] for key in cursor.description], row) for row in data1]
 			
 	return render(request,'dashboard/records.html', {'default_entity':default_entity,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column })
 

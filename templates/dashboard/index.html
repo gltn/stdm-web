@@ -15,7 +15,6 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}" />
 <script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script> 
-<link href="//datatables.net/download/build/nightly/jquery.dataTables.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 
@@ -209,7 +208,7 @@
                           </div>
                         </div>      
                        <br>
-                       <div id="map-sidebar">
+                       <div id="map-sidebar" style="display: none;">
                         <div class="map-sidebar-wrapper">
                           <div class="panel panel-default" id="features">
                             <div class="panel-heading">
@@ -245,7 +244,7 @@
                         <div id="toolbar" style="width: 400px;">                          
                           <span id="feature-count" class="text-muted" style="padding-left: 15px;"></span>
                         </div>
-                        <table id="sttable" class="cell-border responsive nowrap" style="width: 100%;">
+                        <table id="sttable" class="cell-border nowrap" style="width: 100%;">
                          
                         </table>
                       </div>
@@ -287,47 +286,39 @@
   <script>
     $(function () {
       $("#example1").DataTable({
+        dom: 'Bfrtip',
+       
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf'
+        ],
         "responsive": true,
         mark: true,
         "autoWidth": false,
         searchHighlight: true,
         oLanguage: {sProcessing: "<div id='loader'></div>"},
-        "buttons": [            
-          {
-              extend: 'collection',
-              text: 'Export',
-              buttons: [               
-                  'excel',
-                  'csv',
-                  'pdf',                
-              ]
-          }
-      ]
       });
        
       $('#example2').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf'
+        ],
+        
         mark: true,
         "paging": true,
         "lengthChange": true,
         "searching": false,
         "ordering": true,
         "info": true,
-        "autoWidth": false,
+        scrollX:        true,
+        scrollCollapse: true,
         "processing": true,
         searchHighlight: true,
-        responsive: true,
         oLanguage: {sProcessing: "<div id='loader'></div>"},
-        buttons: [            
-          {
-              extend: 'collection',
-              text: 'Export',
-              buttons: [               
-                  'excel',
-                  'csv',
-                  'pdf',                
-              ]
-          }
-      ]
+        columnDefs: [
+            { width: '20%', targets: 0 }
+        ],
+   
       });
 
     });
@@ -382,7 +373,7 @@ var bounds = L.latLngBounds(southWest, northEast);
    },
    'highlight': {
        'color': 'deepskyblue',
-       'fillOpacity':0.3,
+      //  'fillOpacity':0.3,
        'opacity': 0.5,
        'weight': 2
    }
@@ -396,7 +387,7 @@ var bounds = L.latLngBounds(southWest, northEast);
  function onEachFeature(feature, layer) {
  
   if (feature.properties) {
-    
+    feature.properties.leaflet_stamp= L.stamp(layer);
     var columnValues = [];
    
     for (column in feature.properties){
@@ -433,7 +424,7 @@ var geom = {{spatial_result | safe}};
  var baseLayers = {
    "Carto Light": cartoLight,
    "Google Streets": googleStreets,
-   "Google Hybridy": googleHybrid,
+   "Google Hybrid": googleHybrid,
  };
  
  var groupedOverlays = {
@@ -472,33 +463,33 @@ mymap.addLayer(selectionFeatures);
 
     
 };
-
+console.log(layerFeatures);
 var drawControl = new L.Control.Draw(drawPluginOptions).addTo(mymap);
 var interLayer = null;
+var tableData =[];
 mymap.on('draw:created', function(e) {
   selectionFeatures.clearLayers();
   layer = e.layer;  
-  console.log('My Polygon:');
-  console.log(layer.toGeoJSON());
   selectionFeatures.addLayer(layer);
-  console.log('Selection Features:');
-  console.log(selectionFeatures);
+  selectionFeatures.bringToBack();
   if (mymap.hasLayer(interLayer)){
     interLayer.clearLayers();
   }  
-  
+  tableData =[];
   SelectFeatures(layer);
-
+  
   
 });
 var featuresWithin = [];
-var tableData =[];
+
+var leaflet_stamps = [];
 function SelectFeatures(layer) {
-  mymap.spin(true);
+ 
   console.log(featuresWithin.length);
   console.log('BEGINNING')
   console.log(geom.features[0])
   featuresWithin = [];
+  mymap.spin(true);
   geom.features.forEach(function(layer1) {
     var intersect; 
     try {
@@ -510,10 +501,16 @@ function SelectFeatures(layer) {
     if(intersect != undefined) {
       featuresWithin.push(layer1)
       tableData.push(layer1.properties)
+      leaflet_stamps.push(layer1.properties.leaflet_stamp= L.stamp(layer1))
     }
     
   })
-  interLayer = L.geoJson(featuresWithin).setStyle(layerStyle.highlight).addTo(mymap);
+  console.log('This is leaflet stamo');
+  console.log(featuresWithin);
+  console.log('End of leaflet stamp');
+
+  interLayer = L.geoJson(featuresWithin,{onEachFeature: onEachFeature}).setStyle(layerStyle.highlight).addTo(mymap);
+  interLayer.bringToFront();
 
   // interLayer.bindTooltip(,
   //  {permanent: true, direction:"center"}
@@ -533,7 +530,7 @@ function SelectFeatures(layer) {
       }
       data.push(arr)
   }
-
+  console.log('Columns', columns);
   var dataTable;
   dataTable = $('#sttable').DataTable( {
     "sPaginationType":"full_numbers",
@@ -541,28 +538,36 @@ function SelectFeatures(layer) {
     "searching": true,
     "responsive": true,
     "autoWidth": true,
-    "processing": true,
-    "language": {
-      "loadingRecords": "Please wait - loading..."
-    },
     "select": {
       "style": 'single'
     },
-   
+    "scrollX": true,
     data: data,
     columns: columns,
-    buttons: [            
-        {
-            extend: 'collection',
-            text: 'Export',
-            buttons: [               
-                'excel',
-                'csv',
-                'pdf',                
-            ]
-        }
-    ]
+    dom: 'lBfrtip',
+    buttons: [
+        'copy', 'csv', 'excel', 'pdf'
+    ],
   });
+  mymap.spin(false);
+
+  $('#sttable tbody').on('click', 'tr', function () {
+      var data_row = dataTable.row(this).data();
+      console.log(data_row)
+      console.log('The last item in table',data_row[data_row.length - 1]);
+      var ft = null;
+      interLayer.eachLayer(function(layer){
+        if (layer.feature.properties.leaflet_stamp == data_row[data_row.length - 1]){
+          ft = layer
+          console.log(ft.getBounds());
+        }
+      })   
+      mymap.fitBounds(ft.getBounds());
+  } );
+  $('#sttable tbody').on('dbclick', 'tr', function () {
+      var data_row = dataTable.row( this ).data();
+      alert( 'You clicked on '+data_row[0]+'\'s row' );
+  } );
   
   var featureCount = featuresWithin.length;
   if (featureCount == 1) {
@@ -570,7 +575,7 @@ function SelectFeatures(layer) {
   } else {
     $("#feature-count").html(featureCount + " selected features");
   }
-  mymap.spin(false);
+ 
 }
 $('#sttable tbody').on( 'click', 'td', function () 
 {
