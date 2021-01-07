@@ -226,9 +226,11 @@ def EntityDetailView(request, profile,entity_name):
 	entity_columns = []
 	query_columns = []
 	columns = []
-	has_spatial_column = None 
+	has_spatial_column = None
+	is_party_entity = None
 	for prof in stdm_config.profiles.values():
-		if profile == prof.name:       
+		if profile == prof.name:
+			social_tenure = prof.social_tenure       
 			for entity in prof.entities.values():
 				if entity.TYPE_INFO == 'ENTITY':					
 					if entity_name == entity.ui_display():
@@ -242,6 +244,11 @@ def EntityDetailView(request, profile,entity_name):
 							has_spatial_column = 'true'
 						else:
 							has_spatial_column = 'false'
+						
+						if social_tenure.is_str_party_entity(entity):
+							print('This is a party entity')
+							is_party_entity = True
+							
 	default_entity = entities[0]
 	format_query_columns = []
 	
@@ -258,17 +265,10 @@ def EntityDetailView(request, profile,entity_name):
 		query = "SELECT {0} FROM {1}".format(','.join(format_query_columns), entity_detail)
 		cursor.execute(query)
 		data1 = cursor.fetchall()
-		
-		# for col in cursor.description:
-		# 		query_columns.append(col.name)
-		# for column in default_entity.columns.values():
-		# 	entity_columns.append(column.name)
-		# 	if column.name in query_columns:
-		# 		if column.name != 'id':
-		# 			columns.append(column.header())
 		items = [zip([key[0] for key in cursor.description], row) for row in data1]
-			
-	return render(request,'dashboard/records.html', {'default_entity':default_entity,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column })
+	str_data = fetchPartySTR('KOPGT','Farmer',8)
+	print(str_data)
+	return render(request,'dashboard/records.html', {'default_entity':default_entity,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_party_entity':is_party_entity })
 
 @csrf_exempt
 def SummaryUpdatingView(request, profile):
@@ -326,3 +326,77 @@ def createViews(request):
 		   query = ''.join(query_string_list)
 		   print(query)
 		   ##createView(query)
+
+def fetchPartySTR(profile_name='KOPGT', entity_short_name='Farmer', id=8):
+	print(profile_name, entity_short_name,id)
+	profile =stdm_config.profile(profile_name)
+	str = profile.social_tenure
+	prefix =  profile.prefix
+	primary_entity = profile.entity(entity_short_name)
+	secondary_entity = None
+	str_primary_relation = None 
+	str_secondary_relation = None 
+	if(str.is_str_party_entity(primary_entity)):
+		print(entity_short_name +' is Party '+ primary_entity.short_name)
+		secondary_entity = str.spatial_units[0]
+	if (str.is_str_spatial_unit_entity(primary_entity)):
+		print(entity_short_name+ ' is SP Units '+ primary_entity.short_name)
+		secondary_entity = str.parties[0]
+
+	str_table_name = prefix + "_social_tenure_relationship"
+	
+	str_primary_relation = getStrRelation(profile, primary_entity, str_table_name)
+	str_secondary_relation = getStrRelation(profile, secondary_entity, str_table_name)
+
+	columns = getColumns(profile, secondary_entity)
+	strQuery = 'select '+ ",".join(columns)+ ' from '+ str_primary_relation.child.name +' '+ str_primary_relation.child.name +' join '+ secondary_entity.name +' '+ secondary_entity.name +' on ' +secondary_entity.name+'.'+str_primary_relation.parent_column +' = '+str_primary_relation.child.name+'.'+str_primary_relation.child_column+ ' or '+ str_primary_relation.child.name+'.spatial_unit_id ='+ secondary_entity.name+'.id '
+	
+	queryWithJoin = strQuery + createParentJoins(profile, secondary_entity)
+	whereClause = ' where'+' '+ str_primary_relation.child.name+'.party_id ={} or '.format(id) + str_primary_relation.child.name+'.'+ str_primary_relation.child_column +'={};'.format(id)
+	fullQuery = queryWithJoin + whereClause
+	print(fullQuery)
+
+	data = queryStrDetails(fullQuery)
+	#return render(request, 'dashboard/str.html', {'strdata':data})
+	return data
+
+def getStrRelation(profile, entity, str_table_name):
+	STR_relation = None 
+	for relation in profile.parent_relations(entity):
+		if relation.child.name == str_table_name:
+			return relation
+
+def getColumns(profile, entity):
+	q_columns = []
+	for col in entity.columns.values():
+		if col.TYPE_INFO not in ['LOOKUP', 'GEOMETRY', 'SERIAL']:
+			print(col.name + ' '+ col.TYPE_INFO)
+			q_columns.append(entity.name+'.'+col.name)
+	
+	for en in entity.parents():
+		for relation in profile.parent_relations(en):
+			value = en.name + ".value as "+ relation.child_column
+			q_columns.append(value)
+
+	return q_columns
+
+def createParentJoins(profile, entity):
+	joins = ''
+	for en in entity.parents():
+		clan_relation = []
+		for relation in profile.parent_relations(en):
+		
+			if (entity.name == relation.child.name and relation.parent.TYPE_INFO == 'VALUE_LIST'):
+				join = 'join '+ en.name + ' '+ en.name+' on ' + en.name+'.'+relation.parent_column +'= '+ relation.child.name+'.'+ relation.child_column
+				joins += " "
+				joins += join
+
+	return joins
+
+def queryStrDetails (queryString):
+	with connection.cursor() as cursor:
+		cursor.execute(queryString)
+		# for col in cursor.description:
+		# 	str_columns.append(col.name)
+		data = cursor.fetchall()
+		return [zip([key[0] for key in cursor.description], row) for row in data]

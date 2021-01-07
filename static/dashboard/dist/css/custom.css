@@ -145,4 +145,7 @@
   margin-left:200px;
   margin-top:30px;
 }   
- 
+
+.bg-info {
+  background-color: #138abd !important;
+}

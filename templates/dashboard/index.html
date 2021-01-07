@@ -118,44 +118,7 @@
                   <div class="tab-content" id="custom-tabs-four-tabContent">
                     <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details" aria-labelledby="profile_details-tab"> 
                       <div class="card card-primary"  id="profile_details">
-                        <!-- <div class="card-header"> <h4>{{default_entity.short_name}}</h4></div>
-                          <div class="card-body">           
-                          
-                          <table id="example1" class="table table-bordered table-striped">
-                           
-                            <thead>
-                              
-                            <tr>
-                             
-                              {% for column in columns %}                              
-                              <th>{{column}}</th>                               
-                              {% endfor %}      
-                                                  
-                              <th>Action</th>           
-                                                           
-                                                        
-                            </tr>
-                            </thead>
-                            <tbody>
-                              {% for row in data %}
-                              
-                              <tr>
-                                {% for dt in row %}                               
-                                <td> {{dt.1}}</td> 
-                                                               
-                                {% endfor %}   
-                                <td><a href="#">View More</a></td>                           
-                              </tr>
-                             
-                              {% endfor %}  
-                            </tbody>
-                            
-                          </table>
-                          
-                          <br>
-                          <hr>
-                        </div> -->
-                          
+                         
                           
                     </div>
                          
@@ -389,11 +352,13 @@ var bounds = L.latLngBounds(southWest, northEast);
   if (feature.properties) {
     feature.properties.leaflet_stamp= L.stamp(layer);
     var columnValues = [];
+    
    
     for (column in feature.properties){
         columnValues.push("<tr><th>"+titleCase(column.split('_').join(' '))+"</th><td>" + feature.properties[''+column+''] + "</td></tr>");
         
     }
+    columnValues.pop();
 
     layer.on({
       click: function (e) {      
@@ -476,6 +441,7 @@ mymap.on('draw:created', function(e) {
     interLayer.clearLayers();
   }  
   tableData =[];
+  mymap.spin(true);
   SelectFeatures(layer);
   
   
@@ -484,13 +450,14 @@ var featuresWithin = [];
 
 var leaflet_stamps = [];
 function SelectFeatures(layer) {
- 
+
   console.log(featuresWithin.length);
   console.log('BEGINNING')
   console.log(geom.features[0])
   featuresWithin = [];
-  mymap.spin(true);
+
   geom.features.forEach(function(layer1) {
+    
     var intersect; 
     try {
       intersect = turf.intersect(layer1, layer.toGeoJSON());
@@ -511,12 +478,8 @@ function SelectFeatures(layer) {
 
   interLayer = L.geoJson(featuresWithin,{onEachFeature: onEachFeature}).setStyle(layerStyle.highlight).addTo(mymap);
   interLayer.bringToFront();
+  mymap.spin(false);
 
-  // interLayer.bindTooltip(,
-  //  {permanent: true, direction:"center"}
-  // ).openTooltip();
-  interLayer.setZIndex(999);
-   
   var columns =[];
   var data =[];
   console.log(tableData);
@@ -549,7 +512,8 @@ function SelectFeatures(layer) {
         'copy', 'csv', 'excel', 'pdf'
     ],
   });
-  mymap.spin(false);
+ 
+  
 
   $('#sttable tbody').on('click', 'tr', function () {
       var data_row = dataTable.row(this).data();

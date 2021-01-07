@@ -26,25 +26,30 @@
 <div class="card-body"> 
 
 <table id="example2" class="table table-bordered table-striped" style="width:100%">
-<thead>
-    
+  
+  <thead>
+
 <tr>
     {% for column in columns %}   
-
-    <th>{{column}}</th>                               
-    {% endfor %}      
+    <th>{{column}}</th>                                         
+    {% endfor %} 
+    {% if is_party_entity %} 
+    <th>Action</th>    
+    {% endif %} 
                         
 </tr>
+
 </thead>
 <tbody>
   {% for row in data %}
                               
   <tr>
-    {% for dt in row %}
-   
-    <td> {{dt.1}}</td>
-    
-    {% endfor %}                              
+    {% for dt in row %}   
+    <td> {{dt.1}}</td>   
+    {% endfor %}
+    {% if is_party_entity %} 
+    <td><a href="{% url 'fetchstr' profile_name='KOPGT' entity_short_name='Farmer' id=8 %}">View More</a></td> 
+    {% endif %}                        
   </tr>
  
   {% endfor %}    
