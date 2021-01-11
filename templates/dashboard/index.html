@@ -41,6 +41,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        <div id="summary-sections">
         <!-- Info boxes -->
         <div class="row" id="summary">
           
@@ -98,7 +99,60 @@
           {% endif %}
         
         </div>
+        {% if str_summary %}
+        
+        <div class="row" id="str_summary">
+          <!-- Custom tabs (Charts with tabs)-->
+         
+           <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-chart-bar mr-1"></i>
+                Tenure Summary
+              </h3>
+              <div class="card-tools">
+                <ul class="nav nav-pills ml-auto">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#summary-section" data-toggle="tab">Summary</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#str-chart" data-toggle="tab">Chart</a>
+                  </li>
+                </ul>
+              </div>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+              <div class="tab-content p-0">
+                <!-- Morris chart - Sales -->
+                <div class="chart tab-pane active" id="summary-section"> 
+                  <div class="row">                
+                  {% for summary in str_summary %}
+                  <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                      <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>                
+                      <div class="info-box-content">
+                        <span class="info-box-text">{{summary.1}}</span>
+                        <span class="info-box-number">{{summary.0}}</span>
+                      </div>
+                      <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                  </div>                                    
+                    {% endfor %}   
+                  </div>                  
+                 </div>
+                <div class="chart tab-pane" id="str-chart" style="position: relative; height: 40vh;">
+                  <div id="tenure-chart" height="300" style="height: 300px;"></div>                         
+                </div>  
+              </div>
+            </div><!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        
+        </div>
+        {% endif %}
         <!-- /.row -->
+      </div>
         
         <div class="row">
           <div class="col-md-12">
@@ -515,19 +569,7 @@ function SelectFeatures(layer) {
  
   
 
-  $('#sttable tbody').on('click', 'tr', function () {
-      var data_row = dataTable.row(this).data();
-      console.log(data_row)
-      console.log('The last item in table',data_row[data_row.length - 1]);
-      var ft = null;
-      interLayer.eachLayer(function(layer){
-        if (layer.feature.properties.leaflet_stamp == data_row[data_row.length - 1]){
-          ft = layer
-          console.log(ft.getBounds());
-        }
-      })   
-      mymap.fitBounds(ft.getBounds());
-  } );
+
   $('#sttable tbody').on('dbclick', 'tr', function () {
       var data_row = dataTable.row( this ).data();
       alert( 'You clicked on '+data_row[0]+'\'s row' );
@@ -663,7 +705,7 @@ $("#summary").on("click", "div", function() {
           traditional: true,      
           success: function (data) {   
             console.log(data);          
-              $('#summary').html(data);             
+              $('#summary-sections').html(data);             
               
           }
       });
@@ -679,6 +721,68 @@ $("#summary").on("click", "div", function() {
             thousandsSep: ','
         }
         });
+        $('#tenure-chart').highcharts({
+          chart: {
+              type: 'column',
+              zoomType: 'x'
+          },
+          title: {
+              text: ''
+          },
+
+          xAxis: {
+              categories:  [{% for x in str_summary %} '{{x.1}}',{% endfor %} ]            
+                
+              // {{charts.name|safe}}
+                     
+      },
+
+      yAxis: {
+          min: 0,
+          allowDecimals: false,
+          title: {
+              text: 'Number of records'
+          },
+          labels: {
+              formatter: function () {
+                  return  this.value;
+              }
+          },
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0"></td>' +
+              '<td style="padding:0"><b>{point.y} </b></td></tr>',
+          footerFormat: '</table>',
+          shared: false,
+          useHTML: true
+      },
+      plotOptions: {
+          pointWidth: 40,
+          column: {
+              colorByPoint: true,
+              dataLabels: {
+                enabled: true,
+                format: '{point.y:,.0f}',
+                color: '#777'
+            }
+          }
+      },
+      
+      credits: {
+          "enabled": false
+      },
+      series: [
+          {
+              showInLegend: false,
+              "data": [{% for x in str_summary %} {{x.0}},{% endfor %} ]  
+          
+          }
+
+
+
+      ]
+    });
       $('#strChart').highcharts({
           chart: {
               type: 'column',

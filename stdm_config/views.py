@@ -89,7 +89,10 @@ def STDMReader(request):
 	other_columns = []
 	for profile in stdm_config.profiles.values():
 		if profile.name == default_profile:
-			profiler= profile 
+			profiler= profile
+			str_summary = str_summaries(profiler)
+			print('Summaries hapa')
+			print(str_summary)
 			party = profiler.social_tenure.parties[0]
 			spatial_unit = profiler.social_tenure.spatial_units[0]
 			config_entities.append(party)
@@ -173,7 +176,14 @@ def STDMReader(request):
 			
 			# serialize('geojson',dataset,geometry_field="spatial_geometery",srid=4326,fields=('name',))
 			# print(spatial_results)		
-	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'default_entity':default_entity,'data':items,'summaries':zipped_summaries,'spatial_result':spatial_results,'charts':summaries})
+	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'default_entity':default_entity,'data':items,'summaries':zipped_summaries,'spatial_result':spatial_results,'charts':summaries,'str_summary':str_summary})
+
+def str_summaries(profile):
+	str = profile.social_tenure
+	tenure_type = str.tenure_type_collection
+	relation = profile.parent_relations(tenure_type)[0]	
+	query = 'select count(*), ' + relation.parent.name + '.value from '+ relation.parent.name + ' join ' + relation.child.name + ' on ' + relation.child.name+'.'+relation.child_column + '='+ relation.parent.name+'.'+relation.parent_column+ ' group by '+ relation.parent.name + '.value ;'
+	return queryStrDetails(query)
 
 @csrf_exempt
 def ProfileUpdatingView(request, profile):
@@ -247,35 +257,29 @@ def EntityDetailView(request, profile,entity_name):
 						
 						if social_tenure.is_str_party_entity(entity):
 							print('This is a party entity')
-							is_party_entity = True
-							
+							is_party_entity = True							
 	default_entity = entities[0]
 	format_query_columns = []
-	
-
 	for col in query_columns:
 		if col in entity_columns:
 			columns.append(toHeader(col))
 			format_query_columns.append(col)
-	print('Query columns',query_columns)
-	print('entity columns',entity_columns)
-	print('final Columns', columns)
-	print('Entitity Detail',entity_detail)
 	with connection.cursor() as cursor:
 		query = "SELECT {0} FROM {1}".format(','.join(format_query_columns), entity_detail)
 		cursor.execute(query)
 		data1 = cursor.fetchall()
 		items = [zip([key[0] for key in cursor.description], row) for row in data1]
-	str_data = fetchPartySTR('KOPGT','Farmer',8)
+	str_data = fetchPartySTR('KOPGT','Farmer',10)
 	print(str_data)
-	return render(request,'dashboard/records.html', {'default_entity':default_entity,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_party_entity':is_party_entity })
+	return render(request,'dashboard/records.html', {'default_entity':default_entity,'profile':profile,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_party_entity':is_party_entity })
 
 @csrf_exempt
 def SummaryUpdatingView(request, profile):
 	entities = []
 	for profiles in stdm_config.profiles.values():
 		if profiles.name == profile:
-			profiler= profiles         
+			profiler= profiles
+			str_summary = str_summaries(profiler)        
 			for entity in profiler.entities.values():
 				if entity.TYPE_INFO == 'ENTITY':					
 					entities.append(entity)
@@ -292,7 +296,7 @@ def SummaryUpdatingView(request, profile):
 			summaries["name"].append(en.short_name)
 			summaries["count"].append(len(data))
 	zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])
-	return render(request,'dashboard/summary.html', {'entities':entities,'summaries':zipped_summaries})
+	return render(request,'dashboard/summary.html', {'entities':entities,'summaries':zipped_summaries,'str_summary':str_summary})
 
 
 def createView(query):
@@ -327,7 +331,7 @@ def createViews(request):
 		   print(query)
 		   ##createView(query)
 
-def fetchPartySTR(profile_name='KOPGT', entity_short_name='Farmer', id=8):
+def fetchPartySTR(profile_name, entity_short_name, id):
 	print(profile_name, entity_short_name,id)
 	profile =stdm_config.profile(profile_name)
 	str = profile.social_tenure
@@ -399,4 +403,5 @@ def queryStrDetails (queryString):
 		# for col in cursor.description:
 		# 	str_columns.append(col.name)
 		data = cursor.fetchall()
-		return [zip([key[0] for key in cursor.description], row) for row in data]
+		return data
+		# return [zip([key[0] for key in cursor.description], row) for row in data]

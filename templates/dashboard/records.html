@@ -40,6 +40,7 @@
 </tr>
 
 </thead>
+
 <tbody>
   {% for row in data %}
                               
@@ -48,7 +49,7 @@
     <td> {{dt.1}}</td>   
     {% endfor %}
     {% if is_party_entity %} 
-    <td><a href="{% url 'fetchstr' profile_name='KOPGT' entity_short_name='Farmer' id=8 %}">View More</a></td> 
+    <td><a href="{% url 'fetchstr' profile_name=profile entity_short_name=default_entity.short_name id=8 %}">View More</a></td> 
     {% endif %}                        
   </tr>
  
