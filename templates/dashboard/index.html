@@ -99,59 +99,55 @@
           {% endif %}
         
         </div>
-        {% if str_summary %}
-        
-        <div class="row" id="str_summary">
-          <!-- Custom tabs (Charts with tabs)-->
-         
-           <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">
-                <i class="fas fa-chart-bar mr-1"></i>
-                Tenure Summary
-              </h3>
-              <div class="card-tools">
-                <ul class="nav nav-pills ml-auto">
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#summary-section" data-toggle="tab">Summary</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#str-chart" data-toggle="tab">Chart</a>
-                  </li>
+        {% if str_summary %}    
+        <div class="row">
+          <div class="col-12">
+            <!-- Custom Tabs -->
+            <div class="card">
+              <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3">Tenure Summary</h3>
+                <ul class="nav nav-pills ml-auto p-2">
+                  <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Summary</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Chart</a></li>
+                  
                 </ul>
-              </div>
-            </div><!-- /.card-header -->
-            <div class="card-body">
-              <div class="tab-content p-0">
-                <!-- Morris chart - Sales -->
-                <div class="chart tab-pane active" id="summary-section"> 
-                  <div class="row">                
-                  {% for summary in str_summary %}
-                  <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                      <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>                
-                      <div class="info-box-content">
-                        <span class="info-box-text">{{summary.1}}</span>
-                        <span class="info-box-number">{{summary.0}}</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                  </div>                                    
-                    {% endfor %}   
-                  </div>                  
-                 </div>
-                <div class="chart tab-pane" id="str-chart" style="position: relative; height: 40vh;">
-                  <div id="tenure-chart" height="300" style="height: 300px;"></div>                         
-                </div>  
-              </div>
-            </div><!-- /.card-body -->
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="tab_1">
+                    <div class="row">                
+                      {% for summary in str_summary %}
+                      <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box mb-3">
+                          <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>                
+                          <div class="info-box-content">
+                            <span class="info-box-text">{{summary.1}}</span>
+                            <span class="info-box-number">{{summary.0}}</span>
+                          </div>
+                          <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                      </div>                                    
+                        {% endfor %}   
+                      </div> 
+                  </div>
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="tab_2">
+                    <div id="tenure-chart"  style="height: 30vh;"></div>
+                  </div>
+                  <!-- /.tab-pane -->
+                 
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+            <!-- ./card -->
           </div>
-          <!-- /.card -->
-        
+          <!-- /.col -->
         </div>
         {% endif %}
         <!-- /.row -->
+     
       </div>
         
         <div class="row">
