@@ -105,7 +105,7 @@
             <!-- Custom Tabs -->
             <div class="card">
               <div class="card-header d-flex p-0">
-                <h3 class="card-title p-3">Tenure Summary</h3>
+                <h3 class="card-title p-3">Tenure Type Summary</h3>
                 <ul class="nav nav-pills ml-auto p-2">
                   <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Summary</a></li>
                   <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Chart</a></li>
@@ -117,9 +117,10 @@
                   <div class="tab-pane active" id="tab_1">
                     <div class="row">                
                       {% for summary in str_summary %}
+                     
                       <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box mb-3">
-                          <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>                
+                          <span class="info-box-icon bg-info elevation-1"><i class="fas fa-home"></i></span>                
                           <div class="info-box-content">
                             <span class="info-box-text">{{summary.1}}</span>
                             <span class="info-box-number">{{summary.0}}</span>
@@ -127,8 +128,9 @@
                           <!-- /.info-box-content -->
                         </div>
                         <!-- /.info-box -->
-                      </div>                                    
-                        {% endfor %}   
+                      </div>
+                                                         
+                      {% endfor %}   
                       </div> 
                   </div>
                   <!-- /.tab-pane -->
@@ -157,10 +159,13 @@
                 <div class="card-header p-0 border-bottom-0">
                   <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                     <li class="nav-item">
-                      <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_tab_details" role="tab" aria-controls="profile_tab_details" aria-selected="true">Records(Summaries)</a>
+                      <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_tab_details" role="tab" aria-controls="profile_tab_details" aria-selected="true">Records</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" id="maps-tab" data-toggle="pill" href="#maps" role="tab" aria-controls="maps" aria-selected="false" style="display:none">Map</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="sum-tab" data-toggle="pill" href="#sum" role="tab" aria-controls="sum" aria-selected="false" style="display:none">Summaries</a>
                     </li>
                   </ul>
                 </div>
@@ -273,6 +278,13 @@
                 
                         <!-- /.row -->
                       </div><!--/. container-fluid -->
+                    </div>
+                    <div class="tab-pane fade" id="sum-tab" role="tabpanel" aria-labelledby="sum-tab">
+                      <div class="container-fluid"> 
+                        <div class="row">
+                          {{lookup_summaries}}
+                        </div>
+                      </div>
                     </div>
                    
                   </div>
@@ -641,7 +653,7 @@ $("#dynamicDiv").on("click", "li", function() {
           type: 'POST',
           traditional: true,      
           success: function (data) {   
-            console.log(data);          
+                
               $('#profile_details').html(data);             
               
           }

@@ -183,7 +183,7 @@ def str_summaries(profile):
 	tenure_type = str.tenure_type_collection
 	relation = profile.parent_relations(tenure_type)[0]	
 	query = 'select count(*), ' + relation.parent.name + '.value from '+ relation.parent.name + ' join ' + relation.child.name + ' on ' + relation.child.name+'.'+relation.child_column + '='+ relation.parent.name+'.'+relation.parent_column+ ' group by '+ relation.parent.name + '.value ;'
-	return queryStrDetails(query)
+	return queryStrDetailsSTR(query)
 
 @csrf_exempt
 def ProfileUpdatingView(request, profile):
@@ -229,35 +229,50 @@ def EntityListingUpdatingView(request, profile):
 	print('Entities for profile', entity_list)					
 	return render(request,'dashboard/profile_detail.html', { 'entity_list':entity_list,})
 
+def EntityLookupSummaries(profile, entity):
+	lookup_columns = entity.columns_by_type_info('LOOKUP')
+	print('LOOKUP COLUMNS')
+	results = {}
+	for col in lookup_columns:
+		ers = col.child_entity_relations()
+		results[col.name]=LooukupSummary(entity, ers)
+	return results
+
+def LooukupSummary(child_entity, ers):
+	parent_entity = ers[0].parent
+	#select count(*), cg.value from ko_farmer f left join ko_check_gender cg on cg.id = f.gender group by cg.value;
+	query = 'select count(*), ' + parent_entity.name + '.value from '+ child_entity.name + ' join ' + parent_entity.name + ' on ' + parent_entity.name+'.'+ers[0].parent_column + '='+ child_entity.name+'.'+ers[0].child_column+ ' group by '+ parent_entity.name + '.value;'
+	print(query)
+	return queryStrDetailsSTR(query)
+
 @csrf_exempt
-def EntityDetailView(request, profile,entity_name):
-	entity_detail = None
+def EntityDetailView(request, profile_name,short_name):
+	entity_name = None
 	entities = []
 	entity_columns = []
 	query_columns = []
 	columns = []
 	has_spatial_column = None
 	is_party_entity = None
-	for prof in stdm_config.profiles.values():
-		if profile == prof.name:
-			social_tenure = prof.social_tenure       
-			for entity in prof.entities.values():
-				if entity.TYPE_INFO == 'ENTITY':					
-					if entity_name == entity.ui_display():
-						entity_detail = entity.name
-						entities.append(entity)
-						query_columns = checkColumns(entity_detail)
-						for column in entity.columns.values():
-							if column not in entity.geometry_columns():
-								entity_columns.append(column.name)
-						if entity.has_geometry_column():
-							has_spatial_column = 'true'
-						else:
-							has_spatial_column = 'false'
-						
-						if social_tenure.is_str_party_entity(entity):
-							print('This is a party entity')
-							is_party_entity = True							
+	prof = stdm_config.profile(profile_name)
+	entity = prof.entity(short_name)
+	social_tenure = prof.social_tenure       
+	entity_name = entity.name
+	entities.append(entity)
+	query_columns = checkColumns(entity_name)
+
+	for column in entity.columns.values():
+		if column not in entity.geometry_columns():
+			entity_columns.append(column.name)
+
+	if entity.has_geometry_column():
+		has_spatial_column = 'true'
+	else:
+		has_spatial_column = 'false'
+	
+	if social_tenure.is_str_party_entity(entity):
+		is_party_entity = True	
+
 	default_entity = entities[0]
 	format_query_columns = []
 	for col in query_columns:
@@ -265,13 +280,16 @@ def EntityDetailView(request, profile,entity_name):
 			columns.append(toHeader(col))
 			format_query_columns.append(col)
 	with connection.cursor() as cursor:
-		query = "SELECT {0} FROM {1}".format(','.join(format_query_columns), entity_detail)
+		query = "SELECT {0} FROM {1}".format(','.join(format_query_columns), entity_name)
 		cursor.execute(query)
 		data1 = cursor.fetchall()
 		items = [zip([key[0] for key in cursor.description], row) for row in data1]
+	
 	str_data = fetchPartySTR('KOPGT','Farmer',10)
-	print(str_data)
-	return render(request,'dashboard/records.html', {'default_entity':default_entity,'profile':profile,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_party_entity':is_party_entity })
+	lookup_summaries = EntityLookupSummaries(prof, entity)
+	print('Lookup Summaries')
+	print(lookup_summaries)
+	return render(request,'dashboard/records.html', {'default_entity':default_entity,'profile':profile_name,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_party_entity':is_party_entity,'lookup_summaries':lookup_summaries })
 
 @csrf_exempt
 def SummaryUpdatingView(request, profile):
@@ -387,7 +405,6 @@ def getColumns(profile, entity):
 def createParentJoins(profile, entity):
 	joins = ''
 	for en in entity.parents():
-		clan_relation = []
 		for relation in profile.parent_relations(en):
 		
 			if (entity.name == relation.child.name and relation.parent.TYPE_INFO == 'VALUE_LIST'):
@@ -397,11 +414,16 @@ def createParentJoins(profile, entity):
 
 	return joins
 
-def queryStrDetails (queryString):
+def queryStrDetails(queryString):
 	with connection.cursor() as cursor:
 		cursor.execute(queryString)
-		# for col in cursor.description:
-		# 	str_columns.append(col.name)
 		data = cursor.fetchall()
-		return data
-		# return [zip([key[0] for key in cursor.description], row) for row in data]
+		print(data)
+		return [zip([key[0] for key in cursor.description], row) for row in data]
+
+def queryStrDetailsSTR(queryString):
+	with connection.cursor() as cursor:
+		cursor.execute(queryString)
+		data = cursor.fetchall()
+		sorted_str = sorted(data, key=lambda x: x[0], reverse=True)
+		return sorted_str

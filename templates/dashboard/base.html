@@ -133,7 +133,7 @@
             {% block profiler_entities %}
             {% if entities %}          
               {% for entity in entities %}
-              <li class="nav-item" id="{{entity.ui_display}}">
+              <li class="nav-item" id="{{entity.short_name}}">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-th"></i>
                   <p>{{entity.ui_display}}

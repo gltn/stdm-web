@@ -20,6 +20,18 @@
  else{
    document.getElementById('maps-tab').style.display = "none";
  }
+console.log('Lengths',Object.keys({{lookup_summaries}}).length)
+console.log('Keys',Object.keys({{lookup_summaries}}))
+ if (Object.keys({{lookup_summaries}}).length !== 0 && {{lookup_summaries}}.constructor === Object;){
+
+  document.getElementById('sum-tab').style.display = "block";
+  console.log('Naelewa');
+  // $('#sum-tab').style.display = "block";
+  }
+  else{
+  document.getElementById('sum-tab').style.display = "none";
+  console.log('Ata mimim sielewi');
+  }
    });
 </script>
 <div class="card-header"> <h4>{{default_entity.ui_display}}</h4></div>
