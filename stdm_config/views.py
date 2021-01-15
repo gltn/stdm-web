@@ -84,39 +84,23 @@ def STDMReader(request):
 			configs.save()
 			default_profile = configs.default_profile	
 	# Loop through profiles and get entities
-	spatial_entity = []
-	spatial_columns = []
 	other_columns = []
-	for profile in stdm_config.profiles.values():
-		if profile.name == default_profile:
-			profiler= profile
-			str_summary = str_summaries(profiler)
-			print('Summaries hapa')
-			print(str_summary)
-			party = profiler.social_tenure.parties[0]
-			spatial_unit = profiler.social_tenure.spatial_units[0]
-			config_entities.append(party)
-			config_entities.append(spatial_unit)            
-			for entity in profiler.entities.values():
-				if entity.TYPE_INFO == 'ENTITY':
-					if entity.user_editable == True:
-						if entity is not party and 	entity is not spatial_unit:
-							config_entities.append(entity)
-						for column in entity.columns.values():
-							if column.TYPE_INFO == 'GEOMETRY':
-								spatial_entity.append(entity.name)
-								spatial_columns.append(column.name)
-								for col in entity.columns.values():
-									if col.name != 'id' and col.name not in spatial_columns:
-										other_columns.append(col.name)
+	profiler = stdm_config.profile(default_profile)
+	str_summary = str_summaries(profiler)
+	party = profiler.social_tenure.parties[0]
+	spatial_unit = profiler.social_tenure.spatial_units[0]
+	config_entities.append(party)
+	config_entities.append(spatial_unit)            
+	for entity in profiler.entities.values():
+		if entity.TYPE_INFO == 'ENTITY':
+			if entity.user_editable == True:
+				if entity is not party and 	entity is not spatial_unit:
+					config_entities.append(entity)
 	default_profile_object = [prof.prefix for prof in stdm_config.profiles.values() if prof.name==default_profile]
 	db_entities = checkEntity(','.join(default_profile_object))
 	for entity in config_entities:
 		if entity.name in db_entities:
 			entities.append(entity)
-
-	print('Spatial Entity', spatial_entity)
-	# print('Entities', entities)
 	dataset = []
 	default_entity =  None
 	data = []
@@ -143,40 +127,10 @@ def STDMReader(request):
 				query = "SELECT * FROM {0}".format(en.name)
 				cursor.execute(query)
 				records = cursor.fetchall()
-				summaries["name"].append(en.ui_display())
+				summaries["name"].append(en.short_name)
 				summaries["count"].append(len(records))
-		zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])
-
-	print(spatial_columns)
-	columns_to_query = []
-	if spatial_entity:		
-		db_columns = checkColumns(spatial_entity[0])
-		print('Db Columns',db_columns)
-		print(other_columns)
-		for col in other_columns:
-			if col in db_columns:
-				columns_to_query.append(col)
-		print(columns_to_query)
-
-		with connection.cursor() as cursor:
-			query="SELECT row_to_json(fc) \
-				FROM \
-				( SELECT 'FeatureCollection' AS TYPE, \
-						array_to_json(array_agg(f)) AS features \
-				FROM \
-					(SELECT 'Feature' AS TYPE, \
-							ST_AsGeoJSON(g.{},4326)::JSON AS geometry, \
-							row_to_json( (SELECT p FROM ( SELECT {}) AS p)) AS properties \
-					FROM {} AS g ) AS f) AS fc;	".format(spatial_columns[0], ','.join(columns_to_query),spatial_entity[0])
-			# query = "SELECT * FROM {0}".format(spatial_entity_query)
-			cursor.execute(query)
-			spatial_result = cursor.fetchone()
-			map_data = spatial_result[0]
-			spatial_results = json.dumps(map_data)
-			
-			# serialize('geojson',dataset,geometry_field="spatial_geometery",srid=4326,fields=('name',))
-			# print(spatial_results)		
-	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'default_entity':default_entity,'data':items,'summaries':zipped_summaries,'spatial_result':spatial_results,'charts':summaries,'str_summary':str_summary})
+		zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])	
+	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'default_entity':default_entity,'data':items,'summaries':zipped_summaries,'charts':summaries,'str_summary':str_summary})
 
 def str_summaries(profile):
 	str = profile.social_tenure
@@ -200,12 +154,10 @@ def ProfileUpdatingView(request, profile):
 					if entity.user_editable == True:					
 						entities.append(entity)
 	default_entity = entities[0]
-	print(default_entity)
 	with connection.cursor() as cursor:
 		query = "SELECT * FROM {0}".format(default_entity.name)	
 		cursor.execute(query)
 		rsot = cursor.fetchall()
-		print(rsot)
 		for col in cursor.description:
 				query_columns.append(col.name)
 		for column in default_entity.columns.values():
@@ -214,7 +166,7 @@ def ProfileUpdatingView(request, profile):
 				if column.name != 'id':
 					columns.append(column.header())
 		items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], row[1:]) for row in rsot]
-	return render(request,'dashboard/records.html', {'entities':entities,'default_entity':default_entity,'data':items,'columns':columns})
+	return render(request,'dashboard/entity.html', {'entities':entities,'default_entity':default_entity,'data':items,'columns':columns})
 
 @csrf_exempt
 def EntityListingUpdatingView(request, profile):  
@@ -266,9 +218,9 @@ def EntityDetailView(request, profile_name,short_name):
 			entity_columns.append(column.name)
 
 	if entity.has_geometry_column():
-		has_spatial_column = 'true'
+		has_spatial_column = True
 	else:
-		has_spatial_column = 'false'
+		has_spatial_column = False
 	
 	if social_tenure.is_str_party_entity(entity):
 		is_party_entity = True	
@@ -285,11 +237,50 @@ def EntityDetailView(request, profile_name,short_name):
 		data1 = cursor.fetchall()
 		items = [zip([key[0] for key in cursor.description], row) for row in data1]
 	
-	str_data = fetchPartySTR('KOPGT','Farmer',10)
+	# str_data = fetchPartySTR('KOPGT','Farmer',10)
 	lookup_summaries = EntityLookupSummaries(prof, entity)
-	print('Lookup Summaries')
-	print(lookup_summaries)
-	return render(request,'dashboard/records.html', {'default_entity':default_entity,'profile':profile_name,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_party_entity':is_party_entity,'lookup_summaries':lookup_summaries })
+
+	# Fetch Spatial Data
+	spatial_results = None
+	if entity.has_geometry_column():
+		other_columns = []
+		columns_to_query = []
+		spatial_columns = entity.geometry_columns()
+		for sp in spatial_columns:
+			spatial_column = sp.name
+			break
+		print('This is a spatial column', spatial_column)
+		db_columns = checkColumns(entity.name)
+		print('Db Columns', db_columns)
+		print(entity.columns.values())
+
+		for colu in entity.columns.values():
+			other_columns.append(colu.name)
+		print('Other Columns', other_columns)
+		for colm in other_columns:
+			if colm in db_columns:
+				columns_to_query.append(colm)
+		
+		columns_to_query.remove('id')
+		columns_to_query.remove(str(spatial_column))
+		print('Columns to query', columns_to_query)
+		with connection.cursor() as cursor:
+			query="SELECT row_to_json(fc) \
+				FROM \
+				( SELECT 'FeatureCollection' AS TYPE, \
+						array_to_json(array_agg(f)) AS features \
+				FROM \
+					(SELECT 'Feature' AS TYPE, \
+							ST_AsGeoJSON(g.{},4326)::JSON AS geometry, \
+							row_to_json( (SELECT p FROM ( SELECT {}) AS p)) AS properties \
+					FROM {} AS g ) AS f) AS fc;	".format(spatial_column, ','.join(columns_to_query),entity.name)
+			# query = "SELECT * FROM {0}".format(spatial_entity_query)
+			cursor.execute(query)
+			spatial_result = cursor.fetchone()
+			map_data = spatial_result[0]
+			spatial_results = json.dumps(map_data)
+			
+	return render(request,'dashboard/entity.html', {'default_entity':default_entity,'profile':profile_name,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_party_entity':is_party_entity,'lookup_summaries':lookup_summaries, 'spatial_result':spatial_results })
 
 @csrf_exempt
 def SummaryUpdatingView(request, profile):
