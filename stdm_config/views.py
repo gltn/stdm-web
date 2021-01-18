@@ -227,7 +227,7 @@ def EntityDetailView(request, profile_name,short_name):
 		data1 = cursor.fetchall()
 		items = [zip([key[0] for key in cursor.description], row) for row in data1]
 	
-	# str_data = fetchPartySTR('KOPGT','Farmer',10)
+	
 	lookup_summaries = EntityLookupSummaries(prof, entity)
 
 	# Fetch Spatial Data
@@ -315,6 +315,14 @@ def createViews(request):
 		   print(query)
 		   ##createView(query)
 
+def CheckSTRChildColumnInDB(str_relation):
+	# SELECT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ko_social_tenure_relationship' AND column_name='farmer_id');
+	query="SELECT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='{}'".format(str_relation.child.name)+ " AND column_name='{}');".format(str_relation.child_column)
+	print('QUERY:',query)
+	with connection.cursor() as cursor:
+		cursor.execute(query)
+		return cursor.fetchall()
+
 def fetchPartySTR(profile_name, entity_short_name, id):
 	# print(profile_name, entity_short_name,id)
 	profile =stdm_config.profile(profile_name)
@@ -340,10 +348,22 @@ def fetchPartySTR(profile_name, entity_short_name, id):
 	strQuery = 'select '+ ",".join(columns)+ ' from '+ str_primary_relation.child.name +' '+ str_primary_relation.child.name +' join '+ secondary_entity.name +' '+ secondary_entity.name +' on ' +secondary_entity.name+'.'+str_primary_relation.parent_column +' = '+str_primary_relation.child.name+'.'+str_primary_relation.child_column+ ' or '+ str_primary_relation.child.name+'.spatial_unit_id ='+ secondary_entity.name+'.id '
 	
 	queryWithJoin = strQuery + createParentJoins(profile, secondary_entity)
-	whereClause = ' where'+' '+ str_primary_relation.child.name+'.party_id ={} or '.format(id) + str_primary_relation.child.name+'.'+ str_primary_relation.child_column +'={};'.format(id)
+	
+	whereClause = ''
+	exists = CheckSTRChildColumnInDB(str_primary_relation)
+	print('Exists:',exists[0][0])
+	if (exists[0][0]):
+		print('Hahha EEEEEEE')
+		whereClause = ' where'+' '+ str_primary_relation.child.name+'.party_id ={} or '.format(id) + str_primary_relation.child.name+'.'+ str_primary_relation.child_column +'={};'.format(id)
+	else:
+		print('Hahhaha Nooooo')
+		whereClause = ' where'+' '+ str_primary_relation.child.name+'.party_id ={};'.format(id)
 	fullQuery = queryWithJoin + whereClause
+	print(fullQuery)
 
 	data = queryStrDetails(fullQuery)
+	print('Data ndio hii')
+	print(data)
 	#return render(request, 'dashboard/str.html', {'strdata':data})
 	return data
 
@@ -370,8 +390,24 @@ def getColumns(profile, entity):
 def createParentJoins(profile, entity):
 	joins = ''
 	for en in entity.parents():
-		for relation in profile.parent_relations(en):
-		
+		en_parent_relations = profile.parent_relations(en)
+		print('INIT Relation Size', len(en_parent_relations))
+		for relation in en_parent_relations:
+			print('Looking for _social_tenure_relationship but not ', relation.parent.name)
+			str_join = ''
+			if (relation.parent.name == profile.prefix+'_social_tenure_relationship'):
+				print('FOUND _social_tenure_relationship')
+				#check if custom child name exists in db or  else use default. i.e check if farmer_id exists in db or else use party_id
+				if (CheckSTRChildColumnInDB(relation)[0][0]):
+					str_join ='join '+ en.name + ' '+ en.name+' on ' + en.name+'.'+relation.parent_column +'= '+ relation.child.name+'.'+ relation.child_column + ' or ' + en.name+'.'+ en.name+'.id ='+relation.child.name
+					if(profile.social_tenure.is_str_party_entity(entity)):
+						print('AND youre party')
+						str_join +='.party_id'
+					else:
+						print('NO IM youre spatial unit')
+						str_join +='.spatial_unit_id'
+				en_parent_relations.remove(relation)
+				print('LATER Relation Size', len(en_parent_relations))
 			if (entity.name == relation.child.name and relation.parent.TYPE_INFO == 'VALUE_LIST'):
 				join = 'join '+ en.name + ' '+ en.name+' on ' + en.name+'.'+relation.parent_column +'= '+ relation.child.name+'.'+ relation.child_column
 				joins += " "

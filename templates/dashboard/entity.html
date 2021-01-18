@@ -164,9 +164,9 @@
                                 {% for key,value in lookup_summaries.items %}  
                                                       
                                 {% if forloop.first %}                                
-                                <li class="nav-item"><a class="nav-link active" href="#{{key}}" data-toggle="tab">{{key}}</a> </li>
+                                <li class="nav-item"><a class="nav-link active" href="#{{key|cut:' ' }}" data-toggle="tab">{{key}}</a> </li>
                                 {% else %}
-                                <li class="nav-item"><a class="nav-link" href="#{{key}}" data-toggle="tab">{{key}}</a> </li>
+                                <li class="nav-item"><a class="nav-link" href="#{{key|cut:' ' }}" data-toggle="tab">{{key}}</a> </li>
                                 {% endif %}
                                 {% endfor %}
                                 <!-- <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Chart</a></li> -->
@@ -181,26 +181,26 @@
                                
                                 {% for key,value in lookup_summaries.items %}
                                 {% if forloop.first %}
-                                <div class="tab-pane active" id="{{key}}">
+                                <div class="tab-pane active" id="{{key|cut:' ' }}">
                                   <button id="column" disabled>Column chart</button>
                                   <button id="bar">Bar chart</button>
                                   <button id="line">Line chart</button>
                                   <button id="spline">Spline chart</button>
                                   <button id="pie">Pie chart</button>
                                   <hr>
-                                  <div id="{{key}}"  style="height: 30vh;"></div>
+                                  <div id="{{key|cut:' ' }}"  style="height: 30vh;"></div>
                                 
                                 </div>
                                 {% else %}
-                                <div class="tab-pane" id="{{key}}">
+                                <div class="tab-pane" id="{{key|cut:' ' }}">
                                   <button id="column" disabled>Column chart</button>
                                   <button id="bar">Bar chart</button>
                                   <button id="line">Line chart</button>
                                   <button id="spline">Spline chart</button>
                                   <button id="pie">Pie chart</button>
                                   <hr>
-                                  <div id="{{key}}"  style="height: 30vh;"></div>
-                                  {{key}}
+                                  <div id="{{key|cut:' ' }}"  style="height: 30vh;"></div>
+                                  
                                 </div>
                                 {% endif %}
                                 {% endfor %}
@@ -250,7 +250,7 @@
         buttons: [
             'copy', 'csv', 'excel', 'pdf'
         ],
-        "scrollY": 200,
+        "scrollY": 400,
         "destroy": true,
         "searching": true,
         mark: true,
@@ -456,9 +456,6 @@ function SelectFeatures(layer) {
     }
     
   })
-  console.log('This is leaflet stamo');
-  console.log(featuresWithin);
-  console.log('End of leaflet stamp');
 
   interLayer = L.geoJson(featuresWithin,{onEachFeature: onEachFeature}).setStyle(layerStyle.highlight).addTo(mymap);
   interLayer.bringToFront();
@@ -563,7 +560,7 @@ function animateSidebar() {
         }
         });
       {% for key, value in lookup_summaries.items %}
-      $('#{{key}}').highcharts({
+      $("#{{key|cut:' '}}").highcharts({
           chart: {
               type: 'column',
               zoomType: 'x'

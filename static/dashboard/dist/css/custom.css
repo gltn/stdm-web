@@ -149,3 +149,7 @@
 .bg-info {
   background-color: #138abd !important;
 }
+mark {
+  background: orange;
+  color: black;
+}
