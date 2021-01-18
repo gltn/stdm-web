@@ -14,7 +14,7 @@ from django.core.serializers import serialize
 # from psycopg2 import connect, sql
 # from psycopg2.extras import RealDictCursor
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIG_PATH = os.path.join(BASE_DIR, 'config/configuration.stc')
+CONFIG_PATH = os.path.join(BASE_DIR, 'config/configuration.xml')
 reader = StdmConfigurationReader(CONFIG_PATH)
 reader.load()
 stdm_config = StdmConfiguration.instance()
@@ -142,31 +142,24 @@ def str_summaries(profile):
 @csrf_exempt
 def ProfileUpdatingView(request, profile):
 	entities = []
-	entity_columns = []
-	query_columns = []
-	columns = []
-	items = []
-	for profiles in stdm_config.profiles.values():
-		if profile == profiles.name:
-			profiler= profiles         
-			for entity in profiler.entities.values():
-				if entity.TYPE_INFO == 'ENTITY':
-					if entity.user_editable == True:					
-						entities.append(entity)
-	default_entity = entities[0]
+	profiler = stdm_config.profile(profile)
+	str_summary = str_summaries(profiler)
+	entity_list = profiler.user_entities()
+	print('This is the str summary')
+	print(str_summary)
+	for entity in entity_list:
+		entities.append(entity)
+	summaries = {'name':[],'count':[]}
 	with connection.cursor() as cursor:
-		query = "SELECT * FROM {0}".format(default_entity.name)	
-		cursor.execute(query)
-		rsot = cursor.fetchall()
-		for col in cursor.description:
-				query_columns.append(col.name)
-		for column in default_entity.columns.values():
-			entity_columns.append(column.name)
-			if column.name in query_columns:
-				if column.name != 'id':
-					columns.append(column.header())
-		items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], row[1:]) for row in rsot]
-	return render(request,'dashboard/entity.html', {'entities':entities,'default_entity':default_entity,'data':items,'columns':columns})
+		for en in entities:
+			# query = "SELECT count(*) FROM {0}".format(en.name)			
+			query = "SELECT * FROM {0}".format(en.name)
+			cursor.execute(query)
+			data = cursor.fetchall()			
+			summaries["name"].append(en.short_name)
+			summaries["count"].append(len(data))
+	zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])
+	return render(request,'dashboard/profile_changes.html', {'entities':entities, 'str_summary':str_summary, 'summaries':zipped_summaries,'charts':summaries})
 
 @csrf_exempt
 def EntityListingUpdatingView(request, profile):  
@@ -177,24 +170,21 @@ def EntityListingUpdatingView(request, profile):
 			for entity in profiler.entities.values():
 				if entity.TYPE_INFO == 'ENTITY':
 					if entity.user_editable == True:
-						entity_list.append(entity)
-	print('Entities for profile', entity_list)					
+						entity_list.append(entity)				
 	return render(request,'dashboard/profile_detail.html', { 'entity_list':entity_list,})
 
 def EntityLookupSummaries(profile, entity):
 	lookup_columns = entity.columns_by_type_info('LOOKUP')
-	print('LOOKUP COLUMNS')
 	results = {}
 	for col in lookup_columns:
 		ers = col.child_entity_relations()
-		results[col.name]=LooukupSummary(entity, ers)
+		results[col.header()]=LooukupSummary(entity, ers)
 	return results
 
 def LooukupSummary(child_entity, ers):
 	parent_entity = ers[0].parent
 	#select count(*), cg.value from ko_farmer f left join ko_check_gender cg on cg.id = f.gender group by cg.value;
 	query = 'select count(*), ' + parent_entity.name + '.value from '+ child_entity.name + ' join ' + parent_entity.name + ' on ' + parent_entity.name+'.'+ers[0].parent_column + '='+ child_entity.name+'.'+ers[0].child_column+ ' group by '+ parent_entity.name + '.value;'
-	print(query)
 	return queryStrDetailsSTR(query)
 
 @csrf_exempt
@@ -249,21 +239,15 @@ def EntityDetailView(request, profile_name,short_name):
 		for sp in spatial_columns:
 			spatial_column = sp.name
 			break
-		print('This is a spatial column', spatial_column)
 		db_columns = checkColumns(entity.name)
-		print('Db Columns', db_columns)
-		print(entity.columns.values())
-
 		for colu in entity.columns.values():
 			other_columns.append(colu.name)
-		print('Other Columns', other_columns)
 		for colm in other_columns:
 			if colm in db_columns:
 				columns_to_query.append(colm)
 		
 		columns_to_query.remove('id')
 		columns_to_query.remove(str(spatial_column))
-		print('Columns to query', columns_to_query)
 		with connection.cursor() as cursor:
 			query="SELECT row_to_json(fc) \
 				FROM \
@@ -295,17 +279,8 @@ def SummaryUpdatingView(request, profile):
 					columns = []
 					for column in entity.columns.values():
 						columns.append(column.name)
-	summaries = {'name':[],'count':[]}
-	with connection.cursor() as cursor:
-		for en in entities:
-			# query = "SELECT count(*) FROM {0}".format(en.name)			
-			query = "SELECT * FROM {0}".format(en.name)
-			cursor.execute(query)
-			data = cursor.fetchall()			
-			summaries["name"].append(en.short_name)
-			summaries["count"].append(len(data))
-	zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])
-	return render(request,'dashboard/summary.html', {'entities':entities,'summaries':zipped_summaries,'str_summary':str_summary})
+	
+	return render(request,'dashboard/summarsy.html', {'entities':entities,'str_summary':str_summary})
 
 
 def createView(query):
@@ -341,7 +316,7 @@ def createViews(request):
 		   ##createView(query)
 
 def fetchPartySTR(profile_name, entity_short_name, id):
-	print(profile_name, entity_short_name,id)
+	# print(profile_name, entity_short_name,id)
 	profile =stdm_config.profile(profile_name)
 	str = profile.social_tenure
 	prefix =  profile.prefix
@@ -367,7 +342,6 @@ def fetchPartySTR(profile_name, entity_short_name, id):
 	queryWithJoin = strQuery + createParentJoins(profile, secondary_entity)
 	whereClause = ' where'+' '+ str_primary_relation.child.name+'.party_id ={} or '.format(id) + str_primary_relation.child.name+'.'+ str_primary_relation.child_column +'={};'.format(id)
 	fullQuery = queryWithJoin + whereClause
-	print(fullQuery)
 
 	data = queryStrDetails(fullQuery)
 	#return render(request, 'dashboard/str.html', {'strdata':data})

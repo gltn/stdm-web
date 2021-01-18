@@ -1,42 +1,4 @@
-{% extends "dashboard/base.html"%}
 {% load static %}
-{% block title %}Dashboard {% endblock %}
-{% block profiler %}
-{% with profiles=profiles %}
-  {{ block.super }}
-{% endwith %}
-{% endblock profiler %}
-<!-- Loading entities -->
-{% block profiler_entities %}
-{% with entities=entities %}
-  {{ block.super }}
-{% endwith %}
-{% endblock profiler_entities %}
-{% block content %}
-<link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}" />
-<script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script> 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-
-<script src="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.js' %}"></script>
-<link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.draw.css' %}" />
-<script src="{% static 'dashboard/dist/maps/leaflet.draw.js' %}"></script>
-<script src="{% static 'dashboard/dist/maps/spin.min.js' %}"></script>
-<script src="{% static 'dashboard/dist/maps/leaflet.spin.min.js' %}"></script>
-<script src="{% static 'dashboard/dist/js/loadingoverlay.js' %}"></script>
-<script src="https://unpkg.com/@turf/turf@5.1.6/turf.min.js"></script>
-
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-     
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <section class="content" id="entity-details">
       <div class="container-fluid">
         <div id="summary-sections">
         <!-- Info boxes -->
@@ -175,13 +137,21 @@
        
         <!-- /.row -->
       </div><!--/. container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
-
 
 <script>
   $(document).ready(function () {
+    $('#profiles').change(function(){        
+        $.ajax({
+                url: "/api/" + this.value,
+                type: 'POST',
+                traditional: true,      
+                success: function (data) {   
+                    console.log(data);          
+                    $('#entity-details').html(data);             
+                    
+                }
+            });
+});
 
 $("#dynamicDiv").on("click", "li", function() {
     var list_id = $(this).attr('id');
@@ -224,45 +194,7 @@ $("#summary").on("click", "div", function() {
     });
 
 </script>
-<script>
-  $(document).ready(function () {
-    
-    $('#profiles').change(function(){        
-      $.ajax({
-          url: "/profile/api/" + this.value,
-          type: 'POST',
-          traditional: true,    
-          success: function (data) {   
-            console.log(data);          
-              $('#dynamicDiv').html(data);
-              
-              
-          }
-      });
-      $.ajax({
-          url: "/api/" + this.value,
-          type: 'POST',
-          traditional: true,      
-          success: function (data) {   
-            console.log(data);          
-              $('#entity-details').html(data);             
-              
-          }
-      });
-      // $.ajax({
-      //     url: "/summary/" + this.value,
-      //     type: 'POST',
-      //     traditional: true,      
-      //     success: function (data) {   
-      //       console.log(data);          
-      //         $('#summary-sections').html(data);             
-              
-      //     }
-      // });
-});
-    });
 
-</script>
 <script type="text/javascript">
   $(function () {
     Highcharts.setOptions({
@@ -471,4 +403,3 @@ $("#summary").on("click", "div", function() {
   });
 </script>
 
-{% endblock content %}

@@ -15,9 +15,11 @@
                       <a class="nav-link" id="maps-tab" data-toggle="pill" href="#maps" role="tab" aria-controls="maps" aria-selected="false" style="display:block">Map</a>
                     </li>
                     {% endif %}
+                    {% if lookup_summaries %}
                     <li class="nav-item">
                       <a class="nav-link" id="sum-tab" data-toggle="pill" href="#sum" role="tab" aria-controls="sum" aria-selected="false" style="display:block">Summaries</a>
                     </li>
+                    {% endif %}
                   </ul>
                 </div>
                 <div class="card-body">                  
@@ -152,16 +154,15 @@
                       <div class="container-fluid"> 
                         <div class="row">
                           <h4>{{default_entity.ui_display}}</h4>
-                          <hr>
-
-                          
+                          <hr>                        
                          
                           <div class="col-12">
                           <div class="card card-primary card-outline">
                             <div class="card-header d-flex p-0">
                               <h3 class="card-title p-3">Look-Up Summary</h3>
-                              <ul class="nav nav-pills ml-auto p-2">
-                                {% for key,value in lookup_summaries.items %}                                
+                              <ul class="nav nav-pills ml-auto p-2" id="lookups">
+                                {% for key,value in lookup_summaries.items %}  
+                                                      
                                 {% if forloop.first %}                                
                                 <li class="nav-item"><a class="nav-link active" href="#{{key}}" data-toggle="tab">{{key}}</a> </li>
                                 {% else %}
@@ -174,8 +175,7 @@
                               </ul>
                             </div><!-- /.card-header -->
                             <div class="card-body">
-                              <div class="tab-content">
-                                <!-- /.tab-pane -->
+                              <div class="tab-content">                                <!-- /.tab-pane -->
                                 
                                 <br>
                                
@@ -189,7 +189,7 @@
                                   <button id="pie">Pie chart</button>
                                   <hr>
                                   <div id="{{key}}"  style="height: 30vh;"></div>
-                                {{key}}
+                                
                                 </div>
                                 {% else %}
                                 <div class="tab-pane" id="{{key}}">
@@ -263,6 +263,13 @@
             { width: '20%', targets: 0 }
         ],
 
+      });
+
+      $('ul li').each(function(i)
+      {
+        if(this.id){
+          this.id = (this.id).replace(/ /g,"_");
+        }
       });
       
     });
@@ -623,7 +630,7 @@ function animateSidebar() {
 
       ]
     });
-    {% endfor %}
+    
     clickedButton = $('#column');
     var chart = $('#strChart').highcharts(),
    
@@ -697,7 +704,7 @@ function animateSidebar() {
 
     buttonEnabling(this);
   });
-  
+  {% endfor %}
 
   });
 </script>
