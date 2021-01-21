@@ -11,8 +11,7 @@ urlpatterns = [
     path('profile/api/<profile>', EntityListingUpdatingView, name='profiles_detail'),
     path('<profile_name>/entity/<short_name>', EntityDetailView, name='entity_detail'),
     path('summary/<profile>', SummaryUpdatingView, name='summary_detail'),
-    path('create-views', createViews, name='createviews'),
-    path('<profile_name>/<entity_short_name>/<id>', fetchPartySTR, name='fetchstr')
+    path('<profile_name>/<entity_short_name>/<id>', EntityRecordViewMore, name='fetchstr')
     
    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

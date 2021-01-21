@@ -23,7 +23,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 # Create your views here.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIG_PATH = os.path.join(BASE_DIR, 'config/default_configuration.xml')
+CONFIG_PATH = os.path.join(BASE_DIR, 'config/configuration_unicode.xml')
 reader = StdmConfigurationReader(CONFIG_PATH)
 reader.load()
 stdm_config = StdmConfiguration.instance()
