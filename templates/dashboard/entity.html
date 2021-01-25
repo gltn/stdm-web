@@ -37,7 +37,7 @@
                               {% for column in columns %}   
                               <th>{{column}}</th>                                         
                               {% endfor %} 
-                              {% if is_party_entity %} 
+                              {% if is_str_entity %} 
                               <th>Action</th>    
                               {% endif %} 
                                                   
@@ -52,8 +52,8 @@
                               {% for dt in row %}   
                               <td> {{dt.1}}</td>   
                               {% endfor %}
-                              {% if is_party_entity %} 
-                              <td><a href="{% url 'fetchstr' profile_name=profile entity_short_name=default_entity.short_name id=8 %}">View More</a></td> 
+                              {% if is_str_entity  %} 
+                              <td><a href="{% url 'fetchstr' profile_name=profile entity_short_name=default_entity.short_name id=45 %}">View More</a></td> 
                               {% endif %}                        
                             </tr>
                            
@@ -228,6 +228,9 @@
             <!-- /.card -->
           </div>
           <!-- /.col -->
+        </div>
+        <div class="row" id="view_more">
+
         </div>
         <!-- /.row -->
 

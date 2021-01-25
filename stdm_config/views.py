@@ -196,9 +196,12 @@ def EntityDetailView(request, profile_name,short_name):
 	query_columns = []
 	columns = []
 	has_spatial_column = None
-	is_party_entity = None
+	is_str_entity = None
 	prof = stdm_config.profile(profile_name)
 	entity = prof.entity(short_name)
+	# print(prof.entity('Household Members'))
+	# print('This is shortname', short_name)
+	print('ENTITY',entity)
 	social_tenure = prof.social_tenure       
 	entity_name = entity.name
 	entities.append(entity)
@@ -213,8 +216,8 @@ def EntityDetailView(request, profile_name,short_name):
 	else:
 		has_spatial_column = False
 	
-	if social_tenure.is_str_party_entity(entity):
-		is_party_entity = True	
+	if social_tenure.is_str_entity(entity):
+		is_str_entity = True	
 
 	default_entity = entities[0]
 	format_query_columns = []
@@ -263,9 +266,8 @@ def EntityDetailView(request, profile_name,short_name):
 			cursor.execute(query)
 			spatial_result = cursor.fetchone()
 			map_data = spatial_result[0]
-			spatial_results = json.dumps(map_data)
-	EntityRecordViewMore(profile_name, short_name, 45)		
-	return render(request,'dashboard/entity.html', {'default_entity':default_entity,'profile':profile_name,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_party_entity':is_party_entity,'lookup_summaries':lookup_summaries, 'spatial_result':spatial_results })
+			spatial_results = json.dumps(map_data)	
+	return render(request,'dashboard/entity.html', {'default_entity':default_entity,'profile':profile_name,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_str_entity':is_str_entity,'lookup_summaries':lookup_summaries, 'spatial_result':spatial_results })
 
 @csrf_exempt
 def SummaryUpdatingView(request, profile):
@@ -296,48 +298,56 @@ def CheckColumnInDB(entity):
 		result.append(col[0])
 	return result
 
-def EntityRecordViewMore(profile_name, entity_short_name, id):
+def EntityRecordViewMore(request, profile_name, entity_short_name, id):
 	result = None
 	# print(profile_name, entity_short_name,id)
 	profile = stdm_config.profile(profile_name)
 	current_entity = profile.entity(entity_short_name)
 	current_social_tenure = profile.social_tenure
 	if(current_social_tenure.is_str_party_entity(current_entity)):
-		result = FetchPartySTR(profile,  current_entity, id)
+		result = None
 	if (current_social_tenure.is_str_spatial_unit_entity(current_entity)):
 		#secondary_entity = current_social_tenure.parties[0]
 		result  = FetchSpUnitSTR(profile, current_entity, id)
-
 	print('Final Result',result)
+	return render(request,'dashboard/entity_more_details.html', {'result':result})
+
+
 
 def FetchSpUnitSTR(profile, spu_entity, record_id):
 	current_social_tenure = profile.social_tenure
 	parties  = current_social_tenure.parties
-	print('Parties Found', parties)
+
 	full_query = ''
 
 	str_table_name = profile.prefix + "_social_tenure_relationship"
-	
+
+	tenure_type_entity =  current_social_tenure.spatial_units_tenure[spu_entity.short_name]
+	tenure_type_relation = profile.parent_relations(tenure_type_entity)[0]
+
+	tenure_type_join = 'left join '+ tenure_type_relation.parent.name +' on '+ tenure_type_relation.parent.name+'.'+tenure_type_relation.parent_column +' = ' + tenure_type_relation.child.name+'.'+tenure_type_relation.child_column+' '
+	tenure_type_column = tenure_type_entity.name + '.value as ' + tenure_type_relation.child_column+','
 	spu_relation = getStrRelation(profile, spu_entity, str_table_name)
 
 	result = {}
 	for party in parties:
-		#select * from be_social_tenure_relationship bstr join be_household bh on household_id = bh.id where land_id = 45;
+		#select * from b  bstr join be_household bh on household_id = bh.id where land_id = 45;
 		str_relation = getStrRelation(profile, party, str_table_name)
 		joins = createParentJoins(profile, party)
 		columns = getColumns(profile, party)
-		str_query = 'select '+ ",".join(columns)+ ' from '+ str_table_name+' left join '+ party.name +' on ' +party.name+'.'+ str_relation.parent_column+' ='+ str_table_name+'.'+str_relation.child_column
+		str_query = 'select '+tenure_type_column+ ",".join(columns)+ ' from '+ str_table_name+' left join '+ party.name +' on ' +party.name+'.'+ str_relation.parent_column+' ='+ str_table_name+'.'+str_relation.child_column +' '+ tenure_type_join
 		str_query+=joins
 		full_query+=str_query
 		where_clause = ' where '+ str_table_name+'.'+ spu_relation.child_column +'={};'.format(record_id)
 		full_query+=where_clause
+		print('Start of final query')
 		print(full_query)
 		data = queryWithColumnNames(full_query)
 		if (data):
 			result[party.short_name]=(data)
 	return result
 
-def FetchPartySTR(profile, party_entity, record_id):
+def FetchPartySTR(request,profile, party_entity, record_id):
 	print('Current Entity', party_entity.short_name)
 	current_social_tenure = profile.social_tenure
 	# Get foreign key columns for party entities
@@ -391,11 +401,10 @@ def getStrRelation(profile, entity, str_table_name):
 def getColumns(profile, entity):
 	query_columns = []
 	db_columns = CheckColumnInDB(entity)
-	print('DC columns',db_columns)
 	for col in entity.columns.values():
 		if col.name in db_columns and col.TYPE_INFO not in ['LOOKUP', 'GEOMETRY', 'SERIAL']:
 			query_columns.append(entity.name+'.'+col.name)
-	print(query_columns)
+	#print(query_columns)
 	
 	for en in entity.parents():
 		if en.TYPE_INFO == 'VALUE_LIST':
@@ -408,12 +417,10 @@ def createParentJoins(profile, entity):
 	joins = ''
 	for en in entity.parents():
 		en_parent_relations = profile.parent_relations(en)
-		print('INIT Relation Size', len(en_parent_relations))
 		for relation in en_parent_relations:
 			str_join = ''
 			if (relation.parent.name == profile.prefix+'_social_tenure_relationship'):
 				en_parent_relations.remove(relation)
-				print('LATER Relation Size', len(en_parent_relations))
 			if (entity.name == relation.child.name and relation.parent.TYPE_INFO == 'VALUE_LIST'):
 				join = 'left join '+ en.name + ' '+ en.name+' on ' + en.name+'.'+relation.parent_column +'= '+ relation.child.name+'.'+ relation.child_column
 				joins += " "
