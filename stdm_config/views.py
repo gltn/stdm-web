@@ -300,12 +300,11 @@ def CheckColumnInDB(entity):
 
 def EntityRecordViewMore(request, profile_name, entity_short_name, id):
 	result = None
-	# print(profile_name, entity_short_name,id)
 	profile = stdm_config.profile(profile_name)
 	current_entity = profile.entity(entity_short_name)
 	current_social_tenure = profile.social_tenure
 	if(current_social_tenure.is_str_party_entity(current_entity)):
-		result = None
+		result = FetchPartySTR(profile, current_entity, id)
 	if (current_social_tenure.is_str_spatial_unit_entity(current_entity)):
 		#secondary_entity = current_social_tenure.parties[0]
 		result  = FetchSpUnitSTR(profile, current_entity, id)
@@ -318,8 +317,6 @@ def FetchSpUnitSTR(profile, spu_entity, record_id):
 	current_social_tenure = profile.social_tenure
 	parties  = current_social_tenure.parties
 
-	full_query = ''
-
 	str_table_name = profile.prefix + "_social_tenure_relationship"
 
 	tenure_type_entity =  current_social_tenure.spatial_units_tenure[spu_entity.short_name]
@@ -331,11 +328,12 @@ def FetchSpUnitSTR(profile, spu_entity, record_id):
 
 	result = {}
 	for party in parties:
+		full_query = ''
 		#select * from b  bstr join be_household bh on household_id = bh.id where land_id = 45;
 		str_relation = getStrRelation(profile, party, str_table_name)
 		joins = createParentJoins(profile, party)
 		columns = getColumns(profile, party)
-		str_query = 'select '+tenure_type_column+ ",".join(columns)+ ' from '+ str_table_name+' left join '+ party.name +' on ' +party.name+'.'+ str_relation.parent_column+' ='+ str_table_name+'.'+str_relation.child_column +' '+ tenure_type_join
+		str_query = 'select '+tenure_type_column+ ",".join(columns)+ ' from '+ str_table_name+' join '+ party.name +' on ' +party.name+'.'+ str_relation.parent_column+' ='+ str_table_name+'.'+str_relation.child_column +' '+ tenure_type_join
 		str_query+=joins
 		full_query+=str_query
 		where_clause = ' where '+ str_table_name+'.'+ spu_relation.child_column +'={};'.format(record_id)
@@ -347,51 +345,31 @@ def FetchSpUnitSTR(profile, spu_entity, record_id):
 			result[party.short_name]=(data)
 	return result
 
-def FetchPartySTR(request,profile, party_entity, record_id):
+def FetchPartySTR(profile, party_entity, record_id):
 	print('Current Entity', party_entity.short_name)
 	current_social_tenure = profile.social_tenure
-	# Get foreign key columns for party entities
-	party_fk_cols = current_social_tenure.party_columns
-	print('Party columns: ', party_fk_cols)
-	spatial_unit_fk_cols = current_social_tenure.spatial_unit_columns
-	print('Spatial columns: ', spatial_unit_fk_cols)
-
-	entity_relation = None
-
-	for fk_col in party_fk_cols:
-		print(fk_col, ' Parents ', party_entity.column_children_relations(fk_col))
-		for er in profile.parent_relations(party_entity):
-			if (er.child_column == fk_col):
-				entity_relation = er
-
-	secondary_entity = current_social_tenure.spatial_units[0]
-
-	secondary_entity = None
-	str_secondary_relation = None 
-	
-
+	spatial_units = current_social_tenure.spatial_units
 	str_table_name = profile.prefix + "_social_tenure_relationship"
-
-	str_primary_relation = getStrRelation(profile, party_entity, str_table_name)
-	str_secondary_relation = getStrRelation(profile, secondary_entity, str_table_name)
-
-	columns = getColumns(profile, secondary_entity)
-	strQuery = 'select '+ ",".join(columns)+ ' from '+ str_primary_relation.child.name +' '+ str_primary_relation.child.name +' join '+ secondary_entity.name +' '+ secondary_entity.name +' on ' +secondary_entity.name+'.'+str_primary_relation.parent_column +' = '+str_primary_relation.child.name+'.'+str_primary_relation.child_column+ ' or '+ str_primary_relation.child.name+'.spatial_unit_id ='+ secondary_entity.name+'.id '
-	
-	queryWithJoin = strQuery + createParentJoins(profile, secondary_entity)
-	
-	whereClause = ''
-
-	whereClause = ' where'+ str_primary_relation.child.name+'.'+ str_primary_relation.child_column +'={};'.format(id)
-	
-	fullQuery = queryWithJoin + whereClause
-	print(fullQuery)
-
-	data = queryStrDetails(fullQuery)
-	print('Data ndio hii')
-	print(data)
-	#return render(request, 'dashboard/str.html', {'strdata':data})
-	return data
+	party_entity_str_relation = getStrRelation(profile, party_entity, str_table_name)
+	print('Child Column', party_entity_str_relation.child_column)
+	result = {}
+	for spu_unit in spatial_units:
+		full_query =''
+		#select * from b  bstr join be_household bh on household_id = bh.id where land_id = 45;
+		str_relation = getStrRelation(profile, spu_unit, str_table_name)
+		joins = createParentJoins(profile, spu_unit)
+		columns = getColumns(profile, spu_unit)
+		str_query = 'select '+",".join(columns)+ ' from '+ str_table_name+' join '+ spu_unit.name +' on ' +spu_unit.name+'.'+ str_relation.parent_column+' ='+ str_table_name+'.'+str_relation.child_column
+		str_query+=joins
+		full_query+=str_query
+		where_clause = ' where '+ str_table_name+'.'+ party_entity_str_relation.child_column +'={};'.format(record_id)
+		full_query+=where_clause
+		print('Start of final query')
+		print(full_query)
+		data = queryWithColumnNames(full_query)
+		if (data):
+			result[spu_unit.short_name]=(data)
+	return result
 
 def getStrRelation(profile, entity, str_table_name):
 	for relation in profile.parent_relations(entity):
@@ -402,9 +380,8 @@ def getColumns(profile, entity):
 	query_columns = []
 	db_columns = CheckColumnInDB(entity)
 	for col in entity.columns.values():
-		if col.name in db_columns and col.TYPE_INFO not in ['LOOKUP', 'GEOMETRY', 'SERIAL']:
+		if col.name in db_columns and col.TYPE_INFO not in ['LOOKUP', 'GEOMETRY']: #, 'SERIAL'
 			query_columns.append(entity.name+'.'+col.name)
-	#print(query_columns)
 	
 	for en in entity.parents():
 		if en.TYPE_INFO == 'VALUE_LIST':
@@ -422,7 +399,7 @@ def createParentJoins(profile, entity):
 			if (relation.parent.name == profile.prefix+'_social_tenure_relationship'):
 				en_parent_relations.remove(relation)
 			if (entity.name == relation.child.name and relation.parent.TYPE_INFO == 'VALUE_LIST'):
-				join = 'left join '+ en.name + ' '+ en.name+' on ' + en.name+'.'+relation.parent_column +'= '+ relation.child.name+'.'+ relation.child_column
+				join = 'join '+ en.name + ' '+ en.name+' on ' + en.name+'.'+relation.parent_column +'= '+ relation.child.name+'.'+ relation.child_column
 				joins += " "
 				joins += join
 
@@ -440,7 +417,6 @@ def queryStrDetails(queryString):
 	with connection.cursor() as cursor:
 		cursor.execute(queryString)
 		data = cursor.fetchall()
-		print(data)
 		return [zip([key[0] for key in cursor.description], row) for row in data]
 
 def queryStrDetailsSTR(queryString):
