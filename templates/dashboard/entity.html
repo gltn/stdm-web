@@ -4,7 +4,7 @@
           <div class="col-md-12">
             <div class="col-12 col-sm-12">
               <div class="card card-primary card-outline card-outline-tabs">
-                <div class="card-header p-0 border-bottom-0">
+                <div class="card-header p-0 border-bottom-0" id="changing-tabs">
                   <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                     <li class="nav-item">
                       <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_tab_details" role="tab" aria-controls="profile_tab_details" aria-selected="true">Records</a>
@@ -39,21 +39,24 @@
                               {% endfor %} 
                               {% if is_str_entity %} 
                               <th>Action</th>    
-                              {% endif %} 
-                                                  
+                              {% endif %}                     
                           </tr>
                           
                           </thead>
                           
                           <tbody>
+                            
                             {% for row in data %}
-                                                        
+                                  
                             <tr>
-                              {% for dt in row %}   
-                              <td> {{dt.1}}</td>   
+                              {% for dt in row %}                              
+                              <td>{{dt.1}}</td>   
                               {% endfor %}
-                              {% if is_str_entity  %} 
-                              <td><a href="{% url 'fetchstr' profile_name=profile entity_short_name=default_entity.short_name id=45 %}">View More</a></td> 
+                              {% if is_str_entity  %}                        
+
+
+                              <!-- <td><a href="{% url 'fetchstr' profile_name=profile entity_short_name=default_entity.short_name id=45 %}">View More</a></td>  -->
+                              <td><button id='moreView' class="{% if dt.0 == 'id' %}{{dt.1}}{% endif %}">View More</button></td>
                               {% endif %}                        
                             </tr>
                            
@@ -62,7 +65,9 @@
                           
                           </table>
 
-                        </div>                      
+
+                        </div> 
+                        <div class="row" id="view_more"></div>                     
                     </div>
                     {% if default_entity.has_geometry_column == True %}
                     <div class="tab-pane fade" id="maps" role="tabpanel" aria-labelledby="maps-tab">
@@ -229,9 +234,7 @@
           </div>
           <!-- /.col -->
         </div>
-        <div class="row" id="view_more">
-
-        </div>
+        
         <!-- /.row -->
 
        
@@ -240,16 +243,19 @@
     </section>
     <!-- /.content -->
   </div>
- 
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+
   <script>
     $(function () {
     //   $("#example2").DataTable({
     //     "responsive": true,
     //     "autoWidth": true,
     //   });
-      $('#example2').DataTable( {
+      var entityTable = $('#example2').DataTable( {
         dom: 'Bfrtip',
-       
+        "select": {
+          "style": 'single'
+        },       
         buttons: [
             'copy', 'csv', 'excel', 'pdf'
         ],
@@ -267,6 +273,27 @@
         ],
 
       });
+      $('#example2 tbody').on('click', 'tr', function () {
+          var data_row = entityTable.row(this).data();
+          console.log('Hii ndio maneno')
+          console.log(data_row)
+          var list_id = data_row[0];
+          // var list_id = $(this).attr('class');
+          var profile = $("#profiles :selected").val();
+          console.log('Viewq More ID',list_id)
+          console.log('Profile',profile)
+          $.ajax({
+              url: profile + "/{{default_entity.short_name}}/" + list_id,
+              type: 'POST',
+              traditional: true,      
+              success: function (data) { 
+                console.log(data);
+                  $('#view_more').html(data);             
+                  
+              }
+          });
+          
+      } );
 
       $('ul li').each(function(i)
       {
@@ -277,7 +304,28 @@
       
     });
 </script>
-  
+<!-- <script>
+  $(document).ready(function() {
+   
+   // $("button#moreView").click(function() {
+   //   var list_id = $(this).attr('class');
+   //   var profile = $("#profiles :selected").val();
+   //   console.log('Viewq More ID',list_id)
+   //   console.log('Profile',profile)
+   //   $.ajax({
+   //         url: profile + "/{{default_entity.short_name}}/" + list_id,
+   //         type: 'POST',
+   //         traditional: true,      
+   //         success: function (data) { 
+   //           console.log(data);
+   //             $('#view_more').html(data);             
+               
+   //         }
+   //     });
+
+   // });
+  });
+</script> -->
    <!-- <script src="{% static 'js/dashboard.js' %}"></script> -->
  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
@@ -312,7 +360,7 @@ var bounds = L.latLngBounds(southWest, northEast);
   center: [0.830522, 37.729050],
   layers: [cartoLight],
   maxBounds: bounds,
-  minZoom: 6,
+  minZoom: 1,
   zoomControl: true,
   attributionControl: false
 });

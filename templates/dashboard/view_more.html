@@ -1,0 +1,67 @@
+<div class="col-md-12">
+  <div class="col-12 col-sm-12">
+    <div class="card card-primary" id="profile_details">
+      <div class="card-header"><h4>STR Details For {{entity}} {{id}}</h4></div>
+      <div class="card-body">
+        {% if result %}        
+        {% for key,values in result.items %} 
+        <h4>{{key}}</h4>
+        <hr>
+        <table id="{{key}}1" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                {% for col in values.0.0 %}
+                <th>{{col}}</th>                      
+                {% endfor %}
+            </thead> 
+            <tbody>
+                {% for value in values %}
+                <tr>      
+                {% for data in value.1 %}
+                <td>{{data}}</td>                      
+                {% endfor %}
+                </tr> 
+                {% endfor %} 
+            </tbody>       
+                    
+        </table> 
+        <br>
+        <hr>
+        {% endfor %} 
+        {% else %}
+        <p>No More Details!</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    $(function () {
+    //   $("#example2").DataTable({
+    //     "responsive": true,
+    //     "autoWidth": true,
+    //   });
+    {% for key,values in result.items %} 
+     $('#{{key}}1').DataTable( {
+        dom: 'Bfrtip',     
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf'
+        ],
+        "scrollY": 400,
+        "destroy": true,
+        "searching": true,
+        mark: true,
+        scrollX:        true,
+        scrollCollapse: true,
+        language: {
+          processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>'
+        },
+        columnDefs: [
+            { width: '20%', targets: 0 }
+        ],
+
+      });
+      {% endfor %}
+
+      
+    });
+</script>
