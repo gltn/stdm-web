@@ -1,0 +1,377 @@
+{% extends "dashboard/base_mobile.html"%}
+{% load static %}
+{% block title %}Dashboard {% endblock %}
+{% block profiler %}
+{% with profiles=profiles %}
+  {{ block.super }}
+{% endwith %}
+{% endblock profiler %}
+<!-- Loading entities -->
+{% block mobile_entities %}
+{% with entities=m_entities %}
+  {{ block.super }}
+{% endwith %}
+{% endblock mobile_entities %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}" />
+<script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script> 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+<script src="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.js' %}"></script>
+<link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.draw.css' %}" />
+<script src="{% static 'dashboard/dist/maps/leaflet.draw.js' %}"></script>
+<script src="{% static 'dashboard/dist/maps/spin.min.js' %}"></script>
+<script src="{% static 'dashboard/dist/maps/leaflet.spin.min.js' %}"></script>
+<script src="{% static 'dashboard/dist/js/loadingoverlay.js' %}"></script>
+<script src="https://unpkg.com/@turf/turf@5.1.6/turf.min.js"></script>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+     
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div id="summary-sections">
+        <!-- Info boxes -->
+        <div class="row" id="summary">
+          
+          {% if summaries %}
+          {% for summary,counts in summaries %}
+          
+                            
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">              
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user"></i></span>
+
+              <div class="info-box-content" id="{{summary}}">
+                
+                  <span class="info-box-text">{{summary}}</span>
+                  <span class="info-box-number">{{counts}}</span> 
+                
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          
+          {% endfor %}
+          {% endif %}
+        
+        </div>
+        {% if mobile_summary %}    
+        <div class="row">
+          <div class="col-12" id="mobile-data">
+         
+          </div>
+          <!-- /.col -->
+        </div>
+        {% endif %}
+        <!-- /.row -->
+     
+      </div>
+      {% if summaries %}
+        <div class="row">
+          <div class="col-12">
+              <div class="card card-primary card-outline">
+                <div class="card-header"> <h4>Mobile Data Summary</h4></div>
+                <div class="card-body">
+                  <button id="column" disabled>Column chart</button>
+                  <button id="bar">Bar chart</button>
+                  <button id="line">Line chart</button>
+                  <button id="spline">Spline chart</button>
+                  <button id="pie">Pie chart</button>
+                  <hr>
+                  <div id="strChart" style="height: 40vh;"></div>
+                </div>
+              </div>
+        
+              <!-- /.card -->
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        {% endif %}
+        <!-- /.row -->
+
+       
+        <!-- /.row -->
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+
+<script>
+  $(document).ready(function () {
+
+$("#mobile_entity_div").on("click", "li", function() {
+    var list_id = $(this).attr('id');
+    var profile = $("#profiles :selected").val();
+    console.log('Entity',list_id)
+    console.log('Profile',profile)
+    var sendUrl = '{% url "mobile_entity_detail" profile_name=0 name=1 %}'.replace('0',profile).replace('1',list_id)
+    $.ajax({
+          url: sendUrl,
+          type: 'POST',
+          traditional: true,      
+          success: function (data) { 
+            console.log(data);
+              $('#mobile-data').html(data);             
+              
+          }
+      });
+    
+});
+
+
+
+
+    });
+
+</script>
+<!-- <script>
+  $(document).ready(function () {
+    
+    $('#profiles').change(function(){        
+      $.ajax({
+          url: "/profile/api/" + this.value,
+          type: 'POST',
+          traditional: true,    
+          success: function (data) {   
+            console.log(data);          
+              $('#dynamicDiv').html(data);
+              
+              
+          }
+      });
+      $.ajax({
+          url: "/api/" + this.value,
+          type: 'POST',
+          traditional: true,      
+          success: function (data) {   
+            console.log(data);          
+              $('#entity-details').html(data);             
+              
+          }
+      });
+   
+});
+    });
+
+</script> -->
+<script type="text/javascript">
+  $(function () {
+    Highcharts.setOptions({
+        lang: {
+            decimalPoint: '.',
+            thousandsSep: ','
+        }
+        });
+        $('#tenure-chart').highcharts({
+          chart: {
+              type: 'column',
+              zoomType: 'x'
+          },
+          title: {
+              text: ''
+          },
+
+          xAxis: {
+              categories:  [{% for x in str_summary %} '{{x.1}}',{% endfor %} ]            
+                
+              // {{charts.name|safe}}
+                     
+      },
+
+      yAxis: {
+          min: 0,
+          allowDecimals: false,
+          title: {
+              text: 'Number of records'
+          },
+          labels: {
+              formatter: function () {
+                  return  this.value;
+              }
+          },
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0"></td>' +
+              '<td style="padding:0"><b>{point.y} </b></td></tr>',
+          footerFormat: '</table>',
+          shared: false,
+          useHTML: true
+      },
+      plotOptions: {
+          pointWidth: 40,
+          column: {
+              colorByPoint: true,
+              dataLabels: {
+                enabled: true,
+                format: '{point.y:,.0f}',
+                color: '#777'
+            }
+          }
+      },
+      
+      credits: {
+          "enabled": false
+      },
+      series: [
+          {
+              showInLegend: false,
+              "data": [{% for x in str_summary %} {{x.0}},{% endfor %} ]  
+          
+          }
+
+
+
+      ]
+    });
+      $('#strChart').highcharts({
+          chart: {
+              type: 'column',
+              zoomType: 'x'
+          },
+          title: {
+              text: ''
+          },
+
+          xAxis: {
+              categories:                
+                
+              {{charts.name|safe}}
+                     
+      },
+
+      yAxis: {
+          min: 0,
+          allowDecimals: false,
+          title: {
+              text: 'Number of records'
+          },
+          labels: {
+              formatter: function () {
+                  return  this.value;
+              }
+          },
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0"></td>' +
+              '<td style="padding:0"><b>{point.y} </b></td></tr>',
+          footerFormat: '</table>',
+          shared: false,
+          useHTML: true
+      },
+      plotOptions: {
+          pointWidth: 40,
+          column: {
+              colorByPoint: true,
+              dataLabels: {
+                enabled: true,
+                format: '{point.y:,.0f}',
+                color: '#777'
+            }
+          }
+      },
+      
+      credits: {
+          "enabled": false
+      },
+      series: [
+          {
+              showInLegend: false,
+              "data": {{charts.count|safe}}
+          
+          }
+
+
+
+      ]
+    });
+    clickedButton = $('#column');
+    var chart = $('#strChart').highcharts(),
+    checkIfInverted = function(check, nameOfButton) {
+      if (check) {
+        chart.inverted = !chart.inverted;
+        chart.xAxis[0].update({}, false);
+        chart.yAxis[0].update({}, false);
+      }
+    },
+    buttonEnabling = function(thisButton) {
+      clickedButton.removeAttr('disabled');
+      clickedButton = $(thisButton);
+      clickedButton.attr('disabled', 'disabled');
+    },
+    changeTypeOfSeries = function(typ) {
+      chart.series.forEach(function(el, inx) {
+        el.update({
+          type: typ
+        });
+      });
+    };
+
+  $('#column').bind('click', function() {
+    checkIfInverted(chart.inverted);
+    changeTypeOfSeries('column');
+    buttonEnabling(this);
+  });
+
+  $('#bar').bind('click', function() {
+    checkIfInverted(!chart.inverted);
+    changeTypeOfSeries('bar');
+    buttonEnabling(this);
+  });
+
+  $('#line').bind('click', function() {
+    checkIfInverted(chart.inverted);
+    changeTypeOfSeries('line');
+    buttonEnabling(this);
+  });
+
+  $('#spline').bind('click', function() {
+    checkIfInverted(chart.inverted);
+    changeTypeOfSeries('spline');
+    buttonEnabling(this);
+  });
+  $('#pie').bind('click', function() {
+    checkIfInverted(chart.inverted);
+
+    chart.series.forEach(function(series, index) {
+      var pieOffset = 1 * 150,
+        correctedData = [],
+        newName;
+
+      series.points.forEach(function(pt) {
+        newName = pt.category;
+        correctedData.push([newName, pt.y]);
+      });
+
+      series.update({
+        type: 'pie',
+        data: correctedData,
+        showInLegend: true,
+        size: '100%',
+        center: [pieOffset + 50, null],
+        dataLabels: {
+          distance: -10
+        }
+      });
+    });
+
+    buttonEnabling(this);
+  });
+
+  });
+</script>
+
+{% endblock content %}

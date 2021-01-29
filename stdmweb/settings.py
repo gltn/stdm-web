@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'app',
     'leaflet',
     'rest_framework',
-    'stdm_config'
+    'stdm_config',
+    'mobile'
 ]
 
 MIDDLEWARE = [

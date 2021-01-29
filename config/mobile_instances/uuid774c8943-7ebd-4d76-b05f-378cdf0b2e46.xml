@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<Informal_Settlement id="Informal Settlement" xmlns:jr="http://openrosa.org/javarosa" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:orx="http://openrosa.org/xforms">
+	<in_person>
+		<first_name>
+			Ann
+		</first_name>
+		<middle_name>
+			Merry
+		</middle_name>
+		<last_name>
+			N
+		</last_name>
+		<national_id>
+			287364822
+		</national_id>
+		<gender>
+			F
+		</gender>
+		<date_of_birth>
+			2009-03-19
+		</date_of_birth>
+		<marital_status>
+			Cohabiting
+		</marital_status>
+		<telephone_number>
+			0782926457
+		</telephone_number>
+		<address>
+			08292
+		</address>
+		<residence_area>
+			Nyamira
+		</residence_area>
+		<household_relation>
+			Daughter
+		</household_relation>
+		<Photo_supporting_document>
+			1611312600700.jpg
+		</Photo_supporting_document>
+		<Identification-Card_supporting_document>
+			1611312582236.jpg
+		</Identification-Card_supporting_document>
+	</in_person>
+	<in_structure>
+		<code>
+			004
+		</code>
+		<name>
+			Kitchen
+		</name>
+		<ownership_type>
+			Private Individual
+		</ownership_type>
+		<related_structures>
+			Kitchen
+		</related_structures>
+		<recognition_status>
+			Yes
+		</recognition_status>
+		<utilities>
+			Water
+		</utilities>
+		<location>
+			Mathare
+		</location>
+		<spatial_geometry>
+			-1.261275641517995 36.87729276716709 0.0 0.0;-1.2613071498378654 36.87774170190096 0.0 0.0;-1.26157731690543 36.87772326171398 0.0 0.0;-1.2615334063789791 36.8772542104125 0.0 0.0;-1.261275641517995 36.87729276716709 0.0 0.0;
+		</spatial_geometry>
+		<supporting_document />
+	</in_structure>
+	<social_tenure>
+		<tenure_type>
+			Tenant
+		</tenure_type>
+		<validity_start />
+		<validity_end />
+		<tenure_share>
+			100
+		</tenure_share>
+		<supporting_document />
+	</social_tenure>
+	<meta>
+		<instanceID>
+			uuid:774c8943-7ebd-4d76-b05f-378cdf0b2e46
+		</instanceID>
+	</meta>
+</Informal_Settlement>

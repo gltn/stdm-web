@@ -8,9 +8,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-  <title>{% block title %}Home {% endblock %} | STDM WEB</title>
-
+  <title>{% block title %}Mobile {% endblock %} | STDM WEB</title>
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{% static 'dashboard/plugins/fontawesome-free/css/all.min.css' %}">
   <!-- overlayScrollbars -->
@@ -38,14 +36,10 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <div class="nav-link"><label>Current Profile: </label></div>
-        
+        <div class="nav-link"><label>Current Profile: </label></div>        
       </li>
-      
-      
       <li class="nav-item d-none d-sm-inline-block">
-        <div class="form-group">
-          
+        <div class="form-group">          
           <select class="form-control" id="profiles">
             {% block profiler %}
             {% if profiles %}          
@@ -56,16 +50,11 @@
             <p>No profiles available!</p>
             {% endif %}
             {% endblock profiler %}
-            
           </select>
         </div>
-       
       </li>
-     
     </ul>
    
-
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item d-none d-sm-inline-block">
@@ -129,11 +118,11 @@
             </a>
            
           </li>
-          <div class="nav-item" id="dynamicDiv">
-            {% block profiler_entities %}
-            {% if entities %}          
-              {% for entity in entities %}
-              <li class="nav-item" id="{{entity.short_name}}">
+          <div class="nav-item" id="mobile_entity_div">
+            {% block mobile_entities %}
+            {% if m_entities %}          
+              {% for entity in m_entities %}
+              <li class="nav-item" id="{{entity.name}}">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-th"></i>
                   <p>{{entity.short_name}}
@@ -144,12 +133,9 @@
             {% else %}
             <p>No entities available!</p>
             {% endif %}
-            {% endblock profiler_entities %}
+            {% endblock mobile_entities %}
        
           </div>
-          
-      
-         
           <hr>
           <li class="nav-item">
             <a href="{% url 'mobile' %}" class="nav-link">

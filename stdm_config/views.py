@@ -423,3 +423,4 @@ def queryStrDetailsSTR(queryString):
 		data = cursor.fetchall()
 		sorted_str = sorted(data, key=lambda x: x[0], reverse=True)
 		return sorted_str
+
