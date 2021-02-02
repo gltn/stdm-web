@@ -40,8 +40,7 @@
       <div class="container-fluid">
         <div id="summary-sections">
         <!-- Info boxes -->
-        <div class="row" id="summary">
-          
+        <div class="row" id="summary">          
           {% if summaries %}
           {% for summary,counts in summaries %}
           
@@ -65,14 +64,16 @@
           {% endif %}
         
         </div>
-        {% if mobile_summary %}    
+          
         <div class="row">
-          <div class="col-12" id="mobile-data">
+          <div class="col-md-12">
+          <div class="col-12 col-sm-12" id="mobile-data">
          
           </div>
+        </div>
           <!-- /.col -->
         </div>
-        {% endif %}
+        
         <!-- /.row -->
      
       </div>
@@ -116,13 +117,12 @@ $("#mobile_entity_div").on("click", "li", function() {
     var profile = $("#profiles :selected").val();
     console.log('Entity',list_id)
     console.log('Profile',profile)
-    var sendUrl = '{% url "mobile_entity_detail" profile_name=0 name=1 %}'.replace('0',profile).replace('1',list_id)
+    // var sendUrl = '{% url "mobile_entity_detail" profile_name=0 name=1 %}'.replace('0',profile).replace('1',list_id)
     $.ajax({
-          url: sendUrl,
+          url: 'details/' + profile + '/' + list_id,
           type: 'POST',
           traditional: true,      
           success: function (data) { 
-            console.log(data);
               $('#mobile-data').html(data);             
               
           }
@@ -136,36 +136,7 @@ $("#mobile_entity_div").on("click", "li", function() {
     });
 
 </script>
-<!-- <script>
-  $(document).ready(function () {
-    
-    $('#profiles').change(function(){        
-      $.ajax({
-          url: "/profile/api/" + this.value,
-          type: 'POST',
-          traditional: true,    
-          success: function (data) {   
-            console.log(data);          
-              $('#dynamicDiv').html(data);
-              
-              
-          }
-      });
-      $.ajax({
-          url: "/api/" + this.value,
-          type: 'POST',
-          traditional: true,      
-          success: function (data) {   
-            console.log(data);          
-              $('#entity-details').html(data);             
-              
-          }
-      });
-   
-});
-    });
 
-</script> -->
 <script type="text/javascript">
   $(function () {
     Highcharts.setOptions({

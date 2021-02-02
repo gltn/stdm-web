@@ -122,7 +122,7 @@
             {% block mobile_entities %}
             {% if m_entities %}          
               {% for entity in m_entities %}
-              <li class="nav-item" id="{{entity.name}}">
+              <li class="nav-item" id="{{entity.short_name}}">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-th"></i>
                   <p>{{entity.short_name}}
@@ -241,10 +241,10 @@
 <!-- bs-custom-file-input -->
 <script src="{% static 'dashboard/plugins/bs-custom-file-input/bs-custom-file-input.min.js' %}"></script>
 
-<script>
+<!-- <script>
   $("#profiles").val("{{default_profile}}");
   
-</script>
+</script> -->
 
 
 </body>

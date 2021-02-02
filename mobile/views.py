@@ -13,6 +13,7 @@ from os import listdir, path
 import xml.etree.ElementTree as ET
 from collections import Counter
 from stdm_config.views import toHeader
+import json
 
 #Mobile Component
 StdmConfiguration.cleanUp()
@@ -27,15 +28,52 @@ instance_path = os.path.join(BASE_DIR_MOBILE, 'config/mobile_instances')
 mobile_xml_files = [path.join(instance_path, f) for f in listdir(instance_path) if f.endswith('.xml')]
 
 
-
-def ListSubmissions():
-	MOBILE_PATH = os.path.join(BASE_DIR, 'config/instances/Informal_Settlement_2021-01-22_13-48-05')
-	for subdir, dirs, files in os.walk(MOBILE_PATH):
+def FindEntitySubmissions(profile_name):
+	submissions =[]
+	for subdir, dirs, files in os.walk(instance_path):
 		for file in files:
 			file_name = os.path.join(subdir, file)
-			xml = ET.parse(file_name)
-			if (Path(file_name).suffix == '.xml'):
-				print(file_name)
+			if (file_name.endswith('.xml')):
+				xml = ET.parse(file_name)
+				if xml.getroot().tag == profile_name:
+					submissions.append(file_name)
+	return submissions
+
+
+def EntityData(profile_name, entity_name,entity_short_name):
+	datas=[]
+	spatial_data = []
+	for file in FindEntitySubmissions(profile_name):
+		submission_xml = ET.parse(file)
+		submission_root = submission_xml.getroot()
+		if (submission_root.tag == profile_name ):
+			entity_data ={}
+			spatial_item ={}
+			for entity in submission_root:
+				if entity.tag == entity_name:
+					columns = [elem.tag for elem in entity.iter() if elem is not entity]
+					for elem in entity.iter():
+						if elem is not entity:							
+							spatial_item[elem.tag] = elem.text
+							if elem.tag != 'spatial_geometry':
+								entity_data[toHeader(elem.tag)] = elem.text
+					datas.append(entity_data)
+					spatial_data.append(spatial_item)
+	prof = mobile_stdm_config.profile(profile_name)
+	entity_object = prof.entity(entity_short_name)
+	geojson = None
+	if entity_object.has_geometry_column():	
+		geojson = {'type':'FeatureCollection', 'features':[]}	
+		for row in spatial_data:
+			feature = {'type':'Feature','properties':{},'geometry':{'coordinates':[]}}
+			feature['geometry']['coordinates'] = json.dumps(row['spatial_geometry'])
+			for prop in row:
+				if prop != 'spatial_geometry':
+					feature['properties'][prop] = row[prop]
+			geojson['features'].append(feature)
+		print('Geo Data',geojson)
+
+	return [datas,json.dumps(geojson)]
 
 @login_required
 def MobileView(request):	
@@ -53,7 +91,6 @@ def MobileView(request):
 		default_profile = profiles_list[0]
 		if Setting.objects.exists():
 			configs =Setting.objects.all().first()
-
 	other_columns = []	
 	profiler = mobile_stdm_config.profile(default_profile)
 	party = profiler.social_tenure.parties[0]
@@ -68,31 +105,22 @@ def MobileView(request):
 					config_entities.append(entity)
 	#Reading xml files
 	summaries = []
-	table_data = []
-	values = {}
-	for file in mobile_xml_files:
+	for file in FindEntitySubmissions(default_profile):
 		tree = ET.parse(file)
 		root =  tree.getroot()
 		if root.tag == default_profile:
 			for child in root:
-				print(child.tag)
-				table_data[child.tag]
 				for en in entities:
 					if child.tag != 'meta' and child.tag != 'social_tenure':
 						if child.tag == en.name:
-							# if en.short_name not in summaries["name"]:
 							summaries.append(en.short_name)
-				for data in root.iter(child.tag):
-					print(data.text)
-					for dt in data:
-						table_data[child.tag] = {dt.tag:dt.text}
-	print(table_data)
 	dict_summaries = Counter(summaries)
 	actual_summaries = {'name':[],'count':[]}
 	for i in Counter(summaries):
 		actual_summaries["name"].append(i)
 		actual_summaries["count"].append(dict_summaries[i])
 	zipped_summaries = zip(actual_summaries["name"][:4],actual_summaries["count"][:4])
+	print('Zipped',actual_summaries)
 	return render(request, 'dashboard/mobile.html', {'configs':configs,'default_profile':default_profile,'profiles':profiles_list,'m_entities':entities, 'summaries':zipped_summaries,'charts':actual_summaries})
 
 @csrf_exempt
@@ -104,11 +132,12 @@ def MobileEntityDetailView(request, profile_name,name):
 	columns = []
 	has_spatial_column = None
 	is_str_entity = None
+
 	prof = mobile_stdm_config.profile(profile_name)
 	entity = prof.entity(name)
-	print('ENTITY',entity)
 	social_tenure = prof.social_tenure       
 	entity_name = entity.name
+	entity_short_name = entity.short_name
 	entities.append(entity)
 
 	for column in entity.columns.values():
@@ -129,4 +158,5 @@ def MobileEntityDetailView(request, profile_name,name):
 		if col in entity_columns:
 			columns.append(toHeader(col))
 			format_query_columns.append(col)
-	return render(request,'dashboard/mobile_entity.html', {'default_entity':default_entity,'profile':profile_name,'entity_name':entity_name,'columns':columns,'has_spatial_column':has_spatial_column,'is_str_entity':is_str_entity })
+	returned_data = EntityData(profile_name,entity_name,entity_short_name)
+	return render(request,'dashboard/mobile_entity.html', {'default_entity':default_entity,'profile':profile_name,'entity_name':entity_name,'columns':columns,'has_spatial_column':has_spatial_column,'is_str_entity':is_str_entity, 'data':returned_data[0], 'spatial_dataset': returned_data[1] })

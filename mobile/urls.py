@@ -7,5 +7,5 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [  
     path('mobile/', MobileView, name='mobile'),
-    path('mobile/<profile_name>/<name>', MobileEntityDetailView, name='mobile_entity_detail'),
+    path('mobile/details/<profile_name>/<name>', MobileEntityDetailView, name='mobile_entity_detail'),
 ]

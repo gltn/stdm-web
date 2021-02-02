@@ -1,248 +1,217 @@
+
 {% load static %}
-      <div class="container-fluid">        
-        <div class="row">
-          <div class="col-md-12">
-            <div class="col-12 col-sm-12">
-              <div class="card card-primary card-outline card-outline-tabs">
-                <div class="card-header p-0 border-bottom-0" id="changing-tabs">
-                  <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                    <li class="nav-item">
-                      <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_tab_details" role="tab" aria-controls="profile_tab_details" aria-selected="true">Records</a>
-                    </li>
-                    
-                    {% if default_entity.has_geometry_column == True %}
-                    <li class="nav-item">
-                      <a class="nav-link" id="maps-tab" data-toggle="pill" href="#maps" role="tab" aria-controls="maps" aria-selected="false" style="display:block">Map</a>
-                    </li>
-                    {% endif %}
-                    {% if lookup_summaries %}
-                    <li class="nav-item">
-                      <a class="nav-link" id="sum-tab" data-toggle="pill" href="#sum" role="tab" aria-controls="sum" aria-selected="false" style="display:block">Summaries</a>
-                    </li>
-                    {% endif %}
-                  </ul>
-                </div>
-                <div class="card-body">                  
-                  <hr>
-                  <div class="tab-content" id="custom-tabs-four-tabContent">
-                    <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details" aria-labelledby="profile_details-tab"> 
-                      <div class="card card-primary"  id="profile_details">
-                        <h4>{{default_entity.ui_display}}</h4>
-                        <hr>
-                        <table id="example2" class="table table-bordered table-striped" style="width:100%">
+<div class="card card-primary card-outline card-outline-tabs">
+  <div class="card-header p-0 border-bottom-0" id="changing-tabs">
+    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_tab_details" role="tab" aria-controls="profile_tab_details" aria-selected="true">Records</a>
+      </li>
+      
+      {% if default_entity.has_geometry_column == True %}
+      <li class="nav-item">
+        <a class="nav-link" id="maps-tab" data-toggle="pill" href="#maps" role="tab" aria-controls="maps" aria-selected="false" style="display:block">Map</a>
+      </li>
+      {% endif %}
+      {% if lookup_summaries %}
+      <li class="nav-item">
+        <a class="nav-link" id="sum-tab" data-toggle="pill" href="#sum" role="tab" aria-controls="sum" aria-selected="false" style="display:block">Summaries</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+  <div class="card-body">                  
+    <hr>
+    <div class="tab-content" id="custom-tabs-four-tabContent">
+      <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details" aria-labelledby="profile_details-tab"> 
+        <div class="card card-primary"  id="profile_details">
+          <h4>{{default_entity.ui_display}}</h4>
+          <hr>
+          <table id="example2" class="table table-bordered table-striped" style="width:100%">
+
+              <thead>
+                
+            <tr>
+              {% for row in data.0 %}            
+                <th>{{row}}</th>                
+              {% endfor %}                                                  
+            </tr>            
+            
+            </thead>
+            
+            <tbody>
+              
+              {% for row in data %} 
+                              
+              <tr>
+                {% for value in row.items %}                                       
+                <td>{{value.1}}</td>   
+                {% endfor %}                       
+              </tr>              
+              {% endfor %}    
+            </tbody>
+            
+            </table>
+
+
+          </div> 
+          <div class="row" id="view_more"></div>                     
+      </div>
+      {% if default_entity.has_geometry_column == True %}
+      <div class="tab-pane fade" id="maps" role="tabpanel" aria-labelledby="maps-tab">
+        <div class="container-fluid"> 
+          <div class="row">
+            <div class="col-12 col-md-12">            
+              <nav class="navbar navbar-expand navbar-light float-right">
+                <!-- Left navbar links -->
+                <ul class="navbar-nav">
+                  <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" class="nav-link" id="full-extent-btn"><i class="fas fa-arrows-alt"></i> Zoom To Full Extent</a>
+                  </li>
+                </ul>
   
-                            <thead>
-                          
-                          <tr>
-                              {% for column in columns %}   
-                              <th>{{column}}</th>                                         
-                              {% endfor %} 
-                              {% if is_str_entity %} 
-                              <th>Action</th>    
-                              {% endif %}                     
-                          </tr>
-                          
-                          </thead>
-                          
-                          <tbody>
-                            
-                            {% for row in data %}
-                                  
-                            <tr>
-                              {% for dt in row %}                              
-                              <td>{{dt.1}}</td>   
-                              {% endfor %}
-                              {% if is_str_entity  %}                        
-
-
-                              <!-- <td><a href="{% url 'fetchstr' profile_name=profile entity_short_name=default_entity.short_name id=45 %}">View More</a></td>  -->
-                              <td><button id='moreView' class="{% if dt.0 == 'id' %}{{dt.1}}{% endif %}">View More</button></td>
-                              {% endif %}                        
-                            </tr>
-                           
-                            {% endfor %}    
-                          </tbody>
-                          
-                          </table>
-
-
-                        </div> 
-                        <div class="row" id="view_more"></div>                     
+                <!-- SEARCH FORM -->
+                <!-- <form class="form-inline ml-3">
+                  <div class="input-group input-group-sm">
+                    <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
+                      <button class="btn btn-navbar" type="submit">
+                        <i class="fas fa-search"></i>
+                      </button>
                     </div>
-                    {% if default_entity.has_geometry_column == True %}
-                    <div class="tab-pane fade" id="maps" role="tabpanel" aria-labelledby="maps-tab">
-                      <div class="container-fluid"> 
-                        <div class="row">
-                          <div class="col-12 col-md-12">            
-                            <nav class="navbar navbar-expand navbar-light float-right">
-                              <!-- Left navbar links -->
-                              <ul class="navbar-nav">
-                                <li class="nav-item d-none d-sm-inline-block">
-                                  <a href="#" class="nav-link"  id="query-btn"><i class="fas fa-question-circle"></i> Advanced Search</a>
-                                </li>
-                                <li class="nav-item d-none d-sm-inline-block">
-                                  <a href="#" class="nav-link" id="full-extent-btn"><i class="fas fa-arrows-alt"></i> Zoom To Full Extent</a>
-                                </li>
-                              </ul>
-                
-                              <!-- SEARCH FORM -->
-                              <form class="form-inline ml-3">
-                                <div class="input-group input-group-sm">
-                                  <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                                  <div class="input-group-append">
-                                    <button class="btn btn-navbar" type="submit">
-                                      <i class="fas fa-search"></i>
-                                    </button>
-                                  </div>
-                                </div>
-                              </form>
-                            </nav>
-                          </div>
-                        </div>      
-                       <br>
-                       <div id="map-sidebar" style="display: none;">
-                        <div class="map-sidebar-wrapper">
-                          <div class="panel panel-default" id="features">
-                            <div class="panel-heading">
-                              <h3 class="panel-title">Advanced Query
-                              <button type="button" class="btn btn-xs btn-default pull-right" id="map-sidebar-hide-btn"><i class="fa fa-chevron-left"></i></button></h3>
-                            </div>
-                            <div class="panel-body">
-                              
-                            </div>
-                            <div class="map-sidebar-table">
-                              <table class="table table-hover" id="feature-list">
-                                <thead class="hidden">
-                                  <tr>
-                                    <th>Icon</th>
-                                  <tr>
-                                  <tr>
-                                    <th>Name</th>
-                                  <tr>
-                                  <tr>
-                                    <th>Chevron</th>
-                                  <tr>
-                                </thead>
-                                <tbody class="list"></tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div id="mapdiv">
-                        <div id="mapid" style="height: 70vh; width: auto;box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
-                      </div>
-                      <div id="table-container">
-                        <div id="toolbar" style="width: 400px;">                          
-                          <span id="feature-count" class="text-muted" style="padding-left: 15px;"></span>
-                        </div>
-                        <table id="sttable" class="cell-border nowrap" style="width: 100%;">
-                         
-                        </table>
-                      </div>
-
-                              
-                            
-                              <!-- /.card -->
-                            <!-- /.card -->
-                          
-                          <!-- /.col -->
-                       
-                        <!-- /.row -->
-                
-                        <!-- /.row -->
-                      </div><!--/. container-fluid -->
-                    </div>
-                    {% endif %}
-                    {% if lookup_summaries %}
-                    <div class="tab-pane fade" id="sum" role="tabpanel" aria-labelledby="sum-tab">
-                      <div class="container-fluid"> 
-                        <div class="row">
-                          <h4>{{default_entity.ui_display}}</h4>
-                          <hr>                        
-                         
-                          <div class="col-12">
-                          <div class="card card-primary card-outline">
-                            <div class="card-header d-flex p-0">
-                              <h3 class="card-title p-3">Look-Up Summary</h3>
-                              <ul class="nav nav-pills ml-auto p-2" id="lookups">
-                                {% for key,value in lookup_summaries.items %}  
-                                                      
-                                {% if forloop.first %}                                
-                                <li class="nav-item"><a class="nav-link active" href="#{{key|cut:' ' }}" data-toggle="tab">{{key}}</a> </li>
-                                {% else %}
-                                <li class="nav-item"><a class="nav-link" href="#{{key|cut:' ' }}" data-toggle="tab">{{key}}</a> </li>
-                                {% endif %}
-                                {% endfor %}
-                                <!-- <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Chart</a></li> -->
-                               
-                                
-                              </ul>
-                            </div><!-- /.card-header -->
-                            <div class="card-body">
-                              <div class="tab-content">                                <!-- /.tab-pane -->
-                                
-                                <br>
-                               
-                                {% for key,value in lookup_summaries.items %}
-                                {% if forloop.first %}
-                                <div class="tab-pane active" id="{{key|cut:' ' }}">
-                                  <button id="column" disabled>Column chart</button>
-                                  <button id="bar">Bar chart</button>
-                                  <button id="line">Line chart</button>
-                                  <button id="spline">Spline chart</button>
-                                  <button id="pie">Pie chart</button>
-                                  <hr>
-                                  <div id="{{key|cut:' ' }}"  style="height: 30vh;"></div>
-                                
-                                </div>
-                                {% else %}
-                                <div class="tab-pane" id="{{key|cut:' ' }}">
-                                  <button id="column" disabled>Column chart</button>
-                                  <button id="bar">Bar chart</button>
-                                  <button id="line">Line chart</button>
-                                  <button id="spline">Spline chart</button>
-                                  <button id="pie">Pie chart</button>
-                                  <hr>
-                                  <div id="{{key|cut:' ' }}"  style="height: 30vh;"></div>
-                                  
-                                </div>
-                                {% endif %}
-                                {% endfor %}
-                                
-                                <!-- /.tab-pane -->
-                               
-                              </div>
-                              <!-- /.tab-content -->
-                            </div><!-- /.card-body -->
-                          </div>
-                        </div>
-                        </div>
-                      </div>
-                    </div>
-                    {% endif %}
-                   
                   </div>
-                </div>
-                <!-- /.card -->
+                </form> -->
+              </nav>
+            </div>
+          </div>      
+          <br>
+          <div id="map-sidebar" style="display: none;">
+          <div class="map-sidebar-wrapper">
+            <div class="panel panel-default" id="features">
+              <div class="panel-heading">
+                <h3 class="panel-title">Advanced Query
+                <button type="button" class="btn btn-xs btn-default pull-right" id="map-sidebar-hide-btn"><i class="fa fa-chevron-left"></i></button></h3>
+              </div>
+              <div class="panel-body">
+                
+              </div>
+              <div class="map-sidebar-table">
+                <table class="table table-hover" id="feature-list">
+                  <thead class="hidden">
+                    <tr>
+                      <th>Icon</th>
+                    <tr>
+                    <tr>
+                      <th>Name</th>
+                    <tr>
+                    <tr>
+                      <th>Chevron</th>
+                    <tr>
+                  </thead>
+                  <tbody class="list"></tbody>
+                </table>
               </div>
             </div>
-           
-            
-              <!-- /.card -->
-            <!-- /.card -->
           </div>
-          <!-- /.col -->
         </div>
-        
-        <!-- /.row -->
+        <div id="mapdiv">
+          <div id="mapid" style="height: 70vh; width: auto;box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
+        </div>
+        <div id="table-container">
+          <div id="toolbar" style="width: 400px;">                          
+            <span id="feature-count" class="text-muted" style="padding-left: 15px;"></span>
+          </div>
+          <table id="sttable" class="cell-border nowrap" style="width: 100%;">
+            
+          </table>
+        </div>
 
-       
-        <!-- /.row -->
-      </div><!--/. container-fluid -->
-    </section>
-    <!-- /.content -->
+                
+              
+                <!-- /.card -->
+              <!-- /.card -->
+            
+            <!-- /.col -->
+          
+          <!-- /.row -->
+  
+          <!-- /.row -->
+        </div><!--/. container-fluid -->
+      </div>
+      {% endif %}
+      {% if lookup_summaries %}
+      <div class="tab-pane fade" id="sum" role="tabpanel" aria-labelledby="sum-tab">
+        <div class="container-fluid"> 
+          <div class="row">
+            <h4>{{default_entity.ui_display}}</h4>
+            <hr>                        
+            
+            <div class="col-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3">Look-Up Summary</h3>
+                <ul class="nav nav-pills ml-auto p-2" id="lookups">
+                  {% for key,value in lookup_summaries.items %}  
+                                        
+                  {% if forloop.first %}                                
+                  <li class="nav-item"><a class="nav-link active" href="#{{key|cut:' ' }}" data-toggle="tab">{{key}}</a> </li>
+                  {% else %}
+                  <li class="nav-item"><a class="nav-link" href="#{{key|cut:' ' }}" data-toggle="tab">{{key}}</a> </li>
+                  {% endif %}
+                  {% endfor %}
+                  <!-- <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Chart</a></li> -->
+                  
+                  
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">                                <!-- /.tab-pane -->
+                  
+                  <br>
+                  
+                  {% for key,value in lookup_summaries.items %}
+                  {% if forloop.first %}
+                  <div class="tab-pane active" id="{{key|cut:' ' }}">
+                    <button id="column" disabled>Column chart</button>
+                    <button id="bar">Bar chart</button>
+                    <button id="line">Line chart</button>
+                    <button id="spline">Spline chart</button>
+                    <button id="pie">Pie chart</button>
+                    <hr>
+                    <div id="{{key|cut:' ' }}"  style="height: 30vh;"></div>
+                  
+                  </div>
+                  {% else %}
+                  <div class="tab-pane" id="{{key|cut:' ' }}">
+                    <button id="column" disabled>Column chart</button>
+                    <button id="bar">Bar chart</button>
+                    <button id="line">Line chart</button>
+                    <button id="spline">Spline chart</button>
+                    <button id="pie">Pie chart</button>
+                    <hr>
+                    <div id="{{key|cut:' ' }}"  style="height: 30vh;"></div>
+                    
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                  
+                  <!-- /.tab-pane -->
+                  
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      
+    </div>
   </div>
+  <!-- /.card -->
+</div>
+
+  
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
 
   <script>
@@ -273,27 +242,7 @@
         ],
 
       });
-      $('#example2 tbody').on('click', 'tr', function () {
-          var data_row = entityTable.row(this).data();
-          console.log('Hii ndio maneno')
-          console.log(data_row)
-          var list_id = data_row[0];
-          // var list_id = $(this).attr('class');
-          var profile = $("#profiles :selected").val();
-          console.log('Viewq More ID',list_id)
-          console.log('Profile',profile)
-          $.ajax({
-              url: profile + "/{{default_entity.short_name}}/" + list_id,
-              type: 'POST',
-              traditional: true,      
-              success: function (data) { 
-                console.log(data);
-                  $('#view_more').html(data);             
-                  
-              }
-          });
-          
-      } );
+
 
       $('ul li').each(function(i)
       {
@@ -394,7 +343,8 @@ var bounds = L.latLngBounds(southWest, northEast);
   }
 
  }
-var geom = {{spatial_result | safe}};
+var geom = {{spatial_dataset | safe}};
+console.log(geom);
 
  var layerFeatures = L.geoJSON(geom, {
      style: layerStyle.default,
