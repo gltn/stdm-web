@@ -29,7 +29,7 @@
                       <div class="card card-primary"  id="profile_details">
                         <h4>{{default_entity.ui_display}}</h4>
                         <hr>
-                        <table id="example2" class="table table-bordered table-striped" style="width:100%">
+                        <table id="example2" class="table table-bordered table-striped" style="width:100%;cursor:pointer">
   
                             <thead>
                           
@@ -37,9 +37,7 @@
                               {% for column in columns %}   
                               <th>{{column}}</th>                                         
                               {% endfor %} 
-                              {% if is_str_entity %} 
-                              <th>Action</th>    
-                              {% endif %}                     
+                                                
                           </tr>
                           
                           </thead>
@@ -52,12 +50,9 @@
                               {% for dt in row %}                              
                               <td>{{dt.1}}</td>   
                               {% endfor %}
-                              {% if is_str_entity  %}                        
-
-
-                              <!-- <td><a href="{% url 'fetchstr' profile_name=profile entity_short_name=default_entity.short_name id=45 %}">View More</a></td>  -->
+                              <!-- {% if is_str_entity  %}                        
                               <td><button id='moreView' class="{% if dt.0 == 'id' %}{{dt.1}}{% endif %}">View More</button></td>
-                              {% endif %}                        
+                              {% endif %}                         -->
                             </tr>
                            
                             {% endfor %}    
@@ -136,7 +131,7 @@
                         <div id="toolbar" style="width: 400px;">                          
                           <span id="feature-count" class="text-muted" style="padding-left: 15px;"></span>
                         </div>
-                        <table id="sttable" class="cell-border nowrap" style="width: 100%;">
+                        <table id="sttable" class="table table-bordered table-striped" style="width: 100%;cursor:pointer">
                          
                         </table>
                       </div>
@@ -252,12 +247,27 @@
     //     "autoWidth": true,
     //   });
       var entityTable = $('#example2').DataTable( {
-        dom: 'Bfrtip',
-        "select": {
-          "style": 'single'
-        },       
+        dom: 'Blfrtip',
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],       
+        select: {
+                style: 'single'
+            },      
         buttons: [
-            'copy', 'csv', 'excel', 'pdf'
+          {
+            extend: 'excelHtml5',
+            text: '<i class="fa fa-file-excel-o"> Export to Excel</i>',
+            titleAttr: 'Excel'
+          },
+          {
+            extend: 'csvHtml5',
+            text: '<i class="fa fa-file-text-o"> Export to CSV</i>',
+            titleAttr: 'CSV'
+          },
+          {
+            extend: 'pdfHtml5',
+            text: '<i class="fa fa-file-pdf-o"> Export to PDF</i>',
+            titleAttr: 'PDF'
+          }
         ],
         "scrollY": 400,
         "destroy": true,
@@ -268,9 +278,16 @@
         language: {
           processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>'
         },
-        columnDefs: [
-            { width: '20%', targets: 0 }
-        ],
+
+        "columnDefs": [ 
+          { width: '20%', targets: 0 },
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            },
+           
+        ]
 
       });
       $('#example2 tbody').on('click', 'tr', function () {
@@ -288,7 +305,10 @@
               traditional: true,      
               success: function (data) { 
                 console.log(data);
-                  $('#view_more').html(data);             
+                  $('#view_more').html(data); 
+                  document.getElementById('view_more').scrollIntoView({
+                    behavior: 'smooth'
+                  });            
                   
               }
           });
@@ -352,9 +372,13 @@ var bounds = L.latLngBounds(southWest, northEast);
    },
    'highlight': {
        'color': 'deepskyblue',
-      //  'fillOpacity':0.3,
        'opacity': 0.5,
        'weight': 2
+   },
+   'selection': {
+       'color': 'blue',
+       'weight': 4,
+       'fillOpacity':0,
    }
  };
  function titleCase(str) {
@@ -374,13 +398,15 @@ var bounds = L.latLngBounds(southWest, northEast);
         columnValues.push("<tr><th>"+titleCase(column.split('_').join(' '))+"</th><td>" + feature.properties[''+column+''] + "</td></tr>");
         
     }
-    // columnValues.pop();
+    columnValues.pop();
 
     layer.on({
       click: function (e) {      
         
         var content = "<table class='table table-striped table-bordered table-condensed'>" + columnValues.join("") + "<table>";
-        layer.bindPopup(content).openPopup(e.latlng);
+        
+        var mapPopup = L.popup({className: 'custom-popup'}).setContent(content);
+        layer.bindPopup(mapPopup).openPopup(e.latlng);
         this.setStyle(layerStyle.highlight);
       }
     });
@@ -394,9 +420,33 @@ var bounds = L.latLngBounds(southWest, northEast);
   }
 
  }
+ function onEachSelectedFeature(feature, layer) {
+ 
+ if (feature.properties) {
+   var columnValues = [];  
+  
+   for (column in feature.properties){
+       columnValues.push("<tr><th>"+titleCase(column.split('_').join(' '))+"</th><td>" + feature.properties[''+column+''] + "</td></tr>");
+       
+   }
+   columnValues.pop();
+   layer.on({
+     click: function (e) {      
+       
+       var content = "<table class='table table-striped table-bordered table-condensed'>" + columnValues.join("") + "<table>";
+       
+       var mapPopup = L.popup({className: 'custom-popup'}).setContent(content);
+       layer.bindPopup(mapPopup).openPopup(e.latlng);
+       this.setStyle(layerStyle.highlight);
+     }
+   });
+  
+ }
+
+}
 var geom = {{spatial_result | safe}};
 
- var layerFeatures = L.geoJSON(geom, {
+ var layerFeatures = L.geoJson(geom, {
      style: layerStyle.default,
      onEachFeature: onEachFeature
  }).addTo(mymap);
@@ -421,6 +471,8 @@ mymap.fitBounds(layerFeatures.getBounds());
 // Initialise the FeatureGroup to store editable layers
 var selectionFeatures = new L.FeatureGroup();
 mymap.addLayer(selectionFeatures);
+L.drawLocal.draw.toolbar.buttons.polygon = 'Select by drawing a polygon';
+L.drawLocal.draw.toolbar.buttons.rectangle = 'Select by drawing a rectangle';
 
  var drawPluginOptions = {
   position: 'topleft',
@@ -446,6 +498,8 @@ mymap.addLayer(selectionFeatures);
 };
 console.log(layerFeatures);
 var drawControl = new L.Control.Draw(drawPluginOptions).addTo(mymap);
+
+
 var interLayer = null;
 var tableData =[];
 mymap.on('draw:created', function(e) {
@@ -457,7 +511,7 @@ mymap.on('draw:created', function(e) {
     interLayer.clearLayers();
   }  
   tableData =[];
-  mymap.spin(true);
+  
   SelectFeatures(layer);
   
   
@@ -466,7 +520,7 @@ var featuresWithin = [];
 
 var leaflet_stamps = [];
 function SelectFeatures(layer) {
-
+  mymap.spin(true);
   featuresWithin = [];
 
   geom.features.forEach(function(layer1) {
@@ -485,10 +539,31 @@ function SelectFeatures(layer) {
     }
     
   })
-
-  interLayer = L.geoJson(featuresWithin,{onEachFeature: onEachFeature}).setStyle(layerStyle.highlight).addTo(mymap);
+ 
+  interLayer = L.geoJson(featuresWithin,{onEachFeature:onEachSelectedFeature}).setStyle(layerStyle.highlight).addTo(mymap);
   interLayer.bringToFront();
-  mymap.spin(false);
+  mymap.removeLayer(selectionFeatures);
+ 
+  
+
+    mymap.on("overlayadd", function(e) {
+      if (e.layer === layerFeatures) {
+        if (interLayer.getLayers()){
+          mymap.addLayer(interLayer);
+        }  
+       
+      }
+    
+    });
+
+    mymap.on("overlayremove", function(e) {
+      if (e.layer === layerFeatures) {
+        if (mymap.hasLayer(interLayer)){
+          mymap.removeLayer(interLayer);
+        }  
+      }
+    
+    });
 
   var columns =[];
   var data =[];
@@ -503,6 +578,7 @@ function SelectFeatures(layer) {
       }
       data.push(arr)
   }
+  
   console.log('Columns', columns);
   var dataTable;
   dataTable = $('#sttable').DataTable( {
@@ -511,17 +587,38 @@ function SelectFeatures(layer) {
     "searching": true,
     "responsive": true,
     "autoWidth": true,
-    "select": {
-      "style": 'single'
-    },
     "scrollX": true,
     data: data,
     columns: columns,
-    dom: 'lBfrtip',
+    dom: 'Blfrtip',
+    lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],       
+    select: {
+            style: 'single'
+        },      
     buttons: [
-        'copy', 'csv', 'excel', 'pdf'
+      {
+        extend: 'excelHtml5',
+        text: '<i class="fa fa-file-excel-o"> Export to Excel</i>',
+        titleAttr: 'Excel'
+      },
+      {
+        extend: 'csvHtml5',
+        text: '<i class="fa fa-file-text-o"> Export to CSV</i>',
+        titleAttr: 'CSV'
+      },
+      {
+        extend: 'pdfHtml5',
+        text: '<i class="fa fa-file-pdf-o"> Export to PDF</i>',
+        titleAttr: 'PDF'
+      }
     ],
+    
   });
+  mymap.spin(false);
+
+  document.getElementById('toolbar').scrollIntoView({
+    behavior: 'smooth'
+  });  
  
 
   $('#sttable tbody').on('click', 'tr', function () {
@@ -543,6 +640,7 @@ function SelectFeatures(layer) {
   }
  
 }
+
 // $('#sttable tbody').on( 'click', 'td', function () 
 // {
 //     var tr = $(this).closest("tr");

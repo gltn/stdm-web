@@ -37,6 +37,9 @@
 
     <!-- Main content -->
     <section class="content" id="entity-details">
+      <div id="spinner">
+        <img id="loading-image" src="{% static 'dashboard/loader/loader.gif' %}" style="display:none;"/>
+      </div>
       <div class="container-fluid">
         <div id="summary-sections">
         <!-- Info boxes -->
@@ -152,7 +155,8 @@
         <div class="row">
           <div class="col-12">
               <div class="card card-primary card-outline">
-                <div class="card-header"> <h4>Summary</h4></div>
+                <h3 class="card-title p-3">Entity Summary</h3>
+                
                 <div class="card-body">
                   <button id="column" disabled>Column chart</button>
                   <button id="bar">Bar chart</button>
@@ -182,7 +186,7 @@
 
 <script>
   $(document).ready(function () {
-
+   $('#spinner').hide();
 $("#dynamicDiv").on("click", "li", function() {
     var list_id = $(this).attr('id');
     var profile = $("#profiles :selected").val();
@@ -191,11 +195,13 @@ $("#dynamicDiv").on("click", "li", function() {
     $.ajax({
           url: profile + "/entity/" + list_id,
           type: 'POST',
-          traditional: true,      
-          success: function (data) { 
-            console.log(data);
-              $('#entity-details').html(data);             
-              
+          traditional: true, 
+          beforeSend: function() {
+              $("#loading-image").show();
+           },     
+          success: function (data) {            
+              $('#entity-details').html(data); 
+              $("#loading-image").hide();               
           }
       });
     
@@ -210,8 +216,7 @@ $("#summary").on("click", "div", function() {
           type: 'POST',
           traditional: true,      
           success: function (data) {   
-            console.log(data); 
-
+            
               $('#entity-details').html(data);             
               
           }

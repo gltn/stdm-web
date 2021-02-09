@@ -14,7 +14,7 @@ from django.core.serializers import serialize
 # from psycopg2 import connect, sql
 # from psycopg2.extras import RealDictCursor
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIG_PATH = os.path.join(BASE_DIR, 'config/configuration_unicode.xml')
+CONFIG_PATH = os.path.join(BASE_DIR, 'config/configuration.xml')
 reader = StdmConfigurationReader(CONFIG_PATH)
 reader.load()
 stdm_config = StdmConfiguration.instance()

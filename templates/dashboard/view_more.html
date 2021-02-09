@@ -1,7 +1,7 @@
 <div class="col-md-12">
   <div class="col-12 col-sm-12">
     <div class="card card-primary" id="profile_details">
-      <div class="card-header"><h4>STR Details For {{entity}} {{id}}</h4></div>
+      <div class="card-header"><h4>Tenure Information</h4></div>
       <div class="card-body">
         {% if result %}        
         {% for key,values in result.items %} 
@@ -28,7 +28,7 @@
         <hr>
         {% endfor %} 
         {% else %}
-        <p>No More Details!</p>
+        <p>Tenure relationship not defined <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i></p>
         {% endif %}
       </div>
     </div>
