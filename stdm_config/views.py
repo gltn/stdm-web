@@ -36,7 +36,7 @@ def toHeader(s):
 
 	return display_name.replace('_', ' ')
 
-def checkColumns(table_name):
+def GetDatabaseColumnsForEntity(table_name):
 	db_columns = []	
 	with connection.cursor() as cursor:
 		query="SELECT column_name FROM information_schema.columns WHERE table_name="+ "'" +table_name + "';"
@@ -83,54 +83,41 @@ def STDMReader(request):
 			configs = Setting.objects.create(default_profile=profiles_list[0])
 			configs.save()
 			default_profile = configs.default_profile	
-	# Loop through profiles and get entities
-	other_columns = []
+
 	profiler = stdm_config.profile(default_profile)
 	str_summary = str_summaries(profiler)
-	party = profiler.social_tenure.parties[0]
-	spatial_unit = profiler.social_tenure.spatial_units[0]
-	config_entities.append(party)
-	config_entities.append(spatial_unit)            
+	for party in profiler.social_tenure.parties:
+		config_entities.append(party)
+	for spatial_unit in profiler.social_tenure.spatial_units:
+		config_entities.append(spatial_unit)    
+	        
 	for entity in profiler.entities.values():
 		if entity.TYPE_INFO == 'ENTITY':
 			if entity.user_editable == True:
-				if entity is not party and 	entity is not spatial_unit:
+				if entity not in config_entities:
 					config_entities.append(entity)
-	default_profile_object = [prof.prefix for prof in stdm_config.profiles.values() if prof.name==default_profile]
+	default_profile_object = [prof.prefix for prof in stdm_config.profiles.values() if prof.name == default_profile]
 	db_entities = checkEntity(','.join(default_profile_object))
 	for entity in config_entities:
 		if entity.name in db_entities:
 			entities.append(entity)
-	dataset = []
-	default_entity =  None
-	data = []
-	if entities:
-		default_entity = entities[0]			
-		with connection.cursor() as cursor:
-			# query = "CREATE OR REPLACE VIEW default_entities_ko AS SELECT * FROM {0}".format(default_entity.name)			
-			# cursor.execute(query)
-			query1 = "SELECT * FROM {0}".format(default_entity.name)
-			cursor.execute(query1)					
-			for col in cursor.description:
-				query_columns.append(col.name)
-			for column in default_entity.columns.values():
-				entity_columns.append(column.name)
-				if column.name in query_columns:
-					if column.name != 'id':
-						columns.append(column.header())				
-			rsot = cursor.fetchall()
-			items = [zip([key[0] for key in cursor.description if key[0]  != 'id'], row[1:]) for row in rsot]
-			
+	
+	if entities:			
 		summaries = {'name':[],'count':[]}
 		with connection.cursor() as cursor:
-			for en in entities:
-				query = "SELECT * FROM {0}".format(en.name)
+			for en in entities:	
+				query = "SELECT count(*) FROM {0}".format(en.name)
 				cursor.execute(query)
-				records = cursor.fetchall()
-				summaries["name"].append(en.short_name)
-				summaries["count"].append(len(records))
+				counts = cursor.fetchall()
+				if en in profiler.social_tenure.parties:
+					summaries["name"].append(en.short_name +" (Party)")
+				elif en in profiler.social_tenure.spatial_units:
+					summaries["name"].append(en.short_name +" (Spatial Unit)")
+				else:
+					summaries["name"].append(en.short_name)
+				summaries["count"].append(counts[0][0])
 		zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])	
-	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'default_entity':default_entity,'data':items,'summaries':zipped_summaries,'charts':summaries,'str_summary':str_summary})
+	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'summaries':zipped_summaries,'charts':summaries,'str_summary':str_summary})
 
 def str_summaries(profile):
 	str = profile.social_tenure
@@ -179,7 +166,6 @@ def EntityLookupSummaries(profile, entity):
 	for col in lookup_columns:
 		ers = col.child_entity_relations()
 		results[col.header()]=LooukupSummary(entity, ers)
-	print('KKKKKK', results)
 	return results
 
 def LooukupSummary(child_entity, ers):
@@ -191,7 +177,6 @@ def LooukupSummary(child_entity, ers):
 @csrf_exempt
 def EntityDetailView(request, profile_name,short_name):
 	entity_name = None
-	entities = []
 	entity_columns = []
 	query_columns = []
 	columns = []
@@ -199,51 +184,57 @@ def EntityDetailView(request, profile_name,short_name):
 	is_str_entity = None
 	prof = stdm_config.profile(profile_name)
 	entity = prof.entity(short_name)
-	# print(prof.entity('Household Members'))
-	# print('This is shortname', short_name)
-	print('ENTITY',entity)
 	social_tenure = prof.social_tenure       
-	entity_name = entity.name
-	entities.append(entity)
-	query_columns = checkColumns(entity_name)
+	default_entity = prof.entity(short_name)
+	entity_name = default_entity.name
 
-	for column in entity.columns.values():
-		if column not in entity.geometry_columns():
+	query_columns = GetDatabaseColumnsForEntity(entity_name)
+
+	for column in default_entity.columns.values():
+		if column not in default_entity.geometry_columns():
 			entity_columns.append(column.name)
 
-	if entity.has_geometry_column():
+	if default_entity.has_geometry_column():
 		has_spatial_column = True
 	else:
 		has_spatial_column = False
 	
-	if social_tenure.is_str_entity(entity):
+	if social_tenure.is_str_entity(default_entity):
 		is_str_entity = True	
 
-	default_entity = entities[0]
-	format_query_columns = []
-	for col in query_columns:
-		if col in entity_columns:
-			columns.append(toHeader(col))
-			format_query_columns.append(col)
+
+	# format_query_columns = []
+	# for col in query_columns:
+	# 	if col in entity_columns:
+	# 		columns.append(toHeader(col))
+	# 		format_query_columns.append(col)
+	
+	query_joins = createParentJoins(prof, default_entity)
+
+	query_join_columns = GetColumns(prof, default_entity)
+
 	with connection.cursor() as cursor:
-		query = "SELECT {0} FROM {1}".format(','.join(format_query_columns), entity_name)
+
+		query = "SELECT {0} FROM {1} {2}".format(','.join(query_join_columns), entity_name, query_joins)
 		cursor.execute(query)
 		data1 = cursor.fetchall()
 		items = [zip([key[0] for key in cursor.description], row) for row in data1]
-	
-	
+		
+		for key in cursor.description:
+			columns.append(toHeader(key[0]))
+
 	lookup_summaries = EntityLookupSummaries(prof, entity)
 
 	# Fetch Spatial Data
 	spatial_results = None
-	if entity.has_geometry_column():
+	if default_entity.has_geometry_column():
 		other_columns = []
 		columns_to_query = []
-		spatial_columns = entity.geometry_columns()
+		spatial_columns = default_entity.geometry_columns()
 		for sp in spatial_columns:
 			spatial_column = sp.name
 			break
-		db_columns = checkColumns(entity.name)
+		db_columns = GetDatabaseColumnsForEntity(default_entity.name)
 		for colu in entity.columns.values():
 			other_columns.append(colu.name)
 		for colm in other_columns:
@@ -261,7 +252,7 @@ def EntityDetailView(request, profile_name,short_name):
 					(SELECT 'Feature' AS TYPE, \
 							ST_AsGeoJSON(g.{},4326)::JSON AS geometry, \
 							row_to_json( (SELECT p FROM ( SELECT {}) AS p)) AS properties \
-					FROM {} AS g ) AS f) AS fc;	".format(spatial_column, ','.join(columns_to_query),entity.name)
+					FROM {} AS g ) AS f) AS fc;	".format(spatial_column, ','.join(columns_to_query),default_entity.name)
 			# query = "SELECT * FROM {0}".format(spatial_entity_query)
 			cursor.execute(query)
 			spatial_result = cursor.fetchone()
@@ -328,7 +319,7 @@ def FetchSpUnitSTR(profile, spu_entity, record_id):
 		full_query = ''
 		str_relation = getStrRelation(profile, party, str_table_name)
 		joins = createParentJoins(profile, party)
-		columns = getColumns(profile, party)
+		columns = GetColumns(profile, party)
 		str_query = 'select '+tenure_type_column+ ",".join(columns)+ ' from '+ str_table_name+' join '+ party.name +' on ' +party.name+'.'+ str_relation.parent_column+' ='+ str_table_name+'.'+str_relation.child_column +' '+ tenure_type_join
 		str_query+=joins
 		full_query+=str_query
@@ -354,7 +345,7 @@ def FetchPartySTR(profile, party_entity, record_id):
 		#select * from b  bstr join be_household bh on household_id = bh.id where land_id = 45;
 		str_relation = getStrRelation(profile, spu_unit, str_table_name)
 		joins = createParentJoins(profile, spu_unit)
-		columns = getColumns(profile, spu_unit)
+		columns = GetColumns(profile, spu_unit)
 		str_query = 'select '+",".join(columns)+ ' from '+ str_table_name+' join '+ spu_unit.name +' on ' +spu_unit.name+'.'+ str_relation.parent_column+' ='+ str_table_name+'.'+str_relation.child_column
 		str_query+=joins
 		full_query+=str_query
@@ -372,11 +363,11 @@ def getStrRelation(profile, entity, str_table_name):
 		if relation.child.name == str_table_name:
 			return relation
 
-def getColumns(profile, entity):
+def GetColumns(profile, entity):
 	query_columns = []
 	db_columns = CheckColumnInDB(entity)
 	for col in entity.columns.values():
-		if col.name in db_columns and col.TYPE_INFO not in ['LOOKUP', 'GEOMETRY']: #, 'SERIAL'
+		if col.name in db_columns and col.TYPE_INFO not in ['LOOKUP', 'GEOMETRY','FOREIGN_KEY']: #, 'SERIAL'
 			query_columns.append(entity.name+'.'+col.name)
 	
 	for en in entity.parents():
