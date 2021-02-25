@@ -1,4 +1,5 @@
 {% load static %}
+<link rel="stylesheet" href="{% static 'dashboard/leaflet/easy-button.css' %}">
       <div class="container-fluid">        
         <div class="row">
           <div class="col-md-12">
@@ -29,7 +30,7 @@
                       <div class="card card-primary"  id="profile_details">
                         <h4>{{default_entity.ui_display}}</h4>
                         <hr>
-                        <table id="example2" class="table table-bordered table-striped" style="width:100%;cursor:pointer">
+                        <table id="example2" class="table table-bordered table-striped nowrap" style="width:100%;cursor:pointer">
   
                             <thead>
                           
@@ -126,6 +127,7 @@
                       </div>
                       <div id="mapdiv">
                         <div id="mapid" style="height: 70vh; width: auto;box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
+                       
                       </div>
                       <div id="table-container">
                         <div id="toolbar" style="width: 400px;">                          
@@ -327,6 +329,7 @@
 
  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+<script src="{% static 'dashboard/leaflet/easy-button.js' %}"></script>
 {% if default_entity.has_geometry_column == True %}
  <script type="text/javascript">
  var southWest = L.latLng(-90,-180),
@@ -493,12 +496,23 @@ L.drawLocal.draw.toolbar.buttons.rectangle = 'Select by drawing a rectangle';
     rectangle: true,
     marker: false,
     },
+   
 
     
 };
 console.log(layerFeatures);
 var drawControl = new L.Control.Draw(drawPluginOptions).addTo(mymap);
 
+var clearButton = L.easyButton('fa-times-circle', function(btn, map){
+  if (mymap.hasLayer(interLayer)){
+    interLayer.clearLayers();
+    $('#sttable').html('');
+    $("#feature-count").html("0 features selected");
+  } 
+  if (!mymap.hasLayer(interLayer)){
+    alert('No selection to delete');
+  } 
+}, 'Clear Selection');
 
 var interLayer = null;
 var tableData =[];
@@ -543,13 +557,15 @@ function SelectFeatures(layer) {
   interLayer = L.geoJson(featuresWithin,{onEachFeature:onEachSelectedFeature}).setStyle(layerStyle.highlight).addTo(mymap);
   interLayer.bringToFront();
   mymap.removeLayer(selectionFeatures);
+  if (mymap.hasLayer(interLayer)){
+    clearButton.addTo(mymap)
+  } 
  
-  
-
     mymap.on("overlayadd", function(e) {
       if (e.layer === layerFeatures) {
         if (interLayer.getLayers()){
           mymap.addLayer(interLayer);
+          clearButton.addTo(mymap)
         }  
        
       }
@@ -560,6 +576,7 @@ function SelectFeatures(layer) {
       if (e.layer === layerFeatures) {
         if (mymap.hasLayer(interLayer)){
           mymap.removeLayer(interLayer);
+          mymap.removeControl(clearButton);
         }  
       }
     
@@ -567,7 +584,6 @@ function SelectFeatures(layer) {
 
   var columns =[];
   var data =[];
-  console.log(tableData);
   for (k in tableData[0]) {
         columns.push({"title": titleCase(k.split('_').join(' '))})
       }
@@ -578,8 +594,7 @@ function SelectFeatures(layer) {
       }
       data.push(arr)
   }
-  
-  console.log('Columns', columns);
+
   var dataTable;
   dataTable = $('#sttable').DataTable( {
     "sPaginationType":"full_numbers",
@@ -634,9 +649,9 @@ function SelectFeatures(layer) {
   
   var featureCount = featuresWithin.length;
   if (featureCount == 1) {
-    $("#feature-count").html(featureCount + " selected feature");
+    $("#feature-count").html(featureCount + " feature selected");
   } else {
-    $("#feature-count").html(featureCount + " selected features");
+    $("#feature-count").html(featureCount + " features selected");
   }
  
 }

@@ -243,17 +243,16 @@ def EntityDetailView(request, profile_name,short_name):
 		
 		columns_to_query.remove('id')
 		columns_to_query.remove(str(spatial_column))
-		query="SELECT row_to_json(fc) \
+		with connection.cursor() as cursor:
+			query="SELECT row_to_json(fc) \
 				FROM \
 				( SELECT 'FeatureCollection' AS TYPE, \
 						array_to_json(array_agg(f)) AS features \
 				FROM \
 					(SELECT 'Feature' AS TYPE, \
-							ST_AsGeoJSON({}.{},4326)::JSON AS geometry, \
+							ST_AsGeoJSON(g.{},4326)::JSON AS geometry, \
 							row_to_json( (SELECT p FROM ( SELECT {}) AS p)) AS properties \
-					FROM {} {}) AS f) AS fc;	".format(default_entity.name,spatial_column, ','.join(query_join_columns),default_entity.name, query_joins)
-		print("SPATIAL QUERY",query)
-		with connection.cursor() as cursor:
+					FROM {} AS g ) AS f) AS fc;	".format(spatial_column, ','.join(columns_to_query),default_entity.name)
 			# query = "SELECT * FROM {0}".format(spatial_entity_query)
 			cursor.execute(query)
 			spatial_result = cursor.fetchone()
