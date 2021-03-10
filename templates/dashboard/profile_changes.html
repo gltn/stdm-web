@@ -6,7 +6,7 @@
           
           {% if summaries %}
           {% for summary,counts in summaries %}
-          {% if forloop.first %} 
+          {% if 'Party' in summary %} 
                             
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">              
@@ -14,7 +14,7 @@
 
               <div class="info-box-content" id="{{summary}}">
                 <a href="#">
-                  <span class="info-box-text">{{summary}} (Party)</span>
+                  <span class="info-box-text">{{summary}}</span>
                   <span class="info-box-number">{{counts}}</span> 
                 </a>
               </div>
@@ -23,14 +23,14 @@
             <!-- /.info-box -->
           </div>
           
-          {% elif forloop.counter == 2 %}
+          {% elif 'Spatial Unit' in summary %} 
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">              
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-map"></i></span>
 
               <div class="info-box-content" id="{{summary}}">
                 <a href="#">
-                  <span class="info-box-text">{{summary}} (Spatial Unit)</span>
+                  <span class="info-box-text">{{summary}}</span>
                   <span class="info-box-number">{{counts}}</span> 
                 </a>
               </div>

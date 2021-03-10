@@ -62,11 +62,8 @@ def checkEntity(prefix):
 def STDMReader(request):	
 	profiles_list = []
 	entities = []
-	config_entities = []
 	default_profile = None
 	configs = None
-	entity_columns = []
-	query_columns = []
 	columns = []
 	for profile in stdm_config.profiles.values(): 
 		profiles_list.append(profile.name)
@@ -86,38 +83,49 @@ def STDMReader(request):
 
 	profiler = stdm_config.profile(default_profile)
 	str_summary = str_summaries(profiler)
-	for party in profiler.social_tenure.parties:
+
+	entities = GetProfileEntities(profiler)
+	
+	zipped_summaries = None
+	summaries = None
+	if entities:	
+		summaries =  EntitiesCount(profiler,entities)
+		zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])
+	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'summaries':zipped_summaries,'charts':summaries,'str_summary':str_summary})
+
+def GetProfileEntities(profile):
+	entities = []
+	config_entities = []
+	for party in profile.social_tenure.parties:
 		config_entities.append(party)
-	for spatial_unit in profiler.social_tenure.spatial_units:
+	for spatial_unit in profile.social_tenure.spatial_units:
 		config_entities.append(spatial_unit)    
-	        
-	for entity in profiler.entities.values():
-		if entity.TYPE_INFO == 'ENTITY':
-			if entity.user_editable == True:
-				if entity not in config_entities:
-					config_entities.append(entity)
-	default_profile_object = [prof.prefix for prof in stdm_config.profiles.values() if prof.name == default_profile]
+			
+	for entity in profile.user_entities():
+		if entity not in config_entities:
+			config_entities.append(entity)
+	default_profile_object = [prof.prefix for prof in stdm_config.profiles.values() if prof.name == profile.name]
 	db_entities = checkEntity(','.join(default_profile_object))
 	for entity in config_entities:
 		if entity.name in db_entities:
 			entities.append(entity)
-	
-	if entities:			
-		summaries = {'name':[],'count':[]}
-		with connection.cursor() as cursor:
-			for en in entities:	
-				query = "SELECT count(*) FROM {0}".format(en.name)
-				cursor.execute(query)
-				counts = cursor.fetchall()
-				if en in profiler.social_tenure.parties:
-					summaries["name"].append(en.short_name +" (Party)")
-				elif en in profiler.social_tenure.spatial_units:
-					summaries["name"].append(en.short_name +" (Spatial Unit)")
-				else:
-					summaries["name"].append(en.short_name)
-				summaries["count"].append(counts[0][0])
-		zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])	
-	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'summaries':zipped_summaries,'charts':summaries,'str_summary':str_summary})
+	return entities
+
+def EntitiesCount(profile, entities):
+	summaries = {'name':[],'count':[]}
+	with connection.cursor() as cursor:
+		for en in entities:	
+			query = "SELECT count(*) FROM {0}".format(en.name)
+			cursor.execute(query)
+			counts = cursor.fetchall()
+			if en in profile.social_tenure.parties:
+				summaries["name"].append(en.short_name +" (Party)")
+			elif en in profile.social_tenure.spatial_units:
+				summaries["name"].append(en.short_name +" (Spatial Unit)")
+			else:
+				summaries["name"].append(en.short_name)
+			summaries["count"].append(counts[0][0])
+	return summaries
 
 def str_summaries(profile):
 	str = profile.social_tenure
@@ -131,33 +139,20 @@ def ProfileUpdatingView(request, profile):
 	entities = []
 	profiler = stdm_config.profile(profile)
 	str_summary = str_summaries(profiler)
-	entity_list = profiler.user_entities()
-	print('This is the str summary')
-	print(str_summary)
-	for entity in entity_list:
-		entities.append(entity)
-	summaries = {'name':[],'count':[]}
-	with connection.cursor() as cursor:
-		for en in entities:
-			# query = "SELECT count(*) FROM {0}".format(en.name)			
-			query = "SELECT * FROM {0}".format(en.name)
-			cursor.execute(query)
-			data = cursor.fetchall()			
-			summaries["name"].append(en.short_name)
-			summaries["count"].append(len(data))
-	zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])
-	return render(request,'dashboard/profile_changes.html', {'entities':entities, 'str_summary':str_summary, 'summaries':zipped_summaries,'charts':summaries})
 
+	entities = GetProfileEntities(profiler)
+
+	zipped_summaries = None
+	summaries = None
+	if entities:	
+		summaries =  EntitiesCount(profiler,entities)
+		zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])
+	return render(request,'dashboard/profile_changes.html', {'entities':entities, 'str_summary':str_summary, 'summaries':zipped_summaries,'charts':summaries})
+	
 @csrf_exempt
 def EntityListingUpdatingView(request, profile):  
-	entity_list = []
-	for profiles in stdm_config.profiles.values():
-		if profiles.name == profile: 			
-			profiler= profiles
-			for entity in profiler.entities.values():
-				if entity.TYPE_INFO == 'ENTITY':
-					if entity.user_editable == True:
-						entity_list.append(entity)				
+	profiler = stdm_config.profile(profile)	
+	entity_list = GetProfileEntities(profiler)				
 	return render(request,'dashboard/profile_detail.html', { 'entity_list':entity_list,})
 
 def EntityLookupSummaries(profile, entity):
@@ -201,13 +196,6 @@ def EntityDetailView(request, profile_name,short_name):
 	
 	if social_tenure.is_str_entity(default_entity):
 		is_str_entity = True	
-
-
-	# format_query_columns = []
-	# for col in query_columns:
-	# 	if col in entity_columns:
-	# 		columns.append(toHeader(col))
-	# 		format_query_columns.append(col)
 	
 	query_joins = createParentJoins(prof, default_entity)
 
