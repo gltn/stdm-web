@@ -1,6 +1,6 @@
 import os
 from stdm_config import StdmConfigurationReader, StdmConfiguration
-from app.models import Setting
+from app.models import Setting,Configuration
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from stdm_config.create_model import create_model
@@ -14,18 +14,20 @@ import xml.etree.ElementTree as ET
 from collections import Counter
 from stdm_config.views import toHeader
 import json
+from django.conf import settings
+from app.config_reader import GetStdmConfig, GetConfig
 
 #Mobile Component
-StdmConfiguration.cleanUp()
 BASE_DIR_MOBILE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MOBILE_CONFIG_PATH = os.path.join(BASE_DIR_MOBILE, 'config/mobile_configuration.xml')
-mobile_reader = StdmConfigurationReader(MOBILE_CONFIG_PATH)
-mobile_reader.load()
-mobile_stdm_config = StdmConfiguration.instance()
-
+#config = GetConfig("Mobile")
+#MOBILE_CONFIG_PATH = os.path.join(settings.MEDIA_ROOT, str(config.config_file))
+#mobile_reader = StdmConfigurationReader(MOBILE_CONFIG_PATH)
+#mobile_reader.load()
+#mobile_stdm_config = GetStdmConfig("Mobile")
+#print('Value of complete',config.complete, config.config_type)
 #Mobile instances detail
 instance_path = os.path.join(BASE_DIR_MOBILE, 'config/mobile_instances')
-mobile_xml_files = [path.join(instance_path, f) for f in listdir(instance_path) if f.endswith('.xml')]
+#mobile_xml_files = [path.join(instance_path, f) for f in listdir(instance_path) if f.endswith('.xml')]
 
 
 def FindEntitySubmissions(profile_name):
@@ -41,6 +43,7 @@ def FindEntitySubmissions(profile_name):
 
 
 def EntityData(profile_name, entity_name,entity_short_name):
+	mobile_stdm_config = GetStdmConfig("Mobile")
 	datas=[]
 	spatial_data = []
 	for file in FindEntitySubmissions(profile_name):
@@ -76,22 +79,22 @@ def EntityData(profile_name, entity_name,entity_short_name):
 	return [datas,json.dumps(geojson)]
 
 @login_required
-def MobileView(request):	
+def MobileView(request):
+	config = GetConfig("Mobile")
+	if config is None or not config.complete:
+		return render(request, 'dashboard/no_config.html',)
+	mobile_stdm_config = GetStdmConfig("Mobile")
 	profiles_list = []
 	entities = []
 	config_entities = []
 	default_profile = None
 	configs = None
-	entity_columns = []
-	query_columns = []
-	columns = []
 	for profile in mobile_stdm_config.profiles.values(): 
 		profiles_list.append(profile.name)
 	if profiles_list:
 		default_profile = profiles_list[0]
 		if Setting.objects.exists():
 			configs =Setting.objects.all().first()
-	other_columns = []	
 	profiler = mobile_stdm_config.profile(default_profile)
 	party = profiler.social_tenure.parties[0]
 	spatial_unit = profiler.social_tenure.spatial_units[0]
@@ -123,8 +126,63 @@ def MobileView(request):
 	print('Zipped',actual_summaries)
 	return render(request, 'dashboard/mobile.html', {'configs':configs,'default_profile':default_profile,'profiles':profiles_list,'m_entities':entities, 'summaries':zipped_summaries,'charts':actual_summaries})
 
+@login_required
+def MobileViewSync(request):
+	config = GetConfig("Mobile")
+	if config is None or not config.complete:
+		return render(request, 'dashboard/no_config.html',)
+	mobile_stdm_config = GetStdmConfig("Mobile")
+	profiles_list = []
+	entities = []
+	config_entities = []
+	default_profile = None
+	configs = None
+
+	for profile in mobile_stdm_config.profiles.values(): 
+		profiles_list.append(profile.name)
+	if profiles_list:
+		default_profile = profiles_list[0]
+		if Setting.objects.exists():
+			configs =Setting.objects.all().first()
+	
+	profiler = mobile_stdm_config.profile(default_profile)
+	party = profiler.social_tenure.parties[0]
+	spatial_unit = profiler.social_tenure.spatial_units[0]
+	config_entities.append(party)
+	config_entities.append(spatial_unit)            
+	for entity in profiler.entities.values():
+		if entity.TYPE_INFO == 'ENTITY':
+			if entity.user_editable == True:
+				entities.append(entity)
+				if entity is not party and 	entity is not spatial_unit:
+					config_entities.append(entity)
+	#Reading xml files
+	summaries = []
+	for file in FindEntitySubmissions(default_profile):
+		tree = ET.parse(file)
+		root =  tree.getroot()
+		if root.tag == default_profile:
+			for child in root:
+				for en in entities:
+					if child.tag != 'meta' and child.tag != 'social_tenure':
+						if child.tag == en.name:
+							summaries.append(en.short_name)
+	dict_summaries = Counter(summaries)
+	actual_summaries = {'name':[],'count':[]}
+	for i in Counter(summaries):
+		actual_summaries["name"].append(i)
+		actual_summaries["count"].append(dict_summaries[i])
+	zipped_summaries = zip(actual_summaries["name"][:4],actual_summaries["count"][:4])
+	print('Zipped',actual_summaries)
+	return render(request, 'dashboard/mobile_sync.html', {'configs':configs,'default_profile':default_profile,'profiles':profiles_list,'m_entities':entities, 'summaries':zipped_summaries,'charts':actual_summaries})
+
+
 @csrf_exempt
 def MobileEntityDetailView(request, profile_name,name):
+	config = GetConfig("Mobile")
+	if config is None or not config.complete:
+		return render(request, 'dashboard/no_config.html',)
+	mobile_stdm_config = GetStdmConfig("Mobile")
 	entity_name = None
 	entities = []
 	entity_columns = []

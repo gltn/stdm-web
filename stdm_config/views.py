@@ -1,23 +1,17 @@
-import os
-from stdm_config import StdmConfigurationReader, StdmConfiguration
-from app.models import Setting
+from app.models import Setting,Configuration
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from stdm_config.create_model import create_model
 from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render
 from django.db import connection
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.core.serializers import serialize
-# from psycopg2 import connect, sql
-# from psycopg2.extras import RealDictCursor
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIG_PATH = os.path.join(BASE_DIR, 'config/configuration.xml')
-reader = StdmConfigurationReader(CONFIG_PATH)
-reader.load()
-stdm_config = StdmConfiguration.instance()
+from app.config_reader import GetConfig, GetStdmConfig
+
 
 def toHeader(s):
 	"""
@@ -59,7 +53,11 @@ def checkEntity(prefix):
 
 
 @login_required
-def STDMReader(request):	
+def STDMReader(request):
+	config = GetConfig("Web")
+	if config is None or not config.complete:
+		return render(request, 'dashboard/no_config.html',)
+	stdm_config = GetStdmConfig("Web")
 	profiles_list = []
 	entities = []
 	default_profile = None
@@ -77,11 +75,12 @@ def STDMReader(request):
 				else:
 					default_profile = profiles_list[0]
 		else:
-			configs = Setting.objects.create(default_profile=profiles_list[0])
+			configs = Setting.objects.create(default_profile = profiles_list[0])
 			configs.save()
 			default_profile = configs.default_profile	
 
 	profiler = stdm_config.profile(default_profile)
+	print("Target Profile", profiler)
 	str_summary = str_summaries(profiler)
 
 	entities = GetProfileEntities(profiler)
@@ -104,18 +103,26 @@ def GetProfileEntities(profile):
 	for entity in profile.user_entities():
 		if entity not in config_entities:
 			config_entities.append(entity)
-	default_profile_object = [prof.prefix for prof in stdm_config.profiles.values() if prof.name == profile.name]
-	db_entities = checkEntity(','.join(default_profile_object))
+
+	#default_profile_object = [prof.prefix for prof in stdm_config.profiles.values() if prof.name == profile.name]
+	#print("PREFIX", default_profile_object)
+	db_entities = checkEntity(profile.prefix)
 	for entity in config_entities:
 		if entity.name in db_entities:
 			entities.append(entity)
 	return entities
-
+def entity_summary_from_view(profile, entities):
+	query ="SELECT table_name, count FROM {0}_entities_summary_view;".format(profile.prefix)
+	with connection.cursor() as cursor:
+		cursor.execute(query)
+		result = cursor.fetchall()
+	return [([toHeader(key[0]) for key in cursor.description], row) for row in result]	
+			
 def EntitiesCount(profile, entities):
 	summaries = {'name':[],'count':[]}
 	with connection.cursor() as cursor:
 		for en in entities:	
-			query = "SELECT count(*) FROM {0}".format(en.name)
+			query = "SELECT count(*) FROM {0}_view".format(en.name)
 			cursor.execute(query)
 			counts = cursor.fetchall()
 			if en in profile.social_tenure.parties:
@@ -128,14 +135,16 @@ def EntitiesCount(profile, entities):
 	return summaries
 
 def str_summaries(profile):
-	str = profile.social_tenure
-	tenure_type = str.tenure_type_collection
-	relation = profile.parent_relations(tenure_type)[0]	
-	query = 'select count(*), ' + relation.parent.name + '.value from '+ relation.parent.name + ' join ' + relation.child.name + ' on ' + relation.child.name+'.'+relation.child_column + '='+ relation.parent.name+'.'+relation.parent_column+ ' group by '+ relation.parent.name + '.value ;'
+	entity_summary_from_view(profile, profile.user_entities)
+	query = 'select value, count from {0}_str_summary_view;'.format(profile.prefix)
 	return queryStrDetailsSTR(query)
 
 @csrf_exempt
 def ProfileUpdatingView(request, profile):
+	config = GetConfig("Web")
+	if config is None or not config.complete:
+		return render(request, 'dashboard/no_config.html',)
+	stdm_config = GetStdmConfig("Web")
 	entities = []
 	profiler = stdm_config.profile(profile)
 	str_summary = str_summaries(profiler)
@@ -151,6 +160,10 @@ def ProfileUpdatingView(request, profile):
 	
 @csrf_exempt
 def EntityListingUpdatingView(request, profile):  
+	config = GetConfig("Web")
+	if config is None or not config.complete:
+		return render(request, 'dashboard/no_config.html',)
+	stdm_config = GetStdmConfig("Web")
 	profiler = stdm_config.profile(profile)	
 	entity_list = GetProfileEntities(profiler)				
 	return render(request,'dashboard/profile_detail.html', { 'entity_list':entity_list,})
@@ -169,11 +182,17 @@ def LooukupSummary(child_entity, ers):
 	query = 'select count(*), ' + parent_entity.name + '.value from '+ child_entity.name + ' join ' + parent_entity.name + ' on ' + parent_entity.name+'.'+ers[0].parent_column + '='+ child_entity.name+'.'+ers[0].child_column+ ' group by '+ parent_entity.name + '.value;'
 	return queryStrDetailsSTR(query)
 
+def EntityRecordsQuery(profile, entity):
+	return "SELECT * FROM {0}_view".format(entity.name)
+
 @csrf_exempt
 def EntityDetailView(request, profile_name,short_name):
+	config = GetConfig("Web")
+	if config is None or not config.complete:
+		return render(request, 'dashboard/no_config.html',)
+	stdm_config = GetStdmConfig("Web")
 	entity_name = None
 	entity_columns = []
-	query_columns = []
 	columns = []
 	has_spatial_column = None
 	is_str_entity = None
@@ -182,8 +201,6 @@ def EntityDetailView(request, profile_name,short_name):
 	social_tenure = prof.social_tenure       
 	default_entity = prof.entity(short_name)
 	entity_name = default_entity.name
-
-	query_columns = GetDatabaseColumnsForEntity(entity_name)
 
 	for column in default_entity.columns.values():
 		if column not in default_entity.geometry_columns():
@@ -202,8 +219,8 @@ def EntityDetailView(request, profile_name,short_name):
 	query_join_columns = GetColumns(prof, default_entity)
 
 	with connection.cursor() as cursor:
-
-		query = "SELECT {0} FROM {1} {2}".format(','.join(query_join_columns), entity_name, query_joins)
+		
+		query = EntityRecordsQuery(prof, entity)
 		cursor.execute(query)
 		data1 = cursor.fetchall()
 		items = [zip([key[0] for key in cursor.description], row) for row in data1]
@@ -251,6 +268,10 @@ def EntityDetailView(request, profile_name,short_name):
 
 @csrf_exempt
 def SummaryUpdatingView(request, profile):
+	config = GetConfig("Web")
+	if config is None or not config.complete:
+		return render(request, 'dashboard/no_config.html',)
+	stdm_config = GetStdmConfig("Web")
 	entities = []
 	for profiles in stdm_config.profiles.values():
 		if profiles.name == profile:
@@ -280,6 +301,10 @@ def CheckColumnInDB(entity):
 
 @csrf_exempt
 def EntityRecordViewMore(request, profile_name, entity_short_name, id):
+	config = GetConfig("Web")
+	if config is None or not config.complete:
+		return render(request, 'dashboard/no_config.html',)
+	stdm_config = GetStdmConfig("Web")
 	result = None
 	profile = stdm_config.profile(profile_name)
 	current_entity = profile.entity(entity_short_name)
@@ -371,7 +396,6 @@ def createParentJoins(profile, entity):
 	for en in entity.parents():
 		en_parent_relations = profile.parent_relations(en)
 		for relation in en_parent_relations:
-			str_join = ''
 			if (relation.parent.name == profile.prefix+'_social_tenure_relationship'):
 				en_parent_relations.remove(relation)
 			if (entity.name == relation.child.name and relation.parent.TYPE_INFO == 'VALUE_LIST'):

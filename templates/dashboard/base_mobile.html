@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/1.10.13/features/mark.js/datatables.mark.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    <!-- Bootstrap Color Picker -->
    <link rel="stylesheet" href="{% static 'dashboard/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css' %}">
   <!-- Theme style -->
@@ -142,6 +143,14 @@
               <i class="nav-icon fas fa-database"></i>
               <p>
                 Mobile Data
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'mobile_sync' %}" class="nav-link">
+              <i class="nav-icon fas fa-refresh"></i>
+              <p>
+                Mobile Data Sync
               </p>
             </a>
           </li>

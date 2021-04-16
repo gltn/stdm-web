@@ -19,7 +19,7 @@
         <!-- Info boxes -->
         <div class="row">
             <div class="col-12 col-md-12">
-              {{configs}}{{object.logo}}
+              
                 <div class="card card-primary">
                     <div class="card-header">
                         Settings Section
@@ -38,8 +38,10 @@
                                        
                                         
                                         <label for="id_site_name">Site name:</label>
-                                        {{form.site_name}}                                         
-                                        <label for="id_header_color">Header color:</label>
+                                        {{form.site_name}}    
+                                        <label for="logo">Logo:</label>           
+                                        <input type="file" name="logo" value="{{form.logo.url}}" class="form-control">                          
+                                        <label for="id_header_color">Header color:</label>                                        
                                         <input type="text" name="header_color" value="{{form.header_color.value}}" maxlength="7" class="form-control my-colorpicker1" onchange="changeHeaderBg(this.value)" required id="id_header_color">
                                         <label for="id_background_color">Background color:</label>
                                         <input type="text" name="background_color" value="{{form.background_color.value}}" maxlength="7" class="form-control my-colorpicker2" onchange="changePageBg(this.value)" required id="id_background_color">

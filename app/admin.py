@@ -13,40 +13,7 @@ class SettingAdmin(admin.ModelAdmin):
     def has_add_permission(self, *args, **kwargs):
         return not Setting.objects.exists()
 
+@admin.register(Configuration)
+class ConfigurationAdmin(admin.ModelAdmin):
+    list_display = ('config_type','config_file','complete')
 
-@admin.register(UserConfig)
-class UserConfigAdmin(admin.ModelAdmin):
-    pass
-
-class CodeValueInline(admin.TabularInline):
-    model = CodeValue
-
-@admin.register(ValueList)
-class ValueListAdmin(admin.ModelAdmin):
-    inlines = [
-        CodeValueInline,
-    ]
-
-@admin.register(Entity)
-class EntityAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(EntityRelation)
-class EntityRelationAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(Column)
-class ColumnAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(SocialTenure)
-class SocialTenureAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(Validity)
-class ValidityAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(CodeValue)
-class CodeValueAdmin(admin.ModelAdmin):
-    pass

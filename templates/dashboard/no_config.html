@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  {% load static %}
+  {% load i18n %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>STDM-WEB | Log in</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'dashboard/plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{% static 'dashboard/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dashboard/dist/css/adminlte.min.css' %}">
+  <link rel="stylesheet" href="{% static 'dashboard/dist/css/custom.css' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  
+  <!-- /.login-logo -->
+  <div class="row">
+    <div class="col-md-8">
+      
+      <div class="login-logo">
+        <div style="display:flex">
+          <img src="{% static 'dashboard/dist/img/logo.png' %}" class="logo_page" style="height: 90px;"/>
+          <h2 style="vertical-align: middle; line-height: 90px;" class="stdm-logo"><strong>Social Tenure Domain Model</strong></h2>
+          </div>
+       
+        
+        <!-- <p><a href="/"><img src="{% static 'dashboard/dist/img/stdm.png' %}" style="height: 70px;"></a></p> -->
+      </div>
+      <p>{% trans 'A web interface for querying and visualizing STDM data based on a data profile defined in the desktop version of the tool' %}</p>
+
+      
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body login-card-body bg-danger">
+          <!-- <p class="login-box-msg">Sign in to start your session</p> -->
+    
+          <p><h4>{% trans "No config file set on this dashboard!" %}</h4></p>
+          <!-- /.social-auth-links -->
+          <hr>
+       
+        </div>
+        <!-- /.login-card-body -->
+      </div>
+    </div>
+  </div>
+  
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dashboard/dist/js/adminlte.min.js' %}"></script>
+
+</body>
+</html>

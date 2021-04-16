@@ -10,10 +10,11 @@ from django.urls import reverse_lazy, reverse
 from django.template.context_processors import csrf
 from django.contrib import messages
 from rest_framework import generics
-from .models import Profile,Setting, Entity, CodeValue
+from .models import Profile,Setting, Configuration
 from django.urls import reverse_lazy
 from .serializers import ProfileSerializer
 from .forms import SettingForm
+from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import render_to_string
 from django.http import HttpResponse
@@ -21,12 +22,9 @@ from django.db import connection
 from stdm_config import StdmConfigurationReader, StdmConfiguration
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from app.config_reader import GetConfig, GetStdmConfig
 # Create your views here.
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIG_PATH = os.path.join(BASE_DIR, 'config/configuration_unicode.xml')
-reader = StdmConfigurationReader(CONFIG_PATH)
-reader.load()
-stdm_config = StdmConfiguration.instance()
+
 
 class ProfileListView(generics.ListAPIView):
 	queryset = Profile.objects.all()
@@ -46,6 +44,11 @@ class ImportView(LoginRequiredMixin,TemplateView):
 
 @login_required
 def SettingsView(request):
+	config = GetConfig("Web")
+	if config is None or not config.complete:
+		return render(request, 'dashboard/no_config.html',)
+	stdm_config = GetStdmConfig("Web")
+	
 	profiles_list = []
 	default_profile = None
 	configs = None      
@@ -83,6 +86,7 @@ class SettingsUpdateView(LoginRequiredMixin,UpdateView):
 		return super(SettingsUpdateView, self).form_valid(form)
 
 	def profileList(self):
+		stdm_config = GetStdmConfig("Web")
 		profiles_list = []
 		for profile in stdm_config.profiles.values():
 			profiles_list.append(profile.name)
@@ -125,20 +129,3 @@ def user_login(request):
 def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect('/')
-
-@csrf_exempt
-def EntityUpdatingView(request, profile):
-	print(profile)
-	entity_list = Entity.objects.filter(profile__name=profile)
-	print(entity_list)
-	return render(request,'dashboard/profile_detail.html', { 'entity_list':entity_list,})
-
-
-@csrf_exempt
-def SummaryUpdatingView(request, profile):
-	entity_list = Entity.objects.filter(profile__name=profile)
-	# valuelists = Entity.objects.select_related('documentTypeLookup')
-	for entity in entity_list:
-		data = CodeValue.objects.filter(valueList=entity.documentTypeLookup)
-		print(data)
-	return render(request,'dashboard/records.html', { 'entity_list':entity_list,'data':data})
