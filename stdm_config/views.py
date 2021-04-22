@@ -11,6 +11,11 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.core.serializers import serialize
 from app.config_reader import GetConfig, GetStdmConfig
+###Added for Sync mObile data
+from rest_framework.parsers import JSONParser
+from rest_framework.decorators import api_view
+from .serializer import MobileDataSerializer
+##End
 
 
 def toHeader(s):
@@ -428,3 +433,66 @@ def queryStrDetailsSTR(queryString):
 		sorted_str = sorted(data, key=lambda x: x[0], reverse=True)
 		return sorted_str
 
+@csrf_exempt
+@api_view(['POST'])
+def upload_mobile_data(request):
+	data = None
+	if request.method =='POST':
+		mobile_data = JSONParser().parse(request)
+		serializer = MobileDataSerializer(mobile_data)
+		data = serializer.data
+
+	for key, value in data:
+		table_name = key
+		table_data = value
+		columns = []
+		
+		for row in table_data:
+			columns = row.keys()
+			values = row.values()
+
+		query = "INSERT INTO public.{0} ({1}) VALUES {2}".format(table_name, ','.join(columns), "','".join(values))
+		print("Sync Query", query)
+
+class RowData:
+	data = {}
+	def add_column(self, key, value):
+		self.data[key] = value
+
+class TableData:
+	data = []
+	def add_row_data(self, row_data):
+		self.data.append(row_data.data)
+
+class MobileData:
+	data = {}
+	def add_table(self, table_name, table_data):
+		self.data[table_name] = table_data
+
+def test_data():
+	row_data = RowData()
+	row_data.add_column("name","Sameul Kibui")
+	row_data.add_column("age","20")
+	row_data.add_column("parcel","KXVRT567788")
+	row_data.add_column("phone","07192456789")
+	print("Row", row_data.data)
+	table_data= TableData()
+	table_data.add_row_data(row_data)
+	table_data.add_row_data(row_data)
+
+	print("Table", table_data.data)
+
+	mobile = MobileData()
+	mobile.add_table("person", table_data.data)
+	mobile.add_table("farmer", table_data.data)
+	print("Full Data", mobile.data)
+
+def table_columns(request, table_name):
+	columns = GetDatabaseColumnsForEntity(table_name)
+	return JsonResponse(columns, safe=False)
+
+def tables(request, profile_name):
+	stdm_config = GetStdmConfig("Web")
+	profile = stdm_config.profile(profile_name)	
+	entity_list = checkEntity(profile.prefix)
+	return JsonResponse(entity_list, safe=False)

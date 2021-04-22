@@ -47,19 +47,47 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="card card-primary card-outline">Mobile Entities
-                                <div class="card-body">
-                                    {% for summary,counts in summaries %}
-                                    <p>{{summary}}</p>
-                                    {% endfor %}
+                            <div class="card card-primary card-outline">
+                              <div class="card-header"> <h4>Mobile Entities</h4></div>
+                                <div class="card-body">                                    
+                                    <div class="form-group">
+                                      <label>Select Entity:</label>
+                                      <select class="form-control" id="entityselect">
+                                        {% for summary,counts in summaries %}
+                                        <option>{{summary}}</option>
+                                        {% endfor %}
+                            
+                                      </select>
+                                    </div>
+                                   
                                 </div>
                             </div>
-                            <a href="#" class="btn btn-success">Sync</a>
+                           
                         </div>
                         <div class="col-md-6">
-                            <div class="card card-primary card-outline">Target Entities</div>
+                          <div class="card card-primary card-outline">
+                            <div class="card-header"> <h4>Target Tables</h4></div>
+                              <div class="card-body">
+                                  
+                                  <div class="form-group">
+                                    <label>Select Table:</label>
+                                    <select class="form-control" id="tableselect">
+                                      {% for summary,counts in summaries %}
+                                      <option>{{summary}}</option>
+                                      {% endfor %}
+                          
+                                    </select>
+                                  </div>
+                              </div>
+                          </div>
                         </div>
+                       
                     </div>
+                    <div class="row" id="columnResults">
+
+                    </div>
+                    <hr>
+                    <a href="#" class="btn btn-success" id="sync">Sync Data</a>
                 
                
                   
@@ -106,6 +134,58 @@ $("#mobile_entity_div").on("click", "li", function() {
 
 
 
+
+    });
+
+</script>
+
+<script>
+  $(document).ready(function () {
+    
+    $('#entityselect').change(function(){   
+      var profile = $("#profiles :selected").val();     
+      $.ajax({
+          url: "entities/"+profile+ "/" + this.value,
+          type: 'GET',
+          traditional: true,    
+          success: function (data) {   
+            console.log(data);          
+              $('#columnResults').html(data);
+              
+              
+          }
+      });
+      $.ajax({
+          url: "entities/KOPGT/",
+          type: 'GET',
+          traditional: true,      
+          success: function (data) {   
+            console.log('Hiii data');  
+            console.log(data);  
+            for (d in data){
+              $('#tableselect').append('<option value="' + data[d] + '">' + data[d] + '</option>');
+            }
+                        
+              
+          }
+      });
+     
+    });
+    $('#tableselect').change(function(){   
+      var profile = $("#profiles :selected").val();     
+      $.ajax({
+          url: "entities/"+profile+ "/" + this.value,
+          type: 'GET',
+          traditional: true,    
+          success: function (data) {   
+            console.log(data);          
+              $('#columnResults').html(data);
+              
+              
+          }
+      });
+
+});
 
     });
 

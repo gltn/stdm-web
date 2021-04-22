@@ -16,6 +16,7 @@ from stdm_config.views import toHeader
 import json
 from django.conf import settings
 from app.config_reader import GetStdmConfig, GetConfig
+from stdm_config.views import test_data
 
 #Mobile Component
 BASE_DIR_MOBILE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -128,6 +129,7 @@ def MobileView(request):
 
 @login_required
 def MobileViewSync(request):
+	print(test_data()) #Kupata entity columns ni aje
 	config = GetConfig("Mobile")
 	if config is None or not config.complete:
 		return render(request, 'dashboard/no_config.html',)
@@ -176,7 +178,12 @@ def MobileViewSync(request):
 	print('Zipped',actual_summaries)
 	return render(request, 'dashboard/mobile_sync.html', {'configs':configs,'default_profile':default_profile,'profiles':profiles_list,'m_entities':entities, 'summaries':zipped_summaries,'charts':actual_summaries})
 
-
+def entity_columns_given_entity_object(entity):
+	entity_columns =[]
+	for column in entity.columns.values():
+		if column not in entity.geometry_columns():
+			entity_columns.append(column.name)
+	return entity_columns
 @csrf_exempt
 def MobileEntityDetailView(request, profile_name,name):
 	config = GetConfig("Mobile")
@@ -185,7 +192,6 @@ def MobileEntityDetailView(request, profile_name,name):
 	mobile_stdm_config = GetStdmConfig("Mobile")
 	entity_name = None
 	entities = []
-	entity_columns = []
 	query_columns = []
 	columns = []
 	has_spatial_column = None
@@ -198,9 +204,7 @@ def MobileEntityDetailView(request, profile_name,name):
 	entity_short_name = entity.short_name
 	entities.append(entity)
 
-	for column in entity.columns.values():
-		if column not in entity.geometry_columns():
-			entity_columns.append(column.name)
+	entity_columns = entity_columns_given_entity_object(entity)
 
 	if entity.has_geometry_column():
 		has_spatial_column = True
@@ -218,3 +222,13 @@ def MobileEntityDetailView(request, profile_name,name):
 			format_query_columns.append(col)
 	returned_data = EntityData(profile_name,entity_name,entity_short_name)
 	return render(request,'dashboard/mobile_entity.html', {'default_entity':default_entity,'profile':profile_name,'entity_name':entity_name,'columns':columns,'has_spatial_column':has_spatial_column,'is_str_entity':is_str_entity, 'data':returned_data[0], 'spatial_dataset': returned_data[1] })
+
+@csrf_exempt
+def entity_columns(request, profile_name, entity_name):
+	print('This one')
+	print(profile_name,entity_name)
+	mobile_stdm_config = GetStdmConfig("Mobile")
+	profile = mobile_stdm_config.profile(profile_name)
+	entity = profile.entity(entity_name)
+	entity_columns_list = entity_columns_given_entity_object(entity)
+	return render(request,'dashboard/mobile_entity_columns.html', {'entity_columns_list':entity_columns_list,})
