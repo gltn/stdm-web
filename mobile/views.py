@@ -230,5 +230,6 @@ def entity_columns(request, profile_name, entity_name):
 	mobile_stdm_config = GetStdmConfig("Mobile")
 	profile = mobile_stdm_config.profile(profile_name)
 	entity = profile.entity(entity_name)
+	print('Tunacheki entities', entity, entity_name)
 	entity_columns_list = entity_columns_given_entity_object(entity)
 	return render(request,'dashboard/mobile_entity_columns.html', {'entity_columns_list':entity_columns_list,})

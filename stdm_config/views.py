@@ -489,10 +489,17 @@ def test_data():
 
 def table_columns(request, table_name):
 	columns = GetDatabaseColumnsForEntity(table_name)
+	print('These columns',columns)
 	return JsonResponse(columns, safe=False)
 
 def tables(request, profile_name):
 	stdm_config = GetStdmConfig("Web")
 	profile = stdm_config.profile(profile_name)	
-	entity_list = checkEntity(profile.prefix)
-	return JsonResponse(entity_list, safe=False)
+	user_editable_entity_list = profile.user_entities()
+	names = [user.name for user in user_editable_entity_list]
+	table_list = checkEntity(profile.prefix)
+	user_tables = []
+	for table in table_list:
+		if table in names:
+			user_tables.append(table)
+	return JsonResponse(user_tables, safe=False)

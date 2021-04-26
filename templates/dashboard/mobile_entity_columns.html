@@ -1,24 +1,23 @@
 {% if entity_columns_list %}
-<div class="form-group">
+<table id="entity_column_table" class="table table-bordered table-striped" style="width: 100%;cursor:pointer">
+<tbody>
+<tr>
+    <th>Entity Columns</th>
+    <th>Table Columns</th>
+</tr>
 {% for column in entity_columns_list %}
-    <div class="checkbox">
-        <label>
-            <div class="row">
-            <div class="col-md-6">
-                <input type="checkbox" id="{{column}}">{{column}}
-            </div>
-            <div class="col-md-6">
-                <select class="form-control" id="tableselectOpt{{column}}">
-                    <option>----</option>
-                </select>
-            </div>
-        </div>
-        
-      
-        </label>
-    </div>
+<tr>
+    <th id="{{column}}">{{column}}</th>
+    <th id="tableselectOpt{{column}}">  
+        <select class="form-control" name="DBColumns" id="tableselectOpt{{column}}">
+            <option>-----</option>
+        </select>
+    </th>
+</tr>
+
 {% endfor %}
-</div>
+</tbody>                       
+</table>
 {% else %}
 <li class="nav-item"><p style="color: white;">No columns Available!</p></li>
 {% endif %}

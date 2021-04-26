@@ -53,6 +53,7 @@
                                     <div class="form-group">
                                       <label>Select Entity:</label>
                                       <select class="form-control" id="entityselect">
+                                        <option>------</option>
                                         {% for summary,counts in summaries %}
                                         <option>{{summary}}</option>
                                         {% endfor %}
@@ -162,7 +163,8 @@ $("#mobile_entity_div").on("click", "li", function() {
           success: function (data) {   
             console.log('Hiii data');  
             console.log(data);  
-            for (d in data){
+            $('#tableselect').empty()
+            for (d in data){              
               $('#tableselect').append('<option value="' + data[d] + '">' + data[d] + '</option>');
             }
                         
@@ -172,16 +174,17 @@ $("#mobile_entity_div").on("click", "li", function() {
      
     });
     $('#tableselect').change(function(){   
-      var profile = $("#profiles :selected").val();     
       $.ajax({
-          url: "entities/"+profile+ "/" + this.value,
+          url: "/tables/" + $(this).val(),
           type: 'GET',
           traditional: true,    
           success: function (data) {   
-            console.log(data);          
-              $('#columnResults').html(data);
-              
-              
+            console.log(data);
+            var options = $("select[name='DBColumns']");
+            for (d in data){
+              options.append(new Option(data[d]));
+            }
+          
           }
       });
 
