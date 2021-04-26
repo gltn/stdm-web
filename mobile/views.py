@@ -233,3 +233,12 @@ def entity_columns(request, profile_name, entity_name):
 	print('Tunacheki entities', entity, entity_name)
 	entity_columns_list = entity_columns_given_entity_object(entity)
 	return render(request,'dashboard/mobile_entity_columns.html', {'entity_columns_list':entity_columns_list,})
+
+@csrf_exempt
+def MobileSyncDataView(request):
+	source_table =request.POST.get('source_table', None)
+	target_table = request.POST.get('target_table', None)
+	table_field_match = request.POST.get('data_fields', None)
+	print(source_table,target_table,table_field_match)
+	return table_field_match	
+	

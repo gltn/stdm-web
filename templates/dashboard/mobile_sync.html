@@ -73,6 +73,7 @@
                                   <div class="form-group">
                                     <label>Select Table:</label>
                                     <select class="form-control" id="tableselect">
+                                      <option>------</option>
                                       {% for summary,counts in summaries %}
                                       <option>{{summary}}</option>
                                       {% endfor %}
@@ -400,6 +401,36 @@ $("#mobile_entity_div").on("click", "li", function() {
   });
 
   });
+</script>
+<script>
+  $(document).ready(function() {
+    $('#sync').click(function(){
+      var table = document.getElementById("entity_column_table");
+      var source_table = $("#entityselect :selected").val(); 
+      var destination_table = $("#tableselect :selected").val(); 
+      var table_data = {};
+      for (var i = 1, row; row = table.rows[i]; i++) {
+        source_entity_column = row.cells[0].innerText
+        select_id = "tableselectOpt" + row.cells[0].innerText
+        selected_target_field = $("#"+select_id).val(); 
+        table_data[source_entity_column] = selected_target_field;
+      }
+      console.log('This is output', table_data)
+      $.ajax({
+          url: "/mobile/data/sync/",
+          type: 'POST',
+          traditional: true,  
+          data: { 'source_table': source_table, 'target_table':destination_table, 'data_fields': table_data},  
+          success: function (data) {   
+            console.log(data);
+           alert('Data synched succssefully')
+          
+          }
+      });
+ 
+
+    });
+});
 </script>
 
 {% endblock content %}

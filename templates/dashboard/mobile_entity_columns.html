@@ -1,14 +1,15 @@
 {% if entity_columns_list %}
 <table id="entity_column_table" class="table table-bordered table-striped" style="width: 100%;cursor:pointer">
-<tbody>
-<tr>
+
+<thead>
     <th>Entity Columns</th>
     <th>Table Columns</th>
-</tr>
+</thead>
+<tbody>
 {% for column in entity_columns_list %}
 <tr>
     <th id="{{column}}">{{column}}</th>
-    <th id="tableselectOpt{{column}}">  
+    <th id="tableselectHead{{column}}">  
         <select class="form-control" name="DBColumns" id="tableselectOpt{{column}}">
             <option>-----</option>
         </select>
