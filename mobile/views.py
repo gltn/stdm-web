@@ -16,7 +16,7 @@ from stdm_config.views import toHeader
 import json
 from django.conf import settings
 from app.config_reader import GetStdmConfig, GetConfig
-from stdm_config.views import test_data
+from stdm_config.mobile_reader import FindEntitySubmissions
 
 #Mobile Component
 BASE_DIR_MOBILE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,19 +31,8 @@ instance_path = os.path.join(BASE_DIR_MOBILE, 'config/mobile_instances')
 #mobile_xml_files = [path.join(instance_path, f) for f in listdir(instance_path) if f.endswith('.xml')]
 
 
-def FindEntitySubmissions(profile_name):
-	submissions =[]
-	for subdir, dirs, files in os.walk(instance_path):
-		for file in files:
-			file_name = os.path.join(subdir, file)
-			if (file_name.endswith('.xml')):
-				xml = ET.parse(file_name)
-				if xml.getroot().tag == profile_name:
-					submissions.append(file_name)
-	return submissions
-
-
 def EntityData(profile_name, entity_name,entity_short_name):
+	print(profile_name, entity_name, entity_short_name)
 	mobile_stdm_config = GetStdmConfig("Mobile")
 	datas=[]
 	spatial_data = []
@@ -75,7 +64,6 @@ def EntityData(profile_name, entity_name,entity_short_name):
 				if prop != 'spatial_geometry':
 					feature['properties'][prop] = row[prop]
 			geojson['features'].append(feature)
-		print('Geo Data',geojson)
 
 	return [datas,json.dumps(geojson)]
 
@@ -129,7 +117,7 @@ def MobileView(request):
 
 @login_required
 def MobileViewSync(request):
-	print(test_data()) #Kupata entity columns ni aje
+	
 	config = GetConfig("Mobile")
 	if config is None or not config.complete:
 		return render(request, 'dashboard/no_config.html',)
@@ -220,7 +208,7 @@ def MobileEntityDetailView(request, profile_name,name):
 		if col in entity_columns:
 			columns.append(toHeader(col))
 			format_query_columns.append(col)
-	returned_data = EntityData(profile_name,entity_name,entity_short_name)
+	returned_data = EntityData(profile_name, entity_name, entity_short_name)
 	return render(request,'dashboard/mobile_entity.html', {'default_entity':default_entity,'profile':profile_name,'entity_name':entity_name,'columns':columns,'has_spatial_column':has_spatial_column,'is_str_entity':is_str_entity, 'data':returned_data[0], 'spatial_dataset': returned_data[1] })
 
 @csrf_exempt
@@ -234,11 +222,5 @@ def entity_columns(request, profile_name, entity_name):
 	entity_columns_list = entity_columns_given_entity_object(entity)
 	return render(request,'dashboard/mobile_entity_columns.html', {'entity_columns_list':entity_columns_list,})
 
-@csrf_exempt
-def MobileSyncDataView(request):
-	source_table =request.POST.get('source_table', None)
-	target_table = request.POST.get('target_table', None)
-	table_field_match = request.POST.get('data_fields', None)
-	print(source_table,target_table,table_field_match)
-	return table_field_match	
+
 	

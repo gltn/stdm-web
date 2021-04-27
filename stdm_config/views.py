@@ -14,7 +14,8 @@ from app.config_reader import GetConfig, GetStdmConfig
 ###Added for Sync mObile data
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
-from .serializer import MobileDataSerializer
+from .mobile_reader import FindEntitySubmissions
+import xml.etree.ElementTree as ET
 ##End
 
 
@@ -433,60 +434,6 @@ def queryStrDetailsSTR(queryString):
 		sorted_str = sorted(data, key=lambda x: x[0], reverse=True)
 		return sorted_str
 
-@csrf_exempt
-@api_view(['POST'])
-def upload_mobile_data(request):
-	data = None
-	if request.method =='POST':
-		mobile_data = JSONParser().parse(request)
-		serializer = MobileDataSerializer(mobile_data)
-		data = serializer.data
-
-	for key, value in data:
-		table_name = key
-		table_data = value
-		columns = []
-		
-		for row in table_data:
-			columns = row.keys()
-			values = row.values()
-
-		query = "INSERT INTO public.{0} ({1}) VALUES {2}".format(table_name, ','.join(columns), "','".join(values))
-		print("Sync Query", query)
-
-class RowData:
-	data = {}
-	def add_column(self, key, value):
-		self.data[key] = value
-
-class TableData:
-	data = []
-	def add_row_data(self, row_data):
-		self.data.append(row_data.data)
-
-class MobileData:
-	data = {}
-	def add_table(self, table_name, table_data):
-		self.data[table_name] = table_data
-
-def test_data():
-	row_data = RowData()
-	row_data.add_column("name","Sameul Kibui")
-	row_data.add_column("age","20")
-	row_data.add_column("parcel","KXVRT567788")
-	row_data.add_column("phone","07192456789")
-	print("Row", row_data.data)
-	table_data= TableData()
-	table_data.add_row_data(row_data)
-	table_data.add_row_data(row_data)
-
-	print("Table", table_data.data)
-
-	mobile = MobileData()
-	mobile.add_table("person", table_data.data)
-	mobile.add_table("farmer", table_data.data)
-	print("Full Data", mobile.data)
-
 def table_columns(request, table_name):
 	columns = GetDatabaseColumnsForEntity(table_name)
 	print('These columns',columns)
@@ -503,3 +450,58 @@ def tables(request, profile_name):
 		if table in names:
 			user_tables.append(table)
 	return JsonResponse(user_tables, safe=False)
+
+@csrf_exempt
+def MobileSyncDataView(request):
+	source_entity =request.POST.get('source_table', None)
+	target_table = request.POST.get('target_table', None)
+	column_mapping = json.loads(request.POST.get('data_fields')) 
+	print(source_entity, target_table, column_mapping)
+	profile_name ='Informal_Settlement'
+	mobile_entity_name = 'in_structure'
+	upload_mobile_data(profile_name, mobile_entity_name,target_table, column_mapping)
+	print("Safi san safi sana", column_mapping)
+	return  JsonResponse(column_mapping, safe=False)	
+
+
+def upload_mobile_data(profile_name, mobile_entity_name, table_name, column_map):
+	column_data_mapping ={}
+		
+	submissions = read_mobile_submissions(profile_name, mobile_entity_name)
+	print("Read Submissions", submissions)
+	for key, value in submissions[0].items():
+		if key in column_map.keys():
+			db_column = column_map[key]
+			column_data_mapping[db_column] = value
+
+	print("Submission data mapping", column_data_mapping)
+	prepare_sql(table_name, column_data_mapping)
+		
+def prepare_sql(table_name, col_data_map):
+	columns = col_data_map.keys()
+	values = col_data_map.values()
+	values_clause=[]
+	value_clause.append ("({0})".format("," .join("'"+item+"'" for item in values)))
+	print("Value clause", value_clause)
+	query = "INSERT INTO public.{0} ({1}) VALUES {2};".format(table_name, ','.join(columns), ''.join(value_clause))
+	print("Sync Query", query)
+
+def read_mobile_submissions(profile_name, entity_name):
+	datas=[]
+	for file in FindEntitySubmissions(profile_name):
+		submission_xml = ET.parse(file)
+		
+		submission_root = submission_xml.getroot()
+		if (submission_root.tag == profile_name ):
+			entity_data ={}
+			spatial_item ={}
+			for entity in submission_root:
+				if entity.tag == entity_name:
+					columns = [elem.tag for elem in entity.iter() if elem is not entity]
+					for elem in entity.iter():
+						if elem is not entity:							
+							spatial_item[elem.tag] = elem.text
+							if elem.tag != 'spatial_geometry':
+								entity_data[elem.tag] = elem.text
+					datas.append(entity_data)
+	return datas

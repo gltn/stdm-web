@@ -11,6 +11,7 @@ urlpatterns = [
     path('<profile_name>/entity/<short_name>', EntityDetailView, name='entity_detail'),
     path('summary/<profile>', SummaryUpdatingView, name='summary_detail'),
     path('<profile_name>/<entity_short_name>/<id>', EntityRecordViewMore, name='fetchstr'),
-    path('tables/<table_name>',table_columns, name='db_table_columns')
+    path('tables/<table_name>',table_columns, name='db_table_columns'),
+     path('mobile/data/sync/', MobileSyncDataView, name='mobile_data_sync'),
    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

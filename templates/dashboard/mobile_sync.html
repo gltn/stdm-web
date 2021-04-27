@@ -413,14 +413,17 @@ $("#mobile_entity_div").on("click", "li", function() {
         source_entity_column = row.cells[0].innerText
         select_id = "tableselectOpt" + row.cells[0].innerText
         selected_target_field = $("#"+select_id).val(); 
-        table_data[source_entity_column] = selected_target_field;
+        if (selected_target_field !== '-----'){
+          table_data[source_entity_column] = selected_target_field;
+        }
+        
       }
       console.log('This is output', table_data)
       $.ajax({
           url: "/mobile/data/sync/",
           type: 'POST',
           traditional: true,  
-          data: { 'source_table': source_table, 'target_table':destination_table, 'data_fields': table_data},  
+          data: { 'source_table': source_table, 'target_table':destination_table, 'data_fields': JSON.stringify(table_data)},  
           success: function (data) {   
             console.log(data);
            alert('Data synched succssefully')
