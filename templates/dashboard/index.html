@@ -277,7 +277,7 @@ $("#summary").on("click", "div", function() {
           },
 
           xAxis: {
-              categories:  [{% for x in str_summary %} '{{x.1}}',{% endfor %} ]            
+              categories:  [{% for x in str_summary %} '{{x.0}}',{% endfor %} ]            
                 
               // {{charts.name|safe}}
                      
@@ -321,7 +321,7 @@ $("#summary").on("click", "div", function() {
       series: [
           {
               showInLegend: false,
-              "data": [{% for x in str_summary %} {{x.0}},{% endfor %} ]  
+              "data": [{% for x in str_summary %} {{x.1}},{% endfor %} ]  
           
           }
 
