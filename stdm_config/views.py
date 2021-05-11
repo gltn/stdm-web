@@ -16,6 +16,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from .mobile_reader import FindEntitySubmissions
 import xml.etree.ElementTree as ET
+from collections import OrderedDict
 ##End
 
 
@@ -36,20 +37,20 @@ def toHeader(s):
 
 	return display_name.replace('_', ' ')
 
-def GetDatabaseColumnsForEntity(table_name):
+def entity_database_columns(table_name):
 	db_columns = []	
 	with connection.cursor() as cursor:
-		query="SELECT column_name FROM information_schema.columns WHERE table_name="+ "'" +table_name + "';"
+		query="SELECT column_name FROM information_schema.columns WHERE table_name='{0}';".format(table_name)
 		cursor.execute(query)
 		result = cursor.fetchall()
 		for field_name in result:			
 			db_columns.append(field_name[0])	
 	return db_columns
-
+		
 def checkEntity(prefix):
 	db_entity_list = []
 	with connection.cursor() as cursor:
-		query="SELECT table_name FROM information_schema.tables WHERE table_schema='public' and table_name like " + "'" +prefix + "_%" +"';"
+		query="SELECT table_name FROM information_schema.tables WHERE table_schema='public' and table_name like '{0}_%';".format(prefix)
 		print(query)
 		cursor.execute(query)
 		result = cursor.fetchall()
@@ -245,7 +246,7 @@ def EntityDetailView(request, profile_name,short_name):
 		for sp in spatial_columns:
 			spatial_column = sp.name
 			break
-		db_columns = GetDatabaseColumnsForEntity(default_entity.name)
+		db_columns = entity_database_columns(default_entity.name)
 		for colu in entity.columns.values():
 			other_columns.append(colu.name)
 		for colm in other_columns:
@@ -434,9 +435,9 @@ def queryStrDetailsSTR(queryString):
 		sorted_str = sorted(data, key=lambda x: x[0], reverse=True)
 		return sorted_str
 
-def table_columns(request, table_name):
-	columns = GetDatabaseColumnsForEntity(table_name)
-	print('These columns',columns)
+def get_table_columns(request, table_name):
+	columns = entity_database_columns(table_name)
+	print('These columns with there data types', columns)
 	return JsonResponse(columns, safe=False)
 
 def tables(request, profile_name):
@@ -453,38 +454,95 @@ def tables(request, profile_name):
 
 @csrf_exempt
 def MobileSyncDataView(request):
+	mobile_stdm_config = GetStdmConfig("Mobile")
+	profile_name =request.POST.get('mobile_profile', None)
 	source_entity =request.POST.get('source_table', None)
 	target_table = request.POST.get('target_table', None)
 	column_mapping = json.loads(request.POST.get('data_fields')) 
-	print(source_entity, target_table, column_mapping)
-	profile_name ='Informal_Settlement'
-	mobile_entity_name = 'in_structure'
-	upload_mobile_data(profile_name, mobile_entity_name,target_table, column_mapping)
+	print('verify the details',source_entity, target_table, column_mapping)
+	# profile_name ='Informal_Settlement'
+	# mobile_entity_name = 'in_person'
+	prof = mobile_stdm_config.profile(profile_name)
+	print('Profile Name', prof.name)
+	mobile_entity_name = prof.entity(source_entity)
+	upload_mobile_data(profile_name, mobile_entity_name.name,target_table, column_mapping)
 	print("Safi san safi sana", column_mapping)
 	return  JsonResponse(column_mapping, safe=False)	
 
+def table_columns_data_types(table_name):
+	with connection.cursor() as cursor:
+		query =  "select array_to_json(array_agg(row_to_json(t))) from (select column_name, data_type from information_schema.columns WHERE table_name= '{0}') t;".format(table_name)
+		cursor.execute(query)
+		return cursor.fetchall()
+
+def table_columns(table_name):
+	with connection.cursor() as cursor:
+		query =  "select array_to_json(array_agg(row_to_json(t))) from (select column_name from information_schema.columns WHERE table_name= '{0}') t;".format(table_name)
+		cursor.execute(query)
+		return cursor.fetchall()
 
 def upload_mobile_data(profile_name, mobile_entity_name, table_name, column_map):
-	column_data_mapping ={}
+	column_data_mapping = OrderedDict()
 		
 	submissions = read_mobile_submissions(profile_name, mobile_entity_name)
-	print("Read Submissions", submissions)
-	for key, value in submissions[0].items():
-		if key in column_map.keys():
-			db_column = column_map[key]
-			column_data_mapping[db_column] = value
-
-	print("Submission data mapping", column_data_mapping)
-	prepare_sql(table_name, column_data_mapping)
+	values_clause = []
+	print('Data submissions', submissions)
+	
+	for submission in submissions:
+		for key, value in submission.items():
+			print(key ," ", value)
 		
-def prepare_sql(table_name, col_data_map):
-	columns = col_data_map.keys()
-	values = col_data_map.values()
-	values_clause=[]
-	value_clause.append ("({0})".format("," .join("'"+item+"'" for item in values)))
-	print("Value clause", value_clause)
-	query = "INSERT INTO public.{0} ({1}) VALUES {2};".format(table_name, ','.join(columns), ''.join(value_clause))
+			value_map = {}
+			if key in column_map.keys():
+				print(key ," found in column maps")
+				db_column = column_map[key]
+				print("DB column",db_column)
+				data_type = column_data_type(table_name, db_column)
+				print("Data type",data_type)
+				value_map[value] = data_type
+				print("Value map",value_map)
+				column_data_mapping[db_column] = value_map
+				print("DB column maap",column_data_mapping)
+
+		value_clause = prepare_values(table_name, column_data_mapping)
+		values_clause.append(value_clause)
+	print("Submission data mapping", column_data_mapping.keys())
+	columns = column_data_mapping.keys()
+	print("Value clause", values_clause)
+	query = "INSERT INTO public.{0} ({1}) VALUES {2};".format(table_name, ','.join(columns), ','.join(values_clause))	
 	print("Sync Query", query)
+
+
+
+def column_data_type(table_name, column_name):
+	columns_with_data_types = table_columns_data_types(table_name)
+	# print("column with data types", columns_with_data_types)
+	for col in columns_with_data_types[0][0]: #[{"column_name":"id","data_type":"integer"},{"column_name":"household_number","data_type":"character varying"},{"column_name":"number_of_male","data_type":"integer"},{"column_name":"number_of_female","data_type":"integer"},{"column_name":"household_vicinity","data_type":"integer"},{"column_name":"house_use_type","data_type":"integer"},{"column_name":"house_type","data_type":"integer"},{"column_name":"tenure_type","data_type":"integer"},{"column_name":"written_tenure_agreement","data_type":"integer"},{"column_name":"form_of_agreement","data_type":"integer"},{"column_name":"house_eastings","data_type":"character varying"},{"column_name":"house_northings","data_type":"character varying"}]
+		print(">>>", col)
+		if column_name in col.values(): #{"column_name":"id","data_type":"integer"}
+			return col["data_type"] # integer
+
+def prepare_values(table_name, col_data_map):
+	print("col_data_map", col_data_map)
+	values_with_data_type = col_data_map.values()
+
+	insert_value = '('
+	for item in values_with_data_type:
+		for value, data_type in item.items():
+			if data_type in ["integer", 'numeric', 'bigint']:
+				if value is None:
+					insert_value = insert_value + "0, "
+				else:
+					insert_value = insert_value + " ".join(str(value).split()) +", "
+			elif data_type in ["character varying", "date",'datetime','timestamp without time zone', 'text']:
+				if value is None:
+					insert_value = insert_value + "' ', "
+				else:
+					insert_value = insert_value + "'"+ " ".join(str(value).split())+"',"
+	insert_value = insert_value.rstrip(insert_value[-1])
+	insert_value = insert_value.rstrip(insert_value[-1])
+	insert_value = insert_value  + ")"
+	return insert_value
 
 def read_mobile_submissions(profile_name, entity_name):
 	datas=[]
