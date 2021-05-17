@@ -231,6 +231,8 @@ def EntityDetailView(request, profile_name,short_name):
 		cursor.execute(query)
 		data1 = cursor.fetchall()
 		items = [zip([key[0] for key in cursor.description], row) for row in data1]
+		print('Entity data loaded',data1)
+		print('Entity data descriptions',items)
 		
 		for key in cursor.description:
 			columns.append(toHeader(key[0]))
@@ -434,10 +436,15 @@ def queryStrDetailsSTR(queryString):
 		data = cursor.fetchall()
 		sorted_str = sorted(data, key=lambda x: x[0], reverse=True)
 		return sorted_str
+def table_columns_data_types(table_name):
+	with connection.cursor() as cursor:
+		query =  "select array_to_json(array_agg(row_to_json(t))) from (select column_name, data_type from information_schema.columns WHERE table_name= '{0}') t;".format(table_name)
+		cursor.execute(query)
+		return cursor.fetchall()
 
 def get_table_columns(request, table_name):
-	columns = entity_database_columns(table_name)
-	print('These columns with there data types', columns)
+	columns = table_columns_data_types(table_name)[0][0]
+	print('These columns with their data types', columns)
 	return JsonResponse(columns, safe=False)
 
 def tables(request, profile_name):
@@ -465,9 +472,9 @@ def MobileSyncDataView(request):
 	prof = mobile_stdm_config.profile(profile_name)
 	print('Profile Name', prof.name)
 	mobile_entity_name = prof.entity(source_entity)
-	upload_mobile_data(profile_name, mobile_entity_name.name,target_table, column_mapping)
-	print("Safi san safi sana", column_mapping)
-	return  JsonResponse(column_mapping, safe=False)	
+	response  = upload_mobile_data(profile_name, mobile_entity_name.name,target_table, column_mapping)
+	return  JsonResponse(response, safe=False)
+
 
 def table_columns_data_types(table_name):
 	with connection.cursor() as cursor:
@@ -486,7 +493,6 @@ def upload_mobile_data(profile_name, mobile_entity_name, table_name, column_map)
 		
 	submissions = read_mobile_submissions(profile_name, mobile_entity_name)
 	values_clause = []
-	print('Data submissions', submissions)
 	
 	for submission in submissions:
 		for key, value in submission.items():
@@ -494,26 +500,27 @@ def upload_mobile_data(profile_name, mobile_entity_name, table_name, column_map)
 		
 			value_map = {}
 			if key in column_map.keys():
-				print(key ," found in column maps")
 				db_column = column_map[key]
-				print("DB column",db_column)
 				data_type = column_data_type(table_name, db_column)
-				print("Data type",data_type)
 				value_map[value] = data_type
-				print("Value map",value_map)
 				column_data_mapping[db_column] = value_map
-				print("DB column maap",column_data_mapping)
 
 		value_clause = prepare_values(table_name, column_data_mapping)
 		values_clause.append(value_clause)
-	print("Submission data mapping", column_data_mapping.keys())
 	columns = column_data_mapping.keys()
-	print("Value clause", values_clause)
-	query = "INSERT INTO public.{0} ({1}) VALUES {2};".format(table_name, ','.join(columns), ','.join(values_clause))	
-	print("Sync Query", query)
+	query = "INSERT INTO public.{0} ({1}) VALUES {2};".format(table_name, ','.join(columns), ','.join(values_clause))
+	print('QUERY', query)
+	try:
+		return write_to_db(query)
+	except Exception as e:
+		print(e)
+		return ("Ooops ", str(e.__class__ )," ocurred")
 
-
-
+def write_to_db(query):
+	with connection.cursor() as cursor:
+		cursor.execute(query)
+	
+		
 def column_data_type(table_name, column_name):
 	columns_with_data_types = table_columns_data_types(table_name)
 	# print("column with data types", columns_with_data_types)
@@ -530,18 +537,20 @@ def prepare_values(table_name, col_data_map):
 	for item in values_with_data_type:
 		for value, data_type in item.items():
 			if data_type in ["integer", 'numeric', 'bigint']:
-				if value is None:
-					insert_value = insert_value + "0, "
-				else:
+				if value:
 					insert_value = insert_value + " ".join(str(value).split()) +", "
-			elif data_type in ["character varying", "date",'datetime','timestamp without time zone', 'text']:
-				if value is None:
-					insert_value = insert_value + "' ', "
 				else:
+					insert_value = insert_value + "0, "
+			elif data_type in ["character varying", "date",'datetime','timestamp without time zone', 'text']:
+				if value:
 					insert_value = insert_value + "'"+ " ".join(str(value).split())+"',"
+				else:
+					insert_value = insert_value + "' ', "
+	print('Insert value', insert_value)		
 	insert_value = insert_value.rstrip(insert_value[-1])
-	insert_value = insert_value.rstrip(insert_value[-1])
+	# insert_value = insert_value.rstrip(insert_value[-1])
 	insert_value = insert_value  + ")"
+	print('Insert value', insert_value)	
 	return insert_value
 
 def read_mobile_submissions(profile_name, entity_name):

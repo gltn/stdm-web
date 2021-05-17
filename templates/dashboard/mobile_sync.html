@@ -150,8 +150,7 @@ $("#mobile_entity_div").on("click", "li", function() {
           url: "entities/"+profile+ "/" + this.value,
           type: 'GET',
           traditional: true,    
-          success: function (data) {   
-            console.log(data);          
+          success: function (data) {            
               $('#columnResults').html(data);
               
               
@@ -162,8 +161,6 @@ $("#mobile_entity_div").on("click", "li", function() {
           type: 'GET',
           traditional: true,      
           success: function (data) {   
-            console.log('Hiii data');  
-            console.log(data);  
             $('#tableselect').empty()
             $('#tableselect').append('<option>-----</option>')
             for (d in data){              
@@ -181,14 +178,13 @@ $("#mobile_entity_div").on("click", "li", function() {
           type: 'GET',
           traditional: true,    
           success: function (data) {   
-            console.log(data);
             $("[name='DBColumns']").empty()
-            
             var options = $("select[name='DBColumns']");
             options.append('<option>-----</option>')
-            for (d in data){              
-              options.append(new Option(data[d]));
+            for (d in data){
+              options.append('<option value="' + data[d].column_name + '">' + data[d].column_name + ' - (' + data[d].data_type.toUpperCase() + ')' + '</option>');
             }
+          
           
           }
       });
@@ -412,13 +408,14 @@ $("#mobile_entity_div").on("click", "li", function() {
       var profile = $("#profiles :selected").val(); 
       var table = document.getElementById("entity_column_table");
       var source_table = $("#entityselect :selected").val(); 
-      console.log('Source table',source_table)
       var destination_table = $("#tableselect :selected").val(); 
+      console.log('Source and destination table',source_table, destination_table)
       var table_data = {};
       for (var i = 1, row; row = table.rows[i]; i++) {
         source_entity_column = row.cells[0].innerText
         select_id = "tableselectOpt" + row.cells[0].innerText
         selected_target_field = $("#"+select_id).val(); 
+        console.log('This is matched data', source_entity_column,selected_target_field )
         if (selected_target_field !== '-----'){
           table_data[source_entity_column] = selected_target_field;
         }
@@ -432,7 +429,7 @@ $("#mobile_entity_div").on("click", "li", function() {
           data: { 'source_table': source_table, 'mobile_profile':profile,'target_table':destination_table, 'data_fields': JSON.stringify(table_data)},  
           success: function (data) {   
             console.log(data);
-           alert('Data synched succssefully')
+           alert('Data synched succssefully', data)
           
           }
       });
