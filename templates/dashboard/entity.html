@@ -248,6 +248,14 @@
     //     "responsive": true,
     //     "autoWidth": true,
     //   });
+    var  pos = [];
+    {% for column in columns %} 
+    pos.push("{{column}}")   // first_name              
+    {% endfor %}
+    console.log('The columns', pos)
+    var index = pos.indexOf('Id')
+    
+    console.log('Position value',index)
       var entityTable = $('#example2').DataTable( {
         dom: 'Blfrtip',
         lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],       
@@ -274,6 +282,7 @@
         "scrollY": 400,
         "destroy": true,
         "searching": true,
+        hideEmptyCols: true, 
         mark: true,
         scrollX:        true,
         scrollCollapse: true,
@@ -284,10 +293,11 @@
         "columnDefs": [ 
           { width: '20%', targets: 0 },
             {
-                "targets": [ 0 ],
+                "targets": [ index ],
                 "visible": false,
                 "searchable": false
             },
+            { targets: 1, render: function (data, type, row, meta) {return (data == 'None') ? "" : data;} },
            
         ]
 

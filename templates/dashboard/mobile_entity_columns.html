@@ -3,14 +3,16 @@
 
 <thead>
     <th>Entity Columns</th>
+    <th>Data Type</th>
     <th>Table Columns</th>
 </thead>
 <tbody>
 {% for column in entity_columns_list %}
 <tr>
-    <th id="{{column}}">{{column}}</th>
+    <th id="{{column.column_name}}" >{{column.column_name}}</th>
+    <th id="{{column.data_type}}">{{column.data_type}}</th>
     <th id="tableselectHead{{column}}">  
-        <select class="form-control" name="DBColumns" id="tableselectOpt{{column}}">
+        <select class="form-control" name="DBColumns" id="tableselectOpt{{column.column_name}}">
             <option>-----</option>
         </select>
     </th>
