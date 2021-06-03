@@ -26,6 +26,7 @@ def run(profiles):
 	for profile in profiles.values():
 		initializeViews(profile)
 
+
 def upload_logo(instance, filename):
    # return "title_images/%s" % (filename)
 	return '/'.join(['stdm', str(instance.site_name), filename])
@@ -59,9 +60,9 @@ def CreateSTRSummaryView(profile):
 	query = STRSummaryQuery(profile)
 	print(query)
 	view_name = profile.prefix+'_str_summary_view'
-	createMaterializedView(view_name, query)
+	create_materialized_view(view_name, query)
 
-def createMaterializedView(view_name, query):
+def create_materialized_view(view_name, query):
 	create_view = "CREATE MATERIALIZED VIEW  IF NOT EXISTS public."+view_name+ " AS "
 	finale_view_query = create_view + query
 	print(finale_view_query)
@@ -70,13 +71,14 @@ def createMaterializedView(view_name, query):
 def initializeViews(profile):
 	for entity in profile.user_entities():
 		view_name = entity.name+"_view"
-		query = EntityRecordsQuery(profile, entity)
-		createMaterializedView(view_name, query)
+		query = entity_records_query(profile, entity)
+		create_materialized_view(view_name, query)
 	CreateSTRSummaryView(profile)
 	createEntityCountQuery(profile)
+	social_tenure_relationship_view(profile)
 	
 
-def createParentJoins(profile, entity):
+def create_parent_joins(profile, entity):
 	joins = ''
 	for en in entity.parents():
 		en_parent_relations = profile.parent_relations(en)
@@ -90,8 +92,7 @@ def createParentJoins(profile, entity):
 
 	return joins
 
-def CheckColumnInDB(entity):
-	# SELECT column_name FROM information_schema.columns WHERE table_name='be_household';
+def get_db_columns(entity):
 	query="SELECT column_name FROM information_schema.columns WHERE table_name='{}';".format(entity.name)
 	cols =[]
 	result =[]
@@ -102,24 +103,51 @@ def CheckColumnInDB(entity):
 		result.append(col[0])
 	return result
 
-def GetColumns(profile, entity):
-	query_columns = []
-	db_columns = CheckColumnInDB(entity)
-	for col in entity.columns.values():
-		if col.name in db_columns and col.TYPE_INFO not in ['LOOKUP', 'GEOMETRY','FOREIGN_KEY']: #, 'SERIAL'
-			query_columns.append(entity.name+'.'+col.name)
+def social_tenure_relationship_view(profile):
+	str_table_name = profile.prefix + "_social_tenure_relationship"
+	str_entity = profile.entity_by_name(str_table_name)
+	print("STR table", str_entity, str_entity.name)
+	query_joins = create_parent_joins(profile, str_entity)
+	print('JOINS', query_joins)
+
+	columns = get_columns_for_str(profile, str_entity)
+	print('Columns', columns)
+
+	str_query = "select {} from {} {};".format(','.join(columns),str_table_name, query_joins)
+	print('QUERY', str_query)
+
+	create_materialized_view('str_table_name_view',str_query)
+
 	
+def append_parent_columns(profile ,entity, columns):
 	for en in entity.parents():
 		if en.TYPE_INFO == 'VALUE_LIST':
 			for relation in profile.parent_relations(en):
 				value = en.name + ".value as "+ relation.child_column
-				query_columns.append(value)
-	return query_columns
+				columns.append(value)
+	return columns
 
-def EntityRecordsQuery(profile, entity):
-	query_joins = createParentJoins(profile, entity)
+def get_columns(profile, entity):
+	query_columns = []
+	db_columns = get_db_columns(entity)
+	for col in entity.columns.values():
+		if col.name in db_columns and col.TYPE_INFO not in ['LOOKUP','FOREIGN_KEY']: #, 'SERIAL'
+			query_columns.append(entity.name+'.'+ col.name)
+	return append_parent_columns(profile ,entity, query_columns)
 
-	query_join_columns = GetColumns(profile, entity)
+def get_columns_for_str(profile, entity):
+	query_columns = []
+	db_columns = get_db_columns(entity)
+	for col in entity.columns.values():
+		if col.name in db_columns and col.TYPE_INFO not in ['LOOKUP']: #, 'SERIAL'
+			query_columns.append(entity.name+'.'+ col.name)
+
+	return append_parent_columns(profile, entity, query_columns)
+
+def entity_records_query(profile, entity):
+	query_joins = create_parent_joins(profile, entity)
+
+	query_join_columns = get_columns(profile, entity)
 	# using set()
 	# to remove duplicated 
 	# from list 
@@ -138,7 +166,7 @@ def createEntityCountQuery(profile):
 				"query_to_xml(format('select count(*) as cnt from %I.%I', table_schema, table_name), false, true, '') as xml_count"+\
 		 " from information_schema.tables"+\
 		 " where table_schema = 'public' and table_name like '{0}%' and table_type ='BASE TABLE') t;".format(profile.prefix)
-	createMaterializedView(view_name, query)
+	create_materialized_view(view_name, query)
 
 
 # Create your models here.

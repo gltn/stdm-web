@@ -432,6 +432,12 @@ class Entity(TableItem):
         """
         return [c for c in self.columns.values()
                 if c.TYPE_INFO == type_info]
+    def foreign_key_columns(self):
+        """
+        :return: A list of Foreign-key columns.
+        :rtype: list
+        """
+        return self.columns_by_type_info(ForeignKeyColumn.TYPE_INFO)
 
     def geometry_columns(self):
         """

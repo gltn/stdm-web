@@ -180,7 +180,7 @@ def EntityLookupSummaries(profile, entity):
 	results = {}
 	for col in lookup_columns:
 		ers = col.child_entity_relations()
-		results[col.header()]=LooukupSummary(entity, ers)
+		results[col.header()] = LooukupSummary(entity, ers)
 	return results
 
 def LooukupSummary(child_entity, ers):
@@ -189,45 +189,43 @@ def LooukupSummary(child_entity, ers):
 	query = 'select count(*), ' + parent_entity.name + '.value from '+ child_entity.name + ' join ' + parent_entity.name + ' on ' + parent_entity.name+'.'+ers[0].parent_column + '='+ child_entity.name+'.'+ers[0].child_column+ ' group by '+ parent_entity.name + '.value;'
 	return queryStrDetailsSTR(query)
 
-def EntityRecordsQuery(profile, entity):
-	return "SELECT * FROM {0}_view".format(entity.name)
+def entity_columns_to_query(entity):
+	columns = []
+	print("Column objects", len(entity.columns.values()))
+	for column in entity.columns.values():
+		if column not in entity.geometry_columns() and column not in entity.foreign_key_columns():
+			columns.append(column.name)
+	return columns
+
+def fetch_entity_records(profile, entity):
+	columns = entity_columns_to_query(entity)
+	joined_columns = ','.join(columns)
+	return "SELECT {0} FROM {1}_view".format(joined_columns, entity.name)
 
 @csrf_exempt
-def EntityDetailView(request, profile_name,short_name):
+def EntityDetailView(request, profile_name, short_name):
 	config = GetConfig("Web")
 	if config is None or not config.complete:
 		return render(request, 'dashboard/no_config.html',)
 	stdm_config = GetStdmConfig("Web")
-	entity_name = None
-	entity_columns = []
-	columns = []
-	has_spatial_column = None
-	is_str_entity = None
 	prof = stdm_config.profile(profile_name)
+	columns = []
+	has_spatial_column = False
+	is_str_entity = False
+
 	entity = prof.entity(short_name)
 	social_tenure = prof.social_tenure       
-	default_entity = prof.entity(short_name)
-	entity_name = default_entity.name
+	entity_name = entity.name
 
-	for column in default_entity.columns.values():
-		if column not in default_entity.geometry_columns():
-			entity_columns.append(column.name)
-
-	if default_entity.has_geometry_column():
+	if entity.has_geometry_column():
 		has_spatial_column = True
-	else:
-		has_spatial_column = False
 	
-	if social_tenure.is_str_entity(default_entity):
+	if social_tenure.is_str_entity(entity):
 		is_str_entity = True	
-	
-	query_joins = createParentJoins(prof, default_entity)
-
-	query_join_columns = GetColumns(prof, default_entity)
 
 	with connection.cursor() as cursor:
 		
-		query = EntityRecordsQuery(prof, entity)
+		query = fetch_entity_records(prof, entity)
 		cursor.execute(query)
 		data1 = cursor.fetchall()
 		items = [zip([key[0] for key in cursor.description], row) for row in data1]
@@ -236,42 +234,67 @@ def EntityDetailView(request, profile_name,short_name):
 			columns.append(toHeader(key[0]))
 
 	lookup_summaries = EntityLookupSummaries(prof, entity)
-
+	#FetchPartySTR(prof, entity, 2)
+	#FetchSpUnitSTR(prof, entity, 455)
 	# Fetch Spatial Data
 	spatial_results = None
-	if default_entity.has_geometry_column():
-		other_columns = []
-		columns_to_query = []
-		spatial_columns = default_entity.geometry_columns()
+	if has_spatial_column:
+		spatial_columns = entity.geometry_columns()
 		for sp in spatial_columns:
 			spatial_column = sp.name
 			break
-		db_columns = entity_database_columns(default_entity.name)
-		for colu in entity.columns.values():
-			other_columns.append(colu.name)
-		for colm in other_columns:
-			if colm in db_columns:
-				columns_to_query.append(colm)
-		
-		columns_to_query.remove('id')
-		columns_to_query.remove(str(spatial_column))
-		query="SELECT row_to_json(fc) \
+		query_join_columns = entity_columns_to_query(entity)
+		query = "SELECT row_to_json(fc) \
 				FROM \
 				( SELECT 'FeatureCollection' AS TYPE, \
 						array_to_json(array_agg(f)) AS features \
 				FROM \
 					(SELECT 'Feature' AS TYPE, \
-							ST_AsGeoJSON({}.{},4326)::JSON AS geometry, \
-							row_to_json( (SELECT p FROM ( SELECT {}) AS p)) AS properties \
-					FROM {} {}) AS f) AS fc;	".format(default_entity.name,spatial_column, ','.join(query_join_columns),default_entity.name, query_joins)
+							ST_AsGeoJSON({0}_view.{1},4326)::JSON AS geometry, \
+							row_to_json( (SELECT p FROM ( SELECT {2}) AS p)) AS properties \
+					FROM {3}_view) AS f) AS fc;	".format(entity_name, spatial_column, ','.join(query_join_columns), entity_name)
 		print("SPATIAL QUERY",query)
 		with connection.cursor() as cursor:
-			# query = "SELECT * FROM {0}".format(spatial_entity_query)
 			cursor.execute(query)
 			spatial_result = cursor.fetchone()
 			map_data = spatial_result[0]
-			spatial_results = json.dumps(map_data)	
-	return render(request,'dashboard/entity.html', {'default_entity':default_entity,'profile':profile_name,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_str_entity':is_str_entity,'lookup_summaries':lookup_summaries, 'spatial_result':spatial_results })
+			spatial_results = json.dumps(map_data)
+	return render(request,'dashboard/entity.html', {'entity':entity,'profile':profile_name,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_str_entity':is_str_entity,'lookup_summaries':lookup_summaries, 'spatial_result':spatial_results })
+
+@csrf_exempt
+def fetch_spatial_data(request, profile_name, entity_short_name):
+	config = GetConfig("Web")
+	if config is None or not config.complete:
+		return render(request, 'dashboard/no_config.html',)
+	stdm_config = GetStdmConfig("Web")
+	prof = stdm_config.profile(profile_name)
+	entity = prof.entity(entity_short_name)
+	if not entity.has_geometry_column():
+		return None
+	
+	spatial_columns = entity.geometry_columns()
+	for sp in spatial_columns:
+		spatial_column = sp.name
+		break
+
+	#query_join_columns = GetColumns(prof, entity)
+	query_join_columns = entity_columns_to_query(entity)
+
+	query = "SELECT row_to_json(fc) \
+			FROM \
+			( SELECT 'FeatureCollection' AS TYPE, \
+					array_to_json(array_agg(f)) AS features \
+			FROM \
+				(SELECT 'Feature' AS TYPE, \
+						ST_AsGeoJSON({0}_view.{1},4326)::JSON AS geometry, \
+						row_to_json( (SELECT p FROM ( SELECT {2}) AS p)) AS properties \
+				FROM {3}_view) AS f) AS fc;	".format(entity.name, spatial_column, ','.join(query_join_columns), entity.name)
+	print("SPATIAL QUERY",query)
+	with connection.cursor() as cursor:
+		cursor.execute(query)
+		result = cursor.fetchone()
+		spatial_results = json.dumps(result[0])
+	return JsonResponse(spatial_results, safe = False)	
 
 @csrf_exempt
 def SummaryUpdatingView(request, profile):
@@ -329,73 +352,70 @@ def FetchSpUnitSTR(profile, spu_entity, record_id):
 	current_social_tenure = profile.social_tenure
 	parties  = current_social_tenure.parties
 	str_table_name = profile.prefix + "_social_tenure_relationship"
-	tenure_type_entity =  current_social_tenure.spatial_units_tenure[spu_entity.short_name]
-	tenure_type_relation = profile.parent_relations(tenure_type_entity)[0]
-	tenure_type_join = 'left join '+ tenure_type_relation.parent.name +' on '+ tenure_type_relation.parent.name+'.'+tenure_type_relation.parent_column +' = ' + tenure_type_relation.child.name+'.'+tenure_type_relation.child_column+' '
-	tenure_type_column = tenure_type_entity.name + '.value as ' + tenure_type_relation.child_column+','
+	str_entity = profile.entity_by_name(str_table_name)	
+	
 	spu_relation = getStrRelation(profile, spu_entity, str_table_name)
 
+	str_columns = get_entity_columns(profile,str_entity)
 	result = {}
 	for party in parties:
-		full_query = ''
 		str_relation = getStrRelation(profile, party, str_table_name)
-		joins = createParentJoins(profile, party)
-		columns = GetColumns(profile, party)
-		str_query = 'select '+tenure_type_column+ ",".join(columns)+ ' from '+ str_table_name+' join '+ party.name +' on ' +party.name+'.'+ str_relation.parent_column+' ='+ str_table_name+'.'+str_relation.child_column +' '+ tenure_type_join
-		str_query+=joins
-		full_query+=str_query
-		where_clause = ' where '+ str_table_name+'.'+ spu_relation.child_column +'={};'.format(record_id)
-		full_query+=where_clause
-		data = queryWithColumnNames(full_query)
-		print('Mambo')
-		print(full_query)
+
+		party_view = party.name+'_view'
+		str_query = "select {}, {}.* from {}_view left join {} on {}.{} = {}_view.{} WHERE {}_view.{}={};".format(','.join(str_columns), party_view,str_table_name, party_view, party_view, str_relation.parent_column, str_table_name, str_relation.child_column,str_table_name,spu_relation.child_column,record_id)
+		
+		#str_query = 'select '+tenure_type_column+ ",".join(str_columns)+ ' from '+ str_table_name+' join '+ party.name +' on ' +party.name+'.'+ str_relation.parent_column+' ='+ str_table_name+'.'+str_relation.child_column +' '+ tenure_type_join
+		
+		print("FULL QUERY",str_query)
+
+		data = queryWithColumnNames(str_query)
+		print(data)
 		if data:
 			result[party.short_name]=data
-	print('Mwisho')
 	return result
-
 
 def FetchPartySTR(profile, party_entity, record_id):
 	current_social_tenure = profile.social_tenure
 	spatial_units = current_social_tenure.spatial_units
 	str_table_name = profile.prefix + "_social_tenure_relationship"
+	str_entity = profile.entity_by_name(str_table_name)
 	party_entity_str_relation = getStrRelation(profile, party_entity, str_table_name)
 	result = {}
+	str_columns =  get_entity_columns(profile,str_entity)
 	for spu_unit in spatial_units:
-		full_query =''
-		#select * from b  bstr join be_household bh on household_id = bh.id where land_id = 45;
 		str_relation = getStrRelation(profile, spu_unit, str_table_name)
-		joins = createParentJoins(profile, spu_unit)
-		columns = GetColumns(profile, spu_unit)
-		str_query = 'select '+",".join(columns)+ ' from '+ str_table_name+' join '+ spu_unit.name +' on ' +spu_unit.name+'.'+ str_relation.parent_column+' ='+ str_table_name+'.'+str_relation.child_column
-		str_query+=joins
-		full_query+=str_query
-		where_clause = ' where '+ str_table_name+'.'+ party_entity_str_relation.child_column +'={};'.format(record_id)
-		full_query+=where_clause
-		data = queryWithColumnNames(full_query)
-		print('Mambo')
+	
+		spu_unit_view = spu_unit.name+'_view'
+		str_query = "select {}, {}.* from {}_view left join {} on {}.{} = {}_view.{} WHERE {}_view.{}={};".format(','.join(str_columns), spu_unit_view,str_table_name, spu_unit_view, spu_unit_view, str_relation.parent_column, str_table_name, str_relation.child_column,str_table_name,party_entity_str_relation.child_column,record_id)
+	
+		
+		data = queryWithColumnNames(str_query)
 		print(data)
 		if data:
 			result[spu_unit.short_name]=data
 	return result
-
+  
 def getStrRelation(profile, entity, str_table_name):
 	for relation in profile.parent_relations(entity):
 		if relation.child.name == str_table_name:
 			return relation
 
-def GetColumns(profile, entity):
+def get_db_columns(entity):
+	query="SELECT column_name FROM information_schema.columns WHERE table_name='{}';".format(entity.name)
+	cols =[]
+	result =[]
+	with connection.cursor() as cursor:
+		cursor.execute(query)
+		cols = cursor.fetchall()
+	for col in cols:
+		result.append(col[0])
+	return result
+def get_entity_columns(profile, entity):
 	query_columns = []
 	db_columns = CheckColumnInDB(entity)
 	for col in entity.columns.values():
-		if col.name in db_columns and col.TYPE_INFO not in ['LOOKUP', 'GEOMETRY','FOREIGN_KEY']: #, 'SERIAL'
-			query_columns.append(entity.name+'.'+col.name)
-	
-	for en in entity.parents():
-		if en.TYPE_INFO == 'VALUE_LIST':
-			for relation in profile.parent_relations(en):
-				value = en.name + ".value as "+ relation.child_column
-				query_columns.append(value)
+		if col.name in db_columns and col.TYPE_INFO not in ['GEOMETRY','FOREIGN_KEY','SERIAL']: #, 'SERIAL'
+			query_columns.append(col.name)
 	return query_columns
 
 def createParentJoins(profile, entity):
@@ -416,9 +436,6 @@ def queryWithColumnNames(query):
 	with connection.cursor() as cursor:
 		cursor.execute(query)
 		data = cursor.fetchall()
-		print('This is data my fren')
-		print(data)
-		print('Imagine')
 		return [([toHeader(key[0]) for key in cursor.description], row) for row in data]
 
 
@@ -435,10 +452,14 @@ def queryStrDetailsSTR(queryString):
 		sorted_str = sorted(data, key=lambda x: x[0], reverse=True)
 		return sorted_str
 
+def write_to_db(query):
+	with connection.cursor() as cursor:
+		cursor.execute(query)
+
 def get_table_columns(request, table_name):
-	columns = entity_database_columns(table_name)
-	print('These columns with there data types', columns)
-	return JsonResponse(columns, safe=False)
+	# columns = entity_database_columns(table_name)
+	columns = table_columns_data_types(table_name)[0][0]
+	return JsonResponse(columns[0][0], safe=False)
 
 def tables(request, profile_name):
 	stdm_config = GetStdmConfig("Web")
@@ -459,15 +480,10 @@ def MobileSyncDataView(request):
 	source_entity =request.POST.get('source_table', None)
 	target_table = request.POST.get('target_table', None)
 	column_mapping = json.loads(request.POST.get('data_fields')) 
-	print('verify the details',source_entity, target_table, column_mapping)
-	# profile_name ='Informal_Settlement'
-	# mobile_entity_name = 'in_person'
 	prof = mobile_stdm_config.profile(profile_name)
-	print('Profile Name', prof.name)
 	mobile_entity_name = prof.entity(source_entity)
-	upload_mobile_data(profile_name, mobile_entity_name.name,target_table, column_mapping)
-	print("Safi san safi sana", column_mapping)
-	return  JsonResponse(column_mapping, safe=False)	
+	response  = upload_mobile_data(profile_name, mobile_entity_name.name,target_table, column_mapping)
+	return  JsonResponse(response, safe=False)	
 
 def table_columns_data_types(table_name):
 	with connection.cursor() as cursor:
@@ -486,7 +502,6 @@ def upload_mobile_data(profile_name, mobile_entity_name, table_name, column_map)
 		
 	submissions = read_mobile_submissions(profile_name, mobile_entity_name)
 	values_clause = []
-	print('Data submissions', submissions)
 	
 	for submission in submissions:
 		for key, value in submission.items():
@@ -494,23 +509,20 @@ def upload_mobile_data(profile_name, mobile_entity_name, table_name, column_map)
 		
 			value_map = {}
 			if key in column_map.keys():
-				print(key ," found in column maps")
 				db_column = column_map[key]
-				print("DB column",db_column)
 				data_type = column_data_type(table_name, db_column)
-				print("Data type",data_type)
 				value_map[value] = data_type
-				print("Value map",value_map)
 				column_data_mapping[db_column] = value_map
-				print("DB column maap",column_data_mapping)
 
 		value_clause = prepare_values(table_name, column_data_mapping)
 		values_clause.append(value_clause)
-	print("Submission data mapping", column_data_mapping.keys())
 	columns = column_data_mapping.keys()
-	print("Value clause", values_clause)
-	query = "INSERT INTO public.{0} ({1}) VALUES {2};".format(table_name, ','.join(columns), ','.join(values_clause))	
-	print("Sync Query", query)
+	query = "INSERT INTO public.{0} ({1}) VALUES {2};".format(table_name, ','.join(columns), ','.join(values_clause))
+	print('QUERY', query)
+	try:
+		return write_to_db(query)
+	except Exception as e:
+		return ("Ooops ", str(e.__class__ )," ocurred")
 
 
 
@@ -523,26 +535,26 @@ def column_data_type(table_name, column_name):
 			return col["data_type"] # integer
 
 def prepare_values(table_name, col_data_map):
-	print("col_data_map", col_data_map)
 	values_with_data_type = col_data_map.values()
 
 	insert_value = '('
 	for item in values_with_data_type:
 		for value, data_type in item.items():
 			if data_type in ["integer", 'numeric', 'bigint']:
-				if value is None:
-					insert_value = insert_value + "0, "
-				else:
+				if str(value).strip:
 					insert_value = insert_value + " ".join(str(value).split()) +", "
-			elif data_type in ["character varying", "date",'datetime','timestamp without time zone', 'text']:
-				if value is None:
-					insert_value = insert_value + "' ', "
 				else:
+					insert_value = insert_value + "0, "
+			elif data_type in ["character varying", "date",'datetime','timestamp without time zone', 'text']:
+				if str(value).strip:
 					insert_value = insert_value + "'"+ " ".join(str(value).split())+"',"
+				else:
+					insert_value = insert_value + "' ', "
 	insert_value = insert_value.rstrip(insert_value[-1])
 	insert_value = insert_value.rstrip(insert_value[-1])
 	insert_value = insert_value  + ")"
 	return insert_value
+
 
 def read_mobile_submissions(profile_name, entity_name):
 	datas=[]
