@@ -184,12 +184,14 @@ def entity_columns_given_entity_object(entity):
 			entity_columns.append(column.name)
 	return entity_columns
 
+
 def entity_columns_with_type_given_entity_object(entity):
 	entity_columns =[]
-	column_data ={}
 	for column in entity.columns.values():
+		column_data ={}
+		print('Columns:', column.name, column.TYPE_INFO)
 		if column not in entity.geometry_columns():
-			column_data['column_name']=(column.name)
+			column_data['column_name']=column.name
 			column_data['data_type'] =column.TYPE_INFO
 			entity_columns.append(column_data)
 	return entity_columns

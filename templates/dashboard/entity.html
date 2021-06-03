@@ -11,7 +11,7 @@
                       <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_tab_details" role="tab" aria-controls="profile_tab_details" aria-selected="true">Records</a>
                     </li>
                     
-                    {% if default_entity.has_geometry_column == True %}
+                    {% if entity.has_geometry_column == True %}
                     <li class="nav-item">
                       <a class="nav-link" id="maps-tab" data-toggle="pill" href="#maps" role="tab" aria-controls="maps" aria-selected="false" style="display:block">Map</a>
                     </li>
@@ -28,9 +28,9 @@
                   <div class="tab-content" id="custom-tabs-four-tabContent">
                     <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details" aria-labelledby="profile_details-tab"> 
                       <div class="card card-primary"  id="profile_details">
-                        <h4>{{default_entity.ui_display}}</h4>
+                        <h4>{{entity.ui_display}}</h4>
                         <hr>
-                        <table id="example2" class="table table-bordered table-striped nowrap" style="width:100%;cursor:pointer">
+                        <table id="entityTable" class="table table-bordered table-striped nowrap" style="width:100%;cursor:pointer">
   
                             <thead>
                           
@@ -65,7 +65,7 @@
                         </div> 
                         <div class="row" id="view_more"></div>                     
                     </div>
-                    {% if default_entity.has_geometry_column == True %}
+                    {% if entity.has_geometry_column == True %}
                     <div class="tab-pane fade" id="maps" role="tabpanel" aria-labelledby="maps-tab">
                       <div class="container-fluid"> 
                         <div class="row">
@@ -155,7 +155,7 @@
                     <div class="tab-pane fade" id="sum" role="tabpanel" aria-labelledby="sum-tab">
                       <div class="container-fluid"> 
                         <div class="row">
-                          <h4>{{default_entity.ui_display}}</h4>
+                          <h4>{{entity.ui_display}}</h4>
                           <hr>                        
                          
                           <div class="col-12">
@@ -244,7 +244,7 @@
 
   <script>
     $(function () {
-    //   $("#example2").DataTable({
+    //   $("#entityTable").DataTable({
     //     "responsive": true,
     //     "autoWidth": true,
     //   });
@@ -256,7 +256,7 @@
     var index = pos.indexOf('Id')
     
     console.log('Position value',index)
-      var entityTable = $('#example2').DataTable( {
+      var entityTable = $('#entityTable').DataTable( {
         dom: 'Blfrtip',
         lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],       
         select: {
@@ -302,7 +302,7 @@
         ]
 
       });
-      $('#example2 tbody').on('click', 'tr', function () {
+      $('#entityTable tbody').on('click', 'tr', function () {
           var data_row = entityTable.row(this).data();
           console.log('Hii ndio maneno')
           console.log(data_row)
@@ -312,7 +312,7 @@
           console.log('Viewq More ID',list_id)
           console.log('Profile',profile)
           $.ajax({
-              url: profile + "/{{default_entity.short_name}}/" + list_id,
+              url: profile + "/{{entity.short_name}}/" + list_id,
               type: 'POST',
               traditional: true,      
               success: function (data) { 
@@ -340,8 +340,18 @@
  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
 <script src="{% static 'dashboard/leaflet/easy-button.js' %}"></script>
-{% if default_entity.has_geometry_column == True %}
+
+{% if entity.has_geometry_column == True %}
  <script type="text/javascript">
+     var  pos = [];
+    {% for column in columns %} 
+    pos.push("{{column}}")   // first_name              
+    {% endfor %}
+    console.log('The columns', pos)
+    var index = pos.indexOf('Id')
+    var index_leaf_map = pos.indexOf('leaflet_stamp')
+    
+
  var southWest = L.latLng(-90,-180),
   northEast = L.latLng(90,180);
 var bounds = L.latLngBounds(southWest, northEast);
@@ -637,6 +647,16 @@ function SelectFeatures(layer) {
         titleAttr: 'PDF'
       }
     ],
+    "columnDefs": [ 
+          { width: '20%', targets: 0 },
+            {
+                "targets": [ index,index_leaf_map],
+                "visible": false,
+                "searchable": false
+            },
+            { targets: 1, render: function (data, type, row, meta) {return (data == 'None') ? "" : data;} },
+           
+        ]
     
   });
   mymap.spin(false);

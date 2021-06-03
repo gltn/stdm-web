@@ -86,6 +86,13 @@
                        
                     </div>
                     <div class="row" id="columnResults">
+                      {% if messages %}
+                      <ul class="messages">
+                          {% for message in messages %}
+                          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                          {% endfor %}
+                      </ul>
+                      {% endif %}
 
                     </div>
                     <hr>
@@ -429,7 +436,6 @@ $("#mobile_entity_div").on("click", "li", function() {
           data: { 'source_table': source_table, 'mobile_profile':profile,'target_table':destination_table, 'data_fields': JSON.stringify(table_data)},  
           success: function (data) {   
             console.log(data);
-           alert('Data synched succssefully', data)
           
           }
       });

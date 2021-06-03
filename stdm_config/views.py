@@ -3,9 +3,10 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from stdm_config.create_model import create_model
 from django.http import HttpResponse,JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import connection
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -221,7 +222,7 @@ def EntityDetailView(request, profile_name, short_name):
 		has_spatial_column = True
 	
 	if social_tenure.is_str_entity(entity):
-		is_str_entity = True	
+		is_str_entity = True
 
 	with connection.cursor() as cursor:
 		
@@ -229,16 +230,12 @@ def EntityDetailView(request, profile_name, short_name):
 		cursor.execute(query)
 		data1 = cursor.fetchall()
 		items = [zip([key[0] for key in cursor.description], row) for row in data1]
-		print('Entity data loaded',data1)
-		print('Entity data descriptions',items)
 		
 		for key in cursor.description:
 			columns.append(toHeader(key[0]))
 
 	lookup_summaries = EntityLookupSummaries(prof, entity)
-	#FetchPartySTR(prof, entity, 2)
-	#FetchSpUnitSTR(prof, entity, 455)
-	# Fetch Spatial Data
+
 	spatial_results = None
 	if has_spatial_column:
 		spatial_columns = entity.geometry_columns()
@@ -459,10 +456,6 @@ def table_columns_data_types(table_name):
 		cursor.execute(query)
 		return cursor.fetchall()
 
-def write_to_db(query):
-	with connection.cursor() as cursor:
-		cursor.execute(query)
-
 def get_table_columns(request, table_name):
 	columns = table_columns_data_types(table_name)[0][0]
 	print('These columns with their data types', columns)
@@ -490,7 +483,9 @@ def MobileSyncDataView(request):
 	prof = mobile_stdm_config.profile(profile_name)
 	mobile_entity_name = prof.entity(source_entity)
 	response  = upload_mobile_data(profile_name, mobile_entity_name.name,target_table, column_mapping)
-	return  JsonResponse(response, safe=False)
+	messages.error(request, response)
+	print('This is the message',messages.error(request, response))
+	return  redirect('/mobile/sync')
 
 
 def table_columns_data_types(table_name):
@@ -528,9 +523,9 @@ def upload_mobile_data(profile_name, mobile_entity_name, table_name, column_map)
 	query = "INSERT INTO public.{0} ({1}) VALUES {2};".format(table_name, ','.join(columns), ','.join(values_clause))
 	print('QUERY', query)
 	try:
-		return write_to_db(query)
+		write_to_db(query)
+		return "Success"
 	except Exception as e:
-		print(e)
 		return ("Ooops ", str(e.__class__ )," ocurred")
 
 def write_to_db(query):
