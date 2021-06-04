@@ -214,9 +214,14 @@ table.dataTable thead {background-color:#dee2e6}
     border-color: #138abd;
     border-radius: 4px;
 }
-button:not(:disabled){
-  color: grey;
-  background-color: transparent;
+
+button:not(:disabled) {
+  color: white;
+  background-color: #138abd;
   border: none;
   border-radius: 4px;
+}
+.dt-button.xselected {
+  color:#138abd;
+  border: 1px #138abd solid;
 }
