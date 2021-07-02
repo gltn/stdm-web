@@ -1,0 +1,497 @@
+<Configuration version="1.3">
+ <Profile description="Collecting data at settlement level" name="Settlement_Profiling">
+  <ValueLists>
+   <ValueList name="check_social_tenure_relationship_document_type">
+    <CodeValue value="General" code=""/>
+   </ValueList>
+   <ValueList name="check_tenure_type">
+    <CodeValue value="Private" code=""/>
+    <CodeValue value="Government" code=""/>
+   </ValueList>
+   <ValueList name="check_gender">
+    <CodeValue value="Male" code=""/>
+    <CodeValue value="Female" code=""/>
+   </ValueList>
+   <ValueList name="check_settlement_occupation">
+    <CodeValue value="Relocation from another settlement" code=""/>
+    <CodeValue value="Relocation from rural areas" code=""/>
+    <CodeValue value="Evictions from other areas" code=""/>
+    <CodeValue value="Displacement from war" code=""/>
+    <CodeValue value="Natural disaster" code=""/>
+    <CodeValue value="Internal conflicts" code=""/>
+    <CodeValue value="Others(Please specify)" code=""/>
+   </ValueList>
+   <ValueList name="check_settlement_location">
+    <CodeValue value="Near power lines" code=""/>
+    <CodeValue value="Near a river" code=""/>
+    <CodeValue value="Near a railway line" code=""/>
+    <CodeValue value="Under a bridge" code=""/>
+    <CodeValue value="Near drainage" code=""/>
+    <CodeValue value="Near dumpsite" code=""/>
+    <CodeValue value="Others(Please specify)" code=""/>
+   </ValueList>
+   <ValueList name="check_settlement_risk_level">
+    <CodeValue value="High risk" code=""/>
+    <CodeValue value="Average" code=""/>
+    <CodeValue value="Low risk" code=""/>
+    <CodeValue value="None" code=""/>
+   </ValueList>
+   <ValueList name="check_income_sources">
+    <CodeValue value="Permanent employment" code=""/>
+    <CodeValue value="Temporary employment" code=""/>
+    <CodeValue value="Donations" code=""/>
+    <CodeValue value="None" code=""/>
+    <CodeValue value="Others( Please specify)" code=""/>
+   </ValueList>
+   <ValueList name="check_income_levels">
+    <CodeValue value="Below 5000" code=""/>
+    <CodeValue value="5001-10000" code=""/>
+    <CodeValue value="10001-20000" code=""/>
+    <CodeValue value="20001-30000" code=""/>
+    <CodeValue value="Above 30000" code=""/>
+   </ValueList>
+   <ValueList name="check_highest_expenditure">
+    <CodeValue value="Food" code=""/>
+    <CodeValue value="Health" code=""/>
+    <CodeValue value="Transport" code=""/>
+    <CodeValue value="House rent" code=""/>
+    <CodeValue value="Education" code=""/>
+    <CodeValue value="Clothing" code=""/>
+    <CodeValue value="Drinking water" code=""/>
+    <CodeValue value="Electricity" code=""/>
+    <CodeValue value="Others(Please specify)" code=""/>
+   </ValueList>
+   <ValueList name="check_saving_scheme">
+    <CodeValue value="In the house" code=""/>
+    <CodeValue value="In the bank" code=""/>
+    <CodeValue value="Cooperative" code=""/>
+    <CodeValue value="Pyramid schemes" code=""/>
+    <CodeValue value="Others(Please specify)" code=""/>
+   </ValueList>
+   <ValueList name="check_land_owners">
+    <CodeValue value="Local government" code=""/>
+    <CodeValue value="Private company" code=""/>
+    <CodeValue value="Private developer" code=""/>
+    <CodeValue value="Customary" code=""/>
+    <CodeValue value="Church" code=""/>
+    <CodeValue value="Others" code=""/>
+   </ValueList>
+   <ValueList name="check_tenure_challenges">
+    <CodeValue value="Eviction threats" code=""/>
+    <CodeValue value="Conflicting ownership" code=""/>
+    <CodeValue value="Lack of recognized land tenure documents" code=""/>
+    <CodeValue value="Access to information" code=""/>
+    <CodeValue value="Land grabbing" code=""/>
+    <CodeValue value="Cost of acquiring land title" code=""/>
+   </ValueList>
+   <ValueList name="check_type_of_houses">
+    <CodeValue value="Permanent" code=""/>
+    <CodeValue value="Semi-permanent" code=""/>
+    <CodeValue value="Temporary" code=""/>
+   </ValueList>
+   <ValueList name="check_construction_materials">
+    <CodeValue value="Bricks" code=""/>
+    <CodeValue value="Wood" code=""/>
+    <CodeValue value="Light materials" code=""/>
+    <CodeValue value="Iron sheet" code=""/>
+    <CodeValue value="Others" code=""/>
+   </ValueList>
+   <ValueList name="check_access_to_services">
+    <CodeValue value="Health services" code=""/>
+    <CodeValue value="Clean and safe drinking water" code=""/>
+    <CodeValue value="Public transport" code=""/>
+    <CodeValue value="Sanitation and waste management" code=""/>
+    <CodeValue value="Government centres" code=""/>
+    <CodeValue value="Roads" code=""/>
+    <CodeValue value="Electricity" code=""/>
+   </ValueList>
+   <ValueList name="check_service_availability">
+    <CodeValue value="Always" code=""/>
+    <CodeValue value="Often (weekly)" code=""/>
+    <CodeValue value="Rarely" code=""/>
+    <CodeValue value="Period (Bi weekly, Monthly)" code=""/>
+   </ValueList>
+   <ValueList name="check_water_source">
+    <CodeValue value="Local government" code=""/>
+    <CodeValue value="Community well" code=""/>
+    <CodeValue value="Private company" code=""/>
+    <CodeValue value="Water tank" code=""/>
+    <CodeValue value="River/ springs" code=""/>
+    <CodeValue value="Community tap" code=""/>
+    <CodeValue value="Dams" code=""/>
+    <CodeValue value="Borehole" code=""/>
+    <CodeValue value="Others" code=""/>
+   </ValueList>
+   <ValueList name="check_distance_to_water_point">
+    <CodeValue value="Walking distance" code=""/>
+    <CodeValue value="Kilometers" code=""/>
+   </ValueList>
+   <ValueList name="check_transport_services">
+    <CodeValue value="Public buses" code=""/>
+    <CodeValue value="Private cars" code=""/>
+    <CodeValue value="Railway" code=""/>
+    <CodeValue value="Tuk Tuk and motor cycles" code=""/>
+    <CodeValue value="None" code=""/>
+    <CodeValue value="Others" code=""/>
+   </ValueList>
+   <ValueList name="check_amenities_available">
+    <CodeValue value="Hospitals" code=""/>
+    <CodeValue value="Market" code=""/>
+    <CodeValue value="public places" code=""/>
+    <CodeValue value="Community lighting" code=""/>
+    <CodeValue value="Religious centres" code=""/>
+    <CodeValue value="Education centres" code=""/>
+   </ValueList>
+   <ValueList name="check_development_project">
+    <CodeValue value="Slum upgrading" code=""/>
+    <CodeValue value="Land tenure regularization" code=""/>
+    <CodeValue value="Access to public spaces" code=""/>
+    <CodeValue value="Education" code=""/>
+    <CodeValue value="Mentorship and counselling" code=""/>
+    <CodeValue value="Neighborhood planning" code=""/>
+    <CodeValue value="Roads" code=""/>
+    <CodeValue value="Affordable housing projects" code=""/>
+    <CodeValue value="Water and sanitation" code=""/>
+    <CodeValue value="Health services" code=""/>
+    <CodeValue value="Community lighting" code=""/>
+    <CodeValue value="None" code=""/>
+   </ValueList>
+   <ValueList name="check_governance">
+    <CodeValue value="Faith Based Orgranisation" code=""/>
+    <CodeValue value="Civil Society Orgarnisation" code=""/>
+    <CodeValue value="Community Based Organisation" code=""/>
+    <CodeValue value="Local government" code=""/>
+    <CodeValue value="National government" code=""/>
+    <CodeValue value="Other institutions" code=""/>
+   </ValueList>
+   <ValueList name="check_health_facilities">
+    <CodeValue value="Government facilities" code=""/>
+    <CodeValue value="Private facilities" code=""/>
+    <CodeValue value="Community facilities" code=""/>
+    <CodeValue value="Faith Based centres" code=""/>
+   </ValueList>
+   <ValueList name="check_hazards">
+    <CodeValue value="Landslides" code=""/>
+    <CodeValue value="Flooding" code=""/>
+    <CodeValue value="Earthquakes" code=""/>
+    <CodeValue value="Fires" code=""/>
+    <CodeValue value="Pollution from the surroundings" code=""/>
+    <CodeValue value="Others" code=""/>
+   </ValueList>
+   <ValueList name="check_hazard_frequency">
+    <CodeValue value="Once a year" code=""/>
+    <CodeValue value="Many times in a year" code=""/>
+    <CodeValue value="Not every year" code=""/>
+   </ValueList>
+   <ValueList name="check_major_problems">
+    <CodeValue value="Crime" code=""/>
+    <CodeValue value="Ethnic clashes" code=""/>
+    <CodeValue value="Gender based violence" code=""/>
+    <CodeValue value="Riots" code=""/>
+    <CodeValue value="Disease outbreak" code=""/>
+    <CodeValue value="Evictions" code=""/>
+    <CodeValue value="Political violence" code=""/>
+    <CodeValue value="land conflicts" code=""/>
+    <CodeValue value="Others" code=""/>
+   </ValueList>
+   <ValueList name="check_settlement_priorities">
+    <CodeValue value="Health" code=""/>
+    <CodeValue value="Housing/land tenure" code=""/>
+    <CodeValue value="Water and drainage" code=""/>
+    <CodeValue value="Peace and security" code=""/>
+    <CodeValue value="Sanitation/ sewage" code=""/>
+    <CodeValue value="Schools/ education" code=""/>
+    <CodeValue value="Roads" code=""/>
+    <CodeValue value="Electricity" code=""/>
+    <CodeValue value="Food security" code=""/>
+    <CodeValue value="Market" code=""/>
+    <CodeValue value="Public spaces" code=""/>
+    <CodeValue value="Others" code=""/>
+   </ValueList>
+  </ValueLists>
+  <Associations>
+   <Association secondParent="Settlement" firstParent="check_settlement_occupation" shortName="reason_for_occupation" name="se_reason_for_occupation"/>
+   <Association secondParent="Settlement" firstParent="check_settlement_location" shortName="location_of_the_settlement" name="se_location_of_the_settlement"/>
+   <Association secondParent="Livelihoods" firstParent="check_highest_expenditure" shortName="highest_expenditure_item_per_month" name="se_highest_expenditure_item_per_month"/>
+   <Association secondParent="Livelihoods" firstParent="check_saving_scheme" shortName="types_of_saving_schemes" name="se_types_of_saving_schemes"/>
+   <Association secondParent="Land tenure information" firstParent="check_land_owners" shortName="other_land_owners_in_the_settlement" name="se_other_land_owners_in_the_settlement"/>
+   <Association secondParent="Land tenure information" firstParent="check_tenure_challenges" shortName="major_land_tenure_challlenges" name="se_major_land_tenure_challlenges"/>
+   <Association secondParent="Housing tenure information" firstParent="check_construction_materials" shortName="common_construction_materials" name="se_common_construction_materials"/>
+   <Association secondParent="Access to basic services" firstParent="check_access_to_services" shortName="available_services_in_the_settlement" name="se_available_services_in_the_settlement"/>
+   <Association secondParent="Access to basic services" firstParent="check_water_source" shortName="sources_of_drinking_water" name="se_sources_of_drinking_water"/>
+   <Association secondParent="Access to basic services" firstParent="check_transport_services" shortName="common_transport_services" name="se_common_transport_services"/>
+   <Association secondParent="Access to basic services" firstParent="check_amenities_available" shortName="other_amenities_available" name="se_other_amenities_available"/>
+   <Association secondParent="Access to basic services" firstParent="check_development_project" shortName="types_of_development_project" name="se_types_of_development_project"/>
+   <Association secondParent="Governance structures" firstParent="check_governance" shortName="existing_governance_structure" name="se_existing_governance_structure"/>
+   <Association secondParent="Access to basic services" firstParent="check_health_facilities" shortName="most_common_health_facilitites" name="se_most_common_health_facilitites"/>
+   <Association secondParent="Environmental and other hazards" firstParent="check_hazards" shortName="major_environmental_hazards" name="se_major_environmental_hazards"/>
+   <Association secondParent="Environmental and other hazards" firstParent="check_major_problems" shortName="other_major_problems_experienced" name="se_other_major_problems_experienced"/>
+   <Association secondParent="Settlement priorities" firstParent="check_settlement_priorities" shortName="major_priorities_identified" name="se_major_priorities_identified"/>
+  </Associations>
+  <Entity editable="False" global="False" rowindex="-1" associative="False" description="" proxy="False" createId="True" supportsDocuments="False" shortName="check_tenure_type_str_attrs" name="se_check_tenure_type_str_attrs" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="2147483647" description="" index="False" name="social_tenure_relationship_id" searchable="True" TYPE_INFO="FOREIGN_KEY" label="" mandatory="False">
+     <Relation name="fk_se_social_tenure_relationship_id_se_check_tenure_type_str_attrs_social_tenure_relationship_id"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="1" description="" index="False" name="dummy_custom_str" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="0" associative="False" description="Generation information regarding this data collection profile" proxy="False" createId="True" supportsDocuments="False" shortName="Profile Information" name="se_profile_information" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="0" minimum="0001-01-01" maximum="9999-12-31" description="" index="False" name="date_or_profile" searchable="False" TYPE_INFO="DATE" label="" mandatory="False">
+     <currentDate minimum="False" maximum="False"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="1" minimum="0" maximum="30" description="" index="False" name="data_collector_surname" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="2" minimum="0" maximum="30" description="" index="False" name="data_collector_given_names" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="3" minimum="0" maximum="2147483647" description="" index="False" name="gender" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+     <Relation name="fk_se_check_gender_id_se_profile_information_gender"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="4" minimum="-2147483648" maximum="2147483647" description="" index="False" name="age" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="5" minimum="0" maximum="30" description="" index="False" name="organisation" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="1" associative="False" description="Data about the settlement " proxy="False" createId="True" supportsDocuments="False" shortName="Settlement" name="se_settlement" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="0" minimum="0" maximum="30" description="" index="False" name="name_of_the_city" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="1" minimum="0" maximum="30" description="" index="False" name="name_of_the_settlement" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="2" minimum="0" maximum="30" description="" index="False" name="settlement_ward" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="3" minimum="0" maximum="30" description="" index="False" name="type_of_settlement" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="4" minimum="0001-01-01" maximum="9999-12-31" description="" index="False" name="first_year_of_occupation" searchable="False" TYPE_INFO="DATE" label="" mandatory="False">
+     <currentDate minimum="False" maximum="False"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="5" description="" index="False" name="reason_for_occupation" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_reason_for_occupation"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="6" description="" index="False" name="location_of_the_settlement" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_location_of_the_settlement"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="7" minimum="0" maximum="2147483647" description="" index="False" name="risk_perception_level_of_the_settlement" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+     <Relation name="fk_se_check_settlement_risk_level_id_se_settlement_risk_perception_level_of_the_settlement"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="8" minimum="0" maximum="30" description="" index="False" name="major_risks" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="9" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="settlement_total_area" searchable="True" TYPE_INFO="DOUBLE" label="" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="10" description="" index="False" name="gps_location" searchable="False" TYPE_INFO="GEOMETRY" label="" mandatory="False">
+     <Geometry layerDisplay="" srid="4326" type="0"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" description="" index="False" name="were_there_cases_of_covid_19" searchable="False" TYPE_INFO="BOOL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="how_many_reported_cases" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" description="" index="False" name="were_the_measures_taken_effective" searchable="False" TYPE_INFO="BOOL" label="" mandatory="False"/>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="2" associative="False" description="Demographics and livelihoods" proxy="False" createId="True" supportsDocuments="False" shortName="Livelihoods" name="se_livelihoods" label="Demographics and livelihoods">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="0" minimum="-2147483648" maximum="2147483647" description="" index="False" name="number_of_households" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="average_size_of_households" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="2" minimum="-2147483648" maximum="2147483647" description="" index="False" name="total_population" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="3" minimum="-2147483648" maximum="2147483647" description="" index="False" name="number_of_males" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="4" minimum="-2147483648" maximum="2147483647" description="" index="False" name="number_of_females" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="Number of people square kilometer" rowindex="5" minimum="-2147483648" maximum="2147483647" description="" index="False" name="population_density" searchable="True" TYPE_INFO="INT" label="Number of people square kilometer" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="6" minimum="-2147483648" maximum="2147483647" description="" index="False" name="population_aged_0_and_14" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="7" minimum="-2147483648" maximum="2147483647" description="" index="False" name="population_aged_between_15_and_24" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="8" minimum="-2147483648" maximum="2147483647" description="" index="False" name="population_aged_between_25_and_40" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="9" minimum="-2147483648" maximum="2147483647" description="" index="False" name="population_aged_between_40_and_55" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="10" minimum="-2147483648" maximum="2147483647" description="" index="False" name="population_above_55" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="11" minimum="0" maximum="2147483647" description="" index="False" name="major_source_of_income" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+     <Relation name="fk_se_check_income_sources_id_se_livelihoods_major_source_of_income"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="12" minimum="0" maximum="2147483647" description="" index="False" name="average_income_levels_per_month" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+     <Relation name="fk_se_check_income_levels_id_se_livelihoods_average_income_levels_per_month"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="13" minimum="-2147483648" maximum="2147483647" description="" index="False" name="average_monthly_household_expenditure" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="14" description="" index="False" name="highest_expenditure_item_per_month" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_highest_expenditure_item_per_month"/>
+    </Column>
+    <Column unique="False" tip="Average number" rowindex="15" minimum="-2147483648" maximum="2147483647" description="" index="False" name="number_of_femaile_headed_household" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="16" description="" index="False" name="access_to_saving_schemes" searchable="False" TYPE_INFO="BOOL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="17" description="" index="False" name="types_of_saving_schemes" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_types_of_saving_schemes"/>
+    </Column>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="3" associative="False" description="" proxy="False" createId="True" supportsDocuments="False" shortName="Land tenure information" name="se_land_tenure_information" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="proportion_of_land_owned_by_goverment" searchable="True" TYPE_INFO="DOUBLE" label="" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" description="" index="False" name="other_land_owners_in_the_settlement" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_other_land_owners_in_the_settlement"/>
+    </Column>
+    <Column unique="False" tip="enter percentages of other land owners separated by commas" rowindex="-1" minimum="0" maximum="1073741823" description="Provide percentages of other land owners separated by commas" index="False" name="percentages_of_other_land_owners" searchable="False" TYPE_INFO="TEXT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="Percentages or Area if known" index="False" name="private_onwed_land_with_titles" searchable="True" TYPE_INFO="DOUBLE" label="" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="1073741823" description="" index="False" name="other_forms_of_tenure" searchable="False" TYPE_INFO="TEXT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="land_without_tenure_security" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="how_much_is_owned_by_women" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="Are there initiative to regularize land tenure in the settlement?" rowindex="-1" description="" index="False" name="any_land_regularization_plans" searchable="False" TYPE_INFO="BOOL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="0001-01-01" maximum="9999-12-31" description="" index="False" name="when_is_regularized_planned" searchable="False" TYPE_INFO="DATE" label="" mandatory="False">
+     <currentDate minimum="False" maximum="False"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="30" description="" index="False" name="who_is_involved" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" description="" index="False" name="major_land_tenure_challlenges" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_major_land_tenure_challlenges"/>
+    </Column>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="4" associative="False" description="" proxy="False" createId="True" supportsDocuments="False" shortName="Housing tenure information" name="se_housing_tenure_information" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="renting_population" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="population_of_structure_owners" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="average_plot_size_in_square_meters" searchable="True" TYPE_INFO="DOUBLE" label="" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2.225073858507201383090232717332404064219215980462331830553327416887204434813918195854283159012511020564067339731035811005152434161553460108856012385377718821130777993532002330479610147442583636071921565046942503734208375250806650616658158948720491179968591639648500635908770118304874799780887753749949451580451605050915399856582470818645113537935804992115981085766051992433352114352390148795699609591288891602992641511063466313393663477586513029371762047325631781485664350872122828637642044846811407613911477062801689853244110024161447421618567166150540154285084716752901903161322778896729707373123334086988983175067838846926092773977972858659654941091369095406136467568702398678315290680984617210924625396728515625E-308" maximum="179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368" description="" index="False" name="average_house_size_in_square_meters" searchable="True" TYPE_INFO="DOUBLE" label="" mandatory="False">
+     <Numeric scale="6" precision="18"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="average_rent_per_month" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="2147483647" description="" index="False" name="dominant_type_of_houses" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+     <Relation name="fk_se_check_type_of_houses_id_se_housing_tenure_information_dominant_type_of_houses"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="1073741823" description="" index="False" name="proportions_of_each_type_of_house" searchable="False" TYPE_INFO="TEXT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" description="" index="False" name="common_construction_materials" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_common_construction_materials"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="houses_connected_with_electricity" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="houses_connected_to_piped_water" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="fitted_with_toilet_and_sanitation" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="monthly_average_cost_of_electricity" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="monthly_average_cost_of_water" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="5" associative="False" description="" proxy="False" createId="True" supportsDocuments="False" shortName="Access to basic services" name="se_access_to_basic_services" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="0" description="" index="False" name="available_services_in_the_settlement" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_available_services_in_the_settlement"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="1" minimum="0" maximum="2147483647" description="" index="False" name="frequency_of_availability" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+     <Relation name="fk_se_check_service_availability_id_se_access_to_basic_services_frequency_of_availability"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="2" description="" index="False" name="sources_of_drinking_water" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_sources_of_drinking_water"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="3" minimum="0" maximum="2147483647" description="" index="False" name="distance_to_water_point_for_most_people" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+     <Relation name="fk_se_check_distance_to_water_point_id_se_access_to_basic_services_distance_to_water_point_for_most_people"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="4" description="" index="False" name="common_transport_services" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_common_transport_services"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="5" description="" index="False" name="other_amenities_available" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_other_amenities_available"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="6" minimum="0" maximum="1073741823" description="" index="False" name="most_demanded_serices" searchable="False" TYPE_INFO="TEXT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="7" description="" index="False" name="types_of_development_project" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_types_of_development_project"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="8" minimum="-2147483648" maximum="2147483647" description="" index="False" name="number_of_functional_public_spaces" searchable="True" TYPE_INFO="INT" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" description="" index="False" name="most_common_health_facilitites" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_most_common_health_facilitites"/>
+    </Column>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="6" associative="False" description="" proxy="False" createId="True" supportsDocuments="False" shortName="Governance structures" name="se_governance_structures" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="0" description="" index="False" name="existing_governance_structure" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_existing_governance_structure"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" description="" index="False" name="are_they_considered_effective" searchable="False" TYPE_INFO="BOOL" label="" mandatory="False"/>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="7" associative="False" description="" proxy="False" createId="True" supportsDocuments="False" shortName="Environmental and other hazards" name="se_environmental_and_other_hazards" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" description="" index="False" name="any_hazard_experienced" searchable="False" TYPE_INFO="BOOL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" description="" index="False" name="major_environmental_hazards" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_major_environmental_hazards"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="2147483647" description="" index="False" name="frequency_of_occurence" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+     <Relation name="fk_se_check_hazard_frequency_id_se_environmental_and_other_hazards_frequency_of_occurence"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" description="" index="False" name="other_major_problems_experienced" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_other_major_problems_experienced"/>
+    </Column>
+    <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="1073741823" description="" index="False" name="how_has_the_settlement_coped_in_the_past" searchable="False" TYPE_INFO="TEXT" label="" mandatory="False"/>
+   </Columns>
+  </Entity>
+  <Entity editable="True" global="False" rowindex="8" associative="False" description="" proxy="False" createId="True" supportsDocuments="False" shortName="Settlement priorities" name="se_settlement_priorities" label="">
+   <Columns>
+    <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" description="" index="False" name="any_settlement_priorities_identified" searchable="False" TYPE_INFO="BOOL" label="" mandatory="False"/>
+    <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="30" description="" index="False" name="by_whom" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False"/>
+    <Column unique="False" tip="Choose maximum of three" rowindex="-1" description="" index="False" name="major_priorities_identified" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+     <associationEntity name="se_major_priorities_identified"/>
+    </Column>
+   </Columns>
+  </Entity>
+  <Relations>
+   <EntityRelation displayColumns="name,code" child="social_tenure_relationship_supporting_document" showInParent="True" parent="check_social_tenure_relationship_document_type" name="fk_se_check_social_tenure_relationship_document_type_id_se_social_tenure_relationship_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type"/>
+   <EntityRelation displayColumns="" child="social_tenure_relationship_supporting_document" showInParent="True" parent="social_tenure_relationship" name="fk_se_social_tenure_relationship_id_se_social_tenure_relationship_supporting_document_social_tenure_relationship_id" parentColumn="id" showInChild="True" childColumn="social_tenure_relationship_id"/>
+   <EntityRelation displayColumns="" child="social_tenure_relationship_supporting_document" showInParent="True" parent="supporting_document" name="fk_se_supporting_document_id_se_social_tenure_relationship_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id"/>
+   <EntityRelation displayColumns="name,code" child="social_tenure_relationship" showInParent="True" parent="check_tenure_type" name="fk_se_check_tenure_type_id_se_social_tenure_relationship_tenure_type" parentColumn="id" showInChild="True" childColumn="tenure_type"/>
+   <EntityRelation displayColumns="" child="admin_spatial_unit_set" showInParent="True" parent="admin_spatial_unit_set" name="fk_admin_spatial_unit_set_id_admin_spatial_unit_set_parent_id" parentColumn="id" showInChild="True" childColumn="parent_id"/>
+   <EntityRelation displayColumns="name,code" child="Profile Information" showInParent="True" parent="check_gender" name="fk_se_check_gender_id_se_profile_information_gender" parentColumn="id" showInChild="True" childColumn="gender"/>
+   <EntityRelation displayColumns="" child="reason_for_occupation" showInParent="True" parent="check_settlement_occupation" name="fk_se_check_settlement_occupation_id_se_reason_for_occupation_se_check_settlement_occupation_id" parentColumn="id" showInChild="True" childColumn="se_check_settlement_occupation_id"/>
+   <EntityRelation displayColumns="" child="reason_for_occupation" showInParent="True" parent="Settlement" name="fk_se_settlement_id_se_reason_for_occupation_se_settlement_id" parentColumn="id" showInChild="True" childColumn="se_settlement_id"/>
+   <EntityRelation displayColumns="" child="location_of_the_settlement" showInParent="True" parent="check_settlement_location" name="fk_se_check_settlement_location_id_se_location_of_the_settlement_se_check_settlement_location_id" parentColumn="id" showInChild="True" childColumn="se_check_settlement_location_id"/>
+   <EntityRelation displayColumns="" child="location_of_the_settlement" showInParent="True" parent="Settlement" name="fk_se_settlement_id_se_location_of_the_settlement_se_settlement_id" parentColumn="id" showInChild="True" childColumn="se_settlement_id"/>
+   <EntityRelation displayColumns="name,code" child="Settlement" showInParent="True" parent="check_settlement_risk_level" name="fk_se_check_settlement_risk_level_id_se_settlement_risk_perception_level_of_the_settlement" parentColumn="id" showInChild="True" childColumn="risk_perception_level_of_the_settlement"/>
+   <EntityRelation displayColumns="name,code" child="Livelihoods" showInParent="True" parent="check_income_sources" name="fk_se_check_income_sources_id_se_livelihoods_major_source_of_income" parentColumn="id" showInChild="True" childColumn="major_source_of_income"/>
+   <EntityRelation displayColumns="name,code" child="Livelihoods" showInParent="True" parent="check_income_levels" name="fk_se_check_income_levels_id_se_livelihoods_average_income_levels_per_month" parentColumn="id" showInChild="True" childColumn="average_income_levels_per_month"/>
+   <EntityRelation displayColumns="" child="highest_expenditure_item_per_month" showInParent="True" parent="check_highest_expenditure" name="fk_se_check_highest_expenditure_id_se_highest_expenditure_item_per_month_se_check_highest_expenditure_id" parentColumn="id" showInChild="True" childColumn="se_check_highest_expenditure_id"/>
+   <EntityRelation displayColumns="" child="highest_expenditure_item_per_month" showInParent="True" parent="Livelihoods" name="fk_se_livelihoods_id_se_highest_expenditure_item_per_month_se_livelihoods_id" parentColumn="id" showInChild="True" childColumn="se_livelihoods_id"/>
+   <EntityRelation displayColumns="" child="types_of_saving_schemes" showInParent="True" parent="check_saving_scheme" name="fk_se_check_saving_scheme_id_se_types_of_saving_schemes_se_check_saving_scheme_id" parentColumn="id" showInChild="True" childColumn="se_check_saving_scheme_id"/>
+   <EntityRelation displayColumns="" child="types_of_saving_schemes" showInParent="True" parent="Livelihoods" name="fk_se_livelihoods_id_se_types_of_saving_schemes_se_livelihoods_id" parentColumn="id" showInChild="True" childColumn="se_livelihoods_id"/>
+   <EntityRelation displayColumns="" child="check_tenure_type_str_attrs" showInParent="True" parent="social_tenure_relationship" name="fk_se_social_tenure_relationship_id_se_check_tenure_type_str_attrs_social_tenure_relationship_id" parentColumn="id" showInChild="True" childColumn="social_tenure_relationship_id"/>
+   <EntityRelation displayColumns="" child="social_tenure_relationship" showInParent="True" parent="Livelihoods" name="fk_se_livelihoods_id_se_social_tenure_relationship_livelihoods_id" parentColumn="id" showInChild="True" childColumn="livelihoods_id"/>
+   <EntityRelation displayColumns="" child="social_tenure_relationship" showInParent="True" parent="Settlement" name="fk_se_settlement_id_se_social_tenure_relationship_settlement_id" parentColumn="id" showInChild="True" childColumn="settlement_id"/>
+   <EntityRelation displayColumns="" child="other_land_owners_in_the_settlement" showInParent="True" parent="check_land_owners" name="fk_se_check_land_owners_id_se_other_land_owners_in_the_settlement_se_check_land_owners_id" parentColumn="id" showInChild="True" childColumn="se_check_land_owners_id"/>
+   <EntityRelation displayColumns="" child="other_land_owners_in_the_settlement" showInParent="True" parent="Land tenure information" name="fk_se_land_tenure_information_id_se_other_land_owners_in_the_settlement_se_land_tenure_information_id" parentColumn="id" showInChild="True" childColumn="se_land_tenure_information_id"/>
+   <EntityRelation displayColumns="name,code" child="Land tenure information" showInParent="True" parent="check_tenure_challenges" name="fk_se_check_tenure_challenges_id_se_land_tenure_information_major_land_tenure_challlenges" parentColumn="id" showInChild="True" childColumn="major_land_tenure_challlenges"/>
+   <EntityRelation displayColumns="" child="major_land_tenure_challlenges" showInParent="True" parent="check_tenure_challenges" name="fk_se_check_tenure_challenges_id_se_major_land_tenure_challlenges_se_check_tenure_challenges_id" parentColumn="id" showInChild="True" childColumn="se_check_tenure_challenges_id"/>
+   <EntityRelation displayColumns="" child="major_land_tenure_challlenges" showInParent="True" parent="Land tenure information" name="fk_se_land_tenure_information_id_se_major_land_tenure_challlenges_se_land_tenure_information_id" parentColumn="id" showInChild="True" childColumn="se_land_tenure_information_id"/>
+   <EntityRelation displayColumns="name,code" child="Housing tenure information" showInParent="True" parent="check_type_of_houses" name="fk_se_check_type_of_houses_id_se_housing_tenure_information_dominant_type_of_houses" parentColumn="id" showInChild="True" childColumn="dominant_type_of_houses"/>
+   <EntityRelation displayColumns="" child="common_construction_materials" showInParent="True" parent="check_construction_materials" name="fk_se_check_construction_materials_id_se_common_construction_materials_se_check_construction_materials_id" parentColumn="id" showInChild="True" childColumn="se_check_construction_materials_id"/>
+   <EntityRelation displayColumns="" child="common_construction_materials" showInParent="True" parent="Housing tenure information" name="fk_se_housing_tenure_information_id_se_common_construction_materials_se_housing_tenure_information_id" parentColumn="id" showInChild="True" childColumn="se_housing_tenure_information_id"/>
+   <EntityRelation displayColumns="" child="available_services_in_the_settlement" showInParent="True" parent="check_access_to_services" name="fk_se_check_access_to_services_id_se_available_services_in_the_settlement_se_check_access_to_services_id" parentColumn="id" showInChild="True" childColumn="se_check_access_to_services_id"/>
+   <EntityRelation displayColumns="" child="available_services_in_the_settlement" showInParent="True" parent="Access to basic services" name="fk_se_access_to_basic_services_id_se_available_services_in_the_settlement_se_access_to_basic_services_id" parentColumn="id" showInChild="True" childColumn="se_access_to_basic_services_id"/>
+   <EntityRelation displayColumns="name,code" child="Access to basic services" showInParent="True" parent="check_service_availability" name="fk_se_check_service_availability_id_se_access_to_basic_services_frequency_of_availability" parentColumn="id" showInChild="True" childColumn="frequency_of_availability"/>
+   <EntityRelation displayColumns="" child="sources_of_drinking_water" showInParent="True" parent="check_water_source" name="fk_se_check_water_source_id_se_sources_of_drinking_water_se_check_water_source_id" parentColumn="id" showInChild="True" childColumn="se_check_water_source_id"/>
+   <EntityRelation displayColumns="" child="sources_of_drinking_water" showInParent="True" parent="Access to basic services" name="fk_se_access_to_basic_services_id_se_sources_of_drinking_water_se_access_to_basic_services_id" parentColumn="id" showInChild="True" childColumn="se_access_to_basic_services_id"/>
+   <EntityRelation displayColumns="name,code" child="Access to basic services" showInParent="True" parent="check_distance_to_water_point" name="fk_se_check_distance_to_water_point_id_se_access_to_basic_services_distance_to_water_point_for_most_people" parentColumn="id" showInChild="True" childColumn="distance_to_water_point_for_most_people"/>
+   <EntityRelation displayColumns="" child="common_transport_services" showInParent="True" parent="check_transport_services" name="fk_se_check_transport_services_id_se_common_transport_services_se_check_transport_services_id" parentColumn="id" showInChild="True" childColumn="se_check_transport_services_id"/>
+   <EntityRelation displayColumns="" child="common_transport_services" showInParent="True" parent="Access to basic services" name="fk_se_access_to_basic_services_id_se_common_transport_services_se_access_to_basic_services_id" parentColumn="id" showInChild="True" childColumn="se_access_to_basic_services_id"/>
+   <EntityRelation displayColumns="" child="other_amenities_available" showInParent="True" parent="check_amenities_available" name="fk_se_check_amenities_available_id_se_other_amenities_available_se_check_amenities_available_id" parentColumn="id" showInChild="True" childColumn="se_check_amenities_available_id"/>
+   <EntityRelation displayColumns="" child="other_amenities_available" showInParent="True" parent="Access to basic services" name="fk_se_access_to_basic_services_id_se_other_amenities_available_se_access_to_basic_services_id" parentColumn="id" showInChild="True" childColumn="se_access_to_basic_services_id"/>
+   <EntityRelation displayColumns="" child="types_of_development_project" showInParent="True" parent="check_development_project" name="fk_se_check_development_project_id_se_types_of_development_project_se_check_development_project_id" parentColumn="id" showInChild="True" childColumn="se_check_development_project_id"/>
+   <EntityRelation displayColumns="" child="types_of_development_project" showInParent="True" parent="Access to basic services" name="fk_se_access_to_basic_services_id_se_types_of_development_project_se_access_to_basic_services_id" parentColumn="id" showInChild="True" childColumn="se_access_to_basic_services_id"/>
+   <EntityRelation displayColumns="" child="existing_governance_structure" showInParent="True" parent="check_governance" name="fk_se_check_governance_id_se_existing_governance_structure_se_check_governance_id" parentColumn="id" showInChild="True" childColumn="se_check_governance_id"/>
+   <EntityRelation displayColumns="" child="existing_governance_structure" showInParent="True" parent="Governance structures" name="fk_se_governance_structures_id_se_existing_governance_structure_se_governance_structures_id" parentColumn="id" showInChild="True" childColumn="se_governance_structures_id"/>
+   <EntityRelation displayColumns="" child="most_common_health_facilitites" showInParent="True" parent="check_health_facilities" name="fk_se_check_health_facilities_id_se_most_common_health_facilitites_se_check_health_facilities_id" parentColumn="id" showInChild="True" childColumn="se_check_health_facilities_id"/>
+   <EntityRelation displayColumns="" child="most_common_health_facilitites" showInParent="True" parent="Access to basic services" name="fk_se_access_to_basic_services_id_se_most_common_health_facilitites_se_access_to_basic_services_id" parentColumn="id" showInChild="True" childColumn="se_access_to_basic_services_id"/>
+   <EntityRelation displayColumns="" child="major_environmental_hazards" showInParent="True" parent="check_hazards" name="fk_se_check_hazards_id_se_major_environmental_hazards_se_check_hazards_id" parentColumn="id" showInChild="True" childColumn="se_check_hazards_id"/>
+   <EntityRelation displayColumns="" child="major_environmental_hazards" showInParent="True" parent="Environmental and other hazards" name="fk_se_environmental_and_other_hazards_id_se_major_environmental_hazards_se_environmental_and_other_hazards_id" parentColumn="id" showInChild="True" childColumn="se_environmental_and_other_hazards_id"/>
+   <EntityRelation displayColumns="name,code" child="Environmental and other hazards" showInParent="True" parent="check_hazard_frequency" name="fk_se_check_hazard_frequency_id_se_environmental_and_other_hazards_frequency_of_occurence" parentColumn="id" showInChild="True" childColumn="frequency_of_occurence"/>
+   <EntityRelation displayColumns="" child="other_major_problems_experienced" showInParent="True" parent="check_major_problems" name="fk_se_check_major_problems_id_se_other_major_problems_experienced_se_check_major_problems_id" parentColumn="id" showInChild="True" childColumn="se_check_major_problems_id"/>
+   <EntityRelation displayColumns="" child="other_major_problems_experienced" showInParent="True" parent="Environmental and other hazards" name="fk_se_environmental_and_other_hazards_id_se_other_major_problems_experienced_se_environmental_and_other_hazards_id" parentColumn="id" showInChild="True" childColumn="se_environmental_and_other_hazards_id"/>
+   <EntityRelation displayColumns="" child="major_priorities_identified" showInParent="True" parent="check_settlement_priorities" name="fk_se_check_settlement_priorities_id_se_major_priorities_identified_se_check_settlement_priorities_id" parentColumn="id" showInChild="True" childColumn="se_check_settlement_priorities_id"/>
+   <EntityRelation displayColumns="" child="major_priorities_identified" showInParent="True" parent="Settlement priorities" name="fk_se_settlement_priorities_id_se_major_priorities_identified_se_settlement_priorities_id" parentColumn="id" showInChild="True" childColumn="se_settlement_priorities_id"/>
+  </Relations>
+  <SocialTenure layerDisplay="" tenureTypeList="check_tenure_type" spatialUnit="Settlement" supportsMultipleParties="True" party="Livelihoods">
+   <SpatialUnitTenureMappings>
+    <Mapping tenureTypeList="check_tenure_type" spatialUnit="Settlement"/>
+   </SpatialUnitTenureMappings>
+   <CustomAttributes>
+    <TenureEntity tenureTypeList="check_tenure_type" entity="check_tenure_type_str_attrs"/>
+   </CustomAttributes>
+  </SocialTenure>
+ </Profile>
+</Configuration>

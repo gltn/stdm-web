@@ -1,0 +1,1133 @@
+<?xml version="1.0" ?>
+<h:html xmlns:jr="http://openrosa.org/javarosa" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns="http://www.w3.org/2002/xforms" xmlns:orx="http://openrosa.org/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ <h:head>
+  <h:title>Settlement_Profiling</h:title>
+  <model>
+   <instance>
+    <Settlement_Profiling id="Settlement Profiling">
+     <se_profile_information>
+      <date_or_profile/>
+      <data_collector_surname/>
+      <data_collector_given_names/>
+      <gender/>
+      <age/>
+      <organisation/>
+     </se_profile_information>
+     <se_settlement>
+      <name_of_the_city/>
+      <name_of_the_settlement/>
+      <settlement_ward/>
+      <type_of_settlement/>
+      <first_year_of_occupation/>
+      <reason_for_occupation/>
+      <location_of_the_settlement/>
+      <risk_perception_level_of_the_settlement/>
+      <major_risks/>
+      <settlement_total_area/>
+      <gps_location/>
+      <were_there_cases_of_covid_19/>
+      <how_many_reported_cases/>
+      <were_the_measures_taken_effective/>
+     </se_settlement>
+     <se_livelihoods>
+      <number_of_households/>
+      <average_size_of_households/>
+      <total_population/>
+      <number_of_males/>
+      <number_of_females/>
+      <population_density/>
+      <population_aged_0_and_14/>
+      <population_aged_between_15_and_24/>
+      <population_aged_between_25_and_40/>
+      <population_aged_between_40_and_55/>
+      <population_above_55/>
+      <major_source_of_income/>
+      <average_income_levels_per_month/>
+      <average_monthly_household_expenditure/>
+      <highest_expenditure_item_per_month/>
+      <number_of_femaile_headed_household/>
+      <access_to_saving_schemes/>
+      <types_of_saving_schemes/>
+     </se_livelihoods>
+     <se_land_tenure_information>
+      <proportion_of_land_owned_by_goverment/>
+      <other_land_owners_in_the_settlement/>
+      <percentages_of_other_land_owners/>
+      <private_onwed_land_with_titles/>
+      <other_forms_of_tenure/>
+      <land_without_tenure_security/>
+      <how_much_is_owned_by_women/>
+      <any_land_regularization_plans/>
+      <when_is_regularized_planned/>
+      <who_is_involved/>
+      <major_land_tenure_challlenges/>
+     </se_land_tenure_information>
+     <se_housing_tenure_information>
+      <renting_population/>
+      <population_of_structure_owners/>
+      <average_plot_size_in_square_meters/>
+      <average_house_size_in_square_meters/>
+      <average_rent_per_month/>
+      <dominant_type_of_houses/>
+      <proportions_of_each_type_of_house/>
+      <common_construction_materials/>
+      <houses_connected_with_electricity/>
+      <houses_connected_to_piped_water/>
+      <fitted_with_toilet_and_sanitation/>
+      <monthly_average_cost_of_electricity/>
+      <monthly_average_cost_of_water/>
+     </se_housing_tenure_information>
+     <se_access_to_basic_services>
+      <available_services_in_the_settlement/>
+      <frequency_of_availability/>
+      <sources_of_drinking_water/>
+      <distance_to_water_point_for_most_people/>
+      <common_transport_services/>
+      <other_amenities_available/>
+      <most_demanded_serices/>
+      <types_of_development_project/>
+      <number_of_functional_public_spaces/>
+      <most_common_health_facilitites/>
+     </se_access_to_basic_services>
+     <se_governance_structures>
+      <existing_governance_structure/>
+      <are_they_considered_effective/>
+     </se_governance_structures>
+     <se_environmental_and_other_hazards>
+      <any_hazard_experienced/>
+      <major_environmental_hazards/>
+      <frequency_of_occurence/>
+      <other_major_problems_experienced/>
+      <how_has_the_settlement_coped_in_the_past/>
+     </se_environmental_and_other_hazards>
+     <se_settlement_priorities>
+      <any_settlement_priorities_identified/>
+      <by_whom/>
+      <major_priorities_identified/>
+     </se_settlement_priorities>
+     <meta>
+      <instanceID/>
+     </meta>
+    </Settlement_Profiling>
+   </instance>
+   <bind jr:preloadParams="start" nodeset="/Settlement_Profiling/start" type="dateTime" jr:preload="timestamp"/>
+   <bind jr:preloadParams="end" nodeset="/Settlement_Profiling/end" type="dateTime" jr:preload="timestamp"/>
+   <bind jr:preloadParams="deviceid" nodeset="/Settlement_Profiling/deviceid" type="string" jr:preload="property"/>
+   <bind jr:preloadParams="today" nodeset="/Settlement_Profiling/today" type="date" jr:preload="timestamp"/>
+   <bind nodeset="/Settlement_Profiling/se_profile_information/date_or_profile" type="date"/>
+   <bind nodeset="/Settlement_Profiling/se_profile_information/data_collector_surname" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_profile_information/data_collector_given_names" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_profile_information/gender" type="select1"/>
+   <bind nodeset="/Settlement_Profiling/se_profile_information/age" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_profile_information/organisation" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/name_of_the_city" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/name_of_the_settlement" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/settlement_ward" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/type_of_settlement" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/first_year_of_occupation" type="date"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/reason_for_occupation" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/location_of_the_settlement" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/risk_perception_level_of_the_settlement" type="select1"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/major_risks" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/settlement_total_area" type="decimal"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/gps_location" type="geopoint"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/were_there_cases_of_covid_19" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/how_many_reported_cases" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement/were_the_measures_taken_effective" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/number_of_households" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/average_size_of_households" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/total_population" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/number_of_males" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/number_of_females" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/population_density" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/population_aged_0_and_14" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/population_aged_between_15_and_24" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/population_aged_between_25_and_40" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/population_aged_between_40_and_55" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/population_above_55" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/major_source_of_income" type="select1"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/average_income_levels_per_month" type="select1"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/average_monthly_household_expenditure" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/highest_expenditure_item_per_month" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/number_of_femaile_headed_household" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/access_to_saving_schemes" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_livelihoods/types_of_saving_schemes" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_land_tenure_information/proportion_of_land_owned_by_goverment" type="decimal"/>
+   <bind nodeset="/Settlement_Profiling/se_land_tenure_information/other_land_owners_in_the_settlement" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_land_tenure_information/percentages_of_other_land_owners" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_land_tenure_information/private_onwed_land_with_titles" type="decimal"/>
+   <bind nodeset="/Settlement_Profiling/se_land_tenure_information/other_forms_of_tenure" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_land_tenure_information/land_without_tenure_security" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_land_tenure_information/how_much_is_owned_by_women" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_land_tenure_information/any_land_regularization_plans" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_land_tenure_information/when_is_regularized_planned" type="date"/>
+   <bind nodeset="/Settlement_Profiling/se_land_tenure_information/who_is_involved" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_land_tenure_information/major_land_tenure_challlenges" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_housing_tenure_information/renting_population" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_housing_tenure_information/population_of_structure_owners" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_housing_tenure_information/average_plot_size_in_square_meters" type="decimal"/>
+   <bind nodeset="/Settlement_Profiling/se_housing_tenure_information/average_house_size_in_square_meters" type="decimal"/>
+   <bind nodeset="/Settlement_Profiling/se_housing_tenure_information/average_rent_per_month" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_housing_tenure_information/dominant_type_of_houses" type="select1"/>
+   <bind nodeset="/Settlement_Profiling/se_housing_tenure_information/proportions_of_each_type_of_house" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_housing_tenure_information/common_construction_materials" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_housing_tenure_information/houses_connected_with_electricity" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_housing_tenure_information/houses_connected_to_piped_water" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_housing_tenure_information/fitted_with_toilet_and_sanitation" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_housing_tenure_information/monthly_average_cost_of_electricity" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_housing_tenure_information/monthly_average_cost_of_water" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_access_to_basic_services/available_services_in_the_settlement" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_access_to_basic_services/frequency_of_availability" type="select1"/>
+   <bind nodeset="/Settlement_Profiling/se_access_to_basic_services/sources_of_drinking_water" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_access_to_basic_services/distance_to_water_point_for_most_people" type="select1"/>
+   <bind nodeset="/Settlement_Profiling/se_access_to_basic_services/common_transport_services" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_access_to_basic_services/other_amenities_available" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_access_to_basic_services/most_demanded_serices" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_access_to_basic_services/types_of_development_project" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_access_to_basic_services/number_of_functional_public_spaces" type="integer"/>
+   <bind nodeset="/Settlement_Profiling/se_access_to_basic_services/most_common_health_facilitites" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_governance_structures/existing_governance_structure" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_governance_structures/are_they_considered_effective" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_environmental_and_other_hazards/any_hazard_experienced" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_environmental_and_other_hazards/major_environmental_hazards" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_environmental_and_other_hazards/frequency_of_occurence" type="select1"/>
+   <bind nodeset="/Settlement_Profiling/se_environmental_and_other_hazards/other_major_problems_experienced" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_environmental_and_other_hazards/how_has_the_settlement_coped_in_the_past" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement_priorities/any_settlement_priorities_identified" type="select"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement_priorities/by_whom" type="string"/>
+   <bind nodeset="/Settlement_Profiling/se_settlement_priorities/major_priorities_identified" type="select"/>
+   <bind readonly="True" nodeset="/Settlement_Profiling/meta/instanceID" type="string" calculate="concat('uuid:', uuid())"/>
+  </model>
+ </h:head>
+ <h:body>
+  <group appearance="field-list" ref="/Settlement_Profiling/se_profile_information">
+   <label>Profile Information</label>
+   <input ref="/Settlement_Profiling/se_profile_information/date_or_profile">
+    <label>Date Or Profile</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_profile_information/data_collector_surname">
+    <label>Data Collector Surname</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_profile_information/data_collector_given_names">
+    <label>Data Collector Given Names</label>
+   </input>
+   <select1 ref="/Settlement_Profiling/se_profile_information/gender">
+    <label>Gender</label>
+    <item>
+     <label>Male</label>
+     <value>Male</value>
+    </item>
+    <item>
+     <label>Female</label>
+     <value>Female</value>
+    </item>
+   </select1>
+   <input ref="/Settlement_Profiling/se_profile_information/age">
+    <label>Age</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_profile_information/organisation">
+    <label>Organisation</label>
+   </input>
+  </group>
+  <group appearance="field-list" ref="/Settlement_Profiling/se_settlement">
+   <label>Settlement</label>
+   <input ref="/Settlement_Profiling/se_settlement/name_of_the_city">
+    <label>Name Of The City</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_settlement/name_of_the_settlement">
+    <label>Name Of The Settlement</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_settlement/settlement_ward">
+    <label>Settlement Ward</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_settlement/type_of_settlement">
+    <label>Type Of Settlement</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_settlement/first_year_of_occupation">
+    <label>First Year Of Occupation</label>
+   </input>
+   <select ref="/Settlement_Profiling/se_settlement/reason_for_occupation">
+    <label>Reason For Occupation</label>
+    <item>
+     <label>Relocation from another settlement</label>
+     <value>Relocation from another settlement</value>
+    </item>
+    <item>
+     <label>Relocation from rural areas</label>
+     <value>Relocation from rural areas</value>
+    </item>
+    <item>
+     <label>Evictions from other areas</label>
+     <value>Evictions from other areas</value>
+    </item>
+    <item>
+     <label>Displacement from war</label>
+     <value>Displacement from war</value>
+    </item>
+    <item>
+     <label>Natural disaster</label>
+     <value>Natural disaster</value>
+    </item>
+    <item>
+     <label>Internal conflicts</label>
+     <value>Internal conflicts</value>
+    </item>
+    <item>
+     <label>Others(Please specify)</label>
+     <value>Others(Please specify)</value>
+    </item>
+   </select>
+   <select ref="/Settlement_Profiling/se_settlement/location_of_the_settlement">
+    <label>Location Of The Settlement</label>
+    <item>
+     <label>Near power lines</label>
+     <value>Near power lines</value>
+    </item>
+    <item>
+     <label>Near a river</label>
+     <value>Near a river</value>
+    </item>
+    <item>
+     <label>Near a railway line</label>
+     <value>Near a railway line</value>
+    </item>
+    <item>
+     <label>Under a bridge</label>
+     <value>Under a bridge</value>
+    </item>
+    <item>
+     <label>Near drainage</label>
+     <value>Near drainage</value>
+    </item>
+    <item>
+     <label>Near dumpsite</label>
+     <value>Near dumpsite</value>
+    </item>
+    <item>
+     <label>Others(Please specify)</label>
+     <value>Others(Please specify)</value>
+    </item>
+   </select>
+   <select1 ref="/Settlement_Profiling/se_settlement/risk_perception_level_of_the_settlement">
+    <label>Risk Perception Level Of The Settlement</label>
+    <item>
+     <label>High risk</label>
+     <value>High risk</value>
+    </item>
+    <item>
+     <label>Average</label>
+     <value>Average</value>
+    </item>
+    <item>
+     <label>Low risk</label>
+     <value>Low risk</value>
+    </item>
+    <item>
+     <label>None</label>
+     <value>None</value>
+    </item>
+   </select1>
+   <input ref="/Settlement_Profiling/se_settlement/major_risks">
+    <label>Major Risks</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_settlement/settlement_total_area">
+    <label>Settlement Total Area</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_settlement/gps_location">
+    <label>Gps Location</label>
+   </input>
+   <select1 ref="/Settlement_Profiling/se_settlement/were_there_cases_of_covid_19">
+    <label>Were There Cases Of Covid 19</label>
+    <item>
+     <label>Yes</label>
+     <value>Yes</value>
+    </item>
+    <item>
+     <label>No</label>
+     <value>No</value>
+    </item>
+   </select1>
+   <input ref="/Settlement_Profiling/se_settlement/how_many_reported_cases">
+    <label>How Many Reported Cases</label>
+   </input>
+   <select1 ref="/Settlement_Profiling/se_settlement/were_the_measures_taken_effective">
+    <label>Were The Measures Taken Effective</label>
+    <item>
+     <label>Yes</label>
+     <value>Yes</value>
+    </item>
+    <item>
+     <label>No</label>
+     <value>No</value>
+    </item>
+   </select1>
+  </group>
+  <group appearance="field-list" ref="/Settlement_Profiling/se_livelihoods">
+   <label>Livelihoods</label>
+   <input ref="/Settlement_Profiling/se_livelihoods/number_of_households">
+    <label>Number Of Households</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_livelihoods/average_size_of_households">
+    <label>Average Size Of Households</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_livelihoods/total_population">
+    <label>Total Population</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_livelihoods/number_of_males">
+    <label>Number Of Males</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_livelihoods/number_of_females">
+    <label>Number Of Females</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_livelihoods/population_density">
+    <label>Number of people square kilometer</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_livelihoods/population_aged_0_and_14">
+    <label>Population Aged 0 And 14</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_livelihoods/population_aged_between_15_and_24">
+    <label>Population Aged Between 15 And 24</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_livelihoods/population_aged_between_25_and_40">
+    <label>Population Aged Between 25 And 40</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_livelihoods/population_aged_between_40_and_55">
+    <label>Population Aged Between 40 And 55</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_livelihoods/population_above_55">
+    <label>Population Above 55</label>
+   </input>
+   <select1 ref="/Settlement_Profiling/se_livelihoods/major_source_of_income">
+    <label>Major Source Of Income</label>
+    <item>
+     <label>Permanent employment</label>
+     <value>Permanent employment</value>
+    </item>
+    <item>
+     <label>Temporary employment</label>
+     <value>Temporary employment</value>
+    </item>
+    <item>
+     <label>Donations</label>
+     <value>Donations</value>
+    </item>
+    <item>
+     <label>None</label>
+     <value>None</value>
+    </item>
+    <item>
+     <label>Others( Please specify)</label>
+     <value>Others( Please specify)</value>
+    </item>
+   </select1>
+   <select1 ref="/Settlement_Profiling/se_livelihoods/average_income_levels_per_month">
+    <label>Average Income Levels Per Month</label>
+    <item>
+     <label>Below 5000</label>
+     <value>Below 5000</value>
+    </item>
+    <item>
+     <label>5001-10000</label>
+     <value>5001-10000</value>
+    </item>
+    <item>
+     <label>10001-20000</label>
+     <value>10001-20000</value>
+    </item>
+    <item>
+     <label>20001-30000</label>
+     <value>20001-30000</value>
+    </item>
+    <item>
+     <label>Above 30000</label>
+     <value>Above 30000</value>
+    </item>
+   </select1>
+   <input ref="/Settlement_Profiling/se_livelihoods/average_monthly_household_expenditure">
+    <label>Average Monthly Household Expenditure</label>
+   </input>
+   <select ref="/Settlement_Profiling/se_livelihoods/highest_expenditure_item_per_month">
+    <label>Highest Expenditure Item Per Month</label>
+    <item>
+     <label>Food</label>
+     <value>Food</value>
+    </item>
+    <item>
+     <label>Health</label>
+     <value>Health</value>
+    </item>
+    <item>
+     <label>Transport</label>
+     <value>Transport</value>
+    </item>
+    <item>
+     <label>House rent</label>
+     <value>House rent</value>
+    </item>
+    <item>
+     <label>Education</label>
+     <value>Education</value>
+    </item>
+    <item>
+     <label>Clothing</label>
+     <value>Clothing</value>
+    </item>
+    <item>
+     <label>Drinking water</label>
+     <value>Drinking water</value>
+    </item>
+    <item>
+     <label>Electricity</label>
+     <value>Electricity</value>
+    </item>
+    <item>
+     <label>Others(Please specify)</label>
+     <value>Others(Please specify)</value>
+    </item>
+   </select>
+   <input ref="/Settlement_Profiling/se_livelihoods/number_of_femaile_headed_household">
+    <label>Number Of Femaile Headed Household</label>
+   </input>
+   <select1 ref="/Settlement_Profiling/se_livelihoods/access_to_saving_schemes">
+    <label>Access To Saving Schemes</label>
+    <item>
+     <label>Yes</label>
+     <value>Yes</value>
+    </item>
+    <item>
+     <label>No</label>
+     <value>No</value>
+    </item>
+   </select1>
+   <select ref="/Settlement_Profiling/se_livelihoods/types_of_saving_schemes">
+    <label>Types Of Saving Schemes</label>
+    <item>
+     <label>In the house</label>
+     <value>In the house</value>
+    </item>
+    <item>
+     <label>In the bank</label>
+     <value>In the bank</value>
+    </item>
+    <item>
+     <label>Cooperative</label>
+     <value>Cooperative</value>
+    </item>
+    <item>
+     <label>Pyramid schemes</label>
+     <value>Pyramid schemes</value>
+    </item>
+    <item>
+     <label>Others(Please specify)</label>
+     <value>Others(Please specify)</value>
+    </item>
+   </select>
+  </group>
+  <group appearance="field-list" ref="/Settlement_Profiling/se_land_tenure_information">
+   <label>Land tenure information</label>
+   <input ref="/Settlement_Profiling/se_land_tenure_information/proportion_of_land_owned_by_goverment">
+    <label>Proportion Of Land Owned By Goverment</label>
+   </input>
+   <select ref="/Settlement_Profiling/se_land_tenure_information/other_land_owners_in_the_settlement">
+    <label>Other Land Owners In The Settlement</label>
+    <item>
+     <label>Local government</label>
+     <value>Local government</value>
+    </item>
+    <item>
+     <label>Private company</label>
+     <value>Private company</value>
+    </item>
+    <item>
+     <label>Private developer</label>
+     <value>Private developer</value>
+    </item>
+    <item>
+     <label>Customary</label>
+     <value>Customary</value>
+    </item>
+    <item>
+     <label>Church</label>
+     <value>Church</value>
+    </item>
+    <item>
+     <label>Others</label>
+     <value>Others</value>
+    </item>
+   </select>
+   <input ref="/Settlement_Profiling/se_land_tenure_information/percentages_of_other_land_owners">
+    <label>Percentages Of Other Land Owners</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_land_tenure_information/private_onwed_land_with_titles">
+    <label>Private Onwed Land With Titles</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_land_tenure_information/other_forms_of_tenure">
+    <label>Other Forms Of Tenure</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_land_tenure_information/land_without_tenure_security">
+    <label>Land Without Tenure Security</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_land_tenure_information/how_much_is_owned_by_women">
+    <label>How Much Is Owned By Women</label>
+   </input>
+   <select1 ref="/Settlement_Profiling/se_land_tenure_information/any_land_regularization_plans">
+    <label>Any Land Regularization Plans</label>
+    <item>
+     <label>Yes</label>
+     <value>Yes</value>
+    </item>
+    <item>
+     <label>No</label>
+     <value>No</value>
+    </item>
+   </select1>
+   <input ref="/Settlement_Profiling/se_land_tenure_information/when_is_regularized_planned">
+    <label>When Is Regularized Planned</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_land_tenure_information/who_is_involved">
+    <label>Who Is Involved</label>
+   </input>
+   <select ref="/Settlement_Profiling/se_land_tenure_information/major_land_tenure_challlenges">
+    <label>Major Land Tenure Challlenges</label>
+    <item>
+     <label>Eviction threats</label>
+     <value>Eviction threats</value>
+    </item>
+    <item>
+     <label>Conflicting ownership</label>
+     <value>Conflicting ownership</value>
+    </item>
+    <item>
+     <label>Lack of recognized land tenure documents</label>
+     <value>Lack of recognized land tenure documents</value>
+    </item>
+    <item>
+     <label>Access to information</label>
+     <value>Access to information</value>
+    </item>
+    <item>
+     <label>Land grabbing</label>
+     <value>Land grabbing</value>
+    </item>
+    <item>
+     <label>Cost of acquiring land title</label>
+     <value>Cost of acquiring land title</value>
+    </item>
+   </select>
+  </group>
+  <group appearance="field-list" ref="/Settlement_Profiling/se_housing_tenure_information">
+   <label>Housing tenure information</label>
+   <input ref="/Settlement_Profiling/se_housing_tenure_information/renting_population">
+    <label>Renting Population</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_housing_tenure_information/population_of_structure_owners">
+    <label>Population Of Structure Owners</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_housing_tenure_information/average_plot_size_in_square_meters">
+    <label>Average Plot Size In Square Meters</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_housing_tenure_information/average_house_size_in_square_meters">
+    <label>Average House Size In Square Meters</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_housing_tenure_information/average_rent_per_month">
+    <label>Average Rent Per Month</label>
+   </input>
+   <select1 ref="/Settlement_Profiling/se_housing_tenure_information/dominant_type_of_houses">
+    <label>Dominant Type Of Houses</label>
+    <item>
+     <label>Permanent</label>
+     <value>Permanent</value>
+    </item>
+    <item>
+     <label>Semi-permanent</label>
+     <value>Semi-permanent</value>
+    </item>
+    <item>
+     <label>Temporary</label>
+     <value>Temporary</value>
+    </item>
+   </select1>
+   <input ref="/Settlement_Profiling/se_housing_tenure_information/proportions_of_each_type_of_house">
+    <label>Proportions Of Each Type Of House</label>
+   </input>
+   <select ref="/Settlement_Profiling/se_housing_tenure_information/common_construction_materials">
+    <label>Common Construction Materials</label>
+    <item>
+     <label>Bricks</label>
+     <value>Bricks</value>
+    </item>
+    <item>
+     <label>Wood</label>
+     <value>Wood</value>
+    </item>
+    <item>
+     <label>Light materials</label>
+     <value>Light materials</value>
+    </item>
+    <item>
+     <label>Iron sheet</label>
+     <value>Iron sheet</value>
+    </item>
+    <item>
+     <label>Others</label>
+     <value>Others</value>
+    </item>
+   </select>
+   <input ref="/Settlement_Profiling/se_housing_tenure_information/houses_connected_with_electricity">
+    <label>Houses Connected With Electricity</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_housing_tenure_information/houses_connected_to_piped_water">
+    <label>Houses Connected To Piped Water</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_housing_tenure_information/fitted_with_toilet_and_sanitation">
+    <label>Fitted With Toilet And Sanitation</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_housing_tenure_information/monthly_average_cost_of_electricity">
+    <label>Monthly Average Cost Of Electricity</label>
+   </input>
+   <input ref="/Settlement_Profiling/se_housing_tenure_information/monthly_average_cost_of_water">
+    <label>Monthly Average Cost Of Water</label>
+   </input>
+  </group>
+  <group appearance="field-list" ref="/Settlement_Profiling/se_access_to_basic_services">
+   <label>Access to basic services</label>
+   <select ref="/Settlement_Profiling/se_access_to_basic_services/available_services_in_the_settlement">
+    <label>Available Services In The Settlement</label>
+    <item>
+     <label>Health services</label>
+     <value>Health services</value>
+    </item>
+    <item>
+     <label>Clean and safe drinking water</label>
+     <value>Clean and safe drinking water</value>
+    </item>
+    <item>
+     <label>Public transport</label>
+     <value>Public transport</value>
+    </item>
+    <item>
+     <label>Sanitation and waste management</label>
+     <value>Sanitation and waste management</value>
+    </item>
+    <item>
+     <label>Government centres</label>
+     <value>Government centres</value>
+    </item>
+    <item>
+     <label>Roads</label>
+     <value>Roads</value>
+    </item>
+    <item>
+     <label>Electricity</label>
+     <value>Electricity</value>
+    </item>
+   </select>
+   <select1 ref="/Settlement_Profiling/se_access_to_basic_services/frequency_of_availability">
+    <label>Frequency Of Availability</label>
+    <item>
+     <label>Always</label>
+     <value>Always</value>
+    </item>
+    <item>
+     <label>Often (weekly)</label>
+     <value>Often (weekly)</value>
+    </item>
+    <item>
+     <label>Rarely</label>
+     <value>Rarely</value>
+    </item>
+    <item>
+     <label>Period (Bi weekly, Monthly)</label>
+     <value>Period (Bi weekly, Monthly)</value>
+    </item>
+   </select1>
+   <select ref="/Settlement_Profiling/se_access_to_basic_services/sources_of_drinking_water">
+    <label>Sources Of Drinking Water</label>
+    <item>
+     <label>Local government</label>
+     <value>Local government</value>
+    </item>
+    <item>
+     <label>Community well</label>
+     <value>Community well</value>
+    </item>
+    <item>
+     <label>Private company</label>
+     <value>Private company</value>
+    </item>
+    <item>
+     <label>Water tank</label>
+     <value>Water tank</value>
+    </item>
+    <item>
+     <label>River/ springs</label>
+     <value>River/ springs</value>
+    </item>
+    <item>
+     <label>Community tap</label>
+     <value>Community tap</value>
+    </item>
+    <item>
+     <label>Dams</label>
+     <value>Dams</value>
+    </item>
+    <item>
+     <label>Borehole</label>
+     <value>Borehole</value>
+    </item>
+    <item>
+     <label>Others</label>
+     <value>Others</value>
+    </item>
+   </select>
+   <select1 ref="/Settlement_Profiling/se_access_to_basic_services/distance_to_water_point_for_most_people">
+    <label>Distance To Water Point For Most People</label>
+    <item>
+     <label>Walking distance</label>
+     <value>Walking distance</value>
+    </item>
+    <item>
+     <label>Kilometers</label>
+     <value>Kilometers</value>
+    </item>
+   </select1>
+   <select ref="/Settlement_Profiling/se_access_to_basic_services/common_transport_services">
+    <label>Common Transport Services</label>
+    <item>
+     <label>Public buses</label>
+     <value>Public buses</value>
+    </item>
+    <item>
+     <label>Private cars</label>
+     <value>Private cars</value>
+    </item>
+    <item>
+     <label>Railway</label>
+     <value>Railway</value>
+    </item>
+    <item>
+     <label>Tuk Tuk and motor cycles</label>
+     <value>Tuk Tuk and motor cycles</value>
+    </item>
+    <item>
+     <label>None</label>
+     <value>None</value>
+    </item>
+    <item>
+     <label>Others</label>
+     <value>Others</value>
+    </item>
+   </select>
+   <select ref="/Settlement_Profiling/se_access_to_basic_services/other_amenities_available">
+    <label>Other Amenities Available</label>
+    <item>
+     <label>Hospitals</label>
+     <value>Hospitals</value>
+    </item>
+    <item>
+     <label>Market</label>
+     <value>Market</value>
+    </item>
+    <item>
+     <label>public places</label>
+     <value>public places</value>
+    </item>
+    <item>
+     <label>Community lighting</label>
+     <value>Community lighting</value>
+    </item>
+    <item>
+     <label>Religious centres</label>
+     <value>Religious centres</value>
+    </item>
+    <item>
+     <label>Education centres</label>
+     <value>Education centres</value>
+    </item>
+   </select>
+   <input ref="/Settlement_Profiling/se_access_to_basic_services/most_demanded_serices">
+    <label>Most Demanded Serices</label>
+   </input>
+   <select ref="/Settlement_Profiling/se_access_to_basic_services/types_of_development_project">
+    <label>Types Of Development Project</label>
+    <item>
+     <label>Slum upgrading</label>
+     <value>Slum upgrading</value>
+    </item>
+    <item>
+     <label>Land tenure regularization</label>
+     <value>Land tenure regularization</value>
+    </item>
+    <item>
+     <label>Access to public spaces</label>
+     <value>Access to public spaces</value>
+    </item>
+    <item>
+     <label>Education</label>
+     <value>Education</value>
+    </item>
+    <item>
+     <label>Mentorship and counselling</label>
+     <value>Mentorship and counselling</value>
+    </item>
+    <item>
+     <label>Neighborhood planning</label>
+     <value>Neighborhood planning</value>
+    </item>
+    <item>
+     <label>Roads</label>
+     <value>Roads</value>
+    </item>
+    <item>
+     <label>Affordable housing projects</label>
+     <value>Affordable housing projects</value>
+    </item>
+    <item>
+     <label>Water and sanitation</label>
+     <value>Water and sanitation</value>
+    </item>
+    <item>
+     <label>Health services</label>
+     <value>Health services</value>
+    </item>
+    <item>
+     <label>Community lighting</label>
+     <value>Community lighting</value>
+    </item>
+    <item>
+     <label>None</label>
+     <value>None</value>
+    </item>
+   </select>
+   <input ref="/Settlement_Profiling/se_access_to_basic_services/number_of_functional_public_spaces">
+    <label>Number Of Functional Public Spaces</label>
+   </input>
+   <select ref="/Settlement_Profiling/se_access_to_basic_services/most_common_health_facilitites">
+    <label>Most Common Health Facilitites</label>
+    <item>
+     <label>Government facilities</label>
+     <value>Government facilities</value>
+    </item>
+    <item>
+     <label>Private facilities</label>
+     <value>Private facilities</value>
+    </item>
+    <item>
+     <label>Community facilities</label>
+     <value>Community facilities</value>
+    </item>
+    <item>
+     <label>Faith Based centres</label>
+     <value>Faith Based centres</value>
+    </item>
+   </select>
+  </group>
+  <group appearance="field-list" ref="/Settlement_Profiling/se_governance_structures">
+   <label>Governance structures</label>
+   <select ref="/Settlement_Profiling/se_governance_structures/existing_governance_structure">
+    <label>Existing Governance Structure</label>
+    <item>
+     <label>Faith Based Orgranisation</label>
+     <value>Faith Based Orgranisation</value>
+    </item>
+    <item>
+     <label>Civil Society Orgarnisation</label>
+     <value>Civil Society Orgarnisation</value>
+    </item>
+    <item>
+     <label>Community Based Organisation</label>
+     <value>Community Based Organisation</value>
+    </item>
+    <item>
+     <label>Local government</label>
+     <value>Local government</value>
+    </item>
+    <item>
+     <label>National government</label>
+     <value>National government</value>
+    </item>
+    <item>
+     <label>Other institutions</label>
+     <value>Other institutions</value>
+    </item>
+   </select>
+   <select1 ref="/Settlement_Profiling/se_governance_structures/are_they_considered_effective">
+    <label>Are They Considered Effective</label>
+    <item>
+     <label>Yes</label>
+     <value>Yes</value>
+    </item>
+    <item>
+     <label>No</label>
+     <value>No</value>
+    </item>
+   </select1>
+  </group>
+  <group appearance="field-list" ref="/Settlement_Profiling/se_environmental_and_other_hazards">
+   <label>Environmental and other hazards</label>
+   <select1 ref="/Settlement_Profiling/se_environmental_and_other_hazards/any_hazard_experienced">
+    <label>Any Hazard Experienced</label>
+    <item>
+     <label>Yes</label>
+     <value>Yes</value>
+    </item>
+    <item>
+     <label>No</label>
+     <value>No</value>
+    </item>
+   </select1>
+   <select ref="/Settlement_Profiling/se_environmental_and_other_hazards/major_environmental_hazards">
+    <label>Major Environmental Hazards</label>
+    <item>
+     <label>Landslides</label>
+     <value>Landslides</value>
+    </item>
+    <item>
+     <label>Flooding</label>
+     <value>Flooding</value>
+    </item>
+    <item>
+     <label>Earthquakes</label>
+     <value>Earthquakes</value>
+    </item>
+    <item>
+     <label>Fires</label>
+     <value>Fires</value>
+    </item>
+    <item>
+     <label>Pollution from the surroundings</label>
+     <value>Pollution from the surroundings</value>
+    </item>
+    <item>
+     <label>Others</label>
+     <value>Others</value>
+    </item>
+   </select>
+   <select1 ref="/Settlement_Profiling/se_environmental_and_other_hazards/frequency_of_occurence">
+    <label>Frequency Of Occurence</label>
+    <item>
+     <label>Once a year</label>
+     <value>Once a year</value>
+    </item>
+    <item>
+     <label>Many times in a year</label>
+     <value>Many times in a year</value>
+    </item>
+    <item>
+     <label>Not every year</label>
+     <value>Not every year</value>
+    </item>
+   </select1>
+   <select ref="/Settlement_Profiling/se_environmental_and_other_hazards/other_major_problems_experienced">
+    <label>Other Major Problems Experienced</label>
+    <item>
+     <label>Crime</label>
+     <value>Crime</value>
+    </item>
+    <item>
+     <label>Ethnic clashes</label>
+     <value>Ethnic clashes</value>
+    </item>
+    <item>
+     <label>Gender based violence</label>
+     <value>Gender based violence</value>
+    </item>
+    <item>
+     <label>Riots</label>
+     <value>Riots</value>
+    </item>
+    <item>
+     <label>Disease outbreak</label>
+     <value>Disease outbreak</value>
+    </item>
+    <item>
+     <label>Evictions</label>
+     <value>Evictions</value>
+    </item>
+    <item>
+     <label>Political violence</label>
+     <value>Political violence</value>
+    </item>
+    <item>
+     <label>land conflicts</label>
+     <value>land conflicts</value>
+    </item>
+    <item>
+     <label>Others</label>
+     <value>Others</value>
+    </item>
+   </select>
+   <input ref="/Settlement_Profiling/se_environmental_and_other_hazards/how_has_the_settlement_coped_in_the_past">
+    <label>How Has The Settlement Coped In The Past</label>
+   </input>
+  </group>
+  <group appearance="field-list" ref="/Settlement_Profiling/se_settlement_priorities">
+   <label>Settlement priorities</label>
+   <select1 ref="/Settlement_Profiling/se_settlement_priorities/any_settlement_priorities_identified">
+    <label>Any Settlement Priorities Identified</label>
+    <item>
+     <label>Yes</label>
+     <value>Yes</value>
+    </item>
+    <item>
+     <label>No</label>
+     <value>No</value>
+    </item>
+   </select1>
+   <input ref="/Settlement_Profiling/se_settlement_priorities/by_whom">
+    <label>By Whom</label>
+   </input>
+   <select ref="/Settlement_Profiling/se_settlement_priorities/major_priorities_identified">
+    <label>Major Priorities Identified</label>
+    <item>
+     <label>Health</label>
+     <value>Health</value>
+    </item>
+    <item>
+     <label>Housing/land tenure</label>
+     <value>Housing/land tenure</value>
+    </item>
+    <item>
+     <label>Water and drainage</label>
+     <value>Water and drainage</value>
+    </item>
+    <item>
+     <label>Peace and security</label>
+     <value>Peace and security</value>
+    </item>
+    <item>
+     <label>Sanitation/ sewage</label>
+     <value>Sanitation/ sewage</value>
+    </item>
+    <item>
+     <label>Schools/ education</label>
+     <value>Schools/ education</value>
+    </item>
+    <item>
+     <label>Roads</label>
+     <value>Roads</value>
+    </item>
+    <item>
+     <label>Electricity</label>
+     <value>Electricity</value>
+    </item>
+    <item>
+     <label>Food security</label>
+     <value>Food security</value>
+    </item>
+    <item>
+     <label>Market</label>
+     <value>Market</value>
+    </item>
+    <item>
+     <label>Public spaces</label>
+     <value>Public spaces</value>
+    </item>
+    <item>
+     <label>Others</label>
+     <value>Others</value>
+    </item>
+   </select>
+  </group>
+ </h:body>
+</h:html>
