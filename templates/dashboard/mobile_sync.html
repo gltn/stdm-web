@@ -96,7 +96,11 @@
 
                     </div>
                     <hr>
-                    <a href="#" class="btn btn-success" id="sync">Sync Data</a>
+                   
+                    <a href="#" class="float" id="sync">
+                      <i class="fa fa-refresh my-float"></i> <strong>Sync Data</strong>
+                      </a>
+                    
                 
                
                   
@@ -152,17 +156,7 @@ $("#mobile_entity_div").on("click", "li", function() {
   $(document).ready(function () {
     
     $('#entityselect').change(function(){   
-      var profile = $("#profiles :selected").val();     
-      $.ajax({
-          url: "entities/"+profile+ "/" + this.value,
-          type: 'GET',
-          traditional: true,    
-          success: function (data) {            
-              $('#columnResults').html(data);
-              
-              
-          }
-      });
+      var profile = $("#profiles :selected").val();
       $.ajax({
           url: "entities/KOPGT/",
           type: 'GET',
@@ -179,7 +173,19 @@ $("#mobile_entity_div").on("click", "li", function() {
       });
      
     });
-    $('#tableselect').change(function(){   
+    $('#tableselect').change(function(){ 
+      var profile = $("#profiles :selected").val();
+      value = $("#entityselect :selected").val();
+      $.ajax({
+          url: "entities/"+profile+ "/" + value,
+          type: 'GET',
+          traditional: true,    
+          success: function (data) {            
+              $('#columnResults').html(data);
+              
+              
+          }
+      });  
       $.ajax({
           url: "/tables/" + $(this).val(),
           type: 'GET',

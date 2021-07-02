@@ -97,7 +97,7 @@ def STDMReader(request):
 	summaries = None
 	if entities:	
 		summaries =  EntitiesCount(profiler,entities)
-		zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4])
+		zipped_summaries = zip(summaries["name"][:4],summaries["count"][:4],summaries["type"][:4])
 	return render(request, 'dashboard/index.html', {'configs': configs,'default_profile':default_profile,'profiles':profiles_list,'columns':columns,'entities':entities,'summaries':zipped_summaries,'charts':summaries,'str_summary':str_summary})
 
 def GetProfileEntities(profile):
@@ -127,7 +127,7 @@ def entity_summary_from_view(profile, entities):
 	return [([toHeader(key[0]) for key in cursor.description], row) for row in result]	
 			
 def EntitiesCount(profile, entities):
-	summaries = {'name':[],'count':[]}
+	summaries = {'name':[],'count':[],'type':[]}
 	with connection.cursor() as cursor:
 		for en in entities:	
 			query = "SELECT count(*) FROM {0}_view".format(en.name)
@@ -135,10 +135,13 @@ def EntitiesCount(profile, entities):
 			counts = cursor.fetchall()
 			if en in profile.social_tenure.parties:
 				summaries["name"].append(en.short_name +" (Party)")
+				summaries["type"].append(en.short_name)
 			elif en in profile.social_tenure.spatial_units:
 				summaries["name"].append(en.short_name +" (Spatial Unit)")
+				summaries["type"].append(en.short_name)
 			else:
 				summaries["name"].append(en.short_name)
+				summaries["type"].append(en.short_name)
 			summaries["count"].append(counts[0][0])
 	return summaries
 

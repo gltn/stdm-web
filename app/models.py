@@ -65,7 +65,7 @@ def CreateSTRSummaryView(profile):
 def create_materialized_view(view_name, query):
 	create_view = "CREATE MATERIALIZED VIEW  IF NOT EXISTS public."+view_name+ " AS "
 	finale_view_query = create_view + query
-	print(finale_view_query)
+	print(view_name)
 	CursorExecuteCommit(finale_view_query)
 
 def initializeViews(profile):
@@ -106,17 +106,12 @@ def get_db_columns(entity):
 def social_tenure_relationship_view(profile):
 	str_table_name = profile.prefix + "_social_tenure_relationship"
 	str_entity = profile.entity_by_name(str_table_name)
-	print("STR table", str_entity, str_entity.name)
 	query_joins = create_parent_joins(profile, str_entity)
-	print('JOINS', query_joins)
-
 	columns = get_columns_for_str(profile, str_entity)
-	print('Columns', columns)
-
 	str_query = "select {} from {} {};".format(','.join(columns),str_table_name, query_joins)
 	print('QUERY', str_query)
 
-	create_materialized_view('str_table_name_view',str_query)
+	create_materialized_view(str_table_name+'_view',str_query)
 
 	
 def append_parent_columns(profile ,entity, columns):
