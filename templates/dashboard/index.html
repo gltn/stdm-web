@@ -159,16 +159,17 @@
 $("#dynamicDiv").on("click", "li", function() {
     var list_id = $(this).attr('id');
     var profile = $("#profiles :selected").val();
-    console.log('Entity',list_id)
-    console.log('Profile',profile)
-    $('#entity-details').html('<div style="height: 100%;"><div class="loading">..</div></div>');
+    $('#entity_details').html('<div style="height: 100%;"><div class="loading">..</div></div>');
     $.ajax({
           url: profile + "/entity/" + list_id,
           type: 'POST',
           traditional: true, 
           success: function (data) {  
-            $('#entity-details').html(data); 
-           setTimeout(function(){ $('#profile_details').show() }, 2000);
+                       
+            $('#entity-details').html(data);
+             
+           setTimeout(function(){ $('#profile_details').show() }, 3000);
+          // document.getElementById( 'profile_details' ).style.display = 'block';
             
           },
           
@@ -181,6 +182,7 @@ $("#summary").on("click", "a", function() {
     var profile = $("#profiles :selected").val();
     console.log('Entity clicked',list_id)
     console.log('Profile',profile)
+    $('#entity-details').html('<div style="height: 100%;"><div class="loading">..</div></div>');
     $.ajax({
           url: profile + "/entity/" + list_id,
           type: 'POST',

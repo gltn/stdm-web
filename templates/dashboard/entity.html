@@ -21,21 +21,21 @@
                     <li class="nav-item">
                       <a class="nav-link" id="sum-tab" data-toggle="pill" href="#sum" role="tab" aria-controls="sum" aria-selected="false" style="display:block">Summaries</a>
                     </li>
-                    {% endif %}
+                    {% endif %} 
                   </ul>
                 </div>
                 <div class="card-body">                  
                   <hr>
                   <div class="tab-content" id="custom-tabs-four-tabContent">
                     <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details" aria-labelledby="profile_details-tab"> 
-                      <div class="card card-primary"  id="profile_details" style="display: none;">
+                      <div class="card card-primary"  id="profile_details" style="display: none; width: 100%;">
                         <h4>{{entity.ui_display}}</h4>
                         <hr>
-                        <table id="entityTable" class="table table-bordered table-striped nowrap" style="width:100%;cursor:pointer;">
+                        <table id="entityTable" class="table table-bordered table-striped" style="width:100%;cursor:pointer;">
   
                             <thead>
                           
-                          <tr>
+                          <tr style="width:100%">
                               {% for column in columns %}  
                               <th>{{column}}</th> 
                                                                     
@@ -266,17 +266,31 @@
           {
             extend: 'excelHtml5',
             text: '<i class="fa fa-file-excel-o"> Export to Excel</i>',
-            titleAttr: 'Excel'
+            titleAttr: 'Excel',
+            title: '"{{entity.short_name}}"' + '_Excel_Export',
+            exportOptions: {
+            columns: ':visible'
+            },
           },
           {
             extend: 'csvHtml5',
             text: '<i class="fa fa-file-text-o"> Export to CSV</i>',
-            titleAttr: 'CSV'
+            titleAttr: 'CSV',
+            title: '"{{entity.short_name}}"' + '_CSV_Export',
+            exportOptions: {
+            columns: ':visible'
+            },
           },
           {
             extend: 'pdfHtml5',
             text: '<i class="fa fa-file-pdf-o"> Export to PDF</i>',
-            titleAttr: 'PDF'
+            titleAttr: 'PDF',
+            title: '"{{entity.short_name}}"' + '_PDF_Export',
+            orientation:'landscape',
+            pageSize : 'LEGAL',
+            exportOptions: {
+            columns: ':visible'
+            },
           }
         ],
         "scrollY": 400,
@@ -290,12 +304,13 @@
       
         "columnDefs": [ 
           { width: '20%', targets: 0 },
-            {
-                "targets": [ index ],
-                "visible": false,
-                "searchable": false
-            },
-            { targets: 1, render: function (data, type, row, meta) {return (data == 'None') ? "" : data;} },
+          {
+              "targets": [ index ],
+              "visible": false,
+              "searchable": false
+          },
+          { targets: '_all', render: function (data, type, row, meta) {return (data == 'None') ? "" : data;} },
+          { "className": "dt-body-center", "targets": "_all" }
            
         ]
 
@@ -307,8 +322,6 @@
           var list_id = data_row[0];
           // var list_id = $(this).attr('class');
           var profile = $("#profiles :selected").val();
-          console.log('Viewq More ID',list_id)
-          console.log('Profile',profile)
           $.ajax({
               url: profile + "/{{entity.short_name}}/" + list_id,
               type: 'POST',
@@ -629,23 +642,37 @@ function SelectFeatures(layer) {
     select: {
             style: 'single'
         },      
-    buttons: [
+      buttons: [
       {
-        extend: 'excelHtml5',
-        text: '<i class="fa fa-file-excel-o"> Export to Excel</i>',
-        titleAttr: 'Excel'
-      },
-      {
-        extend: 'csvHtml5',
-        text: '<i class="fa fa-file-text-o"> Export to CSV</i>',
-        titleAttr: 'CSV'
-      },
-      {
-        extend: 'pdfHtml5',
-        text: '<i class="fa fa-file-pdf-o"> Export to PDF</i>',
-        titleAttr: 'PDF'
-      }
-    ],
+            extend: 'excelHtml5',
+            text: '<i class="fa fa-file-excel-o"> Export to Excel</i>',
+            titleAttr: 'Excel',
+            title: '"{{entity.short_name}}"' + '_Excel_Export',
+            exportOptions: {
+            columns: ':visible'
+            },
+          },
+          {
+            extend: 'csvHtml5',
+            text: '<i class="fa fa-file-text-o"> Export to CSV</i>',
+            titleAttr: 'CSV',
+            title: '"{{entity.short_name}}"' + '_CSV_Export',
+            exportOptions: {
+            columns: ':visible'
+            },
+          },
+          {
+            extend: 'pdfHtml5',
+            text: '<i class="fa fa-file-pdf-o"> Export to PDF</i>',
+            titleAttr: 'PDF',
+            title: '"{{entity.short_name}}"' + '_PDF_Export',
+            orientation:'landscape',
+            pageSize : 'LEGAL',
+            exportOptions: {
+            columns: ':visible'
+            },
+          }
+        ],
     "columnDefs": [ 
           { width: '20%', targets: 0 },
             {
@@ -653,7 +680,7 @@ function SelectFeatures(layer) {
                 "visible": false,
                 "searchable": false
             },
-            { targets: 1, render: function (data, type, row, meta) {return (data == 'None') ? "" : data;} },
+            { targets: '_all', render: function (data, type, row, meta) {return (data == 'None') ? "" : data;} },
            
         ]
     
@@ -671,6 +698,7 @@ function SelectFeatures(layer) {
       interLayer.eachLayer(function(layer){
         if (layer.feature.properties.leaflet_stamp == leaf_stamp){
           mymap.fitBounds(layer.getBounds());
+          layer.fire("click");
         }
       });
      
