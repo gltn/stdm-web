@@ -255,7 +255,6 @@ def EntityDetailView(request, profile_name, short_name):
 							ST_AsGeoJSON({0}_view.{1},4326)::JSON AS geometry, \
 							row_to_json( (SELECT p FROM ( SELECT {2}) AS p)) AS properties \
 					FROM {3}_view) AS f) AS fc;	".format(entity_name, spatial_column, ','.join(query_join_columns), entity_name)
-		print("SPATIAL QUERY",query)
 		with connection.cursor() as cursor:
 			cursor.execute(query)
 			spatial_result = cursor.fetchone()
@@ -291,7 +290,7 @@ def fetch_spatial_data(request, profile_name, entity_short_name):
 						ST_AsGeoJSON({0}_view.{1},4326)::JSON AS geometry, \
 						row_to_json( (SELECT p FROM ( SELECT {2}) AS p)) AS properties \
 				FROM {3}_view) AS f) AS fc;	".format(entity.name, spatial_column, ','.join(query_join_columns), entity.name)
-	print("SPATIAL QUERY",query)
+	
 	with connection.cursor() as cursor:
 		cursor.execute(query)
 		result = cursor.fetchone()

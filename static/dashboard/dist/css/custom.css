@@ -30,6 +30,19 @@
   
   
 }
+.card {
+  position: relative;
+  /* display: -ms-flexbox; */
+  /* display: flex; */
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 0 solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+}
 
 
 .map-space {
@@ -154,11 +167,11 @@ mark {
   color: black;
 }
 table.dataTable tbody tr:hover {
-  background-color: #3C8ABD;
+  background-color: rgba(241, 105, 35, 0.6);
 }
 
 table.dataTable tbody tr:hover > .sorting_1 {
-  background-color: #3C8ABD;
+  background-color: rgba(241, 105, 35, 0.6);
 }
 
 table.dataTable thead {background-color:#dee2e6}
@@ -275,4 +288,15 @@ div.dataTables_processing { z-index: 1; }
 
 .my-float{
 	margin-top:22px;
+}
+
+.dataTables_scrollHeadInner {
+  width: 100% !important;
+}
+
+.dataTables_scrollHeadInner > table {
+  width: 100% !important;
+}
+.dataTable{
+  text-align: center;
 }
