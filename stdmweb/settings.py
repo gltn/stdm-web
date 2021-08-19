@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'leaflet',
     'rest_framework',
     'stdm_config',
-    'mobile'
+    'mobile',
+    'koboextractor'
 ]
 
 MIDDLEWARE = [

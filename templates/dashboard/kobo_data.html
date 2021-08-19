@@ -1,0 +1,413 @@
+{% extends "dashboard/base_mobile.html"%}
+{% load static %}
+{% block title %}Dashboard {% endblock %}
+{% block profiler %}
+{% with profiles=profiles %}
+  {{ block.super }}
+{% endwith %}
+{% endblock profiler %}
+<!-- Loading entities -->
+{% block mobile_entities %}
+{% with entities=m_entities %}
+  {{ block.super }}
+{% endwith %}
+{% endblock mobile_entities %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}" />
+<script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script> 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+<script src="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.js' %}"></script>
+<link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.draw.css' %}" />
+<script src="{% static 'dashboard/dist/maps/leaflet.draw.js' %}"></script>
+<script src="{% static 'dashboard/dist/maps/spin.min.js' %}"></script>
+<script src="{% static 'dashboard/dist/maps/leaflet.spin.min.js' %}"></script>
+<script src="{% static 'dashboard/dist/js/loadingoverlay.js' %}"></script>
+<script src="https://unpkg.com/@turf/turf@5.1.6/turf.min.js"></script>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+     
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                {% for result in new_results %}
+                {% for  key,value in results.results.items %}
+              <th>{{key}}</th>
+              {% endfor %}
+              {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% for result in new_results %}
+                {% for key,value in result.results.items %}
+                <td>{{value.answer_code}}</td>
+                {% endfor %}
+                {% endfor %}
+              </tr>
+            </tbody>
+          </table> -->
+          {% for result in new_results %}
+          {{result.meta}}
+          <hr>
+          {{result.results.items}}
+          <br>
+        
+          {% for key,value in result.results.items %}
+          <p>{{key}}:{{value.answer_code}}</p><br>
+          {% endfor %}<br>
+       
+          {% endfor %}
+        </div>
+        
+       
+    
+
+       
+        <!-- /.row -->
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+
+<script>
+  $(document).ready(function () {
+
+$("#mobile_entity_div").on("click", "li", function() {
+    var list_id = $(this).attr('id');
+    var profile = $("#profiles :selected").val();
+    console.log('Entity',list_id)
+    console.log('Profile',profile)
+    // var sendUrl = '{% url "mobile_entity_detail" profile_name=0 name=1 %}'.replace('0',profile).replace('1',list_id)
+    $.ajax({
+          url: 'details/' + profile + '/' + list_id,
+          type: 'POST',
+          traditional: true,      
+          success: function (data) { 
+              $('#mobile-data').html(data);             
+              
+          }
+      });
+    
+});
+
+
+
+
+    });
+
+</script>
+
+<script>
+  $(document).ready(function () {
+    
+    $('#entityselect').change(function(){   
+      var profile = $("#profiles :selected").val();
+      $.ajax({
+          url: "entities/KOPGT/",
+          type: 'GET',
+          traditional: true,      
+          success: function (data) {   
+            $('#tableselect').empty()
+            $('#tableselect').append('<option>-----</option>')
+            for (d in data){              
+              $('#tableselect').append('<option value="' + data[d] + '">' + data[d] + '</option>');
+            }
+                        
+              
+          }
+      });
+     
+    });
+    $('#tableselect').change(function(){ 
+      var profile = $("#profiles :selected").val();
+      value = $("#entityselect :selected").val();
+      $.ajax({
+          url: "entities/"+profile+ "/" + value,
+          type: 'GET',
+          traditional: true,    
+          success: function (data) {            
+              $('#columnResults').html(data);
+              
+              
+          }
+      });  
+      $.ajax({
+          url: "/tables/" + $(this).val(),
+          type: 'GET',
+          traditional: true,    
+          success: function (data) {   
+            $("[name='DBColumns']").empty()
+            var options = $("select[name='DBColumns']");
+            options.append('<option>-----</option>')
+            for (d in data){
+              options.append('<option value="' + data[d].column_name + '">' + data[d].column_name + ' - (' + data[d].data_type.toUpperCase() + ')' + '</option>');
+            }
+          
+          
+          }
+      });
+
+});
+
+    });
+
+</script>
+
+<script type="text/javascript">
+  $(function () {
+    Highcharts.setOptions({
+        lang: {
+            decimalPoint: '.',
+            thousandsSep: ','
+        }
+        });
+        $('#tenure-chart').highcharts({
+          chart: {
+              type: 'column',
+              zoomType: 'x'
+          },
+          title: {
+              text: ''
+          },
+
+          xAxis: {
+              categories:  [{% for x in str_summary %} '{{x.1}}',{% endfor %} ]            
+                
+              // {{charts.name|safe}}
+                     
+      },
+
+      yAxis: {
+          min: 0,
+          allowDecimals: false,
+          title: {
+              text: 'Number of records'
+          },
+          labels: {
+              formatter: function () {
+                  return  this.value;
+              }
+          },
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0"></td>' +
+              '<td style="padding:0"><b>{point.y} </b></td></tr>',
+          footerFormat: '</table>',
+          shared: false,
+          useHTML: true
+      },
+      plotOptions: {
+          pointWidth: 40,
+          column: {
+              colorByPoint: true,
+              dataLabels: {
+                enabled: true,
+                format: '{point.y:,.0f}',
+                color: '#777'
+            }
+          }
+      },
+      
+      credits: {
+          "enabled": false
+      },
+      series: [
+          {
+              showInLegend: false,
+              "data": [{% for x in str_summary %} {{x.0}},{% endfor %} ]  
+          
+          }
+
+
+
+      ]
+    });
+      $('#strChart').highcharts({
+          chart: {
+              type: 'column',
+              zoomType: 'x'
+          },
+          title: {
+              text: ''
+          },
+
+          xAxis: {
+              categories:                
+                
+              {{charts.name|safe}}
+                     
+      },
+
+      yAxis: {
+          min: 0,
+          allowDecimals: false,
+          title: {
+              text: 'Number of records'
+          },
+          labels: {
+              formatter: function () {
+                  return  this.value;
+              }
+          },
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0"></td>' +
+              '<td style="padding:0"><b>{point.y} </b></td></tr>',
+          footerFormat: '</table>',
+          shared: false,
+          useHTML: true
+      },
+      plotOptions: {
+          pointWidth: 40,
+          column: {
+              colorByPoint: true,
+              dataLabels: {
+                enabled: true,
+                format: '{point.y:,.0f}',
+                color: '#777'
+            }
+          }
+      },
+      
+      credits: {
+          "enabled": false
+      },
+      series: [
+          {
+              showInLegend: false,
+              "data": {{charts.count|safe}}
+          
+          }
+
+
+
+      ]
+    });
+    clickedButton = $('#column');
+    var chart = $('#strChart').highcharts(),
+    checkIfInverted = function(check, nameOfButton) {
+      if (check) {
+        chart.inverted = !chart.inverted;
+        chart.xAxis[0].update({}, false);
+        chart.yAxis[0].update({}, false);
+      }
+    },
+    buttonEnabling = function(thisButton) {
+      clickedButton.removeAttr('disabled');
+      clickedButton = $(thisButton);
+      clickedButton.attr('disabled', 'disabled');
+    },
+    changeTypeOfSeries = function(typ) {
+      chart.series.forEach(function(el, inx) {
+        el.update({
+          type: typ
+        });
+      });
+    };
+
+  $('#column').bind('click', function() {
+    checkIfInverted(chart.inverted);
+    changeTypeOfSeries('column');
+    buttonEnabling(this);
+  });
+
+  $('#bar').bind('click', function() {
+    checkIfInverted(!chart.inverted);
+    changeTypeOfSeries('bar');
+    buttonEnabling(this);
+  });
+
+  $('#line').bind('click', function() {
+    checkIfInverted(chart.inverted);
+    changeTypeOfSeries('line');
+    buttonEnabling(this);
+  });
+
+  $('#spline').bind('click', function() {
+    checkIfInverted(chart.inverted);
+    changeTypeOfSeries('spline');
+    buttonEnabling(this);
+  });
+  $('#pie').bind('click', function() {
+    checkIfInverted(chart.inverted);
+
+    chart.series.forEach(function(series, index) {
+      var pieOffset = 1 * 150,
+        correctedData = [],
+        newName;
+
+      series.points.forEach(function(pt) {
+        newName = pt.category;
+        correctedData.push([newName, pt.y]);
+      });
+
+      series.update({
+        type: 'pie',
+        data: correctedData,
+        showInLegend: true,
+        size: '100%',
+        center: [pieOffset + 50, null],
+        dataLabels: {
+          distance: -10
+        }
+      });
+    });
+
+    buttonEnabling(this);
+  });
+
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    $('#sync').click(function(){
+      var profile = $("#profiles :selected").val(); 
+      var table = document.getElementById("entity_column_table");
+      var source_table = $("#entityselect :selected").val(); 
+      var destination_table = $("#tableselect :selected").val(); 
+      console.log('Source and destination table',source_table, destination_table)
+      var table_data = {};
+      for (var i = 1, row; row = table.rows[i]; i++) {
+        source_entity_column = row.cells[0].innerText
+        select_id = "tableselectOpt" + row.cells[0].innerText
+        selected_target_field = $("#"+select_id).val(); 
+        console.log('This is matched data', source_entity_column,selected_target_field )
+        if (selected_target_field !== '-----'){
+          table_data[source_entity_column] = selected_target_field;
+        }
+        
+      }
+      console.log('This is output', table_data)
+      $.ajax({
+          url: "/mobile/data/sync/",
+          type: 'POST',
+          traditional: true,  
+          data: { 'source_table': source_table, 'mobile_profile':profile,'target_table':destination_table, 'data_fields': JSON.stringify(table_data)},  
+          success: function (data) {   
+            console.log(data);
+          
+          }
+      });
+ 
+
+    });
+});
+</script>
+
+{% endblock content %}

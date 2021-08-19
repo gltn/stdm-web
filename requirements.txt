@@ -1,9 +1,15 @@
+certifi==2021.5.30
+charset-normalizer==2.0.4
 Django==2.2
 django-leaflet==0.27.1
 django-restframework==0.0.1
 djangorestframework==3.12.2
 djangorestframework-gis==0.16
+idna==3.2
+koboextractor==0.2.1
 Pillow==8.0.1
 psycopg2==2.8.6
 pytz==2020.4
+requests==2.26.0
 sqlparse==0.4.1
+urllib3==1.26.6

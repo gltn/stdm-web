@@ -17,6 +17,8 @@ import json
 from django.conf import settings
 from app.config_reader import GetStdmConfig, GetConfig
 from stdm_config.mobile_reader import FindEntitySubmissions
+from koboextractor import KoboExtractor
+
 
 #Mobile Component
 BASE_DIR_MOBILE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -246,5 +248,19 @@ def entity_columns(request, profile_name, entity_name):
 	print(entity_columns_list)
 	return render(request,'dashboard/mobile_entity_columns.html', {'entity_columns_list':entity_columns_list,})
 
-
-	
+KOBO_TOKEN = "69f8b59f361147bf8f2f454d8d0e618e9135c404"
+def KoboView(request):
+	kobo = KoboExtractor(KOBO_TOKEN, 'https://kf.omdtz.xyz/api/v2',debug=True)
+	assets = kobo.list_assets()
+	# asset_uid = assets['results'][0]['uid']
+	asset_uid ="acoHCC2EZBjpjYZfDYZdFE"
+	asset = kobo.get_asset(asset_uid)
+	choice_lists = kobo.get_choices(asset)
+	questions = kobo.get_questions(asset=asset, unpack_multiples=True)
+	new_data = kobo.get_data(asset_uid, submitted_after='2020-05-20T17:29:30') #Get data submitted after a certain time
+	new_results = kobo.sort_results_by_time(new_data['results']) #Sort list by time
+	labeled_results = []
+	for result in new_results: # new_results is a list of list of dicts
+		labeled_results.append(kobo.label_result(unlabeled_result=result, choice_lists=choice_lists, questions=questions, unpack_multiples=True))
+	# print(labeled_results)
+	return render(request,'dashboard/kobo_data.html', {'new_results':labeled_results})
