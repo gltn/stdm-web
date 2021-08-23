@@ -1,0 +1,58 @@
+{% load static %}
+<table id="koboTable" class="table table-bordered table-striped" style="width: 100%;">
+    <thead>
+      <tr>
+        {% for column in columns %}
+        <th>{{column}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for result in new_results %}
+       
+      <tr>
+        {% for key,value in result.results.items %}
+        <td>{{value.answer_label}}</td>
+        {% endfor %}
+      </tr>
+      
+      {% endfor %}
+    </tbody>
+  </table>
+  <script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script>
+
+  <script>
+    $(function () {
+    //   $("#example2").DataTable({
+    //     "responsive": true,
+    //     "autoWidth": true,
+    //   });
+      var entityTable = $('#koboTable').DataTable( {
+        dom: 'Bfrtip',
+        "select": {
+          "style": 'single'
+        },       
+        buttons: [
+            'csv', 'excel', 'pdf'
+        ],
+        "scrollY": 400,
+        "destroy": true,
+        "searching": true,
+        mark: true,
+        scrollX:        true,
+        scrollCollapse: true,
+        language: {
+          processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>'
+        },
+        "columns" : [{
+            "data" : null,
+            "defaultContent" : '<div style="text-align:center"><input id="929b005c-012e-463d-b236-2ac3f94f4501" type="checkbox"  style="border-radius: 4px;width: 30px;height: 30px;font-size: 22px;"></div>'
+        }
+    ]
+      
+
+      });
+
+      
+    });
+</script>

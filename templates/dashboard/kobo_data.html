@@ -1,17 +1,7 @@
 {% extends "dashboard/base_mobile.html"%}
 {% load static %}
 {% block title %}Dashboard {% endblock %}
-{% block profiler %}
-{% with profiles=profiles %}
-  {{ block.super }}
-{% endwith %}
-{% endblock profiler %}
-<!-- Loading entities -->
-{% block mobile_entities %}
-{% with entities=m_entities %}
-  {{ block.super }}
-{% endwith %}
-{% endblock mobile_entities %}
+
 {% block content %}
 <link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}" />
 <script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script> 
@@ -37,41 +27,100 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
+      <div class="container-fluid">        
         <div class="row">
-          <!-- <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                {% for result in new_results %}
-                {% for  key,value in results.results.items %}
-              <th>{{key}}</th>
-              {% endfor %}
-              {% endfor %}
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                {% for result in new_results %}
-                {% for key,value in result.results.items %}
-                <td>{{value.answer_code}}</td>
-                {% endfor %}
-                {% endfor %}
-              </tr>
-            </tbody>
-          </table> -->
-          {% for result in new_results %}
-          {{result.meta}}
-          <hr>
-          {{result.results.items}}
-          <br>
-        
-          {% for key,value in result.results.items %}
-          <p>{{key}}:{{value.answer_code}}</p><br>
-          {% endfor %}<br>
-       
-          {% endfor %}
+          <div class="col-md-12">
+            <div class="col-12 col-sm-12">
+              <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card-header p-0 border-bottom-0" id="changing-tabs">
+                  <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_tab_details" role="tab" aria-controls="profile_tab_details" aria-selected="true">KoboData Settings</a>
+                    </li>                   
+                    
+                    <li class="nav-item">
+                      <a class="nav-link" id="sum-tab" data-toggle="pill" href="#sum" role="tab" aria-controls="sum" aria-selected="false" style="display:none">Summaries</a>
+                    </li>
+                     
+                  </ul>
+                </div>
+                <div class="card-body">                  
+                  
+                  <div class="tab-content" id="custom-tabs-four-tabContent">
+                    <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details" aria-labelledby="profile_details-tab"> 
+                      <div class="card card-primary"  id="profile_details" style="display: block; width: 100%;">
+                        <h4>{{entity.ui_display}}</h4>
+                        <form class="row g-3" id="koboform">
+                          <div class="col-md-8">
+                            <label for="validationDefault01" class="form-label">KPI-URL</label>
+                            <input type="text" class="form-control" id="kpiurl" required>
+                          </div>
+                          <div class="col-md-8">
+                            <label for="validationDefault02" class="form-label">Server Token</label>
+                            <input type="text" class="form-control" id="token" required>
+                          </div>
+                      
+                          <div class="col-md-8">
+                            <label for="validationDefault03" class="form-label">Asset ID</label>
+                            <input type="text" class="form-control" id="asset" required>
+                          </div>
+                          <div class="col-md-8">
+                            <hr>
+                          </div>
+                         
+                          <div class="col-12">
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                          </div>
+                        </form>
+                       
+                      
+
+
+                        </div> 
+                                           
+                    </div>
+                 
+                    <div class="tab-pane fade" id="sum" role="tabpanel" aria-labelledby="sum-tab">
+                      <div class="container-fluid"> 
+                        <div class="row">
+                          <h4>{{entity.ui_display}}</h4>
+                          <hr>                        
+                         
+                          <div class="col-12">
+                          <div class="card card-primary card-outline">
+                            <div class="card-header d-flex p-0">
+                              <h3 class="card-title p-3">Submission List</h3>
+                              
+                            </div><!-- /.card-header -->
+                            <div class="card-body" id="koboData">
+                              
+                            </div><!-- /.card-body -->
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                   
+                  </div>
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+           
+            
+              <!-- /.card -->
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
         </div>
         
+        <!-- /.row -->
+
+       
+        <!-- /.row -->
+      </div><!--
+      
        
     
 
@@ -82,332 +131,36 @@
     <!-- /.content -->
   </div>
 
-
-<script>
-  $(document).ready(function () {
-
-$("#mobile_entity_div").on("click", "li", function() {
-    var list_id = $(this).attr('id');
-    var profile = $("#profiles :selected").val();
-    console.log('Entity',list_id)
-    console.log('Profile',profile)
-    // var sendUrl = '{% url "mobile_entity_detail" profile_name=0 name=1 %}'.replace('0',profile).replace('1',list_id)
-    $.ajax({
-          url: 'details/' + profile + '/' + list_id,
-          type: 'POST',
-          traditional: true,      
-          success: function (data) { 
-              $('#mobile-data').html(data);             
-              
-          }
-      });
-    
-});
-
-
-
-
-    });
-
-</script>
-
-<script>
-  $(document).ready(function () {
-    
-    $('#entityselect').change(function(){   
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(function () {
+  
+  $("#koboform").on("submit", "li", function() {
+      var list_id = $(this).attr('id');
       var profile = $("#profiles :selected").val();
+      console.log('Entity',list_id)
+      console.log('Profile',profile)
+      kpi = $("#kpiurl").val();
+      token =$("#token").val();
+      formid =$("#asset").val();
       $.ajax({
-          url: "entities/KOPGT/",
-          type: 'GET',
-          traditional: true,      
-          success: function (data) {   
-            $('#tableselect').empty()
-            $('#tableselect').append('<option>-----</option>')
-            for (d in data){              
-              $('#tableselect').append('<option value="' + data[d] + '">' + data[d] + '</option>');
-            }
-                        
-              
-          }
-      });
-     
-    });
-    $('#tableselect').change(function(){ 
-      var profile = $("#profiles :selected").val();
-      value = $("#entityselect :selected").val();
-      $.ajax({
-          url: "entities/"+profile+ "/" + value,
-          type: 'GET',
-          traditional: true,    
-          success: function (data) {            
-              $('#columnResults').html(data);
-              
-              
-          }
-      });  
-      $.ajax({
-          url: "/tables/" + $(this).val(),
-          type: 'GET',
-          traditional: true,    
-          success: function (data) {   
-            $("[name='DBColumns']").empty()
-            var options = $("select[name='DBColumns']");
-            options.append('<option>-----</option>')
-            for (d in data){
-              options.append('<option value="' + data[d].column_name + '">' + data[d].column_name + ' - (' + data[d].data_type.toUpperCase() + ')' + '</option>');
-            }
-          
-          
-          }
-      });
-
-});
-
-    });
-
-</script>
-
-<script type="text/javascript">
-  $(function () {
-    Highcharts.setOptions({
-        lang: {
-            decimalPoint: '.',
-            thousandsSep: ','
-        }
-        });
-        $('#tenure-chart').highcharts({
-          chart: {
-              type: 'column',
-              zoomType: 'x'
-          },
-          title: {
-              text: ''
-          },
-
-          xAxis: {
-              categories:  [{% for x in str_summary %} '{{x.1}}',{% endfor %} ]            
+            url: 'kobo/data/' + kpi + '/' + token + '/' + formid,
+            type: 'POST',
+            traditional: true,      
+            success: function (data) { 
+                $('#koboData').html(data);             
                 
-              // {{charts.name|safe}}
-                     
-      },
-
-      yAxis: {
-          min: 0,
-          allowDecimals: false,
-          title: {
-              text: 'Number of records'
-          },
-          labels: {
-              formatter: function () {
-                  return  this.value;
-              }
-          },
-      },
-      tooltip: {
-          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-          pointFormat: '<tr><td style="color:{series.color};padding:0"></td>' +
-              '<td style="padding:0"><b>{point.y} </b></td></tr>',
-          footerFormat: '</table>',
-          shared: false,
-          useHTML: true
-      },
-      plotOptions: {
-          pointWidth: 40,
-          column: {
-              colorByPoint: true,
-              dataLabels: {
-                enabled: true,
-                format: '{point.y:,.0f}',
-                color: '#777'
             }
-          }
-      },
-      
-      credits: {
-          "enabled": false
-      },
-      series: [
-          {
-              showInLegend: false,
-              "data": [{% for x in str_summary %} {{x.0}},{% endfor %} ]  
-          
-          }
-
-
-
-      ]
-    });
-      $('#strChart').highcharts({
-          chart: {
-              type: 'column',
-              zoomType: 'x'
-          },
-          title: {
-              text: ''
-          },
-
-          xAxis: {
-              categories:                
-                
-              {{charts.name|safe}}
-                     
-      },
-
-      yAxis: {
-          min: 0,
-          allowDecimals: false,
-          title: {
-              text: 'Number of records'
-          },
-          labels: {
-              formatter: function () {
-                  return  this.value;
-              }
-          },
-      },
-      tooltip: {
-          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-          pointFormat: '<tr><td style="color:{series.color};padding:0"></td>' +
-              '<td style="padding:0"><b>{point.y} </b></td></tr>',
-          footerFormat: '</table>',
-          shared: false,
-          useHTML: true
-      },
-      plotOptions: {
-          pointWidth: 40,
-          column: {
-              colorByPoint: true,
-              dataLabels: {
-                enabled: true,
-                format: '{point.y:,.0f}',
-                color: '#777'
-            }
-          }
-      },
-      
-      credits: {
-          "enabled": false
-      },
-      series: [
-          {
-              showInLegend: false,
-              "data": {{charts.count|safe}}
-          
-          }
-
-
-
-      ]
-    });
-    clickedButton = $('#column');
-    var chart = $('#strChart').highcharts(),
-    checkIfInverted = function(check, nameOfButton) {
-      if (check) {
-        chart.inverted = !chart.inverted;
-        chart.xAxis[0].update({}, false);
-        chart.yAxis[0].update({}, false);
-      }
-    },
-    buttonEnabling = function(thisButton) {
-      clickedButton.removeAttr('disabled');
-      clickedButton = $(thisButton);
-      clickedButton.attr('disabled', 'disabled');
-    },
-    changeTypeOfSeries = function(typ) {
-      chart.series.forEach(function(el, inx) {
-        el.update({
-          type: typ
         });
+      
+  });
+  
+  
+  
+  
       });
-    };
+  
+  </script>
 
-  $('#column').bind('click', function() {
-    checkIfInverted(chart.inverted);
-    changeTypeOfSeries('column');
-    buttonEnabling(this);
-  });
-
-  $('#bar').bind('click', function() {
-    checkIfInverted(!chart.inverted);
-    changeTypeOfSeries('bar');
-    buttonEnabling(this);
-  });
-
-  $('#line').bind('click', function() {
-    checkIfInverted(chart.inverted);
-    changeTypeOfSeries('line');
-    buttonEnabling(this);
-  });
-
-  $('#spline').bind('click', function() {
-    checkIfInverted(chart.inverted);
-    changeTypeOfSeries('spline');
-    buttonEnabling(this);
-  });
-  $('#pie').bind('click', function() {
-    checkIfInverted(chart.inverted);
-
-    chart.series.forEach(function(series, index) {
-      var pieOffset = 1 * 150,
-        correctedData = [],
-        newName;
-
-      series.points.forEach(function(pt) {
-        newName = pt.category;
-        correctedData.push([newName, pt.y]);
-      });
-
-      series.update({
-        type: 'pie',
-        data: correctedData,
-        showInLegend: true,
-        size: '100%',
-        center: [pieOffset + 50, null],
-        dataLabels: {
-          distance: -10
-        }
-      });
-    });
-
-    buttonEnabling(this);
-  });
-
-  });
-</script>
-<script>
-  $(document).ready(function() {
-    $('#sync').click(function(){
-      var profile = $("#profiles :selected").val(); 
-      var table = document.getElementById("entity_column_table");
-      var source_table = $("#entityselect :selected").val(); 
-      var destination_table = $("#tableselect :selected").val(); 
-      console.log('Source and destination table',source_table, destination_table)
-      var table_data = {};
-      for (var i = 1, row; row = table.rows[i]; i++) {
-        source_entity_column = row.cells[0].innerText
-        select_id = "tableselectOpt" + row.cells[0].innerText
-        selected_target_field = $("#"+select_id).val(); 
-        console.log('This is matched data', source_entity_column,selected_target_field )
-        if (selected_target_field !== '-----'){
-          table_data[source_entity_column] = selected_target_field;
-        }
-        
-      }
-      console.log('This is output', table_data)
-      $.ajax({
-          url: "/mobile/data/sync/",
-          type: 'POST',
-          traditional: true,  
-          data: { 'source_table': source_table, 'mobile_profile':profile,'target_table':destination_table, 'data_fields': JSON.stringify(table_data)},  
-          success: function (data) {   
-            console.log(data);
-          
-          }
-      });
- 
-
-    });
-});
-</script>
 
 {% endblock content %}
