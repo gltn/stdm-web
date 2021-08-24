@@ -252,8 +252,11 @@ def KoboFormView(request):
 	return render(request,'dashboard/kobo_data.html')
 
 KOBO_TOKEN = "69f8b59f361147bf8f2f454d8d0e618e9135c404"
-def KoboView(request, kpi,token,formid):
-	kpi_url =  kpi + 'api/v2'
+def KoboView(request):
+	kpi = request.GET.get('kpi', None)
+	token=request.GET.get('token', None)
+	formid=request.GET.get('formid', None)
+	kpi_url =  kpi + '/api/v2'
 	kobo = KoboExtractor(token,kpi_url,debug=True) #Limit the no of rcrods fetched
 	assets = kobo.list_assets()
 	# asset_uid = assets['results'][0]['uid']
@@ -269,10 +272,8 @@ def KoboView(request, kpi,token,formid):
 	for result in new_results: # new_results is a list of list of dicts
 		labeled_results.append(kobo.label_result(unlabeled_result=result, choice_lists=choice_lists, questions=questions, unpack_multiples=True))
 	for rec in labeled_results:
-		print(rec["meta"])
 		for key in rec["results"]:
 			if toHeader(key) not in columns:
 				columns.append(toHeader(key))
 	# print(labeled_results)
-	print(columns)
 	return render(request,'dashboard/kobo_response.html', {'new_results':labeled_results, 'columns':columns})

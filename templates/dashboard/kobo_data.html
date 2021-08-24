@@ -39,13 +39,12 @@
                     </li>                   
                     
                     <li class="nav-item">
-                      <a class="nav-link" id="sum-tab" data-toggle="pill" href="#sum" role="tab" aria-controls="sum" aria-selected="false" style="display:none">Summaries</a>
+                      <a class="nav-link" id="sum-tab" data-toggle="pill" href="#sum" role="tab" aria-controls="sum" aria-selected="false" >Submissions</a>
                     </li>
                      
                   </ul>
                 </div>
-                <div class="card-body">                  
-                  
+                <div class="card-body">                
                   <div class="tab-content" id="custom-tabs-four-tabContent">
                     <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details" aria-labelledby="profile_details-tab"> 
                       <div class="card card-primary"  id="profile_details" style="display: block; width: 100%;">
@@ -93,7 +92,7 @@
                               
                             </div><!-- /.card-header -->
                             <div class="card-body" id="koboData">
-                              
+                              <p>Data Here</p>
                             </div><!-- /.card-body -->
                           </div>
                         </div>
@@ -135,20 +134,21 @@
   <script>
     $(document).ready(function () {
   
-  $("#koboform").on("submit", "li", function() {
-      var list_id = $(this).attr('id');
-      var profile = $("#profiles :selected").val();
-      console.log('Entity',list_id)
-      console.log('Profile',profile)
+  $("#koboform").on("submit", function() {
+      // alert($("#kpiurl").val())
       kpi = $("#kpiurl").val();
       token =$("#token").val();
       formid =$("#asset").val();
       $.ajax({
-            url: 'kobo/data/' + kpi + '/' + token + '/' + formid,
-            type: 'POST',
-            traditional: true,      
+            // url: 'kobo/data/' + kpi + '/' + token + '/' + formid,
+            url: '/mobile/kobo/submissions/',
+            // type: 'POST',
+            data: {'kpi':kpi,'token':token,'formid':formid},
+            dataType: 'html', 
             success: function (data) { 
-                $('#koboData').html(data);             
+              alert('Success')
+                $('#koboData').append(data);  
+                console.log(data)          
                 
             }
         });
