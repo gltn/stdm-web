@@ -1,18 +1,19 @@
 .font-weight-light {
-    font-size: 24px;
-    font-weight: 800!important;
-  }
-  .login-page, .register-page {
-    -ms-flex-align: center;
-    align-items: center;
-    background: #e3e9f9;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    height: 100vh;
-    -ms-flex-pack: center;
-    justify-content: center;
+  font-size: 24px;
+  font-weight: 800 !important;
+}
+.login-page,
+.register-page {
+  -ms-flex-align: center;
+  align-items: center;
+  background: #e3e9f9;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100vh;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 .btn-primary {
   color: #fff;
@@ -21,14 +22,13 @@
   box-shadow: none;
 }
 
-.login-box, .register-box {
+.login-box,
+.register-box {
   width: 960px;
 }
 .logos-to-bottom {
-  position:absolute;
+  position: absolute;
   bottom: 1%;
-  
-  
 }
 .card {
   position: relative;
@@ -40,24 +40,23 @@
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 0 solid rgba(0,0,0,.125);
-  border-radius: .25rem;
+  border: 0 solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
 }
 
-
 .map-space {
-  height:50vh;
+  height: 50vh;
   /* overflow: hidden; */
 }
 .stdm-logo {
-  color: #2E5AA7;
+  color: #2e5aa7;
 }
 
 .layout-navbar-fixed .wrapper .brand-link-footer {
   overflow: hidden;
   position: fixed;
   bottom: 0;
-  transition: width .3s ease-in-out;
+  transition: width 0.3s ease-in-out;
   width: 250px;
   z-index: 1035;
   background-color: #343a40;
@@ -67,13 +66,13 @@
 
 .tab-content > .tab-pane {
   display: block;
-  height:0;
-  overflow:hidden;
+  height: 0;
+  overflow: hidden;
 }
 
 .tab-content > .active {
   display: block;
-  height:auto;
+  height: auto;
 }
 
 /* Sidebar */
@@ -84,13 +83,13 @@
   height: 70vh;
   max-width: 100%;
   float: left;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 #map-stdm {
   width: auto;
   height: 50vh;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 #map-sidebar-hide-btn {
   margin-top: -2px;
@@ -123,7 +122,7 @@
   position: relative;
 }
 
-.panel-default>.panel-heading {
+.panel-default > .panel-heading {
   color: #333;
   background-color: #f5f5f5;
   border-color: #ddd;
@@ -155,9 +154,9 @@
   height: 120px;
   -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
-  margin-left:200px;
-  margin-top:30px;
-}   
+  margin-left: 200px;
+  margin-top: 30px;
+}
 
 .bg-info {
   background-color: #138abd !important;
@@ -174,33 +173,36 @@ table.dataTable tbody tr:hover > .sorting_1 {
   background-color: rgba(241, 105, 35, 0.6);
 }
 
-table.dataTable thead {background-color:#dee2e6}
+table.dataTable thead {
+  background-color: #dee2e6;
+}
 
 .custom-popup {
   border-radius: 2px;
   color: #504e4e;
-  font-family: 'Molengo', sans-serif;
+  font-family: "Molengo", sans-serif;
   font-size: 12px;
   line-height: 10px;
-  height: 10 px ;
+  height: 10 px;
   max-height: 300px;
-  }
+}
 
-.custom-popup, .leaflet-popup-tip {
+.custom-popup,
+.leaflet-popup-tip {
   background: #e7e7e7;
   border: none;
   box-shadow: none;
-  }
+}
 
 .leaflet-popup-content-wrapper {
- background: #e7e7e7;
- border-radius: 2px;
- }
+  background: #e7e7e7;
+  border-radius: 2px;
+}
 
 .leaflet-popup {
   position: absolute;
   text-align: center;
-  }
+}
 
 .leaflet-popup-content {
   margin-top: 20px;
@@ -209,23 +211,22 @@ table.dataTable thead {background-color:#dee2e6}
   min-width: 100 px !important;
   max-height: 300px;
   overflow: auto;
-  }
+}
 
-  
-  .spinner img {
-    position: relative;
-    top: calc(50% - 16px);
-    left: calc(50% - 16px);
-    display: block;
-	 height: 32px;
-	 width: 32px;
-  }
+.spinner img {
+  position: relative;
+  top: calc(50% - 16px);
+  left: calc(50% - 16px);
+  display: block;
+  height: 32px;
+  width: 32px;
+}
 
-  button:disabled {
-    color: white;
-    background-color: #138abd;
-    border-color: #138abd;
-    border-radius: 4px;
+button:disabled {
+  color: white;
+  background-color: #138abd;
+  border-color: #138abd;
+  border-radius: 4px;
 }
 
 button:not(:disabled) {
@@ -240,30 +241,29 @@ dt-buttons:hover {
   border: none;
   border-radius: 4px;
 }
-button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-button:hover:not(.disabled) {
+button.dt-button:hover:not(.disabled),
+div.dt-button:hover:not(.disabled),
+a.dt-button:hover:not(.disabled) {
   color: white;
   background-color: #138abd;
   border: none;
   border-radius: 4px;
 }
 .dt-button.xselected {
-  color:#138abd;
+  color: #138abd;
   border: 1px #138abd solid;
 }
 
 .loading {
   height: 100%;
-  background: rgba( 255, 255, 255, .8 ) 
-              url('../img/ajax-loader.gif') 
-              50% 50% 
-              no-repeat;
+  background: rgba(255, 255, 255, 0.8) url("../img/ajax-loader.gif") 50% 50%
+    no-repeat;
 }
-
 
 /* When the body has the loading class, we turn
  the scrollbar off with overflow:hidden */
 body.loading {
-  overflow: hidden;   
+  overflow: hidden;
 }
 
 /* Anytime the body has the loading class, our
@@ -271,23 +271,25 @@ body.loading {
 body.loading .modal {
   display: block;
 }
-div.dataTables_processing { z-index: 1; }
-
-.float{
-	position:fixed;
-	width:10%;
-	height:60px;
-	bottom:80px;
-	left:300px;
-	background-color:rgb(32, 158, 38);
-	color:#FFF;
-	
-	text-align:center;
-	box-shadow: 2px 2px 3px #999;
+div.dataTables_processing {
+  z-index: 1;
 }
 
-.my-float{
-	margin-top:22px;
+.float {
+  position: fixed;
+  width: 10%;
+  height: 60px;
+  bottom: 80px;
+  left: 300px;
+  background-color: rgb(32, 158, 38);
+  color: #fff;
+
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+}
+
+.my-float {
+  margin-top: 22px;
 }
 
 .dataTables_scrollHeadInner {
@@ -297,6 +299,14 @@ div.dataTables_processing { z-index: 1; }
 .dataTables_scrollHeadInner > table {
   width: 100% !important;
 }
-.dataTable{
+.dataTable {
   text-align: center;
+}
+.form-group.required .control-label:after {
+  content: "*";
+  color: red;
+}
+.koboTable {
+max-width: 1000px;
+margin: 0 auto;
 }

@@ -1,59 +1,79 @@
 {% load static %}
-<h4> Data response</h4>
-<table id="koboTable" class="table table-bordered table-striped" style="width: 100%;">
+{% if data %}
+<h4> Submissions List</h4>
+<table id="koboTable" class="table table-bordered table-striped" style="width: 100%;overflow: scroll;">
     <thead>
       <tr>
-        {% for column in columns %}
-        <th>{{column}}</th>
+        {% for key,values in data.items %}
+        <th>{{key}}</th>
         {% endfor %}
       </tr>
     </thead>
     <tbody>
-      {% for result in new_results %}
+     
        
       <tr>
-        {% for key,value in result.results.items %}
-        <td>{{value.answer_label}}</td>
-        {% endfor %}
+        {% for key,values in data.items %}
+        <td>{{values.answer_label}}</td>
+         {% endfor %}
       </tr>
       
-      {% endfor %}
+     
     </tbody>
   </table>
-  <script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script>
-
-  <script>
-    $(function () {
-    //   $("#example2").DataTable({
-    //     "responsive": true,
-    //     "autoWidth": true,
-    //   });
-      var entityTable = $('#koboTable').DataTable( {
-        dom: 'Bfrtip',
-        "select": {
-          "style": 'single'
-        },       
+  {% endif %}
+   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script>
+let today = new Date().toISOString().slice(0, 10)
+var dataTableSet;
+  dataTableSet = $("#koboTable").DataTable({
+    "responsive": true,
+    "autoWidth": true,
+    "destroy": true,
+    "scrollX": true,
+    "searching": true,
+    "sPaginationType":"full_numbers",
+    dom: 'Blfrtip',
+    select: {
+                style: 'single'
+            },      
         buttons: [
-            'csv', 'excel', 'pdf'
+          {
+            extend: 'excelHtml5',
+            text: '<i class="fa fa-file-excel-o"> Export to Excel</i>',
+            titleAttr: 'Excel',
+            title: '_Excel_Export_'  + today,
+            exportOptions: {
+            columns: ':visible'
+            },
+          },
+          {
+            extend: 'csvHtml5',
+            text: '<i class="fa fa-file-text-o"> Export to CSV</i>',
+            titleAttr: 'CSV',
+            title:  '_CSV_Export_'  + today,
+            exportOptions: {
+            columns: ':visible'
+            },
+          },
+          {
+            extend: 'pdfHtml5',
+            text: '<i class="fa fa-file-pdf-o"> Export to PDF</i>',
+            titleAttr: 'PDF',
+            title: '_PDF_Export_' + today,
+            orientation:'landscape',
+            pageSize : 'LEGAL',
+            exportOptions: {
+            columns: ':visible'
+            },
+          }
         ],
-        "scrollY": 400,
-        "destroy": true,
-        "searching": true,
-        mark: true,
-        scrollX:        true,
-        scrollCollapse: true,
-        language: {
-          processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>'
-        },
-        "columns" : [{
-            "data" : null,
-            "defaultContent" : '<div style="text-align:center"><input id="929b005c-012e-463d-b236-2ac3f94f4501" type="checkbox"  style="border-radius: 4px;width: 30px;height: 30px;font-size: 22px;"></div>'
-        }
-    ]
-      
-
-      });
-
-      
-    });
+});
+ $('#koboTable tbody').on('click', 'tr', function () {
+    var data_row = dataTableSet.row(this).data();
+    var leaf_stamp = data_row[data_row.length - 1]
+    $('#summary').trigger('click');
+} );
 </script>
+

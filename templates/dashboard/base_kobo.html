@@ -80,20 +80,7 @@
               ><i class="fas fa-bars"></i
             ></a>
           </li>
-          <li class="nav-item d-none d-sm-inline-block">
-            <div class="nav-link"><label>Current Profile: </label></div>
-          </li>
-          <li class="nav-item d-none d-sm-inline-block">
-            <div class="form-group">
-              <select class="form-control" id="profiles">
-                {% block profiler %} {% if profiles %} {% for profile in  profiles %}
-                <option>{{profile}}</option>
-                {% endfor %} {% else %}
-                <p>No profiles available!</p>
-                {% endif %} {% endblock profiler %}
-              </select>
-            </div>
-          </li>
+         
         </ul>
 
         <!-- Right navbar links -->
@@ -133,13 +120,13 @@
         <!-- Brand Logo -->
         <a href="{% url 'dashboard' %}" class="brand-link">
           <img
-            src="{{configs.logo.url}}"
+            src="{% static 'dashboard/dist/img/logo.png' %}"
             alt="STDM Web"
             class="brand-image img-circle elevation-3"
           />
 
           <span class="brand-text font-weight-light">
-            {{configs.site_name}}</span
+            STDM WEB</span
           >
         </a>
 
@@ -161,19 +148,7 @@
                   <p>Dashboard</p>
                 </a>
               </li>
-              <div class="nav-item" id="mobile_entity_div">
-                {% block mobile_entities %} {% if m_entities %} 
-                {% for entity in  m_entities %}
-                <li class="nav-item" id="{{entity.short_name}}">
-                  <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-th"></i>
-                    <p>{{entity.short_name}}</p>
-                  </a>
-                </li>
-                {% endfor %} {% else %}
-                <p>No entities available!</p>
-                {% endif %} {% endblock mobile_entities %}
-              </div>
+          
               <hr />
               <li class="nav-item">
                 <a href="{% url 'kobo' %}" class="nav-link">
