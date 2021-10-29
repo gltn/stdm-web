@@ -4,9 +4,15 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}" />
-<script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script> 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" />
+<script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""></script>
 
 <script src="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.js' %}"></script>
 <link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.draw.css' %}" />
@@ -23,402 +29,428 @@
 <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/g/mark.js(jquery.mark.min.js)"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.13/features/mark.js/datatables.mark.js"></script>
-    
+
+
 
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-     
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">        
-        <div class="row">
-          <div class="col-md-12">
-            <div class="col-12 col-sm-12">
-              <div class="card card-primary card-outline card-outline-tabs">
-                <div class="card-header p-0 border-bottom-0" id="changing-tabs">
-                  <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                    <li class="nav-item">
-                      <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_tab_details" role="tab" aria-controls="profile_tab_details" aria-selected="true">KoboData Settings</a>
-                    </li>     
-                     <li class="nav-item">
-                      <a class="nav-link" id="summary-tab" data-toggle="pill" href="#summary" role="tab" aria-controls="summary" aria-selected="true">Summary</a>
-                    </li>
-                                
-                    
-                  </ul>
-                </div>
-                <div class="card-body">                
-                  <div class="tab-content" id="custom-tabs-four-tabContent">
-                    <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details" aria-labelledby="profile_details-tab"> 
-                      <div class="card card-primary"  id="profile_details" style="display: block; width: 100%;">
-                        <h4>Fill in the form:</h4>
-                        <form class="row g-3" id="koboform">
-                          <div class="col-md-8 form-group required">
-                            <label for="validationDefault01" class="control-label">KPI-URL</label>
-                            <input type="text" class="form-control" id="kpiurl" required>
-                          </div>
-                          <div class="col-md-8 form-group required">
-                            <label for="validationDefault02" class="control-label">Server Token</label>
-                            <input type="text" class="form-control" id="token" required>
-                          </div>
-                      
-                          <div class="col-md-8 form-group required">
-                            <label for="validationDefault03" class="control-label">Asset ID</label>
-                            <input type="text" class="form-control" id="asset" required>
-                          </div>
-                          <div class="col-md-8">
-                            
-                          </div>
-                         
-                          <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                          </div>
-                        </form>
-                        <hr>
-                        <div class="col-md-12">
-                          <div id="KoboSubmissions" class="table-responsive">
-                            
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-12 col-sm-12">
+            <div class="card card-primary card-outline card-outline-tabs">
+              <div class="card-header p-0 border-bottom-0" id="changing-tabs">
+                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_tab_details"
+                      role="tab" aria-controls="profile_tab_details" aria-selected="true">KoboData Settings</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="summary-tab" data-toggle="pill" href="#summary" role="tab"
+                      aria-controls="summary" aria-selected="true">Summary</a>
+                  </li>
+
+
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content" id="custom-tabs-four-tabContent">
+                  <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details"
+                    aria-labelledby="profile_details-tab">
+                    <div class="card card-primary" id="profile_details" style="display: block; width: 100%;">
+                      <h4>Fill in the form:</h4>
+                      <form class="row g-3" id="koboform">
+                        <div class="col-md-8 form-group required">
+                          <label for="validationDefault01" class="control-label">KPI-URL</label>
+                          <input type="text" class="form-control" id="kpiurl" required>
+                        </div>
+                        <div class="col-md-8 form-group required">
+                          <label for="validationDefault02" class="control-label">Server Token</label>
+                          <input type="text" class="form-control" id="token" required>
+                        </div>
+
+                        <div class="col-md-8 form-group required">
+                          <label for="validationDefault03" class="control-label">Asset ID</label>
+                          <input type="text" class="form-control" id="asset" required>
+                        </div>
+                        <div class="col-md-8 form-group required">
+                          <label for="validationDefault04" class="control-label">Submission Date </label>
+
+                          <div class="datepicker date input-group p-0 ">
+                            <input type="text" placeholder="Choose submission date to filter the sumissions"
+                              class="form-control py-4 px-4" id="subDate" required>
+                            <div class="input-group-append"><span class="input-group-text px-4"><i
+                                  class="fa fa-clock-o"></i></span></div>
                           </div>
                         </div>
-                       
-                      </div> 
-                                           
-                    </div>
-                      <div class="tab-pane fade show" role="tabpanel" id="summary" aria-labelledby="summary-tab"> 
-                      <div class="card card-primary"  id="summary" style="display: block; width: 100%;">
-                       
-                        <div class="row">
-                          <div class="col-md-12">
-                              <!-- DIRECT CHAT WARNING -->
-                              <div class="card card-primary shadow-sm">
-                                <div class="card-header">
-                                  <h3 class="card-title">Nairobi County</h3>
-                                  <div class="card-tools">            
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                      <i class="fas fa-minus"></i>
-                                    </button>                                   
-                                  </div>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                  <div class="row">
-                               
-                                  <div class="col-md-3">
-                                    <div class="card card-widget widget-user-2">
-                                      <!-- Add the bg color to the header using any of the bg-* classes -->
-                                      <div class="widget-user-header bg-success">
-                                        <h5 class="widget-user-desc">Settlement Information</h5>
-                                      </div>
-                                      <div class="card-footer p-0">
-                                        <ul class="nav flex-column">
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              Name of City <span class="float-right badge bg-primary">Nairobi</span>
-                                            </a>
-                                          </li>
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              Name of Settlement <span class="float-right badge bg-info">Mathare</span>
-                                            </a>
-                                          </li>
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              Name of Ward <span class="float-right badge bg-success">Mathare 2</span>
-                                            </a>
-                                          </li>
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              Type of Settlement <span class="float-right badge bg-info">Slum</span>
-                                            </a>
-                                          </li>
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              First Year of Occupation <span class="float-right badge bg-info">1995</span>
-                                            </a>
-                                          </li>
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              Reason for Occupation <span class="float-right badge bg-info">Displacement</span>
-                                            </a>
-                                          </li>
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              Risk Level of the Settlement <span class="float-right badge bg-info">1.2</span>
-                                            </a>
-                                          </li>
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              Total Area <span class="float-right badge bg-info">2,871</span>
-                                            </a>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </div>
-                                    <div class="card card-widget widget-user-2">
-                                      <!-- Add the bg color to the header using any of the bg-* classes -->
-                                      <div class="widget-user-header bg-info">
-                                        <h5 class="widget-user-desc">Land Tenure Information</h5>
-                                      </div>
-                                      <div class="card-footer p-0">
-                                        <ul class="nav flex-column">
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              Proportion Gov't Owned <span class="float-right badge bg-primary">38%</span>
-                                            </a>
-                                          </li>
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              Major Land Tenure Challenges <span class="float-right badge bg-info">None</span>
-                                            </a>
-                                          </li>
-                                      
-                                          
-                                        </ul>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div id="mapdiv">
-                                      <div id="mapid" style="height: 66vh; width: auto;box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-3">
-                                     <div class="card card-widget widget-user-2">
-                                      <!-- Add the bg color to the header using any of the bg-* classes -->
-                                      <div class="widget-user-header bg-warning">
-                                        <h5 class="widget-user-desc">Housing Tenure Information</h5>
-                                      </div>
-                                      <div class="card-footer p-0">
-                                        <ul class="nav flex-column">
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              Renting Population <span class="float-right badge bg-primary">384</span>
-                                            </a>
-                                          </li>
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              Population of structure owners <span class="float-right badge bg-info">None</span>
-                                            </a>
-                                          </li>
-                                      
-                                          
-                                        </ul>
-                                      </div>
-                                    </div>
-                                     <div class="card card-widget widget-user-2">
-                                      <!-- Add the bg color to the header using any of the bg-* classes -->
-                                      <div class="widget-user-header bg-warning">
-                                        <h5 class="widget-user-desc">Services Information</h5>
-                                      </div>
-                                      <div class="card-footer p-0">
-                                        <ul class="nav flex-column">
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              Public Services Available <span class="float-right badge bg-primary">Water, Power</span>
-                                            </a>
-                                          </li>
-                                          
-                                      
-                                          
-                                        </ul>
-                                      </div>
-                                    </div>
-                                     <div class="card card-widget widget-user-2">
-                                      <!-- Add the bg color to the header using any of the bg-* classes -->
-                                      <div class="widget-user-header bg-warning">
-                                        <h5 class="widget-user-desc">Profiling Information</h5>
-                                      </div>
-                                      <div class="card-footer p-0">
-                                        <ul class="nav flex-column">
-                                          <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                              Date of Profiling <span class="float-right badge bg-primary">12/12/2010</span>
-                                            </a>
-                                          </li>
-                                          
-                                      
-                                          
-                                        </ul>
-                                      </div>
-                                    </div>
-                                  </div>
-                                       
-                                  </div>
-                                </div>
-                               
-                              </div>
-                              <!--/.direct-chat -->
-                          </div>
-                          <div class="col-md-12">
-                            <div class="card card-primary shadow-sm">
-                                <div class="card-header">
-                                  <h3 class="card-title">Household Information</h3>
-                                  <div class="card-tools">            
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                      <i class="fas fa-minus"></i>
-                                    </button>                                   
-                                  </div>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-md-6">
-                                      <div class="row">
-                                      <div class="col-md-3">
-                                        <div class="info-box">
-                                          <span class="info-box-icon bg-info"><i class="fas fa-home"></i></span>
 
-                                          <div class="info-box-content">
-                                            <span class="info-box-text">Households</span>
-                                            <span class="info-box-number">1,410</span>
-                                          </div>
-                                          <!-- /.info-box-content -->
-                                        </div>
-                                        <!-- /.info-box -->
-                                      </div>
-                                      <!-- /.col -->
-                                      <div class="col-md-3">
-                                        <div class="info-box">
-                                          <span class="info-box-icon bg-success"><i class="fas fa-users"></i></span>
 
-                                          <div class="info-box-content">
-                                            <span class="info-box-text">Population</span>
-                                            <span class="info-box-number">410432</span>
-                                          </div>
-                                          <!-- /.info-box-content -->
-                                        </div>
-                                        <!-- /.info-box -->
-                                      </div>
-                                      <!-- /.col -->
-                                      <div class="col-md-3">
-                                        <div class="info-box">
-                                          <span class="info-box-icon bg-warning"><i class="fas fa-male"></i></span>
-
-                                          <div class="info-box-content">
-                                            <span class="info-box-text">Males</span>
-                                            <span class="info-box-number">13,648</span>
-                                          </div>
-                                          <!-- /.info-box-content -->
-                                        </div>
-                                        <!-- /.info-box -->
-                                      </div>
-                                      <!-- /.col -->
-                                      <div class="col-md-3">
-                                        <div class="info-box">
-                                          <span class="info-box-icon bg-danger"><i class="fas fa-female"></i></span>
-
-                                          <div class="info-box-content">
-                                            <span class="info-box-text">Females</span>
-                                            <span class="info-box-number">93,139</span>
-                                          </div>
-                                          <!-- /.info-box-content -->
-                                        </div>
-                                        <!-- /.info-box -->
-                                      </div>
-                                      <!-- /.col -->
-                                      </div>
-                                    </div>
-                                    <!-- /.row -->
-                                    <div class="col-md-6">
-                                      <button id="column" disabled>Column chart</button>
-                                        <button id="bar">Bar chart</button>
-                                        <button id="line">Line chart</button>
-                                        <button id="spline">Spline chart</button>
-                                        <button id="pie">Pie chart</button>
-                                        <hr>
-                                        <div id="settlementChart" style="height: 40vh;"></div>
-                                    </div>
-                                  </div>
-
-                                  
-                                </div>
-                            </div>
-                          </div>
+                        <div class="col-12">
+                          <button class="btn btn-primary" type="submit">Submit</button>
                         </div>
-                       
-                       
-                      </div> 
-                                           
+                      </form>
+                      <hr>
+                      <div class="col-md-12">
+                        <div id="KoboSubmissions" class="table-responsive">
+
+
+                        </div>
+                      </div>
+
                     </div>
 
                   </div>
-                </div>
-                <!-- /.card -->
-              </div>
-            </div>
-           
-            
-              <!-- /.card -->
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
-        </div>
-        
-        <!-- /.row -->
+                  <div class="tab-pane fade show" role="tabpanel" id="summary" aria-labelledby="summary-tab">
+                    <div class="card card-primary" id="summary" style="display: block; width: 100%;">
 
-       
-        <!-- /.row -->
-      </div><!--
+                      <div class="row">
+                        <div class="col-md-12">
+                          <!-- DIRECT CHAT WARNING -->
+                          <div class="card card-primary shadow-sm">
+                            <div class="card-header">
+                              <h3 class="card-title">Nairobi County</h3>
+                              <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                  <i class="fas fa-minus"></i>
+                                </button>
+                              </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                              <div class="row">
+
+                                <div class="col-md-3">
+                                  <div class="card card-widget widget-user-2">
+                                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                                    <div class="widget-user-header bg-success">
+                                      <h5 class="widget-user-desc">Settlement Information</h5>
+                                    </div>
+                                    <div class="card-footer p-0">
+                                      <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            Name of City <span class="float-right badge bg-primary">Nairobi</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            Name of Settlement <span class="float-right badge bg-info">Mathare</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            Name of Ward <span class="float-right badge bg-success">Mathare 2</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            Type of Settlement <span class="float-right badge bg-info">Slum</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            First Year of Occupation <span class="float-right badge bg-info">1995</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            Reason for Occupation <span
+                                              class="float-right badge bg-info">Displacement</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            Risk Level of the Settlement <span
+                                              class="float-right badge bg-info">1.2</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            Total Area <span class="float-right badge bg-info">2,871</span>
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                  <div class="card card-widget widget-user-2">
+                                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                                    <div class="widget-user-header bg-info">
+                                      <h5 class="widget-user-desc">Land Tenure Information</h5>
+                                    </div>
+                                    <div class="card-footer p-0">
+                                      <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            Proportion Gov't Owned <span class="float-right badge bg-primary">38%</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            Major Land Tenure Challenges <span
+                                              class="float-right badge bg-info">None</span>
+                                          </a>
+                                        </li>
+
+
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div id="mapdiv">
+                                    <div id="mapid"
+                                      style="height: 66vh; width: auto;box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="card card-widget widget-user-2">
+                                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                                    <div class="widget-user-header bg-warning">
+                                      <h5 class="widget-user-desc">Housing Tenure Information</h5>
+                                    </div>
+                                    <div class="card-footer p-0">
+                                      <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            Renting Population <span class="float-right badge bg-primary">384</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            Population of structure owners <span
+                                              class="float-right badge bg-info">None</span>
+                                          </a>
+                                        </li>
+
+
+                                      </ul>
+                                    </div>
+                                  </div>
+                                  <div class="card card-widget widget-user-2">
+                                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                                    <div class="widget-user-header bg-warning">
+                                      <h5 class="widget-user-desc">Services Information</h5>
+                                    </div>
+                                    <div class="card-footer p-0">
+                                      <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            Public Services Available <span class="float-right badge bg-primary">Water,
+                                              Power</span>
+                                          </a>
+                                        </li>
+
+
+
+                                      </ul>
+                                    </div>
+                                  </div>
+                                  <div class="card card-widget widget-user-2">
+                                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                                    <div class="widget-user-header bg-warning">
+                                      <h5 class="widget-user-desc">Profiling Information</h5>
+                                    </div>
+                                    <div class="card-footer p-0">
+                                      <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                          <a href="#" class="nav-link">
+                                            Date of Profiling <span
+                                              class="float-right badge bg-primary">12/12/2010</span>
+                                          </a>
+                                        </li>
+
+
+
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+
+                          </div>
+                          <!--/.direct-chat -->
+                        </div>
+                        <div class="col-md-12">
+                          <div class="card card-primary shadow-sm">
+                            <div class="card-header">
+                              <h3 class="card-title">Household Information</h3>
+                              <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                  <i class="fas fa-minus"></i>
+                                </button>
+                              </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      <div class="info-box">
+                                        <span class="info-box-icon bg-info"><i class="fas fa-home"></i></span>
+
+                                        <div class="info-box-content">
+                                          <span class="info-box-text">Households</span>
+                                          <span class="info-box-number">1,410</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                      </div>
+                                      <!-- /.info-box -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-md-3">
+                                      <div class="info-box">
+                                        <span class="info-box-icon bg-success"><i class="fas fa-users"></i></span>
+
+                                        <div class="info-box-content">
+                                          <span class="info-box-text">Population</span>
+                                          <span class="info-box-number">410432</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                      </div>
+                                      <!-- /.info-box -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-md-3">
+                                      <div class="info-box">
+                                        <span class="info-box-icon bg-warning"><i class="fas fa-male"></i></span>
+
+                                        <div class="info-box-content">
+                                          <span class="info-box-text">Males</span>
+                                          <span class="info-box-number">13,648</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                      </div>
+                                      <!-- /.info-box -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-md-3">
+                                      <div class="info-box">
+                                        <span class="info-box-icon bg-danger"><i class="fas fa-female"></i></span>
+
+                                        <div class="info-box-content">
+                                          <span class="info-box-text">Females</span>
+                                          <span class="info-box-number">93,139</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                      </div>
+                                      <!-- /.info-box -->
+                                    </div>
+                                    <!-- /.col -->
+                                  </div>
+                                </div>
+                                <!-- /.row -->
+                                <div class="col-md-6">
+                                  <button id="column" disabled>Column chart</button>
+                                  <button id="bar">Bar chart</button>
+                                  <button id="line">Line chart</button>
+                                  <button id="spline">Spline chart</button>
+                                  <button id="pie">Pie chart</button>
+                                  <hr>
+                                  <div id="settlementChart" style="height: 40vh;"></div>
+                                </div>
+                              </div>
+
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+              <!-- /.card -->
+            </div>
+          </div>
+
+
+          <!-- /.card -->
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+
+      <!-- /.row -->
+
+
+      <!-- /.row -->
+    </div>
+    <!--
       
        
     
 
        
         <!-- /.row -->
-      </div><!--/. container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
+</div>
+<!--/. container-fluid -->
+</section>
+<!-- /.content -->
+</div>
 
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
-  <script>
-    $(document).ready(function () {
-  
-  $("#koboform").on("submit", function(evt) {
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // INITIALIZE DATEPICKER PLUGIN
+
+    $("#koboform").on("submit", function (evt) {
       // alert($("#kpiurl").val())
       evt.preventDefault();
       kpi = $("#kpiurl").val();
-      token =$("#token").val();
-      formid =$("#asset").val();
+      token = $("#token").val();
+      asset = $("#asset").val();
+      subDate = $("#subDate").val();
       $.ajax({
-            url: '/mobile/kobo/submissions/data', 
-            data: {kpi:kpi,token:token,formid:formid},
-            dataType: 'html',  
-            cache:true,
-            async:true,   
-            success : function(json) {
-              // console.log('It works',json)
-              $('#KoboSubmissions').html(json); 
-            },     
-           
-        })
-      
+        url: '/mobile/kobo/submissions/data',
+        data: { kpi: kpi, token: token, asset: asset, subDate: subDate },
+        dataType: 'html',
+        cache: true,
+        async: true,
+        success: function (json) {
+          // console.log('It works',json)
+          $('#KoboSubmissions').html(json);
+        },
 
-      
+      })
+
+
+
+    });
+
+
+
+
   });
-  
-  
-  
-  
-      });
-  
-  </script>
-  <script>
+
+</script>
+<script>
   var usgsImagery = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
     maxZoom: 20,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
   });
- var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
+  var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
   });
- var mymap = L.map("mapid", {
+  var mymap = L.map("mapid", {
     zoom: 5,
     center: [0.830522, 37.729050],
     layers: [cartoLight],
@@ -426,72 +458,72 @@
     zoomControl: true,
     attributionControl: false
   });
-  </script>
-  <script type="text/javascript">
+</script>
+<script type="text/javascript">
   $(function () {
     Highcharts.setOptions({
-        lang: {
-            decimalPoint: '.',
-            thousandsSep: ','
-        }
-        });
-      $('#settlementChart').highcharts({
-          chart: {
-              type: 'column',
-              zoomType: 'x'
-          },
-          title: {
-              text: ''
-          },
+      lang: {
+        decimalPoint: '.',
+        thousandsSep: ','
+      }
+    });
+    $('#settlementChart').highcharts({
+      chart: {
+        type: 'column',
+        zoomType: 'x'
+      },
+      title: {
+        text: ''
+      },
 
-          xAxis: {
-              categories:['Total','Male','Female']                
-                
-              
-                     
+      xAxis: {
+        categories: ['Total', 'Male', 'Female']
+
+
+
       },
 
       yAxis: {
-          min: 0,
-          allowDecimals: false,
-          title: {
-              text: 'Population'
-          },
-          labels: {
-              formatter: function () {
-                  return  this.value;
-              }
-          },
+        min: 0,
+        allowDecimals: false,
+        title: {
+          text: 'Population'
+        },
+        labels: {
+          formatter: function () {
+            return this.value;
+          }
+        },
       },
       tooltip: {
-          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-          pointFormat: '<tr><td style="color:{series.color};padding:0"></td>' +
-              '<td style="padding:0"><b>{point.y} </b></td></tr>',
-          footerFormat: '</table>',
-          shared: false,
-          useHTML: true
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0"></td>' +
+          '<td style="padding:0"><b>{point.y} </b></td></tr>',
+        footerFormat: '</table>',
+        shared: false,
+        useHTML: true
       },
       plotOptions: {
-          pointWidth: 40,
-          column: {
-              colorByPoint: true,
-              dataLabels: {
-                enabled: true,
-                format: '{point.y:,.0f}',
-                color: '#777'
-            }
+        pointWidth: 40,
+        column: {
+          colorByPoint: true,
+          dataLabels: {
+            enabled: true,
+            format: '{point.y:,.0f}',
+            color: '#777'
           }
+        }
       },
-      
+
       credits: {
-          "enabled": false
+        "enabled": false
       },
       series: [
-          {
-              showInLegend: false,
-              "data": [2000000,1500000,500000]
-          
-          }
+        {
+          showInLegend: false,
+          "data": [2000000, 1500000, 500000]
+
+        }
 
 
 
@@ -499,76 +531,76 @@
     });
     clickedButton = $('#column');
     var chart = $('#settlementChart').highcharts(),
-    checkIfInverted = function(check, nameOfButton) {
-      if (check) {
-        chart.inverted = !chart.inverted;
-        chart.xAxis[0].update({}, false);
-        chart.yAxis[0].update({}, false);
-      }
-    },
-    buttonEnabling = function(thisButton) {
-      clickedButton.removeAttr('disabled');
-      clickedButton = $(thisButton);
-      clickedButton.attr('disabled', 'disabled');
-    },
-    changeTypeOfSeries = function(typ) {
-      chart.series.forEach(function(el, inx) {
-        el.update({
-          type: typ
-        });
-      });
-    };
-
-  $('#column').bind('click', function() {
-    checkIfInverted(chart.inverted);
-    changeTypeOfSeries('column');
-    buttonEnabling(this);
-  });
-
-  $('#bar').bind('click', function() {
-    checkIfInverted(!chart.inverted);
-    changeTypeOfSeries('bar');
-    buttonEnabling(this);
-  });
-
-  $('#line').bind('click', function() {
-    checkIfInverted(chart.inverted);
-    changeTypeOfSeries('line');
-    buttonEnabling(this);
-  });
-
-  $('#spline').bind('click', function() {
-    checkIfInverted(chart.inverted);
-    changeTypeOfSeries('spline');
-    buttonEnabling(this);
-  });
-  $('#pie').bind('click', function() {
-    checkIfInverted(chart.inverted);
-
-    chart.series.forEach(function(series, index) {
-      var pieOffset = 1 * 150,
-        correctedData = [],
-        newName;
-
-      series.points.forEach(function(pt) {
-        newName = pt.category;
-        correctedData.push([newName, pt.y]);
-      });
-
-      series.update({
-        type: 'pie',
-        data: correctedData,
-        showInLegend: true,
-        size: '100%',
-        center: [pieOffset + 50, null],
-        dataLabels: {
-          distance: -10
+      checkIfInverted = function (check, nameOfButton) {
+        if (check) {
+          chart.inverted = !chart.inverted;
+          chart.xAxis[0].update({}, false);
+          chart.yAxis[0].update({}, false);
         }
-      });
+      },
+      buttonEnabling = function (thisButton) {
+        clickedButton.removeAttr('disabled');
+        clickedButton = $(thisButton);
+        clickedButton.attr('disabled', 'disabled');
+      },
+      changeTypeOfSeries = function (typ) {
+        chart.series.forEach(function (el, inx) {
+          el.update({
+            type: typ
+          });
+        });
+      };
+
+    $('#column').bind('click', function () {
+      checkIfInverted(chart.inverted);
+      changeTypeOfSeries('column');
+      buttonEnabling(this);
     });
 
-    buttonEnabling(this);
-  });
+    $('#bar').bind('click', function () {
+      checkIfInverted(!chart.inverted);
+      changeTypeOfSeries('bar');
+      buttonEnabling(this);
+    });
+
+    $('#line').bind('click', function () {
+      checkIfInverted(chart.inverted);
+      changeTypeOfSeries('line');
+      buttonEnabling(this);
+    });
+
+    $('#spline').bind('click', function () {
+      checkIfInverted(chart.inverted);
+      changeTypeOfSeries('spline');
+      buttonEnabling(this);
+    });
+    $('#pie').bind('click', function () {
+      checkIfInverted(chart.inverted);
+
+      chart.series.forEach(function (series, index) {
+        var pieOffset = 1 * 150,
+          correctedData = [],
+          newName;
+
+        series.points.forEach(function (pt) {
+          newName = pt.category;
+          correctedData.push([newName, pt.y]);
+        });
+
+        series.update({
+          type: 'pie',
+          data: correctedData,
+          showInLegend: true,
+          size: '100%',
+          center: [pieOffset + 50, null],
+          dataLabels: {
+            distance: -10
+          }
+        });
+      });
+
+      buttonEnabling(this);
+    });
 
   });
 </script>
@@ -577,7 +609,7 @@
     var data_row = dataTableSet.row(this).data();
     var leaf_stamp = data_row[data_row.length - 1]
     $('#summary').trigger('click');
-} );
+  });
 
 </script>
 

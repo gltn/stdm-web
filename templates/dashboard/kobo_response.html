@@ -1,31 +1,35 @@
 {% load static %}
 {% if data %}
-<h4> Submissions List</h4>
+<h4> Submissions</h4>
 <table id="koboTable" class="table table-bordered table-striped" style="width: 100%;overflow: scroll;">
     <thead>
       <tr>
-        {% for key,values in data.items %}
-        <th>{{key}}</th>
+        {% for col in columns %}        
+        <th>{{col}}</th>        
         {% endfor %}
       </tr>
     </thead>
-    <tbody>
-     
-       
+    <tbody> 
+    {% for key,values in data.items %} 
       <tr>
-        {% for key,values in data.items %}
-        <td>{{values.answer_label}}</td>
-         {% endfor %}
+        
+        {% for ky, val in values.items %}
+        <td>{{val}}</td>
+        {% endfor %}
+         
       </tr>
-      
-     
+      {% endfor %}
     </tbody>
   </table>
+  {% else %}
+  <h4> Submissions</h4>
+  <p>No submissions available!
   {% endif %}
+  
    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
   <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script>
-let today = new Date().toISOString().slice(0, 10)
+//let today = new Date().toISOString().slice(0, 10)
 var dataTableSet;
   dataTableSet = $("#koboTable").DataTable({
     "responsive": true,

@@ -18,6 +18,7 @@ from django.conf import settings
 from app.config_reader import GetStdmConfig, GetConfig
 from stdm_config.mobile_reader import FindEntitySubmissions
 from koboextractor import KoboExtractor
+import requests
 
 
 # Mobile Component
@@ -260,7 +261,10 @@ def entity_columns(request, profile_name, entity_name):
 
 
 def KoboFormView(request):
-    return render(request, 'dashboard/kobo_data.html')
+    url = 'https://kobo.humanitarianresponse.info/api/v2/assets/axPo5r5hcP88m5zc9n6poX/data/'
+    headers = {'Authorization': 'Token 4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7'}
+    r = requests.post(url, headers=headers)
+    return render(request, 'dashboard/kobo_data.html', {'data': r.text})
 
 
 KOBO_TOKEN = "4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7"
@@ -271,9 +275,9 @@ ASSET = "axPo5r5hcP88m5zc9n6poX"
 def KoboView(request):
     kpi = request.GET.get('kpi', None)
     token = request.GET.get('token', None)
-    asset_uid = request.GET.get('formid', None)
+    asset_uid = request.GET.get('asset', None)
+    submission_date = request.GET.get('subDate', None)
     kpi_url = kpi + "/api/v2"
-
     # Limit the no of rcrods fetched
     kobo = KoboExtractor(token, kpi_url, debug=True)
     assets = kobo.list_assets()
@@ -284,7 +288,7 @@ def KoboView(request):
     questions = kobo.get_questions(asset=asset, unpack_multiples=True)
     # Get data submitted after a certain time
     new_data = kobo.get_data(
-        asset_uid, submitted_after='2020-05-20T17:29:30', limit=5)
+        asset_uid, submitted_after=submission_date, limit=2)
     # print(new_data)
     new_results = kobo.sort_results_by_time(
         new_data['results'])  # Sort list by time
@@ -296,16 +300,26 @@ def KoboView(request):
     for result in new_results:  # new_results is a list of list of dicts
         labeled_results.append(kobo.label_result(
             unlabeled_result=result, choice_lists=choice_lists, questions=questions, unpack_multiples=True))
-    test_result = []
+    # sample = {1:{key:value},2:{key:value}}
     n = 0
+    record_results = []
+    data_use = dict()
+    data_use1 = []
+
     for rec in labeled_results:
-        n += 1
-        for key, value in rec["results"].items():
+        record_results.append(rec["results"])
+    for res in record_results:
+        paired = {}
+        for key, value in res.items():
             if key in columns_to_check:
-                data_used[n] = {toHeader(key.rsplit('/', 1)[-1]): value}
-            if key not in columns:
-                columns.append(key)
-    # print('Data to be used', data_used)
-    print(data_used)
-    # return HttpResponse(labeled_results)
-    return render(request, 'dashboard/kobo_response.html', {'data': data_used, 'columns': columns})
+                paired[key] = value['answer_label']
+        data_use[n] = paired
+        n += 1
+    table_columns = []
+    for key, value in data_use.items():
+        for ky, val in value.items():
+            format_ky = ky.split("/", 1)[1]
+            if toHeader(format_ky) not in table_columns:
+                table_columns.append(toHeader(format_ky))
+
+    return render(request, 'dashboard/kobo_response.html', {'data': data_use, 'columns': table_columns})
