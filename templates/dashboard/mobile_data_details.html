@@ -1,0 +1,427 @@
+{% load static %}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+<div class="card card-primary" id="summary" style="display: block; width: 100%;">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- DIRECT CHAT WARNING -->
+            <div class="card card-primary shadow-sm">
+                <div class="card-header">
+                    <h3 class="card-title">Name of Settlement: {{data.settlement}}</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <div class="card card-success">
+                                <!-- Add the bg color to the header using any of the bg-* classes -->
+                                <div class="card-header">
+                                    <h3 class="card-title">Settlement Information</h3>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-unbordered mb-3">
+                                        <li class="list-group-item">
+                                            <b>Name of City</b> <a class="float-right">{{data.city}}</a>
+
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <b>Name of Ward</b> <a class="float-right">{{data.ward}}</a>
+
+
+                                        </li>
+                                        <li class="list-group-item">
+
+                                            <b>Type of Settlement</b> <a
+                                                class="float-right">{{data.type_of_settlement}}</a>
+
+
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>First Year of Occupation</b> <a
+                                                class="float-right">{{data.year_occupation}}</a>
+
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Reason for Occupation</b> <a
+                                                class="float-right">{{data.reason_occupation}}</a>
+
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Risk Level of the Settlement</b> <a
+                                                class="float-right">{{data.risk_level}}</a>
+
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Total Area</b> <a class="float-right">{{data.total_area}}</a>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div id="mapdiv">
+                                <div id="mapid" style="height: 66vh; width: auto;box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card card-warning">
+                                <!-- Add the bg color to the header using any of the bg-* classes -->
+
+                                <div class="card-header">
+                                    <h3 class="card-title">Housing Tenure Information</h3>
+                                </div>
+                                <div class="card-footer p-0">
+                                    <ul class="nav flex-column">
+                                        <li class="list-group-item">
+                                            <b>Renting Population</b> <a class="float-right">{{data.total_area}}</a>
+
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Population of structure owners</b> <a
+                                                class="float-right">{{data.total_area}}</a>
+
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card card-warning">
+                                <!-- Add the bg color to the header using any of the bg-* classes -->
+
+                                <div class="card-header">
+                                    <h3 class="card-title">Services Information</h3>
+                                </div>
+                                <div class="card-footer p-0">
+                                    <ul class="nav flex-column">
+                                        <li class="list-group-item">
+                                            <b>Public Services Available</b> <a
+                                                class="float-right">{{data.total_area}}</a>
+
+                                        </li>
+
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card card-warning">
+                                <!-- Add the bg color to the header using any of the bg-* classes -->
+
+                                <div class="card-header">
+                                    <h3 class="card-title">Profiling Information</h3>
+                                </div>
+                                <div class="card-footer p-0">
+                                    <ul class="nav flex-column">
+                                        <li class="list-group-item">
+                                            <b>Date of Profiling</b> <a
+                                                class="float-right">{{data.date_of_profiling}}</a>
+
+                                        </li>
+
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card card-success">
+
+                                <div class="card-header">
+                                    <h3 class="card-title">Land Tenure Information</h3>
+                                </div>
+                                <div class="card-footer p-0">
+                                    <ul class="nav flex-column">
+                                        <li class="list-group-item">
+                                            <b>Proportion Gov't Owned</b> <a class="float-right">{{data.ward}}</a>
+
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Major Land Tenure Challenges</b> <a class="float-right">{{data.ward}}</a>
+
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <!--/.direct-chat -->
+        </div>
+        <div class="col-md-12">
+            <div class="card card-warning">
+                <div class="card-header">
+                    <h3 class="card-title">Household Information</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info"><i class="fas fa-home"></i></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Households</span>
+                                            <span class="info-box-number">1,410</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-3">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-success"><i class="fas fa-users"></i></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Population</span>
+                                            <span class="info-box-number">410432</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-3">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-warning"><i class="fas fa-male"></i></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Males</span>
+                                            <span class="info-box-number">13,648</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-3">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-danger"><i class="fas fa-female"></i></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Females</span>
+                                            <span class="info-box-number">93,139</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                        <div class="col-md-6">
+                            <button id="column" disabled>Column chart</button>
+                            <button id="bar">Bar chart</button>
+                            <button id="line">Line chart</button>
+                            <button id="spline">Spline chart</button>
+                            <button id="pie">Pie chart</button>
+                            <hr>
+                            <div id="settlementChart" style="height: 40vh;"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+    integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script>
+    var usgsImagery = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+    var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+    });
+    var mymap = L.map("mapid", {
+        zoom: 5,
+        center: [0.830522, 37.729050],
+        layers: [cartoLight],
+        minZoom: 1,
+        zoomControl: true,
+        attributionControl: false
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: '.',
+                thousandsSep: ','
+            }
+        });
+        $('#settlementChart').highcharts({
+            chart: {
+                type: 'column',
+                zoomType: 'x'
+            },
+            title: {
+                text: ''
+            },
+
+            xAxis: {
+                categories: ['Total', 'Male', 'Female']
+
+
+
+            },
+
+            yAxis: {
+                min: 0,
+                allowDecimals: false,
+                title: {
+                    text: 'Population'
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                },
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0"></td>' +
+                    '<td style="padding:0"><b>{point.y} </b></td></tr>',
+                footerFormat: '</table>',
+                shared: false,
+                useHTML: true
+            },
+            plotOptions: {
+                pointWidth: 40,
+                column: {
+                    colorByPoint: true,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:,.0f}',
+                        color: '#777'
+                    }
+                }
+            },
+
+            credits: {
+                "enabled": false
+            },
+            series: [
+                {
+                    showInLegend: false,
+                    "data": [2000000, 1500000, 500000]
+
+                }
+
+
+
+            ]
+        });
+        clickedButton = $('#column');
+        var chart = $('#settlementChart').highcharts(),
+            checkIfInverted = function (check, nameOfButton) {
+                if (check) {
+                    chart.inverted = !chart.inverted;
+                    chart.xAxis[0].update({}, false);
+                    chart.yAxis[0].update({}, false);
+                }
+            },
+            buttonEnabling = function (thisButton) {
+                clickedButton.removeAttr('disabled');
+                clickedButton = $(thisButton);
+                clickedButton.attr('disabled', 'disabled');
+            },
+            changeTypeOfSeries = function (typ) {
+                chart.series.forEach(function (el, inx) {
+                    el.update({
+                        type: typ
+                    });
+                });
+            };
+
+        $('#column').bind('click', function () {
+            checkIfInverted(chart.inverted);
+            changeTypeOfSeries('column');
+            buttonEnabling(this);
+        });
+
+        $('#bar').bind('click', function () {
+            checkIfInverted(!chart.inverted);
+            changeTypeOfSeries('bar');
+            buttonEnabling(this);
+        });
+
+        $('#line').bind('click', function () {
+            checkIfInverted(chart.inverted);
+            changeTypeOfSeries('line');
+            buttonEnabling(this);
+        });
+
+        $('#spline').bind('click', function () {
+            checkIfInverted(chart.inverted);
+            changeTypeOfSeries('spline');
+            buttonEnabling(this);
+        });
+        $('#pie').bind('click', function () {
+            checkIfInverted(chart.inverted);
+
+            chart.series.forEach(function (series, index) {
+                var pieOffset = 1 * 150,
+                    correctedData = [],
+                    newName;
+
+                series.points.forEach(function (pt) {
+                    newName = pt.category;
+                    correctedData.push([newName, pt.y]);
+                });
+
+                series.update({
+                    type: 'pie',
+                    data: correctedData,
+                    showInLegend: true,
+                    size: '100%',
+                    center: [pieOffset + 50, null],
+                    dataLabels: {
+                        distance: -10
+                    }
+                });
+            });
+
+            buttonEnabling(this);
+        });
+
+    });
+</script>

@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from mobile.views import MobileView, MobileEntityDetailView, MobileViewSync, KoboFormView, entity_columns, KoboView
+from mobile.views import MobileView, MobileEntityDetailView, MobileViewSync, KoboFormView, entity_columns, KoboView, VisualizationView
 from django.contrib.auth import views as auth_views
 from stdm_config.views import tables
 
@@ -16,6 +16,8 @@ urlpatterns = [
     path('mobile/entities/<profile_name>/', tables, name='tables'),
     path('mobile/kobo/', KoboFormView, name='kobo'),
     path('mobile/kobo/submissions/data', KoboView, name='kobodata'),
+    path('mobile/kobo/submissions/visualization',
+         VisualizationView, name='visuals'),
 
 
 ]

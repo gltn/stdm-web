@@ -323,3 +323,10 @@ def KoboView(request):
                 table_columns.append(toHeader(format_ky))
 
     return render(request, 'dashboard/kobo_response.html', {'data': data_use, 'columns': table_columns})
+
+
+@csrf_exempt
+def VisualizationView(request):
+    data = json.loads(request.GET.get('data'))
+    print(data)
+    return render(request, 'dashboard/mobile_data_details.html', {'data': data, })
