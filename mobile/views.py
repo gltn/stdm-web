@@ -288,7 +288,7 @@ def KoboView(request):
     questions = kobo.get_questions(asset=asset, unpack_multiples=True)
     # Get data submitted after a certain time
     new_data = kobo.get_data(
-        asset_uid, submitted_after=submission_date, limit=2)
+        asset_uid, submitted_after=submission_date, limit=20)
     # print(new_data)
     new_results = kobo.sort_results_by_time(
         new_data['results'])  # Sort list by time
@@ -296,7 +296,15 @@ def KoboView(request):
     columns = []
     data_used = {}
     columns_to_check = ['group_lm2ih88/Date_of_profiling',
-                        'group_km9hr22/Name_of_the_city', 'group_km9hr22/Name_of_the_settlement', 'group_km9hr22/Name_of_the_ward', 'group_km9hr22/Type_of_the_settlement', 'group_km9hr22/First_year_of_occupation', 'group_km9hr22/Reason_for_occupation', 'group_km9hr22/Risk_perception_level_of_the_settlement', 'group_km9hr22/Settlement_total_area']
+                        'group_km9hr22/Name_of_the_city', 'group_km9hr22/Name_of_the_settlement',
+                        'group_km9hr22/Name_of_the_ward', 'group_km9hr22/Type_of_the_settlement',
+                        'group_km9hr22/First_year_of_occupation', 'group_km9hr22/Reason_for_occupation',
+                        'group_km9hr22/Risk_perception_level_of_the_settlement', 'group_km9hr22/Settlement_total_area',
+                        'group_zh1kn53/Proportion_of_renting_population', 'group_zh1kn53/Population_of_structure_owners',
+                        'group_rc8eq43/Proportion_of_land_owned_by_government', 'group_hs99t35/What_are_the_most_de_es_in_the_settlement',
+                        'group_rc8eq43/Major_land_tenure_challenges', 'group_pb5nd79/Total_number_of_households', 'group_pb5nd79/Total_Population',
+                        'group_pb5nd79/Number_of_males', 'group_pb5nd79/Number_of_females', 'group_km9hr22/Record_settlement_location']
+
     for result in new_results:  # new_results is a list of list of dicts
         labeled_results.append(kobo.label_result(
             unlabeled_result=result, choice_lists=choice_lists, questions=questions, unpack_multiples=True))
@@ -313,6 +321,10 @@ def KoboView(request):
         for key, value in res.items():
             if key in columns_to_check:
                 paired[key] = value['answer_label']
+                # if value['answer_label']:
+                #     paired[key] = value['answer_label']
+                # else:
+                #     paired[key] = '-'
         data_use[n] = paired
         n += 1
     table_columns = []
@@ -321,6 +333,8 @@ def KoboView(request):
             format_ky = ky.split("/", 1)[1]
             if toHeader(format_ky) not in table_columns:
                 table_columns.append(toHeader(format_ky))
+
+    print(record_results)
 
     return render(request, 'dashboard/kobo_response.html', {'data': data_use, 'columns': table_columns})
 

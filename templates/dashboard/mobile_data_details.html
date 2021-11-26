@@ -116,9 +116,6 @@
                                                 class="float-right">{{data.total_area}}</a>
 
                                         </li>
-
-
-
                                     </ul>
                                 </div>
                             </div>
@@ -279,6 +276,21 @@
         zoomControl: true,
         attributionControl: false
     });
+    var str = "{{data.location}}";
+
+    var index = str.indexOf(' ', str.indexOf(' ') + 1);
+
+    var firstChunk = str.substr(0, index);
+    console.log('This is the locaiton split', firstChunk)
+    var loc = firstChunk.split(/[ ,]+/).join(',');
+    console.log('This is the edited location', loc)
+    var array = loc.split(',');
+    var b = parseInt(array[0]);
+    var c = parseInt(array[1]);
+    var marker = L.marker([b, c]).addTo(mymap);
+    // var newMarker1 = new L.marker(-0.526575, 36.948538).addTo(mymap);
+    // var newMarker = new L.marker(loc).addTo(mymap);
+
 </script>
 <script type="text/javascript">
     $(function () {
