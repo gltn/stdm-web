@@ -2,14 +2,23 @@
 {% with data=data %} 
 {% if data %}
 <h4> Submissions</h4>
-<table id="koboTable" class="table table-bordered table-striped" style="width: 100%;overflow: scroll;">
+<table id="koboTable" class="table table-bordered table-striped">
     <thead>
       <tr>
         {% for col in columns %}        
-        <th>{{col}}</th>        
+        <th id='{{col|cut:" "}}'>{{col}}</th>        
         {% endfor %}
       </tr>
     </thead>
+     {% comment %} <thead>
+      <tr>
+        {% for key,values in data.items %} 
+        {% for ky, val in values.items %}       
+        <th>{{ky}}</th>        
+        {% endfor %}
+        {% endfor %}
+      </tr>
+    </thead> {% endcomment %}
     <tbody> 
     {% for key,values in data.items %} 
       <tr>
@@ -36,12 +45,12 @@ var dataTableSet;
     "responsive": true,
     "autoWidth": true,
     "destroy": true,
-    "scrollX": true,
+    //"scrollX": true,
+    "scrollX": "100%",
     "searching": true,
-    "sPaginationType":"full_numbers",
     dom: 'Blfrtip',
     select: {
-                style: 'single'
+              style: 'single'
             },      
         buttons: [
           {
@@ -77,10 +86,12 @@ var dataTableSet;
 });
  $('#koboTable tbody').on('click', 'tr', function () {
     var data_row = dataTableSet.row(this).data();
+    var column = dataTableSet.column('#DateOfProfiling');
+    console.log(dataTableSet.row($(this).closest('tr')).data()['DateOfProfiling'])
     var settlement = data_row[2]
     console.log(data_row)
     data_load = {
-      'date_of_profiling': data_row[0],
+      'date_of_profiling': data_row['DateOfProfiling'],
       'city': data_row[1],
       'settlement': data_row[2],
       'ward': data_row[3],

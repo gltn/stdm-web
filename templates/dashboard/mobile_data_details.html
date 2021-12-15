@@ -277,13 +277,9 @@
         attributionControl: false
     });
     var str = "{{data.location}}";
-
     var index = str.indexOf(' ', str.indexOf(' ') + 1);
-
     var firstChunk = str.substr(0, index);
-    console.log('This is the locaiton split', firstChunk)
     var loc = firstChunk.split(/[ ,]+/).join(',');
-    console.log('This is the edited location', loc)
     var array = loc.split(',');
     var b = parseInt(array[0]);
     var c = parseInt(array[1]);
