@@ -68,11 +68,11 @@
                       <form class="row g-3" id="koboform">
                         <div class="col-md-8 form-group required">
                           <label for="validationDefault01" class="control-label">KPI-URL</label>
-                          <input type="text" class="form-control" id="kpiurl" required>
+                          <input type="text" class="form-control" id="kpiurl" value="{{kobo_settings.kpi_url}}" disabled>
                         </div>
                         <div class="col-md-8 form-group required">
                           <label for="validationDefault02" class="control-label">Server Token</label>
-                          <input type="text" class="form-control" id="token" required>
+                          <input type="text" class="form-control" id="token" value="{{kobo_settings.token}}" readonly>
                         </div>
 
                         <div class="col-md-8 form-group required">

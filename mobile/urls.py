@@ -18,6 +18,4 @@ urlpatterns = [
     path('mobile/kobo/submissions/data', KoboView, name='kobodata'),
     path('mobile/kobo/submissions/visualization',
          VisualizationView, name='visuals'),
-
-
 ]

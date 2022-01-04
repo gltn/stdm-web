@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import *
+from .models import * 
 
 # Register your models here.
 @admin.register(Profile)
@@ -16,4 +16,9 @@ class SettingAdmin(admin.ModelAdmin):
 @admin.register(Configuration)
 class ConfigurationAdmin(admin.ModelAdmin):
     list_display = ('config_type','config_file','complete')
+
+@admin.register(KoboConfiguration)
+class KoboConfigurationAdmin(admin.ModelAdmin):
+    pass
+
 

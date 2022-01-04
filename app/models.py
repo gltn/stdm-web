@@ -194,6 +194,13 @@ def create_views(sender, instance, **kwargs):
 		InitConfig()			
 		Configuration.objects.filter(config_type="Web").update(complete=True)
 
+class KoboConfiguration(models.Model):
+	kpi_url = models.CharField(max_length=250)
+	token = models.CharField(max_length=250)
+
+	class Meta:
+		verbose_name_plural = 'Kobo Configs'
+
 class Setting(models.Model):
 	site_name = models.CharField(max_length=20, default='STDM Web')
 	logo = models.ImageField(upload_to=upload_logo, default='static/dashboard/dist/img/logo.png')

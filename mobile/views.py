@@ -1,6 +1,6 @@
 import os
 from stdm_config import StdmConfigurationReader, StdmConfiguration
-from app.models import Setting, Configuration
+from app.models import Setting, Configuration, KoboConfiguration
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from stdm_config.create_model import create_model
@@ -264,7 +264,8 @@ def KoboFormView(request):
     url = 'https://kobo.humanitarianresponse.info/api/v2/assets/axPo5r5hcP88m5zc9n6poX/data/'
     headers = {'Authorization': 'Token 4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7'}
     r = requests.post(url, headers=headers)
-    return render(request, 'dashboard/kobo_data.html', {'data': r.text})
+    kobo_configs= KoboConfiguration.objects.all().first()
+    return render(request, 'dashboard/kobo_data.html', {'data': r.text,'kobo_settings': kobo_configs})
 
 
 KOBO_TOKEN = "4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7"
@@ -308,12 +309,10 @@ def KoboView(request):
     for result in new_results:  # new_results is a list of list of dicts
         labeled_results.append(kobo.label_result(
             unlabeled_result=result, choice_lists=choice_lists, questions=questions, unpack_multiples=True))
-    # sample = {1:{key:value},2:{key:value}}
     n = 0
     record_results = []
     data_use = dict()
     data_use1 = []
-
     for rec in labeled_results:
         record_results.append(rec["results"])
     for res in record_results:
@@ -321,10 +320,6 @@ def KoboView(request):
         for key, value in res.items():
             if key in columns_to_check:
                 paired[key] = value['answer_label']
-                # if value['answer_label']:
-                #     paired[key] = value['answer_label']
-                # else:
-                #     paired[key] = '-'
         data_use[n] = paired
         n += 1
     table_columns = []
@@ -333,9 +328,6 @@ def KoboView(request):
             format_ky = ky.split("/", 1)[1]
             if toHeader(format_ky) not in table_columns:
                 table_columns.append(toHeader(format_ky))
-
-    print(record_results)
-
     return render(request, 'dashboard/kobo_response.html', {'data': data_use, 'columns': table_columns})
 
 
