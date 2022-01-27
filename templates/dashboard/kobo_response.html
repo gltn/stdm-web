@@ -87,11 +87,10 @@ var dataTableSet;
  $('#koboTable tbody').on('click', 'tr', function () {
     var data_row = dataTableSet.row(this).data();
     var column = dataTableSet.column('#DateOfProfiling');
-    console.log(dataTableSet.row($(this).closest('tr')).data()['DateOfProfiling'])
+    console.log('This is data row', data_row)
     var settlement = data_row[2]
-    console.log(data_row["DateOfProfiling"])
     data_load = {
-      'date_of_profiling': data_row["DateOfProfiling"],
+      'date_of_profiling': data_row[0],
       'city': data_row[1],
       'settlement': data_row[2],
       'ward': data_row[3],
@@ -99,7 +98,17 @@ var dataTableSet;
       'year_occupation': data_row[5],
       'reason_occupation':  data_row[6],
       'location':  data_row[7],
-      'total_area': data_row[8],
+      'risk_level': data_row[8],
+      'total_area': data_row[9],
+      'household_number':data_row[10],
+      'total_population':data_row[11],
+      'males': data_row[12],
+      'females': data_row[13],
+      'govt_owned': data_row[14],
+      'tenure_challenges': data_row[15],
+      'renting_population': data_row[16],
+      'structure_owners':data_row[17],
+      'most_de_es': data_row[18]
     }
     $.ajax({
       url: '/mobile/kobo/submissions/visualization',

@@ -90,12 +90,12 @@
                                 <div class="card-footer p-0">
                                     <ul class="nav flex-column">
                                         <li class="list-group-item">
-                                            <b>Renting Population</b> <a class="float-right">{{data.total_area}}</a>
+                                            <b>Renting Population</b> <a class="float-right">{{data.renting_population}}</a>
 
                                         </li>
                                         <li class="list-group-item">
                                             <b>Population of structure owners</b> <a
-                                                class="float-right">{{data.total_area}}</a>
+                                                class="float-right">{{data.structure_owners}}</a>
 
                                         </li>
 
@@ -113,7 +113,7 @@
                                     <ul class="nav flex-column">
                                         <li class="list-group-item">
                                             <b>Public Services Available</b> <a
-                                                class="float-right">{{data.total_area}}</a>
+                                                class="float-right">{{data.most_de_es}}</a>
 
                                         </li>
                                     </ul>
@@ -146,11 +146,11 @@
                                 <div class="card-footer p-0">
                                     <ul class="nav flex-column">
                                         <li class="list-group-item">
-                                            <b>Proportion Gov't Owned</b> <a class="float-right">{{data.ward}}</a>
+                                            <b>Proportion Gov't Owned</b> <a class="float-right">{{data.govt_owned}}</a>
 
                                         </li>
                                         <li class="list-group-item">
-                                            <b>Major Land Tenure Challenges</b> <a class="float-right">{{data.ward}}</a>
+                                            <b>Major Land Tenure Challenges</b> <a class="float-right">{{data.tenure_challenges}}</a>
 
                                         </li>
 
@@ -187,7 +187,7 @@
 
                                         <div class="info-box-content">
                                             <span class="info-box-text">Households</span>
-                                            <span class="info-box-number">1,410</span>
+                                            <span class="info-box-number">{{data.household_number}}</span>
                                         </div>
                                         <!-- /.info-box-content -->
                                     </div>
@@ -200,7 +200,7 @@
 
                                         <div class="info-box-content">
                                             <span class="info-box-text">Population</span>
-                                            <span class="info-box-number">410432</span>
+                                            <span class="info-box-number">{{data.total_population}}</span>
                                         </div>
                                         <!-- /.info-box-content -->
                                     </div>
@@ -213,7 +213,7 @@
 
                                         <div class="info-box-content">
                                             <span class="info-box-text">Males</span>
-                                            <span class="info-box-number">13,648</span>
+                                            <span class="info-box-number">{{data.males}}</span>
                                         </div>
                                         <!-- /.info-box-content -->
                                     </div>
@@ -226,7 +226,7 @@
 
                                         <div class="info-box-content">
                                             <span class="info-box-text">Females</span>
-                                            <span class="info-box-number">93,139</span>
+                                            <span class="info-box-number">{{data.females}}</span>
                                         </div>
                                         <!-- /.info-box-content -->
                                     </div>
@@ -350,7 +350,7 @@
             series: [
                 {
                     showInLegend: false,
-                    "data": [2000000, 1500000, 500000]
+                    "data": [{{data.total_population}}, {{data.males}}, {{data.females}}]
 
                 }
 

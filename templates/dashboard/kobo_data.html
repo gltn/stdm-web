@@ -62,7 +62,7 @@
               <div class="card-body">
                 <div class="tab-content" id="custom-tabs-four-tabContent">
                   <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details"
-                    aria-labelledby="profile_details-tab">
+                    aria-labelledby="profile_details-tab">                    
                     <div class="card card-primary" id="profile_details" style="display: block; width: 100%;">
                       <h4>Fill in the form:</h4>
                       <form class="row g-3" id="koboform">
@@ -77,10 +77,10 @@
 
                         <div class="col-md-8 form-group required">
                           <label for="validationDefault03" class="control-label">Asset ID</label>
-                          <input type="text" class="form-control" id="asset" required>
+                          <input type="text" class="form-control" id="asset" value="axPo5r5hcP88m5zc9n6poX" readonly>
                         </div>
                         <div class="col-md-8 form-group required">
-                          <label for="validationDefault04" class="control-label">Submission Date </label>
+                          <label for="validationDefault04" class="control-label">Submission Date (Start Date To Filter) </label>
 
                           <div class="datepicker date input-group p-0 ">
                             <input type="text" placeholder="Choose submission date to filter the sumissions"
@@ -93,6 +93,7 @@
 
                         <div class="col-12">
                           <button class="btn btn-primary" type="submit">Submit</button>
+                          <img src="{% static 'dashboard/loader/loader.gif' %}" id="img" style="display:none"/ >
                         </div>
                       </form>
                       <hr>
@@ -150,6 +151,7 @@
   $(document).ready(function () {
     $("#koboform").on("submit", function (evt) {
       evt.preventDefault();
+      $('#img').show();
       kpi = $("#kpiurl").val();
       token = $("#token").val();
       asset = $("#asset").val();
@@ -162,6 +164,7 @@
         async: true,
         success: function (json) {
           $('#KoboSubmissions').html(json);
+          $('#img').hide();
         },
 
       })

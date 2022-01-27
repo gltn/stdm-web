@@ -264,8 +264,8 @@ def KoboFormView(request):
     url = 'https://kobo.humanitarianresponse.info/api/v2/assets/axPo5r5hcP88m5zc9n6poX/data/'
     headers = {'Authorization': 'Token 4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7'}
     r = requests.post(url, headers=headers)
-    kobo_configs= KoboConfiguration.objects.all().first()
-    return render(request, 'dashboard/kobo_data.html', {'data': r.text,'kobo_settings': kobo_configs})
+    kobo_configs = KoboConfiguration.objects.all().first()
+    return render(request, 'dashboard/kobo_data.html', {'data': r.text, 'kobo_settings': kobo_configs})
 
 
 KOBO_TOKEN = "4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7"
@@ -283,6 +283,7 @@ def KoboView(request):
     kobo = KoboExtractor(token, kpi_url, debug=True)
     assets = kobo.list_assets()
     # asset_uid = assets['results'][0]['uid']
+    print('these are the assets', assets['results'][0]['uid'])
     # asset_uid = "axPo5r5hcP88m5zc9n6poX"
     asset = kobo.get_asset(asset_uid)
     choice_lists = kobo.get_choices(asset)
