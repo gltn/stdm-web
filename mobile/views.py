@@ -15,7 +15,7 @@ from collections import Counter
 from stdm_config.views import toHeader
 import json
 from django.conf import settings
-from app.config_reader import GetStdmConfig, GetConfig
+from app.config_reader import get_stdm_config, find_config
 from stdm_config.mobile_reader import FindEntitySubmissions
 from koboextractor import KoboExtractor
 import requests
@@ -36,7 +36,7 @@ instance_path = os.path.join(BASE_DIR_MOBILE, 'config/mobile_instances')
 
 def EntityData(profile_name, entity_name, entity_short_name):
     print(profile_name, entity_name, entity_short_name)
-    mobile_stdm_config = GetStdmConfig("Mobile")
+    mobile_stdm_config = get_stdm_config("Mobile")
     datas = []
     spatial_data = []
     for file in FindEntitySubmissions(profile_name):
@@ -76,10 +76,10 @@ def EntityData(profile_name, entity_name, entity_short_name):
 
 @login_required
 def MobileView(request):
-    config = GetConfig("Mobile")
+    config = find_config("Mobile")
     if config is None or not config.complete:
         return render(request, 'dashboard/no_config.html',)
-    mobile_stdm_config = GetStdmConfig("Mobile")
+    mobile_stdm_config = get_stdm_config("Mobile")
     profiles_list = []
     entities = []
     config_entities = []
@@ -127,10 +127,10 @@ def MobileView(request):
 @login_required
 def MobileViewSync(request):
 
-    config = GetConfig("Mobile")
+    config = find_config("Mobile")
     if config is None or not config.complete:
         return render(request, 'dashboard/no_config.html',)
-    mobile_stdm_config = GetStdmConfig("Mobile")
+    mobile_stdm_config = get_stdm_config("Mobile")
     profiles_list = []
     entities = []
     config_entities = []
@@ -210,10 +210,10 @@ def entity_columns_with_type_given_entity_object(entity):
 
 @csrf_exempt
 def MobileEntityDetailView(request, profile_name, name):
-    config = GetConfig("Mobile")
+    config = find_config("Mobile")
     if config is None or not config.complete:
         return render(request, 'dashboard/no_config.html',)
-    mobile_stdm_config = GetStdmConfig("Mobile")
+    mobile_stdm_config = get_stdm_config("Mobile")
     entity_name = None
     entities = []
     query_columns = []
@@ -251,7 +251,7 @@ def MobileEntityDetailView(request, profile_name, name):
 @csrf_exempt
 def entity_columns(request, profile_name, entity_name):
     print(profile_name, entity_name)
-    mobile_stdm_config = GetStdmConfig("Mobile")
+    mobile_stdm_config = get_stdm_config("Mobile")
     profile = mobile_stdm_config.profile(profile_name)
     entity = profile.entity(entity_name)
     print('Tunacheki entities', entity, entity_name)

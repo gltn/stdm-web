@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.core.serializers import serialize
-from app.config_reader import GetConfig, GetStdmConfig
+from app.config_reader import find_config, get_stdm_config
 ###Added for Sync mObile data
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
@@ -62,10 +62,10 @@ def checkEntity(prefix):
 
 @login_required
 def STDMReader(request):
-	config = GetConfig("Web")
+	config = find_config("Web")
 	if config is None or not config.complete:
 		return render(request, 'dashboard/no_config.html',)
-	stdm_config = GetStdmConfig("Web")
+	stdm_config = get_stdm_config("Web")
 	profiles_list = []
 	entities = []
 	default_profile = None
@@ -152,10 +152,10 @@ def str_summaries(profile):
 
 @csrf_exempt
 def ProfileUpdatingView(request, profile):
-	config = GetConfig("Web")
+	config = find_config("Web")
 	if config is None or not config.complete:
 		return render(request, 'dashboard/no_config.html',)
-	stdm_config = GetStdmConfig("Web")
+	stdm_config = get_stdm_config("Web")
 	entities = []
 	profiler = stdm_config.profile(profile)
 	str_summary = str_summaries(profiler)
@@ -171,10 +171,10 @@ def ProfileUpdatingView(request, profile):
 	
 @csrf_exempt
 def EntityListingUpdatingView(request, profile):  
-	config = GetConfig("Web")
+	config = find_config("Web")
 	if config is None or not config.complete:
 		return render(request, 'dashboard/no_config.html',)
-	stdm_config = GetStdmConfig("Web")
+	stdm_config = get_stdm_config("Web")
 	profiler = stdm_config.profile(profile)	
 	entity_list = GetProfileEntities(profiler)				
 	return render(request,'dashboard/profile_detail.html', { 'entity_list':entity_list,})
@@ -208,10 +208,10 @@ def fetch_entity_records(profile, entity):
 
 @csrf_exempt
 def EntityDetailView(request, profile_name, short_name):
-	config = GetConfig("Web")
+	config = find_config("Web")
 	if config is None or not config.complete:
 		return render(request, 'dashboard/no_config.html',)
-	stdm_config = GetStdmConfig("Web")
+	stdm_config = get_stdm_config("Web")
 	prof = stdm_config.profile(profile_name)
 	columns = []
 	has_spatial_column = False
@@ -264,10 +264,10 @@ def EntityDetailView(request, profile_name, short_name):
 
 @csrf_exempt
 def fetch_spatial_data(request, profile_name, entity_short_name):
-	config = GetConfig("Web")
+	config = find_config("Web")
 	if config is None or not config.complete:
 		return render(request, 'dashboard/no_config.html',)
-	stdm_config = GetStdmConfig("Web")
+	stdm_config = get_stdm_config("Web")
 	prof = stdm_config.profile(profile_name)
 	entity = prof.entity(entity_short_name)
 	if not entity.has_geometry_column():
@@ -299,10 +299,10 @@ def fetch_spatial_data(request, profile_name, entity_short_name):
 
 @csrf_exempt
 def SummaryUpdatingView(request, profile):
-	config = GetConfig("Web")
+	config = find_config("Web")
 	if config is None or not config.complete:
 		return render(request, 'dashboard/no_config.html',)
-	stdm_config = GetStdmConfig("Web")
+	stdm_config = get_stdm_config("Web")
 	entities = []
 	for profiles in stdm_config.profiles.values():
 		if profiles.name == profile:
@@ -332,10 +332,10 @@ def CheckColumnInDB(entity):
 
 @csrf_exempt
 def EntityRecordViewMore(request, profile_name, entity_short_name, id):
-	config = GetConfig("Web")
+	config = find_config("Web")
 	if config is None or not config.complete:
 		return render(request, 'dashboard/no_config.html',)
-	stdm_config = GetStdmConfig("Web")
+	stdm_config = get_stdm_config("Web")
 	result = None
 	profile = stdm_config.profile(profile_name)
 	current_entity = profile.entity(entity_short_name)
@@ -464,7 +464,7 @@ def get_table_columns(request, table_name):
 	return JsonResponse(columns, safe=False)
 
 def tables(request, profile_name):
-	stdm_config = GetStdmConfig("Web")
+	stdm_config = get_stdm_config("Web")
 	profile = stdm_config.profile(profile_name)	
 	user_editable_entity_list = profile.user_entities()
 	names = [user.name for user in user_editable_entity_list]
@@ -477,7 +477,7 @@ def tables(request, profile_name):
 
 @csrf_exempt
 def MobileSyncDataView(request):
-	mobile_stdm_config = GetStdmConfig("Mobile")
+	mobile_stdm_config = get_stdm_config("Mobile")
 	profile_name =request.POST.get('mobile_profile', None)
 	source_entity =request.POST.get('source_table', None)
 	target_table = request.POST.get('target_table', None)

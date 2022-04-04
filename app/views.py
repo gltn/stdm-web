@@ -22,7 +22,7 @@ from django.db import connection
 from stdm_config import StdmConfigurationReader, StdmConfiguration
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-from app.config_reader import GetConfig, GetStdmConfig
+from app.config_reader import find_config, get_stdm_config
 # Create your views here.
 
 
@@ -44,10 +44,10 @@ class ImportView(LoginRequiredMixin,TemplateView):
 
 @login_required
 def SettingsView(request):
-	config = GetConfig("Web")
+	config = find_config("Web")
 	if config is None or not config.complete:
 		return render(request, 'dashboard/no_config.html',)
-	stdm_config = GetStdmConfig("Web")
+	stdm_config = get_stdm_config("Web")
 	
 	profiles_list = []
 	default_profile = None
@@ -86,7 +86,7 @@ class SettingsUpdateView(LoginRequiredMixin,UpdateView):
 		return super(SettingsUpdateView, self).form_valid(form)
 
 	def profileList(self):
-		stdm_config = GetStdmConfig("Web")
+		stdm_config = get_stdm_config("Web")
 		profiles_list = []
 		for profile in stdm_config.profiles.values():
 			profiles_list.append(profile.name)
