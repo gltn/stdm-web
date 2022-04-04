@@ -11,6 +11,7 @@ def get_stdm_config(config_type):
 
 	Keyword arguments:
 	config_type -- the configuration type the to be leaded fot the specifi context (either mobile or web)
+	Returns the StdmConfiguration instance loaded with the configuration and the data from the xml file
 	"""	
 	config = find_config(config_type)
 	if config is None:
@@ -25,11 +26,12 @@ def find_config(config_type):
 	"""Find the STDM context config from the context database.
 
 	confiG_type -- the configuration type the to be leaded fot the specifi context (either mobile or web)
-	Returns a stdm web Con
+	Returns a stdm web configuration details from the databse.
+	The Configuration object provides acces to the xml file name, type (web or mobile) and whether the config setup is complete (true or false)
 	"""
 	config = None
 	try:
-		config = Configuration.objects.get(config_type=config_type)
+		config = Configuration.objects.get(config_type = config_type)
 	except Configuration.DoesNotExist:
 		LOGGER.error("Zero configuration found for %s", config_type)
 	return config
