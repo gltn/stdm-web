@@ -625,6 +625,7 @@
    </CustomAttributes>
   </SocialTenure>
  </Profile>
+ 
  <Profile description="The Rural Agriculture profile is best suited to rural areas with farmers and farm land" name="Rural_Agriculture">
   <ValueLists>
    <ValueList name="check_social_tenure_relationship_document_type">

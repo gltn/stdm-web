@@ -159,8 +159,6 @@
 $("#dynamicDiv").on("click", "li", function() {
     var list_id = $(this).attr('id');
     var profile = $("#profiles :selected").val();
-    console.log('Entity clicked',list_id)
-    console.log('Profile',profile)
     $('#entity-details').html('<div style="height: 500px;"><div class="loading"></div></div>');
     $.ajax({
           url: profile + "/entity/" + list_id,

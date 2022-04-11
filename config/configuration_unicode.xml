@@ -771,4 +771,630 @@
    </CustomAttributes>
   </SocialTenure>
  </Profile>
+    <Profile description="A farm land management profile for Kalangala Oil Palm Growers Trust (KOPGT)" name="KOPGT">
+        <ValueLists>
+            <ValueList name="check_social_tenure_relationship_document_type">
+                <CodeValue value="General" code="" />
+            </ValueList>
+            <ValueList name="check_tenure_type">
+                <CodeValue value="Adverse Possession" code="" />
+                <CodeValue value="Communal Ownership" code="" />
+                <CodeValue value="Family Ownership" code="" />
+                <CodeValue value="Private Ownership" code="" />
+                <CodeValue value="Tenancy" code="" />
+                <CodeValue value="Next of Kin" code="" />
+                <CodeValue value="Shared Ownership" code="SHR" />
+            </ValueList>
+            <ValueList name="check_farmer_document_type">
+                <CodeValue value="National ID" code="" />
+                <CodeValue value="Photo" code="" />
+            </ValueList>
+            <ValueList name="check_garden_document_type">
+                <CodeValue value="General" code="" />
+            </ValueList>
+            <ValueList name="check_witness_document_type">
+                <CodeValue value="General" code="" />
+            </ValueList>
+            <ValueList name="check_gender">
+                <CodeValue value="Female" code="F" />
+                <CodeValue value="Male" code="M" />
+            </ValueList>
+            <ValueList name="check_marital_status">
+                <CodeValue value="Married" code="" />
+                <CodeValue value="Single" code="" />
+                <CodeValue value="Divorced" code="" />
+                <CodeValue value="Widow" code="" />
+                <CodeValue value="Widower" code="" />
+                <CodeValue value="Cohabiting" code="" />
+                <CodeValue value="Separated" code="" />
+            </ValueList>
+            <ValueList name="check_respondent_document_type">
+                <CodeValue value="General" code="" />
+            </ValueList>
+            <ValueList name="check_respondent_role">
+                <CodeValue value="Child of Farmer" code="" />
+                <CodeValue value="Farm Manager" code="" />
+                <CodeValue value="Laborer" code="" />
+                <CodeValue value="Smallholder Farmer" code="" />
+                <CodeValue value="Spouse" code="" />
+                <CodeValue value="Local leader" code="LCL" />
+                <CodeValue value="Others" code="OTH" />
+            </ValueList>
+            <ValueList name="check_witness_relationship">
+                <CodeValue value="Friend" code="" />
+                <CodeValue value="Neighbour" code="" />
+                <CodeValue value="Administrative Unit Leader" code="" />
+                <CodeValue value="Worker" code="WOR" />
+                <CodeValue value="Family Member" code="FAM" />
+                <CodeValue value="Relative" code="REL" />
+                <CodeValue value="Farmer" code="FRM" />
+                <CodeValue value="Farm Manager" code="FRM" />
+            </ValueList>
+            <ValueList name="check_socio_economic_impact">
+                <CodeValue value="Improved Access to Financial Services" code="" />
+                <CodeValue value="Improved Access to Health" code="" />
+                <CodeValue value="Improved Housing Conditions" code="" />
+                <CodeValue value="Improved Literacy Levels" code="" />
+                <CodeValue value="Improved Tenure Security" code="" />
+                <CodeValue value="Improved Access to Mobile Communication" code="" />
+                <CodeValue value="Improved Road Accessibility" code="" />
+                <CodeValue value="Improved Employment" code="" />
+            </ValueList>
+            <ValueList name="check_input_service">
+                <CodeValue value="Farm Tools" code="" />
+                <CodeValue value="Fertilizer" code="" />
+                <CodeValue value="Herbicides" code="" />
+                <CodeValue value="Pesticides" code="" />
+                <CodeValue value="Seeding" code="" />
+                <CodeValue value="Training" code="" />
+            </ValueList>
+            <ValueList name="check_rank">
+                <CodeValue value="Very High" code="VH" />
+                <CodeValue value="High" code="H" />
+                <CodeValue value="Medium" code="M" />
+                <CodeValue value="Low" code="L" />
+                <CodeValue value="Very Low" code="VL" />
+            </ValueList>
+            <ValueList name="check_agreement">
+                <CodeValue value="Yes" code="" />
+                <CodeValue value="No" code="" />
+            </ValueList>
+            <ValueList name="check_type_of_land">
+                <CodeValue value="Mailo Land" code="" />
+                <CodeValue value="Kibanja" code="" />
+                <CodeValue value="Public Land" code="" />
+            </ValueList>
+            <ValueList name="check_household_document_type">
+                <CodeValue value="General" code="" />
+            </ValueList>
+            <ValueList name="check_household_vicinity">
+                <CodeValue value="Within Garden" code="" />
+                <CodeValue value="Near Garden" code="" />
+                <CodeValue value="Distant from the Garden" code="" />
+            </ValueList>
+            <ValueList name="check_house_use_type">
+                <CodeValue value="Residential" code="" />
+                <CodeValue value="Residential cum Business" code="" />
+                <CodeValue value="Residential cum Church" code="" />
+            </ValueList>
+            <ValueList name="check_house_type">
+                <CodeValue value="Temporary House" code="" />
+                <CodeValue value="Semi Permanent House" code="" />
+                <CodeValue value="Permanent" code="" />
+            </ValueList>
+            <ValueList name="check_district">
+                <CodeValue value="Kalangala" code="KLDG" />
+            </ValueList>
+            <ValueList name="check_county">
+                <CodeValue value="Bujumba" code="BJC" />
+            </ValueList>
+            <ValueList name="check_sub_county">
+                <CodeValue value="Mugoye" code="MGS" />
+                <CodeValue value="Bujumba" code="BJC" />
+                <CodeValue value="Kalangala Town Council" code="KTC" />
+            </ValueList>
+            <ValueList name="check_parish">
+                <CodeValue value="Kayunga" code="KY" />
+                <CodeValue value="Bbeta" code="BBA" />
+                <CodeValue value="Kagulube" code="KAG" />
+                <CodeValue value="Bujumba" code="BJA" />
+                <CodeValue value="Bwendero" code="BWE" />
+                <CodeValue value="Mulabana" code="MUL" />
+                <CodeValue value="Kalanagala A" code="KAA" />
+                <CodeValue value="Kalangala B" code="KAB" />
+            </ValueList>
+            <ValueList name="check_village">
+                <CodeValue value="Bumangi" code="BMG" />
+                <CodeValue value="Busanga" code="BSG" />
+                <CodeValue value="Kizira" code="KZR" />
+                <CodeValue value="Njoga" code="NJG" />
+                <CodeValue value="Mulabana A" code="MUA" />
+                <CodeValue value="Buyingu- Nakatiba" code="BUY" />
+                <CodeValue value="Mulabana B" code="MUB" />
+                <CodeValue value="Makoko/ Kasamba" code="MAK" />
+                <CodeValue value="Kalaya" code="KAL" />
+                <CodeValue value="Kalangala" code="KAG" />
+                <CodeValue value="Kibaale" code="KIB" />
+                <CodeValue value="Kizzi" code="KIZ" />
+                <CodeValue value="Bugoma B" code="BUB" />
+                <CodeValue value="Bugoma A" code="BUA" />
+                <CodeValue value="Kibanga/Maboga" code="MAB" />
+                <CodeValue value="Bweza" code="BWE" />
+                <CodeValue value="Bwendero B" code="BWB" />
+                <CodeValue value="Kibaga/Buligo" code="KBU" />
+                <CodeValue value="Bwendero" code="BED" />
+                <CodeValue value="Bujumba- Buyoga" code="BUJ" />
+                <CodeValue value="Kagulube" code="KAG" />
+                <CodeValue value="Kasekulo A" code="KAS" />
+                <CodeValue value="Kasekulo B" code="KAB" />
+                <CodeValue value="Mutambala" code="MTM" />
+                <CodeValue value="Lusulo" code="LUS" />
+                <CodeValue value="Kanyogoga" code="KAN" />
+                <CodeValue value="Buswa" code="BUS" />
+                <CodeValue value="Bugala" code="BAG" />
+                <CodeValue value="Kibanga" code="KIG" />
+                <CodeValue value="Lutoboka" code="LUT" />
+                <CodeValue value="Mwena" code="MEE" />
+                <CodeValue value="Dajje" code="DAJ" />
+                <CodeValue value="Bungo" code="BGO" />
+                <CodeValue value="Buguzi-Lwonga" code="BUL" />
+                <CodeValue value="Busentu" code="BUS" />
+                <CodeValue value="Bwamba" code="BWA" />
+                <CodeValue value="Lugulu" code="LUG" />
+                <CodeValue value="Buziga" code="BUZ" />
+                <CodeValue value="Kikwayu" code="KIK" />
+                <CodeValue value="Buyoga" code="BUYY" />
+                <CodeValue value="Nalya" code="NAY" />
+                <CodeValue value="Bugabo" code="BUG" />
+                <CodeValue value="Bbeta" code="BBE" />
+                <CodeValue value="Busanje" code="BUS" />
+                <CodeValue value="Kivanga" code="KVG" />
+                <CodeValue value="Lusozi" code="LUS" />
+                <CodeValue value="Lwabaswa" code="LWA" />
+                <CodeValue value="Kikuyege" code="KIK" />
+            </ValueList>
+            <ValueList name="check_month">
+                <CodeValue value="January" code="JAN" />
+                <CodeValue value="February" code="FEB" />
+                <CodeValue value="March" code="MAR" />
+                <CodeValue value="April" code="APR" />
+                <CodeValue value="May" code="MAY" />
+                <CodeValue value="June" code="JUN" />
+                <CodeValue value="July" code="JUL" />
+                <CodeValue value="August" code="AUG" />
+                <CodeValue value="September" code="SEP" />
+                <CodeValue value="October" code="OCT" />
+                <CodeValue value="November" code="NOV" />
+                <CodeValue value="December" code="DEC" />
+            </ValueList>
+            <ValueList name="check_income_generating_activity">
+                <CodeValue value="Animal Sale" code="" />
+            </ValueList>
+            <ValueList name="check_crop_category">
+                <CodeValue value="Intercrop" code="" />
+                <CodeValue value="Pure stand" code="" />
+            </ValueList>
+            <ValueList name="check_fertilizer_type">
+                <CodeValue value="NPK Super" code="" />
+                <CodeValue value="UPK Blue" code="" />
+                <CodeValue value="Kieirete" code="" />
+                <CodeValue value="Dolomax" code="" />
+            </ValueList>
+            <ValueList name="check_house_tenure_type">
+                <CodeValue value="Ownership" code="" />
+                <CodeValue value="Tenancy" code="" />
+                <CodeValue value="Adverse Possession" code="" />
+                <CodeValue value="Family Ownership" code="" />
+                <CodeValue value="Communal Ownership" code="" />
+            </ValueList>
+            <ValueList name="check_unit_name">
+                <CodeValue value="Bumangi" code="BMG" />
+                <CodeValue value="Busanga" code="BSG" />
+                <CodeValue value="Kizira" code="KZR" />
+                <CodeValue value="Njoga" code="NJG" />
+                <CodeValue value="Kikuyege" code="KYG" />
+                <CodeValue value="Lwabasa" code="LBS" />
+                <CodeValue value="Kasisa" code="KSS" />
+                <CodeValue value="Mulole" code="MLE" />
+                <CodeValue value="Bbeta" code="BBT" />
+                <CodeValue value="Kasaayi" code="KSI" />
+                <CodeValue value="Lusenke" code="LSK" />
+                <CodeValue value="Mulabana" code="MLB" />
+                <CodeValue value="Bubembe" code="BMB" />
+                <CodeValue value="Bujumba" code="BJB" />
+                <CodeValue value="Kasekulo" code="KSL" />
+                <CodeValue value="Kibaale" code="KBL" />
+                <CodeValue value="Kikwayu" code="KKW" />
+                <CodeValue value="Nalyamagonja" code="NLJ" />
+                <CodeValue value="Kagonya" code="KGY" />
+                <CodeValue value="Kisujju" code="KSJ" />
+                <CodeValue value="Kivunza" code="KVZ" />
+                <CodeValue value="Mbalala" code="MBL" />
+                <CodeValue value="Maboga" code="MBG" />
+                <CodeValue value="Busanje" code="BSJ" />
+                <CodeValue value="Lusozi" code="LSZ" />
+                <CodeValue value="Kalangala" code="KGL" />
+                <CodeValue value="Kizzi-Kanyogoga" code="KZI" />
+                <CodeValue value="Ssozi" code="SZI" />
+                <CodeValue value="Bunyama" code="BYM" />
+                <CodeValue value="Kalaya" code="KAL" />
+                <CodeValue value="Kanyogoga" code="KAY" />
+                <CodeValue value="Buswa" code="BUS" />
+                <CodeValue value="Dejje" code="DJJ" />
+                <CodeValue value="Buyoga" code="BUY" />
+                <CodeValue value="Nalya" code="NAY" />
+                <CodeValue value="Lwabaswa" code="LWA" />
+            </ValueList>
+            <ValueList name="check_block">
+                <CodeValue value="Kayunga" code="KY" />
+                <CodeValue value="Bbeta West" code="BW" />
+                <CodeValue value="Bubembe" code="BB" />
+                <CodeValue value="Bbeta East" code="BE" />
+                <CodeValue value="Bujumba" code="BJ" />
+                <CodeValue value="Bunyama" code="BY" />
+                <CodeValue value="Kagulube" code="Kg" />
+                <CodeValue value="Kalangala" code="KL" />
+            </ValueList>
+            <ValueList name="check_form_of_agreement">
+                <CodeValue value="Sales Agreement" code="" />
+                <CodeValue value="Family Gift" code="" />
+                <CodeValue value="Kibanja Agreement" code="KBG" />
+                <CodeValue value="Written Agreement" code="WRA" />
+                <CodeValue value="Land Title" code="LAT" />
+                <CodeValue value="Family Agreement" code="FAA" />
+            </ValueList>
+            <ValueList name="check_certificate_tracker_document_type">
+                <CodeValue value="General" code="" />
+            </ValueList>
+            <ValueList name="check_method_of_saving">
+                <CodeValue value="Bank" code="" />
+                <CodeValue value="Saving Group" code="" />
+                <CodeValue value="In the House" code="" />
+                <CodeValue value="Not Saving" code="" />
+            </ValueList>
+            <ValueList name="check_garden_crops">
+                <CodeValue value="Matooke" code="MAT" />
+                <CodeValue value="Maize" code="AMI" />
+                <CodeValue value="Cassava" code="CSS" />
+                <CodeValue value="Yams" code="YAM" />
+                <CodeValue value="Beans" code="BEN" />
+                <CodeValue value="Sweet Potatoes" code="SEP" />
+                <CodeValue value="Irish Potatoes" code="IRS" />
+                <CodeValue value="Orange" code="ORA" />
+                <CodeValue value="Rice" code="RIC" />
+                <CodeValue value="Fruits" code="FRT" />
+                <CodeValue value="Sugar Cane" code="SGN" />
+                <CodeValue value="Coffee" code="COF" />
+                <CodeValue value="Tea" code="TEA" />
+                <CodeValue value="Arrow Roots" code="ARW" />
+            </ValueList>
+            <ValueList name="check_crop_name">
+                <CodeValue value="Cassava" code="CSS" />
+            </ValueList>
+        </ValueLists>
+        <Associations>
+            <Association secondParent="Food_crop_coverage" firstParent="check_garden_crops" shortName="garden_crops" name="ko_garden_crops" />
+        </Associations>
+        <Entity editable="True" global="False" rowindex="-1" associative="False" description="Refers to the farm land or the spatial unit" documentTypeLookup="check_garden_document_type" proxy="False" createId="True" supportsDocuments="True" shortName="Garden" name="ko_garden" label="">
+            <Columns>
+                <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False" />
+                <Column unique="True" tip="The garden's unique identifier" rowindex="" minimum="0" maximum="4000" description="The garden's unique identifier" index="True" name="garden_id" searchable="True" TYPE_INFO="AUTO_GENERATED" label="" mandatory="False">
+                    <Code columnSeparators="" prefix_source="admin_spatial_unit_set" leading_zero="00" disableAutoIncrement="True" hidePrefix="False" columns="" separator="/" enableEditing="False" />
+                </Column>
+                <Column unique="False" tip="The district of the garden" rowindex="" minimum="0" maximum="2147483647" description="The district of the garden" index="False" name="district" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_district_id_ko_garden_district" />
+                </Column>
+                <Column unique="False" tip="The county of the garden" rowindex="" minimum="0" maximum="2147483647" description="The county of the garden" index="False" name="county" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_county_id_ko_garden_county" />
+                </Column>
+                <Column unique="False" tip="The sub-county of the garden" rowindex="" minimum="0" maximum="2147483647" description="The sub-county of the garden" index="False" name="sub_county" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_sub_county_id_ko_garden_sub_county" />
+                </Column>
+                <Column unique="False" tip="The parish of the garden" rowindex="" minimum="0" maximum="2147483647" description="The parish of the garden" index="False" name="parish" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_parish_id_ko_garden_parish" />
+                </Column>
+                <Column unique="False" tip="The village of the garden" rowindex="" minimum="0" maximum="2147483647" description="The village of the garden" index="False" name="village" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_village_id_ko_garden_village" />
+                </Column>
+                <Column unique="False" tip="The block in which the garden is located" rowindex="" minimum="0" maximum="2147483647" description="The block in which the garden is located" index="False" name="block" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_block_id_ko_garden_block" />
+                </Column>
+                <Column unique="False" tip="The unit in which the garden is located. " rowindex="" minimum="0" maximum="2147483647" description="The unit in which the garden is located. " index="False" name="unit_name" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_unit_name_id_ko_garden_unit_name" />
+                </Column>
+                <Column unique="False" tip="The type of land" rowindex="" minimum="0" maximum="2147483647" description="The type of land" index="False" name="type_of_land" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_type_of_land_id_ko_garden_type_of_land" />
+                </Column>
+                <Column unique="False" tip="The presence of agreement" rowindex="" minimum="0" maximum="2147483647" description="The presence of agreement" index="False" name="written_tenure_agreement" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_agreement_id_ko_garden_written_tenure_agreement" />
+                </Column>
+                <Column unique="False" tip="If yes, what form of agreement?" rowindex="" minimum="0" maximum="2147483647" description="If there is agreement, what form of agreement is there?" index="False" name="form_of_agreement" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_form_of_agreement_id_ko_garden_form_of_agreement" />
+                </Column>
+                <Column unique="False" tip="The eastings of the garden" rowindex="" minimum="0" maximum="30" description="The esting of the garden" index="False" name="garden_eastings" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="The northings of the garden" rowindex="" minimum="0" maximum="30" description="The northings of the garden" index="False" name="garden_northings" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="True" tip="The digital geographic bounder of the garden" rowindex="" description="The digital geographic bounder of the garden" index="False" name="spatial_geometry" searchable="False" TYPE_INFO="GEOMETRY" label="" mandatory="False">
+                    <Geometry layerDisplay="Other Gardens" srid="4326" type="2" />
+                </Column>
+                <Column unique="False" tip="" rowindex="" minimum="0" maximum="30" description="" index="False" name="garden_code" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+            </Columns>
+        </Entity>
+        <Entity editable="True" global="False" rowindex="-1" associative="False" description="Refers to the person collecting data for the survey" proxy="False" createId="True" supportsDocuments="False" shortName="Enumerator" name="ko_enumerator" label="">
+            <Columns>
+                <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False" />
+                <Column unique="False" tip="First name of the enumerator" rowindex="0" minimum="0" maximum="30" description="First name of the enumerator" index="False" name="first_name" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="Last name of the enumerator" rowindex="1" minimum="0" maximum="30" description="Last name of the enumerator" index="False" name="last_name" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="The gender of the enumerator" rowindex="2" minimum="0" maximum="2147483647" description="The gender of the enumerator" index="False" name="gender" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_gender_id_ko_enumerator_gender" />
+                </Column>
+                <Column unique="False" tip="The telephone number of the enumerator" rowindex="3" minimum="0" maximum="30" description="The telephone number of the enumerator" index="False" name="contact_number" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="Address of the enumerator" rowindex="4" minimum="0" maximum="100" description="Address of the enumerator" index="False" name="address" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+            </Columns>
+        </Entity>
+        <Entity editable="True" global="False" rowindex="-1" associative="False" description="The witness of the respondent" documentTypeLookup="check_witness_document_type" proxy="False" createId="True" supportsDocuments="True" shortName="Witness" name="ko_witness" label="">
+            <Columns>
+                <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False" />
+                <Column unique="False" tip="First name of the witness" rowindex="0" minimum="0" maximum="30" description="First name of the witness" index="False" name="first_name" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="Last name of the witness" rowindex="1" minimum="0" maximum="30" description="Last name of the witness" index="False" name="last_name" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="The relationship of the witness to the respondent" rowindex="2" minimum="0" maximum="2147483647" description="The relationship of the witness to the respondent" index="False" name="relationship" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_witness_relationship_id_ko_witness_relationship" />
+                </Column>
+                <Column unique="False" tip="The telephone number of the witness" rowindex="3" minimum="0" maximum="30" description="The telephone number of the witness" index="False" name="contact_number" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="Address of the witness" rowindex="4" minimum="0" maximum="100" description="Address of the witness" index="False" name="address" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+            </Columns>
+        </Entity>
+        <Entity editable="True" global="False" rowindex="-1" associative="False" description="The household in which the farmer belongs" documentTypeLookup="check_household_document_type" proxy="False" createId="True" supportsDocuments="True" shortName="Household" name="ko_household" label="">
+            <Columns>
+                <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False" />
+                <Column unique="False" tip="Number of male household members" rowindex="0" minimum="0" maximum="100" description="Number of male household members" index="False" name="number_of_male" searchable="True" TYPE_INFO="INT" label="" mandatory="False" />
+                <Column unique="False" tip="Number of female household members" rowindex="1" minimum="0" maximum="100" description="Number of female household members" index="False" name="number_of_female" searchable="True" TYPE_INFO="INT" label="" mandatory="False" />
+                <Column unique="False" tip="The vicinity of the household" rowindex="2" minimum="0" maximum="2147483647" description="The vicinity of the household" index="False" name="household_vicinity" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_household_vicinity_id_ko_household_household_vicinity" />
+                </Column>
+                <Column unique="False" tip="The use of the house" rowindex="3" minimum="0" maximum="2147483647" description="The use of the house" index="False" name="house_use_type" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_house_use_type_id_ko_household_house_use_type" />
+                </Column>
+                <Column unique="False" tip="The type of the house" rowindex="4" minimum="0" maximum="2147483647" description="The type of the house" index="False" name="house_type" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_house_type_id_ko_household_house_type" />
+                </Column>
+                <Column unique="False" tip="The tenure type of the household" rowindex="5" minimum="0" maximum="2147483647" description="The tenure type of the household" index="False" name="tenure_type" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_house_tenure_type_id_ko_household_tenure_type" />
+                </Column>
+                <Column unique="False" tip="Is there a tenure agreement?" rowindex="6" minimum="0" maximum="2147483647" description="Is there a tenure agreement?" index="False" name="written_tenure_agreement" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_agreement_id_ko_household_written_tenure_agreement" />
+                </Column>
+                <Column unique="False" tip="If yes, what form of agreement?" rowindex="7" minimum="0" maximum="2147483647" description="If there is agreement, what form of agreement is there?" index="False" name="form_of_agreement" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_form_of_agreement_id_ko_household_form_of_agreement" />
+                </Column>
+                <Column unique="False" tip="The eastings of the household" rowindex="8" minimum="0" maximum="30" description="The eastings of the household" index="False" name="house_eastings" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="The northings of the household" rowindex="9" minimum="0" maximum="30" description="The northings of the household" index="False" name="house_northings" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="True" tip="The unique identifier of the household" rowindex="10" minimum="0" maximum="4000" description="The unique identifier of the household" index="True" name="household_number" searchable="True" TYPE_INFO="AUTO_GENERATED" label="" mandatory="False">
+                    <Code columnSeparators="" prefix_source="check_unit_name" leading_zero="00" disableAutoIncrement="True" hidePrefix="False" columns="" separator="/" enableEditing="False" />
+                </Column>
+            </Columns>
+        </Entity>
+        <Entity editable="True" global="False" rowindex="-1" associative="False" description="farm input and services priority" proxy="False" createId="True" supportsDocuments="False" shortName="Priority" name="ko_priority" label="">
+            <Columns>
+                <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False" />
+                <Column unique="False" tip="The garden" rowindex="0" minimum="0" maximum="2147483647" description="The garden" index="False" name="garden_id" searchable="False" TYPE_INFO="FOREIGN_KEY" label="" mandatory="False">
+                    <Relation name="fk_ko_garden_id_ko_priority_garden_id" />
+                </Column>
+                <Column unique="False" tip="The year in question" rowindex="1" minimum="-2147483648" maximum="2147483647" description="The year in question" index="False" name="year" searchable="True" TYPE_INFO="INT" label="" mandatory="False" />
+                <Column unique="False" tip="The input and services needed for the garden" rowindex="2" minimum="0" maximum="2147483647" description="The input and services needed for the garden" index="False" name="input_and_services" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_input_service_id_ko_priority_input_and_services" />
+                </Column>
+                <Column unique="False" tip="Specify the rank from 3 to 1. 3 is the highest. " rowindex="3" minimum="1" maximum="3" description="Specify the rank from 3 to 1. 3 is the highest. " index="False" name="rank" searchable="True" TYPE_INFO="INT" label="" mandatory="False" />
+            </Columns>
+        </Entity>
+        <Entity editable="True" global="False" rowindex="-1" associative="False" description="Positive and tangible socio-economic impacts" proxy="False" createId="True" supportsDocuments="False" shortName="Impact" name="ko_impact" label="">
+            <Columns>
+                <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False" />
+                <Column unique="False" tip="The garden in question" rowindex="0" minimum="0" maximum="2147483647" description="The garden in question" index="False" name="garden_id" searchable="False" TYPE_INFO="FOREIGN_KEY" label="" mandatory="False">
+                    <Relation name="fk_ko_garden_id_ko_impact_garden_id" />
+                </Column>
+                <Column unique="False" tip="The year of the impact" rowindex="1" minimum="1900" maximum="2200" description="The year of the impact" index="False" name="year" searchable="True" TYPE_INFO="INT" label="" mandatory="False" />
+                <Column unique="False" tip="The socio-economic impact factors positively affected" rowindex="2" minimum="0" maximum="2147483647" description="The socio-economic impact factors positively affected" index="False" name="impact_factor" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_socio_economic_impact_id_ko_impact_impact_factor" />
+                </Column>
+                <Column unique="False" tip="The rank of the impact factors" rowindex="3" minimum="1" maximum="3" description="The rank of the impact factors" index="False" name="rank" searchable="True" TYPE_INFO="INT" label="" mandatory="False" />
+            </Columns>
+        </Entity>
+        <Entity editable="True" global="False" rowindex="-1" associative="False" description="Refers to a the farmer" documentTypeLookup="check_farmer_document_type" proxy="False" createId="True" supportsDocuments="True" shortName="Farmer" name="ko_farmer" label="">
+            <Columns>
+                <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False" />
+                <Column unique="False" tip="The unique identifier of the farmer." rowindex="0" minimum="0" maximum="30" description="The unique identifier of the farmer." index="False" name="farmer_number" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="First name of the farmer" rowindex="1" minimum="0" maximum="30" description="First name of the farmer" index="False" name="first_name" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="Last name of the farmer" rowindex="2" minimum="0" maximum="30" description="Last name of the farmer" index="False" name="last_name" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="The gender of the farmer" rowindex="3" minimum="0" maximum="2147483647" description="The gender of the farmer" index="False" name="gender" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_gender_id_ko_farmer_gender" />
+                </Column>
+                <Column unique="False" tip="The marital status of the farmer" rowindex="4" minimum="0" maximum="2147483647" description="The marital status of the person" index="False" name="marital_status" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_marital_status_id_ko_farmer_marital_status" />
+                </Column>
+                <Column unique="False" tip="The telephone number of the farmer" rowindex="5" minimum="0" maximum="30" description="The telephone number of the farmer" index="False" name="contact_number" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="Address of the farmer" rowindex="6" minimum="0" maximum="100" description="Address of the farmer" index="False" name="address" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="The role of the respondent" rowindex="7" minimum="0" maximum="2147483647" description="The role of the respondent" index="False" name="respondent_role" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_respondent_role_id_ko_farmer_respondent_role" />
+                </Column>
+                <Column unique="False" tip="The household of the farmer" rowindex="8" minimum="0" maximum="2147483647" description="The household of the farmer" index="False" name="household" searchable="False" TYPE_INFO="FOREIGN_KEY" label="Household" mandatory="False">
+                    <Relation name="fk_ko_household_id_ko_farmer_household" />
+                </Column>
+                <Column unique="False" tip="" rowindex="9" minimum="0" maximum="30" description="" index="False" name="field_code" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+                <Column unique="False" tip="" rowindex="10" minimum="0" maximum="1073741823" description="" index="False" name="comment" searchable="False" TYPE_INFO="TEXT" label="" mandatory="False" />
+            </Columns>
+        </Entity>
+        <Entity editable="True" global="False" rowindex="-1" associative="False" description="Refers to the survey of the project" proxy="False" createId="True" supportsDocuments="False" shortName="Survey" name="ko_survey" label="">
+            <Columns>
+                <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False" />
+                <Column unique="False" tip="The date of data collection" rowindex="0" minimum="2000-09-14" maximum="7999-12-31" description="The date of data collection" index="False" name="enumeration_date" searchable="False" TYPE_INFO="DATE" label="" mandatory="False">
+                    <currentDate minimum="False" maximum="True" />
+                </Column>
+                <Column unique="False" tip="The person collecting the survey data" rowindex="-1" minimum="0" maximum="2147483647" description="The person collecting the survey data" index="False" name="enumerator" searchable="False" TYPE_INFO="FOREIGN_KEY" label="Enumerator" mandatory="False">
+                    <Relation name="fk_ko_enumerator_id_ko_survey_enumerator" />
+                </Column>
+                <Column unique="False" tip="The farmer on whom the survey is conducted" rowindex="-1" minimum="0" maximum="2147483647" description="The farmer on whom the survey is conducted" index="False" name="farmer_id" searchable="False" TYPE_INFO="FOREIGN_KEY" label="Farmer" mandatory="False">
+                    <Relation name="fk_ko_farmer_id_ko_survey_farmer_id" />
+                </Column>
+                <Column unique="False" tip="The garden surveyed" rowindex="-1" minimum="0" maximum="2147483647" description="The garden surveyed" index="False" name="garden_id" searchable="False" TYPE_INFO="FOREIGN_KEY" label="Garden" mandatory="False">
+                    <Relation name="fk_ko_garden_id_ko_survey_garden_id" />
+                </Column>
+                <Column unique="False" tip="The witness of the respondent" rowindex="4" minimum="0" maximum="2147483647" description="The witness of the respondent" index="False" name="witness" searchable="False" TYPE_INFO="FOREIGN_KEY" label="" mandatory="False">
+                    <Relation name="fk_ko_witness_id_ko_survey_witness" />
+                </Column>
+            </Columns>
+        </Entity>
+        <Entity editable="True" global="False" rowindex="-1" associative="False" description="Overall monthly household income" proxy="False" createId="True" supportsDocuments="False" shortName="Household_income" name="ko_household_income" label="">
+            <Columns>
+                <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False" />
+                <Column unique="False" tip="" rowindex="" minimum="-2147483648" maximum="2147483647" description="" index="False" name="year" searchable="True" TYPE_INFO="INT" label="" mandatory="False" />
+                <Column unique="False" tip="The income generating activity" rowindex="" minimum="0" maximum="2147483647" description="The income generating activity" index="False" name="income_generating_activity" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_income_generating_activity_id_ko_household_income_income_generating_activity" />
+                </Column>
+                <Column unique="False" tip="Amount of income from the income generating activity" rowindex="" minimum="-2147483648" maximum="2147483647" description="Amount of income from the income generating activity" index="False" name="amount_of_income" searchable="True" TYPE_INFO="INT" label="" mandatory="False" />
+                <Column unique="False" tip="The household " rowindex="" minimum="0" maximum="2147483647" description="The household " index="False" name="household_id" searchable="False" TYPE_INFO="FOREIGN_KEY" label="" mandatory="False">
+                    <Relation name="fk_ko_household_id_ko_household_income_household_id" />
+                </Column>
+                <Column unique="False" tip="Where does the household save?" rowindex="" minimum="0" maximum="2147483647" description="Where does the household save?" index="False" name="method_of_saving" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_method_of_saving_id_ko_household_income_method_of_saving" />
+                </Column>
+            </Columns>
+        </Entity>
+        <Entity editable="True" global="False" rowindex="-1" associative="False" description="Estimated acreage reserved for food crops" proxy="False" createId="True" supportsDocuments="False" shortName="Food_crop_coverage" name="ko_food_crop_coverage" label="">
+            <Columns>
+                <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False" />
+                <Column unique="False" tip="The garden" rowindex="" minimum="0" maximum="2147483647" description="The garden" index="False" name="garden_id" searchable="False" TYPE_INFO="FOREIGN_KEY" label="" mandatory="False">
+                    <Relation name="fk_ko_garden_id_ko_food_crop_coverage_garden_id" />
+                </Column>
+                <Column unique="False" tip="The year of data" rowindex="" minimum="-2147483648" maximum="2147483647" description="The year of data " index="False" name="year" searchable="True" TYPE_INFO="INT" label="" mandatory="False" />
+                <Column unique="False" tip="food crop category" rowindex="" minimum="0" maximum="2147483647" description="food crop category" index="False" name="crop_category" searchable="True" TYPE_INFO="LOOKUP" label="" mandatory="False">
+                    <Relation name="fk_ko_check_crop_category_id_ko_food_crop_coverage_crop_category" />
+                </Column>
+                <Column unique="False" tip="The area of the crop in acres" rowindex="" minimum="-2.22507385850999977090827753775862014986202158631540752927533495235291095211960202192746162138307607883721964599187497874758743870678142869246346842838452148157538306208970969771912007123782935478036026168157779663656300209161746597189433723416628325153832948897065586860892325794081769447273876898545784427544567012477041124865207019825965155623001825910116719163353997848080679178979565158371264107070356171121712704116287879621625154908233299289893610635114954429352021655542359601092691313616368710336007978847254467291335406907854200186271073921641325597109809885490941490064797209293491379149792929062679903273881857158533298915210905784773931141123096325159136549964378497586040115099636556160003150670216355916310353724174575518190977163612842559814453125E-308" maximum="179769313485999993463412110191957867872176903147024190229169150664616720223488549064776002732213849498804348433116986060126989671666306060788674238031081950882294921586851551818012975619342999042256679071052330673321513805402276774228700884740900574397999799640549171929913383207407537025048827210712192385024" description="The area of the crop in acres" index="False" name="crop_area" searchable="True" TYPE_INFO="DOUBLE" label="" mandatory="False">
+                    <Numeric scale="6" precision="18" />
+                </Column>
+                <Column unique="False" tip="" rowindex="" description="" index="False" name="garden_crops" searchable="False" TYPE_INFO="MULTIPLE_SELECT" label="" mandatory="False">
+                    <associationEntity name="ko_garden_crops" />
+                </Column>
+            </Columns>
+        </Entity>
+        <Entity editable="True" global="False" rowindex="-1" associative="False" description="Garden acreage and productivity" proxy="False" createId="True" supportsDocuments="False" shortName="Garden_Productivity" name="ko_garden_productivity" label="">
+            <Columns>
+                <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False" />
+                <Column unique="False" tip="The garden in question" rowindex="" minimum="0" maximum="2147483647" description="The garden in question" index="False" name="garden_id" searchable="False" TYPE_INFO="FOREIGN_KEY" label="" mandatory="False">
+                    <Relation name="fk_ko_garden_id_ko_garden_productivity_garden_id" />
+                </Column>
+                <Column unique="False" tip="The production year" rowindex="" minimum="1900" maximum="2200" description="The production year" index="False" name="year" searchable="True" TYPE_INFO="INT" label="" mandatory="False" />
+                <Column unique="False" tip="The year of planting" rowindex="" minimum="1950" maximum="2200" description="The year of planting" index="False" name="year_of_planting" searchable="True" TYPE_INFO="INT" label="" mandatory="False" />
+                <Column unique="False" tip="The garden area in acres" rowindex="" minimum="0" maximum="179769313485999993463412110191957867872176903147024190229169150664616720223488549064776002732213849498804348433116986060126989671666306060788674238031081950882294921586851551818012975619342999042256679071052330673321513805402276774228700884740900574397999799640549171929913383207407537025048827210712192385024" description="The garden area in acres" index="False" name="garden_area" searchable="True" TYPE_INFO="DOUBLE" label="" mandatory="False">
+                    <Numeric scale="6" precision="18" />
+                </Column>
+                <Column unique="False" tip="Average harvest per acre in Kilograms" rowindex="" minimum="-2.22507385850999977090827753775862014986202158631540752927533495235291095211960202192746162138307607883721964599187497874758743870678142869246346842838452148157538306208970969771912007123782935478036026168157779663656300209161746597189433723416628325153832948897065586860892325794081769447273876898545784427544567012477041124865207019825965155623001825910116719163353997848080679178979565158371264107070356171121712704116287879621625154908233299289893610635114954429352021655542359601092691313616368710336007978847254467291335406907854200186271073921641325597109809885490941490064797209293491379149792929062679903273881857158533298915210905784773931141123096325159136549964378497586040115099636556160003150670216355916310353724174575518190977163612842559814453125E-308" maximum="179769313485999993463412110191957867872176903147024190229169150664616720223488549064776002732213849498804348433116986060126989671666306060788674238031081950882294921586851551818012975619342999042256679071052330673321513805402276774228700884740900574397999799640549171929913383207407537025048827210712192385024" description="Average harvest per acre in Kilograms" index="False" name="average_harvest" searchable="True" TYPE_INFO="DOUBLE" label="" mandatory="False">
+                    <Numeric scale="6" precision="18" />
+                </Column>
+                <Column unique="False" tip="The earning from oil palm garden each month" rowindex="" minimum="-2147483648" maximum="2147483647" description="The earning from oil palm garden each month" index="False" name="earning" searchable="True" TYPE_INFO="INT" label="" mandatory="False" />
+                <Column unique="False" tip="The spending on labor each month" rowindex="" minimum="0" maximum="2147483647" description="The spending on labor each month" index="False" name="labor_spending" searchable="True" TYPE_INFO="INT" label="" mandatory="False" />
+            </Columns>
+        </Entity>
+        <Entity editable="True" global="False" rowindex="-1" associative="False" description="Keep record of generated certificates" documentTypeLookup="check_certificate_tracker_document_type" proxy="False" createId="True" supportsDocuments="True" shortName="Certificate tracker" name="ko_certificate_tracker" label="">
+            <Columns>
+                <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False" />
+                <Column unique="False" tip="The certificate number created at the time of issue. " rowindex="" minimum="0" maximum="30" description="The certificate number created at the time of issue. " index="True" name="certificate_number" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="True" />
+                <Column unique="False" tip="The date of issue of the certificate" rowindex="" minimum="2016-09-14" maximum="7999-12-31" description="The date of issue of the certificate" index="False" name="date_of_issue" searchable="False" TYPE_INFO="DATE" label="" mandatory="True">
+                    <currentDate minimum="False" maximum="True" />
+                </Column>
+                <Column unique="False" tip="The farmer for whom the certificate is generated" rowindex="" minimum="0" maximum="2147483647" description="The farmer for whom the certificate is generated" index="False" name="farmer_id" searchable="False" TYPE_INFO="FOREIGN_KEY" label="" mandatory="False">
+                    <Relation name="fk_ko_farmer_id_ko_certificate_tracker_farmer_id" />
+                </Column>
+                <Column unique="False" tip="The garden for which the certificate is generated" rowindex="" minimum="0" maximum="2147483647" description="The garden for which the certificate is generated" index="False" name="garden_id" searchable="False" TYPE_INFO="FOREIGN_KEY" label="" mandatory="False">
+                    <Relation name="fk_ko_garden_id_ko_certificate_tracker_garden_id" />
+                </Column>
+            </Columns>
+        </Entity>
+        <Entity editable="False" global="False" rowindex="-1" associative="False" description="" proxy="False" createId="True" supportsDocuments="False" shortName="check_tenure_type_str_attrs" name="ko_check_tenure_type_str_attrs" label="">
+            <Columns>
+                <Column unique="False" tip="" rowindex="-1" minimum="-2147483648" maximum="2147483647" description="" index="False" name="id" searchable="True" TYPE_INFO="SERIAL" label="" mandatory="False" />
+                <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="2147483647" description="" index="False" name="social_tenure_relationship_id" searchable="True" TYPE_INFO="FOREIGN_KEY" label="" mandatory="False">
+                    <Relation name="fk_ko_social_tenure_relationship_id_ko_check_tenure_type_str_attrs_social_tenure_relationship_id" />
+                </Column>
+                <Column unique="False" tip="" rowindex="-1" minimum="0" maximum="1" description="" index="False" name="dummy_custom_str" searchable="True" TYPE_INFO="VARCHAR" label="" mandatory="False" />
+            </Columns>
+        </Entity>
+        <Relations>
+            <EntityRelation displayColumns="name,code" child="social_tenure_relationship_supporting_document" showInParent="True" parent="check_social_tenure_relationship_document_type" name="fk_ko_check_social_tenure_relationship_document_type_id_ko_social_tenure_relationship_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type" />
+            <EntityRelation displayColumns="" child="social_tenure_relationship_supporting_document" showInParent="True" parent="social_tenure_relationship" name="fk_ko_social_tenure_relationship_id_ko_social_tenure_relationship_supporting_document_social_tenure_relationship_id" parentColumn="id" showInChild="True" childColumn="social_tenure_relationship_id" />
+            <EntityRelation displayColumns="" child="social_tenure_relationship_supporting_document" showInParent="True" parent="supporting_document" name="fk_ko_supporting_document_id_ko_social_tenure_relationship_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id" />
+            <EntityRelation displayColumns="name,code" child="social_tenure_relationship" showInParent="True" parent="check_tenure_type" name="fk_ko_check_tenure_type_id_ko_social_tenure_relationship_tenure_type" parentColumn="id" showInChild="True" childColumn="tenure_type" />
+            <EntityRelation displayColumns="" child="admin_spatial_unit_set" showInParent="True" parent="admin_spatial_unit_set" name="fk_admin_spatial_unit_set_id_admin_spatial_unit_set_parent_id" parentColumn="id" showInChild="True" childColumn="parent_id" />
+            <EntityRelation displayColumns="name,code" child="Garden_supporting_document" showInParent="True" parent="check_garden_document_type" name="fk_ko_check_garden_document_type_id_ko_garden_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type" />
+            <EntityRelation displayColumns="" child="Garden_supporting_document" showInParent="True" parent="Garden" name="fk_ko_garden_id_ko_garden_supporting_document_garden_id" parentColumn="id" showInChild="True" childColumn="garden_id" />
+            <EntityRelation displayColumns="" child="Garden_supporting_document" showInParent="True" parent="supporting_document" name="fk_ko_supporting_document_id_ko_garden_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id" />
+            <EntityRelation displayColumns="name,code" child="Garden" showInParent="True" parent="check_district" name="fk_ko_check_district_id_ko_garden_district" parentColumn="id" showInChild="True" childColumn="district" />
+            <EntityRelation displayColumns="name,code" child="Garden" showInParent="True" parent="check_county" name="fk_ko_check_county_id_ko_garden_county" parentColumn="id" showInChild="True" childColumn="county" />
+            <EntityRelation displayColumns="name,code" child="Garden" showInParent="True" parent="check_sub_county" name="fk_ko_check_sub_county_id_ko_garden_sub_county" parentColumn="id" showInChild="True" childColumn="sub_county" />
+            <EntityRelation displayColumns="name,code" child="Garden" showInParent="True" parent="check_parish" name="fk_ko_check_parish_id_ko_garden_parish" parentColumn="id" showInChild="True" childColumn="parish" />
+            <EntityRelation displayColumns="name,code" child="Garden" showInParent="True" parent="check_village" name="fk_ko_check_village_id_ko_garden_village" parentColumn="id" showInChild="True" childColumn="village" />
+            <EntityRelation displayColumns="name,code" child="Garden" showInParent="True" parent="check_block" name="fk_ko_check_block_id_ko_garden_block" parentColumn="id" showInChild="True" childColumn="block" />
+            <EntityRelation displayColumns="name,code" child="Garden" showInParent="True" parent="check_unit_name" name="fk_ko_check_unit_name_id_ko_garden_unit_name" parentColumn="id" showInChild="True" childColumn="unit_name" />
+            <EntityRelation displayColumns="name,code" child="Garden" showInParent="True" parent="check_type_of_land" name="fk_ko_check_type_of_land_id_ko_garden_type_of_land" parentColumn="id" showInChild="True" childColumn="type_of_land" />
+            <EntityRelation displayColumns="name,code" child="Garden" showInParent="True" parent="check_agreement" name="fk_ko_check_agreement_id_ko_garden_written_tenure_agreement" parentColumn="id" showInChild="True" childColumn="written_tenure_agreement" />
+            <EntityRelation displayColumns="name,code" child="Garden" showInParent="True" parent="check_form_of_agreement" name="fk_ko_check_form_of_agreement_id_ko_garden_form_of_agreement" parentColumn="id" showInChild="True" childColumn="form_of_agreement" />
+            <EntityRelation displayColumns="name,code" child="Enumerator" showInParent="True" parent="check_gender" name="fk_ko_check_gender_id_ko_enumerator_gender" parentColumn="id" showInChild="True" childColumn="gender" />
+            <EntityRelation displayColumns="name,code" child="Witness_supporting_document" showInParent="True" parent="check_witness_document_type" name="fk_ko_check_witness_document_type_id_ko_witness_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type" />
+            <EntityRelation displayColumns="" child="Witness_supporting_document" showInParent="True" parent="Witness" name="fk_ko_witness_id_ko_witness_supporting_document_witness_id" parentColumn="id" showInChild="True" childColumn="witness_id" />
+            <EntityRelation displayColumns="" child="Witness_supporting_document" showInParent="True" parent="supporting_document" name="fk_ko_supporting_document_id_ko_witness_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id" />
+            <EntityRelation displayColumns="name,code" child="Witness" showInParent="True" parent="check_witness_relationship" name="fk_ko_check_witness_relationship_id_ko_witness_relationship" parentColumn="id" showInChild="True" childColumn="relationship" />
+            <EntityRelation displayColumns="name,code" child="Household_supporting_document" showInParent="True" parent="check_household_document_type" name="fk_ko_check_household_document_type_id_ko_household_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type" />
+            <EntityRelation displayColumns="" child="Household_supporting_document" showInParent="True" parent="Household" name="fk_ko_household_id_ko_household_supporting_document_household_id" parentColumn="id" showInChild="True" childColumn="household_id" />
+            <EntityRelation displayColumns="" child="Household_supporting_document" showInParent="True" parent="supporting_document" name="fk_ko_supporting_document_id_ko_household_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id" />
+            <EntityRelation displayColumns="name,code" child="Household" showInParent="True" parent="check_household_vicinity" name="fk_ko_check_household_vicinity_id_ko_household_household_vicinity" parentColumn="id" showInChild="True" childColumn="household_vicinity" />
+            <EntityRelation displayColumns="name,code" child="Household" showInParent="True" parent="check_house_use_type" name="fk_ko_check_house_use_type_id_ko_household_house_use_type" parentColumn="id" showInChild="True" childColumn="house_use_type" />
+            <EntityRelation displayColumns="name,code" child="Household" showInParent="True" parent="check_house_type" name="fk_ko_check_house_type_id_ko_household_house_type" parentColumn="id" showInChild="True" childColumn="house_type" />
+            <EntityRelation displayColumns="name,code" child="Household" showInParent="True" parent="check_house_tenure_type" name="fk_ko_check_house_tenure_type_id_ko_household_tenure_type" parentColumn="id" showInChild="True" childColumn="tenure_type" />
+            <EntityRelation displayColumns="name,code" child="Household" showInParent="True" parent="check_agreement" name="fk_ko_check_agreement_id_ko_household_written_tenure_agreement" parentColumn="id" showInChild="True" childColumn="written_tenure_agreement" />
+            <EntityRelation displayColumns="name,code" child="Household" showInParent="True" parent="check_form_of_agreement" name="fk_ko_check_form_of_agreement_id_ko_household_form_of_agreement" parentColumn="id" showInChild="True" childColumn="form_of_agreement" />
+            <EntityRelation displayColumns="garden_id" child="Priority" showInParent="True" parent="Garden" name="fk_ko_garden_id_ko_priority_garden_id" parentColumn="id" showInChild="True" childColumn="garden_id" />
+            <EntityRelation displayColumns="name,code" child="Priority" showInParent="True" parent="check_input_service" name="fk_ko_check_input_service_id_ko_priority_input_and_services" parentColumn="id" showInChild="True" childColumn="input_and_services" />
+            <EntityRelation displayColumns="garden_id" child="Impact" showInParent="True" parent="Garden" name="fk_ko_garden_id_ko_impact_garden_id" parentColumn="id" showInChild="True" childColumn="garden_id" />
+            <EntityRelation displayColumns="name,code" child="Impact" showInParent="True" parent="check_socio_economic_impact" name="fk_ko_check_socio_economic_impact_id_ko_impact_impact_factor" parentColumn="id" showInChild="True" childColumn="impact_factor" />
+            <EntityRelation displayColumns="name,code" child="Farmer_supporting_document" showInParent="True" parent="check_farmer_document_type" name="fk_ko_check_farmer_document_type_id_ko_farmer_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type" />
+            <EntityRelation displayColumns="" child="Farmer_supporting_document" showInParent="True" parent="Farmer" name="fk_ko_farmer_id_ko_farmer_supporting_document_farmer_id" parentColumn="id" showInChild="True" childColumn="farmer_id" />
+            <EntityRelation displayColumns="" child="Farmer_supporting_document" showInParent="True" parent="supporting_document" name="fk_ko_supporting_document_id_ko_farmer_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id" />
+            <EntityRelation displayColumns="name,code" child="Farmer" showInParent="True" parent="check_gender" name="fk_ko_check_gender_id_ko_farmer_gender" parentColumn="id" showInChild="True" childColumn="gender" />
+            <EntityRelation displayColumns="name,code" child="Farmer" showInParent="True" parent="check_marital_status" name="fk_ko_check_marital_status_id_ko_farmer_marital_status" parentColumn="id" showInChild="True" childColumn="marital_status" />
+            <EntityRelation displayColumns="name,code" child="Farmer" showInParent="True" parent="check_respondent_role" name="fk_ko_check_respondent_role_id_ko_farmer_respondent_role" parentColumn="id" showInChild="True" childColumn="respondent_role" />
+            <EntityRelation displayColumns="household_number" child="Farmer" showInParent="True" parent="Household" name="fk_ko_household_id_ko_farmer_household" parentColumn="id" showInChild="True" childColumn="household" />
+            <EntityRelation displayColumns="first_name, last_name" child="Survey" showInParent="True" parent="Enumerator" name="fk_ko_enumerator_id_ko_survey_enumerator" parentColumn="id" showInChild="True" childColumn="enumerator" />
+            <EntityRelation displayColumns="first_name,national_id" child="Survey" showInParent="True" parent="Farmer" name="fk_ko_farmer_id_ko_survey_farmer_id" parentColumn="id" showInChild="True" childColumn="farmer_id" />
+            <EntityRelation displayColumns="garden_id" child="Survey" showInParent="True" parent="Garden" name="fk_ko_garden_id_ko_survey_garden_id" parentColumn="id" showInChild="True" childColumn="garden_id" />
+            <EntityRelation displayColumns="first_name, last_name" child="Survey" showInParent="True" parent="Witness" name="fk_ko_witness_id_ko_survey_witness" parentColumn="id" showInChild="True" childColumn="witness" />
+            <EntityRelation displayColumns="name,code" child="Household_income" showInParent="True" parent="check_income_generating_activity" name="fk_ko_check_income_generating_activity_id_ko_household_income_income_generating_activity" parentColumn="id" showInChild="True" childColumn="income_generating_activity" />
+            <EntityRelation displayColumns="household_number" child="Household_income" showInParent="True" parent="Household" name="fk_ko_household_id_ko_household_income_household_id" parentColumn="id" showInChild="True" childColumn="household_id" />
+            <EntityRelation displayColumns="name,code" child="Household_income" showInParent="True" parent="check_method_of_saving" name="fk_ko_check_method_of_saving_id_ko_household_income_method_of_saving" parentColumn="id" showInChild="True" childColumn="method_of_saving" />
+            <EntityRelation displayColumns="garden_id" child="Food_crop_coverage" showInParent="True" parent="Garden" name="fk_ko_garden_id_ko_food_crop_coverage_garden_id" parentColumn="id" showInChild="True" childColumn="garden_id" />
+            <EntityRelation displayColumns="name,code" child="Food_crop_coverage" showInParent="True" parent="check_crop_category" name="fk_ko_check_crop_category_id_ko_food_crop_coverage_crop_category" parentColumn="id" showInChild="True" childColumn="crop_category" />
+            <EntityRelation displayColumns="" child="garden_crops" showInParent="True" parent="check_garden_crops" name="fk_ko_check_garden_crops_id_ko_garden_crops_ko_check_garden_crops_id" parentColumn="id" showInChild="True" childColumn="ko_check_garden_crops_id" />
+            <EntityRelation displayColumns="" child="garden_crops" showInParent="True" parent="Food_crop_coverage" name="fk_ko_food_crop_coverage_id_ko_garden_crops_ko_food_crop_coverage_id" parentColumn="id" showInChild="True" childColumn="ko_food_crop_coverage_id" />
+            <EntityRelation displayColumns="garden_id" child="Garden_Productivity" showInParent="True" parent="Garden" name="fk_ko_garden_id_ko_garden_productivity_garden_id" parentColumn="id" showInChild="True" childColumn="garden_id" />
+            <EntityRelation displayColumns="name,code" child="Certificate tracker_supporting_document" showInParent="True" parent="check_certificate_tracker_document_type" name="fk_ko_check_certificate_tracker_document_type_id_ko_certificate_tracker_supporting_document_document_type" parentColumn="id" showInChild="True" childColumn="document_type" />
+            <EntityRelation displayColumns="" child="Certificate tracker_supporting_document" showInParent="True" parent="Certificate tracker" name="fk_ko_certificate_tracker_id_ko_certificate_tracker_supporting_document_certificate_tracker_id" parentColumn="id" showInChild="True" childColumn="certificate_tracker_id" />
+            <EntityRelation displayColumns="" child="Certificate tracker_supporting_document" showInParent="True" parent="supporting_document" name="fk_ko_supporting_document_id_ko_certificate_tracker_supporting_document_supporting_doc_id" parentColumn="id" showInChild="True" childColumn="supporting_doc_id" />
+            <EntityRelation displayColumns="farmer_number" child="Certificate tracker" showInParent="True" parent="Farmer" name="fk_ko_farmer_id_ko_certificate_tracker_farmer_id" parentColumn="id" showInChild="True" childColumn="farmer_id" />
+            <EntityRelation displayColumns="garden_id" child="Certificate tracker" showInParent="True" parent="Garden" name="fk_ko_garden_id_ko_certificate_tracker_garden_id" parentColumn="id" showInChild="True" childColumn="garden_id" />
+            <EntityRelation displayColumns="" child="check_tenure_type_str_attrs" showInParent="True" parent="social_tenure_relationship" name="fk_ko_social_tenure_relationship_id_ko_check_tenure_type_str_attrs_social_tenure_relationship_id" parentColumn="id" showInChild="True" childColumn="social_tenure_relationship_id" />
+            <EntityRelation displayColumns="" child="social_tenure_relationship" showInParent="True" parent="Farmer" name="fk_ko_farmer_id_ko_social_tenure_relationship_farmer_id" parentColumn="id" showInChild="True" childColumn="farmer_id" />
+            <EntityRelation displayColumns="" child="social_tenure_relationship" showInParent="True" parent="Garden" name="fk_ko_garden_id_ko_social_tenure_relationship_garden_id" parentColumn="id" showInChild="True" childColumn="garden_id" />
+        </Relations>
+        <SocialTenure layerDisplay="ko_garden_vw_social_tenure_relationship" tenureTypeList="check_tenure_type" spatialUnit="Garden" supportsMultipleParties="True" party="Farmer">
+            <Validity>
+                <Start minimum="1752-09-14" maximum="7999-12-31" />
+                <End minimum="1752-09-14" maximum="7999-12-31" />
+            </Validity>
+            <SpatialUnitTenureMappings>
+                <Mapping tenureTypeList="check_tenure_type" spatialUnit="Garden" />
+            </SpatialUnitTenureMappings>
+            <CustomAttributes>
+                <TenureEntity tenureTypeList="check_tenure_type" entity="check_tenure_type_str_attrs" />
+            </CustomAttributes>
+        </SocialTenure>
+    </Profile>
 </Configuration>
