@@ -433,7 +433,6 @@ var bounds = L.latLngBounds(southWest, northEast);
     var columnValues = [];       
     for (column in feature.properties){
         columnValues.push("<tr><th>"+titleCase(column.split('_').join(' '))+"</th><td>" + feature.properties[''+column+''] + "</td></tr>");
-        
     }
     // console.log('The column values 1', columnValues)
     columnValues.shift();
@@ -460,6 +459,17 @@ var bounds = L.latLngBounds(southWest, northEast);
   }
 
  }
+ style: function(feature) {
+        return {
+        	color: "green"
+        };
+    },
+    pointToLayer: function(feature, latlng) {
+        return new L.CircleMarker(latlng, {
+        	radius: 10, 
+        	fillOpacity: 0.85
+        });
+    },
  function onEachSelectedFeature(feature, layer) {
  
  if (feature.properties) {
@@ -575,7 +585,6 @@ function SelectFeatures(layer) {
   featuresWithin = [];
 
   geom.features.forEach(function(layer1) {
-    
     var intersect; 
     try {
       intersect = turf.intersect(layer1, layer.toGeoJSON());
@@ -588,9 +597,7 @@ function SelectFeatures(layer) {
       tableData.push(layer1.properties)
       leaflet_stamps.push(layer1.properties.leaflet_stamp= L.stamp(layer1))
     }
-    
-  })
- 
+  }) 
   interLayer = L.geoJson(featuresWithin,{onEachFeature:onEachSelectedFeature}).setStyle(layerStyle.highlight).addTo(mymap);
   interLayer.bringToFront();
   mymap.removeLayer(selectionFeatures);

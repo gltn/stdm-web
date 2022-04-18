@@ -120,7 +120,7 @@
         style="background: {{configs.sidebar_color}}"
       >
         <!-- Brand Logo -->
-        <a href="{% url 'dashboard' %}" class="brand-link">
+        <a href="{% url 'kobo' %}" class="brand-link">
           <img
             src="{% static 'dashboard/dist/img/logo.png' %}"
             alt="STDM Web"
@@ -146,8 +146,8 @@
                with font-awesome or any other icon font library -->
               <li class="nav-item has-treeview">
                 <a href="{% url 'dashboard' %}" class="nav-link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
-                  <p>Dashboard</p>
+                  <i class="nav-icon fas fa-cloud"></i>
+                  <p>Web Dashboard</p>
                 </a>
               </li>
           
@@ -158,20 +158,21 @@
                   <p>Mobile Data</p>
                 </a>
               </li>
-              <li class="nav-item">
+              {% comment %} <li class="nav-item">
                 <a href="{% url 'mobile_sync' %}" class="nav-link">
                   <i class="nav-icon fas fa-refresh"></i>
                   <p>Mobile Data Sync</p>
                 </a>
-              </li>
+              </li> {% endcomment %}
+              
+
+              <li class="nav-header">IMPORTANT LINKS</li>
               <li class="nav-item">
                 <a href="{% url 'settings' %}" class="nav-link">
                   <i class="nav-icon fas fa-cogs"></i>
                   <p>Settings</p>
                 </a>
               </li>
-
-              <li class="nav-header">IMPORTANT LINKS</li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-file"></i>

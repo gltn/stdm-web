@@ -23,15 +23,15 @@ import requests
 
 # Mobile Component
 BASE_DIR_MOBILE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-#config = GetConfig("Mobile")
-#MOBILE_CONFIG_PATH = os.path.join(settings.MEDIA_ROOT, str(config.config_file))
-#mobile_reader = StdmConfigurationReader(MOBILE_CONFIG_PATH)
+# config = GetConfig("Mobile")
+# MOBILE_CONFIG_PATH = os.path.join(settings.MEDIA_ROOT, str(config.config_file))
+# mobile_reader = StdmConfigurationReader(MOBILE_CONFIG_PATH)
 # mobile_reader.load()
-#mobile_stdm_config = GetStdmConfig("Mobile")
-#print('Value of complete',config.complete, config.config_type)
+# mobile_stdm_config = GetStdmConfig("Mobile")
+# print('Value of complete',config.complete, config.config_type)
 # Mobile instances detail
 instance_path = os.path.join(BASE_DIR_MOBILE, 'config/mobile_instances')
-#mobile_xml_files = [path.join(instance_path, f) for f in listdir(instance_path) if f.endswith('.xml')]
+# mobile_xml_files = [path.join(instance_path, f) for f in listdir(instance_path) if f.endswith('.xml')]
 
 
 def EntityData(profile_name, entity_name, entity_short_name):
@@ -282,8 +282,8 @@ def KoboView(request):
     # Limit the no of rcrods fetched
     kobo = KoboExtractor(token, kpi_url, debug=True)
     assets = kobo.list_assets()
+    print('These are assets', assets['results'][2])
     # asset_uid = assets['results'][0]['uid']
-    print('these are the assets', assets['results'][0]['uid'])
     # asset_uid = "axPo5r5hcP88m5zc9n6poX"
     asset = kobo.get_asset(asset_uid)
     choice_lists = kobo.get_choices(asset)
@@ -320,19 +320,28 @@ def KoboView(request):
         paired = {}
         for key, value in res.items():
             if key in columns_to_check:
-                paired[key] = value['answer_label']
+                if value['answer_label']:
+                    paired[key] = value['answer_label']
+                else:
+                    print('Lacks value')
+                    paired[key] = '-'
         data_use[n] = paired
         n += 1
     table_columns = []
+    table_columns_raw = []
     for key, value in data_use.items():
         for ky, val in value.items():
+            table_columns_raw.append(key)
             format_ky = ky.split("/", 1)[1]
             if toHeader(format_ky) not in table_columns:
                 table_columns.append(toHeader(format_ky))
+    final_data = {}
+    print('Table columns', table_columns_raw)
+
     return render(request, 'dashboard/kobo_response.html', {'data': data_use, 'columns': table_columns})
 
 
-@csrf_exempt
+@ csrf_exempt
 def VisualizationView(request):
     data = json.loads(request.GET.get('data'))
     print(data)
