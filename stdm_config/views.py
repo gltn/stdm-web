@@ -1,26 +1,16 @@
-from re import I
-from tkinter.messagebox import NO
-from app.models import Setting, Configuration
-from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
-from stdm_config.create_model import create_model
-from django.http import HttpResponse, JsonResponse
+from app.models import Setting
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.db import connection
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 import json
-from django.core.serializers import serialize
 from app.config_reader import GetConfig, GetStdmConfig
-from rest_framework.parsers import JSONParser
-from rest_framework.decorators import api_view
 from .mobile_reader import FindEntitySubmissions
 import xml.etree.ElementTree as ET
 from collections import OrderedDict
 import logging as LOGGER
-from .common_exceptions import MissingEntityException
 
 def toHeader(s):
     """
@@ -57,7 +47,7 @@ def checkEntity(prefix):
     with connection.cursor() as cursor:
         query = "SELECT table_name FROM information_schema.tables WHERE table_schema='public' and table_name like '{0}_%';".format(
             prefix)
-        print(query)
+        LOGGER.info(query)
         cursor.execute(query)
         result = cursor.fetchall()
         for entity_name in result:
@@ -93,7 +83,7 @@ def STDMReader(request):
             default_profile = configs.default_profile
 
     profiler = stdm_config.profile(default_profile)
-    print("Target Profile", profiler)
+    LOGGER.info("Target Profile", profiler)
     str_summary = str_summaries(profiler)
 
     entities = GetProfileEntities(profiler)
