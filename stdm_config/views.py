@@ -1,3 +1,5 @@
+from re import I
+from tkinter.messagebox import NO
 from app.models import Setting, Configuration
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -224,9 +226,9 @@ def entity_columns_to_query(entity):
 def fetch_entity_records(entity):
     columns = entity_columns_to_query(entity)
 	LOGGER.info("%s columns to fetch %s", entity.name, columns)
+	LOGGER.info("%s columns to fetch %s", entity.name, columns)
     joined_columns = ','.join(columns)
     return "SELECT {} FROM {}_view".format(joined_columns, entity.name)
-
 
 @csrf_exempt
 def EntityDetailView(request, profile_name, entity_short_name):
@@ -273,7 +275,19 @@ def EntityDetailView(request, profile_name, entity_short_name):
 		
 		lookup_summaries = EntityLookupSummaries(prof, entity)
 		spatial_results = None
-		if has_spatial_column:
+		if has_spatial_column:spatial_results = entity_geojson(entity)
+	except Exception as e:
+		print(e.args)
+		errors = "An exception has occured. Cause: {}".format(str(e.args))
+	
+	return render(request,'dashboard/entity.html', {'entity':entity,'profile':profile_name,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_str_entity':is_str_entity,'lookup_summaries':lookup_summaries, 'spatial_result':spatial_results, "errors":errors })
+
+def entity_geojson(entity):
+	"""Return geosjson represantion of all rows as feature Collection if the entity supports geometry.
+
+	Keyword arguments
+	entity -- a STDM entity object
+	"""
 			spatial_results = entity_geojson(entity)
 	except Exception as e:
 		print(e.args)
@@ -310,7 +324,6 @@ def entity_geojson(entity):
 		spatial_results = json.dumps(result[0])
     return spatial_results
 
-
 def sp_unit_geojson(request, profile_name, entity_short_name, row_id):
 	"""Returns a geojson representation of a single entity row as Feature if the entity has geometrycolumn.
 
@@ -343,6 +356,18 @@ LOGGER.info("Geojson request query: %s", query)
 		cursor.execute(query)
 		result = cursor.fetchone()
 		spatial_results = json.dumps(result[0])
+	return JsonResponse(spatial_results, safe = False)@csrf_exempt
+def fetch_spatial_data(request, profile_name, entity_short_name):
+	config = GetConfig("Web")
+	if config is None or not config.complete:
+		return render(request, 'dashboard/no_config.html',)
+	stdm_config = GetStdmConfig("Web")
+	prof = stdm_config.profile(profile_name)
+	entity = prof.entity(entity_short_name)
+	if not entity.has_geometry_column():
+		return None
+	spatial_results = entity_geojson(entity)
+
 	return JsonResponse(spatial_results, safe = False)
 
 @csrf_exempt
@@ -357,7 +382,7 @@ def fetch_spatial_data(request, profile_name, entity_short_name):
 		return None
 	spatial_results = entity_geojson(entity)
 
-	return JsonResponse(spatial_results, safe = False)	
+	return JsonResponse(spatial_results, safe = False)
 
 
 @csrf_exempt
