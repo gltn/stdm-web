@@ -305,9 +305,9 @@ div.dataTables_processing {
   width: 100% !important;
 }
 
-.dataTables_scrollHeadInner > table {
+/* .dataTables_scrollHeadInner > table {
   width: 100% !important;
-}
+} */
 .dataTable {
   text-align: center;
 }
@@ -330,6 +330,9 @@ margin: 0 auto;
 }
 [class*=sidebar-dark] .brand-link {
     border-bottom: 1px solid #4b545c;
+    color: #fff;
+}
+[class*=sidebar-dark-] .sidebar a {
     color: #fff;
 }
 .layout-navbar-fixed .wrapper .sidebar-dark-primary .brand-link:not([class*=navbar]) {
