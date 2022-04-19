@@ -126,5 +126,12 @@ var dataTableSet;
     
 } );
 </script>
+<script>
+ $(document).ready(function () {
+$('#koboTable').on('shown.bs.collapse', function () {
+   $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+});
+});
+</script>
 {% endwith %}
 
