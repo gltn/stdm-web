@@ -667,62 +667,7 @@
           ]
         }
       ],
-      // buttons: [
 
-      //   {
-      //     extend: 'pdfHtml5',
-      //     text: '<i class="fa fa-file-pdf-o"> Export to PDF</i>',
-      //     titleAttr: 'PDF',
-      //     title: '{{entity.short_name}}' + '_PDF_Export_' + today,
-      //     orientation: 'landscape',
-      //     pageSize: 'LEGAL',
-      //     exportOptions: {
-      //       columns: ':visible'
-      //     }
-      //   },
-      //   {
-      //     text: '<i class="fa fa-download-o"> Export to GeoJSON</i>',
-      //     split: [
-      //       {
-      //         text: 'Selected', action: function (e, dt, node, config) {
-      //           var fileName = '{{entity.short_name}}' + '_filtered' + '.geojson';
-      //           var featureJson = interLayer.toGeoJSON();
-      //           var convertedData = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(featureJson));
-      //           downloadJson(featureJson, fileName)
-
-      //           function downloadJson(json, fileName) {
-      //             var link = document.createElement("a");
-      //             link.setAttribute("href", 'data:' + convertedData);
-      //             link.setAttribute("download", fileName);
-      //             document.body.appendChild(link); // required for firefox
-      //             link.click();
-      //             link.remove();
-      //             console.log('Data Export Successful')
-      //           }
-      //         }
-      //       },
-      //       {
-      //         text: 'All Features', action: function (e, dt, node, config) {
-      //           var fileName = '{{entity.short_name}}' + '_filtered' + '.geojson';
-      //           var featureJson = interLayer.toGeoJSON();
-      //           var convertedData = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(featureJson));
-      //           downloadJson(featureJson, fileName)
-
-      //           function downloadJson(json, fileName) {
-      //             var link = document.createElement("a");
-      //             link.setAttribute("href", 'data:' + convertedData);
-      //             link.setAttribute("download", fileName);
-      //             document.body.appendChild(link); // required for firefox
-      //             link.click();
-      //             link.remove();
-      //             console.log('Data Export Successful')
-      //           }
-      //         }
-      //       }
-      //     ],
-
-      //   }
-      // ],
       "columnDefs": [
         { width: '20%', targets: 0 },
         {
