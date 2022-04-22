@@ -1,26 +1,20 @@
-from re import I
-from tkinter.messagebox import NO
-from app.models import Setting, Configuration
-from django.core.exceptions import ValidationError
+from re import L
+from app.models import Setting
 from django.utils.translation import gettext_lazy as _
-from stdm_config.create_model import create_model
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.db import connection
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 import json
-from django.core.serializers import serialize
 from app.config_reader import GetConfig, GetStdmConfig
 from rest_framework.parsers import JSONParser
-from rest_framework.decorators import api_view
 from .mobile_reader import FindEntitySubmissions
 import xml.etree.ElementTree as ET
 from collections import OrderedDict
 import logging as LOGGER
-from .common_exceptions import MissingEntityException
+
 
 def toHeader(s):
     """
@@ -57,7 +51,6 @@ def checkEntity(prefix):
     with connection.cursor() as cursor:
         query = "SELECT table_name FROM information_schema.tables WHERE table_schema='public' and table_name like '{0}_%';".format(
             prefix)
-        print(query)
         cursor.execute(query)
         result = cursor.fetchall()
         for entity_name in result:
@@ -93,7 +86,7 @@ def STDMReader(request):
             default_profile = configs.default_profile
 
     profiler = stdm_config.profile(default_profile)
-    print("Target Profile", profiler)
+    LOGGER.info("Target Profile %s: ", profiler)
     str_summary = str_summaries(profiler)
 
     entities = GetProfileEntities(profiler)
@@ -119,8 +112,8 @@ def GetProfileEntities(profile):
         if entity not in config_entities:
             config_entities.append(entity)
 
-    #default_profile_object = [prof.prefix for prof in stdm_config.profiles.values() if prof.name == profile.name]
-    #print("PREFIX", default_profile_object)
+    # default_profile_object = [prof.prefix for prof in stdm_config.profiles.values() if prof.name == profile.name]
+    # print("PREFIX", default_profile_object)
     db_entities = checkEntity(profile.prefix)
     for entity in config_entities:
         if entity.name in db_entities:
@@ -207,9 +200,9 @@ def EntityLookupSummaries(profile, entity):
 
 def LooukupSummary(child_entity, ers):
     parent_entity = ers[0].parent
-    query = 'select count(*), ' + parent_entity.name + '.value from '+ child_entity.name + ' join ' + parent_entity.name + ' on ' + \
+    query = 'select count(*), ' + parent_entity.name + '.value from ' + child_entity.name + ' join ' + parent_entity.name + ' on ' + \
         parent_entity.name+'.'+ers[0].parent_column + '=' + child_entity.name + \
-            '.'+ers[0].child_column + ' group by ' + \
+        '.'+ers[0].child_column + ' group by ' + \
         parent_entity.name + '.value;'
     return queryStrDetailsSTR(query)
 
@@ -225,10 +218,10 @@ def entity_columns_to_query(entity):
 
 def fetch_entity_records(entity):
     columns = entity_columns_to_query(entity)
-	LOGGER.info("%s columns to fetch %s", entity.name, columns)
-	LOGGER.info("%s columns to fetch %s", entity.name, columns)
+    LOGGER.info("%s columns to fetch %s", entity.name, columns)
     joined_columns = ','.join(columns)
     return "SELECT {} FROM {}_view".format(joined_columns, entity.name)
+
 
 @csrf_exempt
 def EntityDetailView(request, profile_name, entity_short_name):
@@ -240,75 +233,66 @@ def EntityDetailView(request, profile_name, entity_short_name):
     columns = []
     has_spatial_column = False
     is_str_entity = False
-
     errors = None
-	items = None
-	entity_name = None
-	columns = []
-	lookup_summaries = {}
-	spatial_results = None
+    items = None
+    entity_name = None
+    columns = []
+    lookup_summaries = {}
+    spatial_results = None
 
-	entity = prof.entity(entity_short_name)
-	try:
-		if not entity:
-			raise Exception(
-				"{} entity was not found in {} profile".format(entity_short_name, profile_name)
-			)
-		social_tenure = prof.social_tenure
-		entity_name = entity.name
+    entity = prof.entity(entity_short_name)
+    try:
+        if not entity:
+            raise Exception(
+                "{} entity was not found in {} profile".format(
+                    entity_short_name, profile_name)
+            )
+        social_tenure = prof.social_tenure
+        entity_name = entity.name
 
-		if entity.has_geometry_column():
-			has_spatial_column = True
-		
-		if social_tenure.is_str_entity(entity):
-			is_str_entity = True
-		
-		with connection.cursor() as cursor:
-			query = fetch_entity_records(entity)
-			LOGGER.info("%s entity details full query %s", entity_short_name, query)
-			cursor.execute(query)
-			data1 = cursor.fetchall()
-			items = [zip([key[0] for key in cursor.description], row) for row in data1]
-			
-			for key in cursor.description:
-				columns.append(toHeader(key[0]))
-		
-		lookup_summaries = EntityLookupSummaries(prof, entity)
-		spatial_results = None
-		if has_spatial_column:spatial_results = entity_geojson(entity)
-	except Exception as e:
-		print(e.args)
-		errors = "An exception has occured. Cause: {}".format(str(e.args))
-	
-	return render(request,'dashboard/entity.html', {'entity':entity,'profile':profile_name,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_str_entity':is_str_entity,'lookup_summaries':lookup_summaries, 'spatial_result':spatial_results, "errors":errors })
+        if entity.has_geometry_column():
+            has_spatial_column = True
 
-def entity_geojson(entity):
-	"""Return geosjson represantion of all rows as feature Collection if the entity supports geometry.
+        if social_tenure.is_str_entity(entity):
+            is_str_entity = True
 
-	Keyword arguments
-	entity -- a STDM entity object
-	"""
-			spatial_results = entity_geojson(entity)
-	except Exception as e:
-		print(e.args)
-		errors = "An exception has occured. Cause: {}".format(str(e.args))
-	
-	return render(request,'dashboard/entity.html', {'entity':entity,'profile':profile_name,'entity_name':entity_name,'data':items,'columns':columns,'has_spatial_column':has_spatial_column,'is_str_entity':is_str_entity,'lookup_summaries':lookup_summaries, 'spatial_result':spatial_results, "errors":errors })
+        with connection.cursor() as cursor:
+            query = fetch_entity_records(entity)
+            LOGGER.info("%s entity details full query %s",
+                        entity_short_name, query)
+            cursor.execute(query)
+            data1 = cursor.fetchall()
+            items = [zip([key[0] for key in cursor.description], row)
+                     for row in data1]
+
+            for key in cursor.description:
+                columns.append(toHeader(key[0]))
+
+        lookup_summaries = EntityLookupSummaries(prof, entity)
+        spatial_results = None
+        if has_spatial_column:
+            spatial_results = entity_geojson(entity)
+    except Exception as e:
+        errors = "An exception has occured. Cause: {}".format(str(e.args))
+        LOGGER.info(errors)
+
+    return render(request, 'dashboard/entity.html', {'entity': entity, 'profile': profile_name, 'entity_name': entity_name, 'data': items, 'columns': columns, 'has_spatial_column': has_spatial_column, 'is_str_entity': is_str_entity, 'lookup_summaries': lookup_summaries, 'spatial_result': spatial_results, "errors": errors})
+
 
 def entity_geojson(entity):
-	"""Return geosjson represantion of all rows as feature Collection if the entity supports geometry.
+    """Return geosjson represantion of all rows as feature Collection if the entity supports geometry.
 
-	Keyword arguments
-	entity -- a STDM entity object
-	"""
-	spatial_columns = entity.geometry_columns()
-	for sp in spatial_columns:
-		spatial_column = sp.name
-		break
+    Keyword arguments
+    entity -- a STDM entity object
+    """
+    spatial_columns = entity.geometry_columns()
+    for sp in spatial_columns:
+        spatial_column = sp.name
+        break
 
-	query_join_columns = entity_columns_to_query(entity)
+    query_join_columns = entity_columns_to_query(entity)
 
-	query = "SELECT row_to_json(fc) \
+    query = "SELECT row_to_json(fc) \
 			FROM \
 			( SELECT 'FeatureCollection' AS TYPE, \
 					array_to_json(array_agg(f)) AS features \
@@ -317,72 +301,77 @@ def entity_geojson(entity):
 						ST_AsGeoJSON({0}_view.{1},4326)::JSON AS geometry, \
 						row_to_json( (SELECT p FROM ( SELECT {2}) AS p)) AS properties \
 				FROM {0}_view) AS f) AS fc;	".format(entity.name, spatial_column, ','.join(query_join_columns))
-	spatial_results = None
-	with connection.cursor() as cursor:
-		cursor.execute(query)
-		result = cursor.fetchone()
-		spatial_results = json.dumps(result[0])
+    spatial_results = None
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        result = cursor.fetchone()
+        spatial_results = json.dumps(result[0])
     return spatial_results
 
+
 def sp_unit_geojson(request, profile_name, entity_short_name, row_id):
-	"""Returns a geojson representation of a single entity row as Feature if the entity has geometrycolumn.
+    """Returns a geojson representation of a single entity row as Feature if the entity has geometrycolumn.
 
-	Keyword arguments
-	profile_name-- the STDM contec=xt profile name for example KOPGT
-	entity_short_name -- the config short name for the entity to query for examle Garden
-	row_id-- the id of the row
-	"""
-	config = GetConfig("Web")
-	if config is None or not config.complete:
-		return render(request, 'dashboard/no_config.html',)
-	stdm_config = GetStdmConfig("Web")
-	prof = stdm_config.profile(profile_name)
-	entity = prof.entity(entity_short_name)
-	if not entity.has_geometry_column():
-		return None
-	spatial_columns = entity.geometry_columns()
-	for sp in spatial_columns:
-		geometry_column = sp.name
-		break
-	id_column = "id"
-	query = "SELECT jsonb_build_object(\
-               'type',       'Feature',\
-               'id',         {0},\
-               'geometry',   ST_AsGeoJSON({1})::jsonb,\
-               'properties', to_jsonb(row) - '{0}' - '{1}'\
-           ) FROM (SELECT * FROM {2}) row where id = {3};".format(id_column, geometry_column, entity.name, row_id)
-LOGGER.info("Geojson request query: %s", query)
-	with connection.cursor() as cursor:
-		cursor.execute(query)
-		result = cursor.fetchone()
-		spatial_results = json.dumps(result[0])
-	return JsonResponse(spatial_results, safe = False)@csrf_exempt
+    Keyword arguments
+    profile_name-- the STDM contec=xt profile name for example KOPGT
+    entity_short_name -- the config short name for the entity to query for examle Garden
+    row_id-- the id of the row
+    """
+    config = GetConfig("Web")
+    if config is None or not config.complete:
+        return render(request, 'dashboard/no_config.html',)
+    stdm_config = GetStdmConfig("Web")
+    prof = stdm_config.profile(profile_name)
+    entity = prof.entity(entity_short_name)
+    if not entity.has_geometry_column():
+        return None
+    spatial_columns = entity.geometry_columns()
+    for sp in spatial_columns:
+        geometry_column = sp.name
+        break
+    id_column = "id"
+    query = "SELECT jsonb_build_object(\
+			   'type',       'Feature',\
+			   'id',         {0},\
+			   'geometry',   ST_AsGeoJSON({1})::jsonb,\
+			   'properties', to_jsonb(row) - '{0}' - '{1}'\
+		   ) FROM (SELECT * FROM {2}) row where id = {3};".format(id_column, geometry_column, entity.name, row_id)
+
+    LOGGER.info("Geojson request query: %s", query)
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        result = cursor.fetchone()
+        spatial_results = json.dumps(result[0])
+    return JsonResponse(spatial_results, safe=False)@csrf_exempt
+
+
 def fetch_spatial_data(request, profile_name, entity_short_name):
-	config = GetConfig("Web")
-	if config is None or not config.complete:
-		return render(request, 'dashboard/no_config.html',)
-	stdm_config = GetStdmConfig("Web")
-	prof = stdm_config.profile(profile_name)
-	entity = prof.entity(entity_short_name)
-	if not entity.has_geometry_column():
-		return None
-	spatial_results = entity_geojson(entity)
+    config = GetConfig("Web")
+    if config is None or not config.complete:
+        return render(request, 'dashboard/no_config.html',)
+    stdm_config = GetStdmConfig("Web")
+    prof = stdm_config.profile(profile_name)
+    entity = prof.entity(entity_short_name)
+    if not entity.has_geometry_column():
+        return None
+    spatial_results = entity_geojson(entity)
 
-	return JsonResponse(spatial_results, safe = False)
+    return JsonResponse(spatial_results, safe=False)
+
 
 @csrf_exempt
 def fetch_spatial_data(request, profile_name, entity_short_name):
-	config = GetConfig("Web")
-	if config is None or not config.complete:
-		return render(request, 'dashboard/no_config.html',)
-	stdm_config = GetStdmConfig("Web")
-	prof = stdm_config.profile(profile_name)
-	entity = prof.entity(entity_short_name)
-	if not entity.has_geometry_column():
-		return None
-	spatial_results = entity_geojson(entity)
+    config = GetConfig("Web")
+    if config is None or not config.complete:
+        return render(request, 'dashboard/no_config.html',)
+    stdm_config = GetStdmConfig("Web")
+    prof = stdm_config.profile(profile_name)
+    entity = prof.entity(entity_short_name)
+    if not entity.has_geometry_column():
+        return None
+    spatial_results = entity_geojson(entity)
 
-	return JsonResponse(spatial_results, safe = False)
+    return JsonResponse(spatial_results, safe=False)
 
 
 @csrf_exempt
@@ -455,7 +444,7 @@ def FetchSpUnitSTR(profile, spu_entity, record_id):
         str_query = "select {}, {}.* from {}_view left join {} on {}.{} = {}_view.{} WHERE {}_view.{}={};".format(','.join(
             str_columns), party_view, str_table_name, party_view, party_view, str_relation.parent_column, str_table_name, str_relation.child_column, str_table_name, spu_relation.child_column, record_id)
 
-        #str_query = 'select '+tenure_type_column+ ",".join(str_columns)+ ' from '+ str_table_name+' join '+ party.name +' on ' +party.name+'.'+ str_relation.parent_column+' ='+ str_table_name+'.'+str_relation.child_column +' '+ tenure_type_join
+        # str_query = 'select '+tenure_type_column+ ",".join(str_columns)+ ' from '+ str_table_name+' join '+ party.name +' on ' +party.name+'.'+ str_relation.parent_column+' ='+ str_table_name+'.'+str_relation.child_column +' '+ tenure_type_join
 
         print("FULL QUERY", str_query)
 
