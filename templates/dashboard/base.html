@@ -1,235 +1,242 @@
-
-
 <!DOCTYPE html>
 {% load static %}
 {% load i18n %}
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-  <title>{% block title %}Home {% endblock %} | STDM WEB</title>
-
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="{% static 'dashboard/plugins/fontawesome-free/css/all.min.css' %}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{% static 'dashboard/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/1.10.13/features/mark.js/datatables.mark.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   <!-- Bootstrap Color Picker -->
-   <link rel="stylesheet" href="{% static 'dashboard/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css' %}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{% static 'dashboard/dist/css/adminlte.min.css' %}">
-  <link rel="stylesheet" href="{% static 'dashboard/dist/css/custom.css' %}">
-  <link rel="shortcut icon" type="image/x-icon" href="{% static 'dashboard/dist/img/faviconb.ico' %}">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-</head>
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
-<div class="wrapper">
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand" id="header" style="background: #D45F01;height:58px;">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link current" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <div class="nav-link current"><label>Current Profile: </label></div>
-        
-      </li>
-      
-      
-      <li class="nav-item d-none d-sm-inline-block">
-        <div class="form-group">
-          
-          <select class="form-control" id="profiles">
-            {% block profiler %}
-            {% if profiles %}          
-              {% for profile in profiles %}
-              <option>{{profile}}</option>
-              {% endfor %}
-            {% else %}
-            <p>No profiles available!</p>
-            {% endif %}
-            {% endblock profiler %}
-            
-          </select>
-        </div>
-       
-      </li>
-     
-    </ul>
-   
-
-
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="/admin/" target="_blank" class="nav-link current">Admin</a>
-      </li>
-    
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-       
-        <a class="nav-link current" data-toggle="dropdown" href="#">
-          {% if user.is_authenticated %}
-          Welcome, {{user}}
-          {% endif %}
-          <i class="fas fa-angle-down right"></i>
-          
-        </a>
-        
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-         
-          <a href="{% url 'password_change' %}" class="dropdown-item">
-            <i class="fas fa-cogs mr-2"></i> Change Password
-          </a>
-         
-          <div class="dropdown-divider"></div>
-          <a href="{% url 'logout' %}" class="dropdown-item">
-            <i class="fas fa-sign mr-2"></i> Logout
-          </a>
-          
-        </div>
-      </li>
-     
-    </ul>
-  </nav>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4" id="sidebar" style="background: {{configs.sidebar_color}}">
-    <!-- Brand Logo -->
-    <a href="{% url 'dashboard' %}" class="brand-link">
-      
-      <img src="{{configs.logo.url}}" alt="STDM Web" class="brand-image">
-      
-      {% comment %} <span class="brand-text font-weight-light">  {{configs.site_name}}</span> {% endcomment %}
-    </a>
-
-    <!-- Sidebar -->
-    <div class="sidebar">   
-
-      <!-- Sidebar Menu -->
-      <div class="mt-2">
-        <ul class="nav nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview">
-            <a href="{% url 'dashboard' %}" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
-               
-              </p>
-            </a>
-           
-          </li>
-          <div class="nav-item" id="dynamicDiv">
-            {% block profiler_entities %}
-            {% if entities %}          
-              {% for entity in entities %}
-              <li class="nav-item" id="{{entity.short_name}}">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-th"></i>
-                  <p>{{entity.ui_display}}
-                  </p>
-                </a>
-              </li>
-              {% endfor %}
-            {% else %}
-            <p>No entities available!</p>
-            {% endif %}
-            {% endblock profiler_entities %}
-       
-          </div>
-          <hr>
-          <li class="nav-item">
-            <a href="{% url 'kobo' %}" class="nav-link">
-              <i class="nav-icon fas fa-mobile"></i>
-              <p>
-                Mobile Dashboard
-              </p>
-            </a>
-          </li>
-          {% comment %} <li class="nav-item">
-            <a href="{% url 'mobile_sync' %}" class="nav-link">
-              <i class="nav-icon fas fa-refresh"></i>
-              <p>
-                Mobile Data Sync
-              </p>
-            </a>
-          </li> {% endcomment %}
-         
-          
-          
-         
-          <li class="nav-header">IMPORTANT LINKS</li>
-          <li class="nav-item">
-            <a href="{% url 'settings' %}" class="nav-link">
-              <i class="nav-icon fas fa-cogs"></i>
-              <p>
-                Settings
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
-              <p>Documentation</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-question"></i>
-              <p>Help</p>
-            </a>
-          </li>
-          <hr>
-          <hr>    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>
+            {% block title %}Home{% endblock %}
+        | STDM WEB</title>
+        <!-- Font Awesome Icons -->
+        <link rel="stylesheet"
+              href="{% static 'dashboard/plugins/fontawesome-free/css/all.min.css' %}">
+        <!-- overlayScrollbars -->
+        <link rel="stylesheet"
+              href="{% static 'dashboard/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+        <!-- DataTables -->
+        <link rel="stylesheet"
+              href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+        <link rel="stylesheet"
+              href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
+        <link rel="stylesheet"
+              href="https://cdn.datatables.net/plug-ins/1.10.13/features/mark.js/datatables.mark.min.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Bootstrap Color Picker -->
+        <link rel="stylesheet"
+              href="{% static 'dashboard/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css' %}">
+        <!-- Theme style -->
+        <link rel="stylesheet"
+              href="{% static 'dashboard/dist/css/adminlte.min.css' %}">
+        <link rel="stylesheet" href="{% static 'dashboard/dist/css/custom.css' %}">
+        <link rel="shortcut icon"
+              type="image/x-icon"
+              href="{% static 'dashboard/dist/img/faviconb.ico' %}">
+        <!-- Google Font: Source Sans Pro -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+              rel="stylesheet">
+    </head>
+    <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+        <div class="wrapper">
+            <!-- Navbar -->
+            <nav class="main-header navbar navbar-expand"
+                 id="header"
+                 style="background: #D45F01;
+                        height:58px;">
+                <!-- Left navbar links -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link current"
+                           data-widget="pushmenu"
+                           href="#"
+                           role="button"><i class="fas fa-bars"></i></a>
+                    </li>
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <div class="nav-link current">
+                            <label>Current Profile:</label>
+                        </div>
+                    </li>
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <div class="form-group">
+                            <select class="form-control" id="profiles">
+                                {% block profiler %}
+                                    {% if profiles %}
+                                        {% for profile in profiles %}
+                                            <option>
+                                                {{ profile }}
+                                            </option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p>
+                                            No profiles available!
+                                        </p>
+                                    {% endif %}
+                                {% endblock profiler %}
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+                <!-- Right navbar links -->
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="/admin/" target="_blank" class="nav-link current">Admin</a>
+                    </li>
+                    <!-- Notifications Dropdown Menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link current" data-toggle="dropdown" href="#">
+                            {% if user.is_authenticated %}Welcome, {{ user }}{% endif %}
+                            <i class="fas fa-angle-down right"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <a href="{% url 'password_change' %}" class="dropdown-item">
+                                <i class="fas fa-cogs mr-2"></i> Change Password
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{% url 'logout' %}" class="dropdown-item">
+                            <i class="fas fa-sign mr-2"></i> Logout
+                    </a>
+                </div>
+            </li>
         </ul>
-      </div>
-      <!-- /.sidebar-footer -->
-    <div class="brand-link-footer">
-      <div class="row">
-        <div class="col-md-6"><a href="https://gltn.net/" target="_blank"><img src="{% static 'dashboard/dist/img/gltn.png'%}" style="max-width: 90%; max-height: 70%; padding-top:2px; "/></a></div>
-        <div class="col-md-6"><a href="https://unhabitat.org/" target="_blank"><img src="{% static 'dashboard/dist/img/unhabitat.png'%}"  style="max-width: 90%; max-height: 70%; padding-top:2px; "/></a></div>
-      </div>
+    </nav>
+    <!-- /.navbar -->
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4"
+           id="sidebar"
+           style="background: {{ configs.sidebar_color }}">
+        <!-- Brand Logo -->
+        <a href="{% url 'dashboard' %}" class="brand-link">
+            <img src="{{ configs.logo.url }}" alt="STDM Web" class="brand-image">
+            {% comment %} <span class="brand-text font-weight-light">{{configs.site_name}}</span> {% endcomment %}
+        </a>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar Menu -->
+            <div class="mt-2">
+                <ul class="nav nav-sidebar flex-column"
+                    data-widget="treeview"
+                    role="menu"
+                    data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+                    <li class="nav-item has-treeview">
+                        <a href="{% url 'dashboard' %}" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </li>
+                    <div class="nav-item" id="dynamicDiv">
+                        {% block profiler_entities %}
+                            {% if entities %}
+                                {% for entity in entities %}
+                                    <li class="nav-item" id="{{ entity.short_name }}">
+                                        <a href="#" class="nav-link">
+                                            <i class="nav-icon fas fa-th"></i>
+                                            <p>
+                                                {{ entity.ui_display }}
+                                            </p>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <p>
+                                    No entities available!
+                                </p>
+                            {% endif %}
+                        {% endblock profiler_entities %}
+                    </div>
+                    <hr>
+                    <li class="nav-item btn-primary">
+                        <a href="{% url 'kobo' %}" class="nav-link">
+                            <i class="nav-icon fas fa-mobile"></i>
+                            <p>
+                                Mobile Dashboard
+                            </p>
+                        </a>
+                    </li>
+                    {% comment %} <li class="nav-item">
+              <a href="{% url 'mobile_sync' %}" class="nav-link">
+                <i class="nav-icon fas fa-refresh"></i>
+                <p>
+                  Mobile Data Sync
+                </p>
+              </a>
+                    </li> {% endcomment %}
+                    <li class="nav-header">IMPORTANT LINKS</li>
+                    <li class="nav-item">
+                        <a href="{% url 'settings' %}" class="nav-link">
+                            <i class="nav-icon fas fa-cogs"></i>
+                            <p>
+                                Settings
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-file"></i>
+                            <p>
+                                Documentation
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-question"></i>
+                            <p>
+                                Help
+                            </p>
+                        </a>
+                    </li>
+                    <hr>
+                    <hr>
+                </ul>
+            </div>
+            <!-- /.sidebar-footer -->
+            <div class="brand-link-footer">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="https://gltn.net/" target="_blank">
+                            <img src="{% static 'dashboard/dist/img/gltn.png' %}"
+                                 style="max-width: 90%; max-height: 70%; padding-top:2px; "/>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="https://unhabitat.org/" target="_blank">
+                            <img src="{% static 'dashboard/dist/img/unhabitat.png' %}"
+                                 style="max-width: 90%; max-height: 70%; padding-top:2px; "/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+    <!-- Content Wrapper. Contains page content -->
+    {% block content %}{% endblock %}
+    <!-- /.content-wrapper -->
+    <!-- Control Sidebar -->
+    {% comment %} <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside> {% endcomment %}
+    <!-- /.control-sidebar -->
+    <!-- Main Footer -->
+    <footer class="main-footer"
+            id="footer"
+            style="background: {{ configs.footer_color }}">
+        <strong>
+            <script>new Date().getFullYear() > document.write(new Date().getFullYear());</script>
+        </strong> UN Habitat and its implementing partners.
+        All rights reserved..
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Version</b> 1.0.0
     </div>
-    </div>
-    
-    <!-- /.sidebar -->
-  </aside>
-
-  <!-- Content Wrapper. Contains page content -->
-  
-  {% block content %}
-  {% endblock %}
-  <!-- /.content-wrapper -->
-
-  <!-- Control Sidebar -->
-  {% comment %} <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside> {% endcomment %}
-  <!-- /.control-sidebar -->
-
-  <!-- Main Footer -->
-  <footer class="main-footer" id="footer" style="background: {{configs.footer_color}}">
-    
-    <strong> <script>new Date().getFullYear() >  document.write(new Date().getFullYear());</script></strong> UN Habitat and its implementing partners. 
-    All rights reserved..
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 1.0.0
-    </div>
-  </footer>
+</footer>
 </div>
 <!-- ./wrapper -->
-
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
 <script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script>
@@ -248,22 +255,14 @@
 <script src="https://cdn.datatables.net/plug-ins/1.10.13/features/mark.js/datatables.mark.js"></script>
 <!-- AdminLTE App -->
 <script src="{% static 'dashboard/dist/js/adminlte.js' %}"></script>
- <!-- bootstrap color picker -->
- <script src="{% static 'dashboard/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js' %}"></script>
-
+<!-- bootstrap color picker -->
+<script src="{% static 'dashboard/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js' %}"></script>
 <!-- Highcharts -->
 <script src="{% static 'dashboard/dist/charts/highcharts.js' %}"></script>
 <script src="{% static 'dashboard/dist/charts/exporting.js' %}"></script>
-
-
 <!-- bs-custom-file-input -->
 <script src="{% static 'dashboard/plugins/bs-custom-file-input/bs-custom-file-input.min.js' %}"></script>
-
-<script>
-  $("#profiles").val("{{default_profile}}");
-  
-</script>
-
+<script>$("#profiles").val("{{default_profile}}");</script>
 <div class="modal"></div>
 </body>
 </html>

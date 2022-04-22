@@ -1,4 +1,3 @@
-from re import L
 from app.models import Setting
 from django.utils.translation import gettext_lazy as _
 from django.http import JsonResponse
@@ -9,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 import json
 from app.config_reader import GetConfig, GetStdmConfig
-from rest_framework.parsers import JSONParser
 from .mobile_reader import FindEntitySubmissions
 import xml.etree.ElementTree as ET
 from collections import OrderedDict
@@ -86,7 +84,7 @@ def STDMReader(request):
             default_profile = configs.default_profile
 
     profiler = stdm_config.profile(default_profile)
-    LOGGER.info("Target Profile %s: ", profiler)
+    LOGGER.info("Target Profile", profiler)
     str_summary = str_summaries(profiler)
 
     entities = GetProfileEntities(profiler)
@@ -275,13 +273,13 @@ def EntityDetailView(request, profile_name, entity_short_name):
     except Exception as e:
         errors = "An exception has occured. Cause: {}".format(str(e.args))
         LOGGER.info(errors)
+    LOGGER.info(items)
 
     return render(request, 'dashboard/entity.html', {'entity': entity, 'profile': profile_name, 'entity_name': entity_name, 'data': items, 'columns': columns, 'has_spatial_column': has_spatial_column, 'is_str_entity': is_str_entity, 'lookup_summaries': lookup_summaries, 'spatial_result': spatial_results, "errors": errors})
 
 
 def entity_geojson(entity):
     """Return geosjson represantion of all rows as feature Collection if the entity supports geometry.
-
     Keyword arguments
     entity -- a STDM entity object
     """
@@ -336,7 +334,6 @@ def sp_unit_geojson(request, profile_name, entity_short_name, row_id):
 			   'geometry',   ST_AsGeoJSON({1})::jsonb,\
 			   'properties', to_jsonb(row) - '{0}' - '{1}'\
 		   ) FROM (SELECT * FROM {2}) row where id = {3};".format(id_column, geometry_column, entity.name, row_id)
-
     LOGGER.info("Geojson request query: %s", query)
     with connection.cursor() as cursor:
         cursor.execute(query)

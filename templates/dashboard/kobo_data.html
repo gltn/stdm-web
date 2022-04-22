@@ -59,13 +59,14 @@
               <div class="card-body">
                 <div class="tab-content" id="custom-tabs-four-tabContent">
                   <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details"
-                    aria-labelledby="profile_details-tab">                    
+                    aria-labelledby="profile_details-tab">
                     <div class="card card-primary" id="profile_details" style="display: block; width: 100%;">
                       <h4>Fill in the form:</h4>
                       <form class="row g-3" id="koboform">
                         <div class="col-md-8 form-group required">
                           <label for="validationDefault01" class="control-label">KPI-URL</label>
-                          <input type="text" class="form-control" id="kpiurl" value="{{kobo_settings.kpi_url}}" disabled>
+                          <input type="text" class="form-control" id="kpiurl" value="{{kobo_settings.kpi_url}}"
+                            disabled>
                         </div>
                         <div class="col-md-8 form-group required">
                           <label for="validationDefault02" class="control-label">Server Token</label>
@@ -90,12 +91,12 @@
 
                         <div class="col-12">
                           <button class="btn btn-primary" type="submit">Submit</button>
-                          <img src="{% static 'dashboard/loader/loader.gif' %}" id="img" style="display:none"/ >
+                          <img src="{% static 'dashboard/loader/loader.gif' %}" id="img" style="display:none" />
                         </div>
                       </form>
-                      
+
                       <div class="col-md-12">
-                      <hr>
+                        <hr>
                         <div id="KoboSubmissions" class="table-responsive">
 
 
@@ -103,9 +104,9 @@
                       </div>
 
                     </div>
-                   
+
                     <div id="subSummaries" style="display: none;">
-                     <hr>
+                      <hr>
 
                     </div>
 
@@ -131,12 +132,12 @@
       <!-- /.row -->
     </div>
     <!-- dd -->
-      
-       
-    
 
-       
-        <!-- /.row -->
+
+
+
+
+    <!-- /.row -->
 </div>
 <!--/. container-fluid -->
 </section>
