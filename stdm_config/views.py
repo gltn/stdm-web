@@ -307,6 +307,7 @@ def entity_geojson(entity):
     return spatial_results
 
 
+@csrf_exempt
 def sp_unit_geojson(request, profile_name, entity_short_name, row_id):
     """Returns a geojson representation of a single entity row as Feature if the entity has geometrycolumn.
 
@@ -335,13 +336,17 @@ def sp_unit_geojson(request, profile_name, entity_short_name, row_id):
 			   'properties', to_jsonb(row) - '{0}' - '{1}'\
 		   ) FROM (SELECT * FROM {2}) row where id = {3};".format(id_column, geometry_column, entity.name, row_id)
     LOGGER.info("Geojson request query: %s", query)
+    spatial_results = None
     with connection.cursor() as cursor:
         cursor.execute(query)
         result = cursor.fetchone()
         spatial_results = json.dumps(result[0])
-    return JsonResponse(spatial_results, safe=False)@csrf_exempt
+    return render(request, 'dashboard/view_more_location.html', {'spatial_results': spatial_results})
+
+# return JsonResponse(spatial_results, safe=False)
 
 
+@csrf_exempt
 def fetch_spatial_data(request, profile_name, entity_short_name):
     config = GetConfig("Web")
     if config is None or not config.complete:

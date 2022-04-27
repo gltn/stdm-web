@@ -1,0 +1,101 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+<script src="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.js' %}"></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+<div class="col-md-12">
+    <div class="col-12 col-sm-12">
+        <div class="card card-primary" id="profile_details">
+            <div class="card-header">
+                <h4>Location on Map</h4>
+            </div>
+            <div class="card-body">
+                <div id="mapdiv">
+                    <div id="mapView" style="height: 70vh;
+                                                                            width: auto;
+                                                                            box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var southWest = L.latLng(-90, -180),
+        northEast = L.latLng(90, 180);
+    var bounds = L.latLngBounds(southWest, northEast);
+
+    var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        attribution: 'Map developed by Google'
+    });
+
+    var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+
+    var usgsImagery = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+    var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+    });
+    var map = L.map("mapView", {
+        zoom: 5,
+        center: [0.830522, 37.729050],
+        layers: [cartoLight],
+        maxBounds: bounds,
+        minZoom: 1,
+        zoomControl: true,
+        attributionControl: false
+    });
+    var layerStyle = {
+        'default': {
+            'color': 'brown',
+            'fillOpacity': 0.3,
+            'opacity': 0.5,
+            'weight': 2
+        },
+        'highlight': {
+            'color': 'deepskyblue',
+            'opacity': 0.5,
+            'weight': 2
+        },
+        'selection': {
+            'color': 'blue',
+            'weight': 4,
+            'fillOpacity': 0,
+        }
+    };
+    var geom = {{ spatial_results | safe}};
+
+    var layerFeatures = L.geoJson(geom, {
+        style: layerStyle.default,
+    }).addTo(map);
+    map.fitBounds(layerFeatures.getBounds());
+
+
+    var baseLayers = {
+        "Carto Light": cartoLight,
+        "Google Streets": googleStreets,
+        "Google Hybrid": googleHybrid,
+    };
+
+    var groupedOverlays = {
+        "Spatial Data": {
+            "Layer": layerFeatures,
+
+        }
+    };
+    var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map);
+
+</script>

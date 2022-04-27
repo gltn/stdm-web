@@ -305,9 +305,9 @@ div.dataTables_processing {
   width: 100% !important;
 }
 
-.dataTables_scrollHeadInner > table {
+/* .dataTables_scrollHeadInner > table {
   width: 100% !important;
-}
+} */
 .dataTable {
   text-align: center;
 }

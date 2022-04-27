@@ -11,7 +11,6 @@
                 <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_tab_details"
                   role="tab" aria-controls="profile_tab_details" aria-selected="true">Records</a>
               </li>
-
               {% if entity.has_geometry_column == True %}
               <li class="nav-item">
                 <a class="nav-link" id="maps-tab" data-toggle="pill" href="#maps" role="tab" aria-controls="maps"
@@ -31,188 +30,157 @@
             <div class="tab-content" id="custom-tabs-four-tabContent">
               <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details"
                 aria-labelledby="profile_details-tab">
-                <div class="card card-primary" id="profile_details" style="display: none; width: 100%;">
-                  <h4>{{entity.ui_display}}</h4>
+                <div class="card card-primary" id="profile_details" style="display: none;
+                                                    width: 100%;">
+                  <h4>{{ entity.ui_display }}</h4>
+                  {% if errors %}<span class="badge badge-danger">{{ errors }}</span>{% endif %}
                   <hr>
-
-                  <div class="tab-content" id="custom-tabs-four-tabContent">
-                    <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details" aria-labelledby="profile_details-tab"> 
-                      <div class="card card-primary"  id="profile_details" style="display: none; width: 100%;">
-                        <h4>{{entity.ui_display}}</h4>
-                        {% if errors %}
-                        <span class="badge badge-danger">{{errors}}</span>
-                        {% endif %}
-                        <hr>
-                        <table id="entityTable" class="table table-bordered table-striped" style="width:100%;cursor:pointer;">
-  
-                            <thead >
-                          
-                          <tr>
-                              {% for column in columns %}  
-                              <th>{{column}}</th> 
-                                                                    
-                              {% endfor %} 
-                                                
-                          </tr>
-                          
-                          </thead>
-                          
-                          <tbody>
-                            
-                            {% for row in data %}
-                                  
-                            <tr>
-                              {% for dt in row %}                              
-                              <td>{{dt.1}}</td>   
-                              {% endfor %}
-                              <!-- {% if is_str_entity  %}                                              
-                              <td><button id='moreView' class="{% if dt.0 == 'id' %}{{dt.1}}{% endif %}">View More</button></td>
-                              {% endif %}                         -->
+                  <table id="entityTable" class="table table-bordered table-striped" style="width:100%;
+                                                          cursor:pointer;">
+                    <thead>
+                      <tr>
+                        {% for column in columns %}<th>{{ column }}</th>{% endfor %}
                       </tr>
-
+                    </thead>
+                    <tbody>
+                      {% for row in data %}
+                      <tr>
+                        {% for dt in row %}<td>{{ dt.1 }}</td>{% endfor %}
+                        <!-- {% if is_str_entity  %}
+                          <td><button id='moreView' class="{% if dt.0 == 'id' %}{{dt.1}}{% endif %}">View More</button></td>
+                          {% endif %}                         -->
+                      </tr>
                       {% endfor %}
                     </tbody>
-                          </table>
-                        </div> 
-                        <div class="row" id="view_more"></div>                     
-                    </div>
-                    {% if entity.has_geometry_column == True %}
-                    <div class="tab-pane fade" id="maps" role="tabpanel" aria-labelledby="maps-tab">
-                      <div class="container-fluid"> 
-                        <div class="row">
-                          <div class="col-12 col-md-12">
-                          <a href='#' id='export' class="btn btn-primary"><i class="fa fa-download"></i> Download Features</a>            
-                            <nav class="navbar navbar-expand navbar-light float-right">
-                              <ul class="navbar-nav">
-                              </ul>
-                            </nav>
-                          </div>
-                        </div>      
-                       <br>
-                      <div id="mapdiv">
-                        <div id="mapid" style="height: 70vh; width: auto;box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
-                       
-                      </div>
-                      <div id="table-container">
-                        <div id="toolbar" style="width: 400px;">                          
-                          <span id="feature-count" class="text-muted" style="padding-left: 15px;"></span>
-                        </div>
-                        <table id="sttable" class="table table-bordered table-striped" style="width: 100%;cursor:pointer">
-                         
-                        </table>
-                      </div>
+                  </table>
+                </div>
+                <div class="row" id="view_more"></div>
+                <hr>
+                <div class="row" id="view_more_location"></div>
+              </div>
+              {% if entity.has_geometry_column == True %}
+              <div class="tab-pane fade" id="maps" role="tabpanel" aria-labelledby="maps-tab">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-12 col-md-12">
 
-                      </div>
+                      <nav class="navbar navbar-expand navbar-light float-right">
+                        <ul class="navbar-nav">
+                        </ul>
+                      </nav>
                     </div>
-                    {% endif %}
-                    {% if lookup_summaries %}
-                    <div class="tab-pane fade" id="sum" role="tabpanel" aria-labelledby="sum-tab">
-                      <div class="container-fluid"> 
-                        <div class="row">
-                          <h4>{{entity.ui_display}}</h4>
-                          <hr>                        
-                         
-                          <div class="col-12">
-                          <div class="card card-primary card-outline">
-                            <div class="card-header d-flex p-0">
-                              <h3 class="card-title p-3">Look-Up Summary</h3>
-                              <ul class="nav nav-pills ml-auto p-2" id="lookups">
-                                {% for key,value in lookup_summaries.items %}  
-                                                      
-                                {% if forloop.first %}                                
-                                <li class="nav-item"><a class="nav-link active" href="#{{key|cut:' ' }}" data-toggle="tab">{{key}}</a> </li>
-                                {% else %}
-                                <li class="nav-item"><a class="nav-link" href="#{{key|cut:' ' }}" data-toggle="tab">{{key}}</a> </li>
-                                {% endif %}
-                                {% endfor %}
-                                <!-- <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Chart</a></li> -->
-                               
-                                
-                              </ul>
-                            </div><!-- /.card-header -->
-                            <div class="card-body">
-                              <div class="tab-content">                                <!-- /.tab-pane -->
-                                
-                                <br>
-                               
-                                {% for key,value in lookup_summaries.items %}
-                                {% if forloop.first %}
-                                <div class="tab-pane active" id="{{key|cut:' ' }}">
-                                  <button id="column" disabled>Column chart</button>
-                                  <button id="bar">Bar chart</button>
-                                  <button id="line">Line chart</button>
-                                  <button id="spline">Spline chart</button>
-                                  <button id="pie">Pie chart</button>
-                                  <hr>
-                                  <div id="{{key|cut:' ' }}"  style="height: 30vh;"></div>
-                                
-                                </div>
-                                {% else %}
-                                <div class="tab-pane" id="{{key|cut:' ' }}">
-                                  <button id="column" disabled>Column chart</button>
-                                  <button id="bar">Bar chart</button>
-                                  <button id="line">Line chart</button>
-                                  <button id="spline">Spline chart</button>
-                                  <button id="pie">Pie chart</button>
-                                  <hr>
-                                  <div id="{{key|cut:' ' }}"  style="height: 30vh;"></div>
-                                  
-                                </div>
-                                {% endif %}
-                                {% endfor %}
-                                
-                                <!-- /.tab-pane -->
-                               
-                              </div>
-                              <!-- /.tab-content -->
-                            </div><!-- /.card-body -->
-                          </div>
-                          <!-- /.tab-content -->
-                        </div><!-- /.card-body -->
-                      </div>
+                  </div>
+                  <br>
+                  <div id="mapdiv">
+                    <div id="mapid" style="height: 70vh;
+                                                            width: auto;
+                                                            box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
+                  </div>
+                  <div id="table-container">
+                    <div id="toolbar" style="width: 400px;">
+                      <span id="feature-count" class="text-muted" style="padding-left: 15px;"></span>
                     </div>
+                    <table id="sttable" class="table table-bordered table-striped" style="width: 100%;cursor:pointer">
+                    </table>
                   </div>
                 </div>
               </div>
               {% endif %}
-
+              {% if lookup_summaries %}
+              <div class="tab-pane fade" id="sum" role="tabpanel" aria-labelledby="sum-tab">
+                <div class="container-fluid">
+                  <div class="row">
+                    <h4>{{ entity.ui_display }}</h4>
+                    <hr>
+                    <div class="col-12">
+                      <div class="card card-primary card-outline">
+                        <div class="card-header d-flex p-0">
+                          <h3 class="card-title p-3">Look-Up Summary</h3>
+                          <ul class="nav nav-pills ml-auto p-2" id="lookups">
+                            {% for key,value in lookup_summaries.items %}
+                            {% if forloop.first %}
+                            <li class="nav-item">
+                              <a class="nav-link active" href="#{{ key|cut:' ' }}" data-toggle="tab">{{ key }}</a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                              <a class="nav-link" href="#{{ key|cut:' ' }}" data-toggle="tab">{{ key }}</a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            <!-- <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Chart</a></li> -->
+                          </ul>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                          <div class="tab-content">
+                            <!-- /.tab-pane -->
+                            <br>
+                            {% for key,value in lookup_summaries.items %}
+                            {% if forloop.first %}
+                            <div class="tab-pane active" id="{{ key|cut:' ' }}">
+                              <button id="column" disabled>Column chart</button>
+                              <button id="bar">Bar chart</button>
+                              <button id="line">Line chart</button>
+                              <button id="spline">Spline chart</button>
+                              <button id="pie">Pie chart</button>
+                              <hr>
+                              <div id="{{ key|cut:' ' }}" style="height: 30vh;"></div>
+                            </div>
+                            {% else %}
+                            <div class="tab-pane" id="{{ key|cut:' ' }}">
+                              <button id="column" disabled>Column chart</button>
+                              <button id="bar">Bar chart</button>
+                              <button id="line">Line chart</button>
+                              <button id="spline">
+                                Spline chart
+                              </button>
+                              <button id="pie">
+                                Pie chart
+                              </button>
+                              <hr>
+                              <div id="{{ key|cut:' ' }}" style="height: 30vh;">
+                              </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            <!-- /.tab-pane -->
+                          </div>
+                          <!-- /.tab-content -->
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+                      <!-- /.tab-content -->
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <!-- /.card -->
+          {% endif %}
         </div>
       </div>
-
-
-      <!-- /.card -->
       <!-- /.card -->
     </div>
-    <!-- /.col -->
   </div>
-
-  <!-- /.row -->
-
-
-  <!-- /.row -->
+  <!-- /.card -->
+  <!-- /.card -->
 </div>
-<!--/. container-fluid -->
-</section>
-<!-- /.content -->
-</div>
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
   integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
-
 <script>
   $(function () {
-    //   $("#entityTable").DataTable({
-    //     "responsive": true,
-    //     "autoWidth": true,
-    //   });
+    // $("#entityTable").DataTable({
+    //   "responsive": true,
+    //   "autoWidth": true,
+    // });
     let today = new Date().toISOString().slice(0, 10)
 
     var pos = [];
     {% for column in columns %}
-    pos.push("{{column}}")   // first_name              
-    {% endfor %}
+    pos.push("{{column}}")   // first_name{% endfor %}
     console.log('The columns', pos)
     var index = pos.indexOf('Id')
 
@@ -257,7 +225,6 @@
         }
       ],
       "scrollY": 400,
-      // "destroy": true,
       "searching": true,
       hideEmptyCols: true,
       mark: true,
@@ -281,6 +248,7 @@
     //   $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
     // });
     $('#entityTable').DataTable().draw();
+    entityTables.columns.adjust().draw();
     $('#entityTable tbody').on('click', 'tr', function () {
       var data_row = entityTables.row(this).data();
       console.log('Hii ndio maneno')
@@ -312,18 +280,13 @@
 
   });
 </script>
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
 <script src="{% static 'dashboard/leaflet/easy-button.js' %}"></script>
-
 {% if entity.has_geometry_column == True %}
 <script type="text/javascript">
   let today = new Date().toISOString().slice(0, 10)
   var pos = [];
-  {% for column in columns %}
-  pos.push("{{column}}")   // first_name              
-  {% endfor %}
+  {% for column in columns %} pos.push("{{column}}")   // first_name{% endfor %}
   console.log('The columns', pos)
   var index = pos.indexOf('Id')
   var index_leaf_map = pos.indexOf('leaflet_stamp')
@@ -753,9 +716,7 @@
 
       xAxis: {
         categories: [
-          {% for val, ky in value %}
-              '{{ky|safe}}',
-              {% endfor %}
+          {% for val, ky in value %}              '{{ky|safe}}',{% endfor %}
           ]
                      
       },
@@ -798,9 +759,7 @@
     series: [
     {
       showInLegend: false,
-      "data": [{% for val, ky in value %}
-                        {{ val| safe}},
-    {% endfor %}
+      "data": [{% for val, ky in value %}                        {{ val| safe}}, {% endfor %}
   ]
           
           }
@@ -886,20 +845,4 @@
   {% endfor %}
 
   });
-</script>
-<script>
-  document.getElementById('export').onclick = function (e) {
-    // Extract GeoJson from all features
-    if (mymap.hasLayer(layerFeatures)) {
-      var data = layerFeatures.toGeoJSON();
-      // Stringify the GeoJson
-      var convertedData = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data));
-      // Create export
-      document.getElementById('export').setAttribute('href', 'data:' + convertedData);
-      document.getElementById('export').setAttribute('download', '{{entity.short_name}}.geojson');
-    }
-    else {
-      alert('Data Layer not available!')
-    }
-  }
 </script>

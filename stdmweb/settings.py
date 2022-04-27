@@ -60,7 +60,7 @@ ROOT_URLCONF = 'stdmweb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,17 +71,17 @@ TEMPLATES = [
                 "django.template.context_processors.i18n",
                 "django.template.context_processors.media",
                 "django.template.context_processors.static",
-                "django.template.context_processors.tz",                
-               
+                "django.template.context_processors.tz",
+
             ],
         },
     },
 ]
 
 SERIALIZATION_MODULES = {
-    "geojson": "django.contrib.gis.serializers.geojson", 
- }
- 
+    "geojson": "django.contrib.gis.serializers.geojson",
+}
+
 WSGI_APPLICATION = 'stdmweb.wsgi.application'
 
 
@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'stdmweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'OPTIONS' : {
+        'OPTIONS': {
             'options': '-c search_path=config,public,information_schema'
         },
         'NAME': 'configuration',
@@ -105,14 +105,13 @@ DATABASES = {
         'OPTIONS': {
             'options': '-c search_path=config'
         },
-       'NAME': 'configuration',
-       'USER': 'postgres',
-       'PASSWORD': 'maestro123',
-       'HOST': 'localhost',
-       'PORT': '5432'
+        'NAME': 'configuration',
+        'USER': 'postgres',
+        'PASSWORD': 'maestro123',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
-
 
 
 # Password validation
@@ -157,7 +156,7 @@ EMAIL_HOST = 'mail.lifeingis.com'
 EMAIL_HOST_USER = 'support@lifeingis.com'
 EMAIL_HOST_PASSWORD = 'samsam2019'
 EMAIL_PORT = 465
-DEFAULT_FROM_EMAIL ='support@lifeingis.com'
+DEFAULT_FROM_EMAIL = 'support@lifeingis.com'
 
 
 STATIC_URL = '/static/'
@@ -171,3 +170,23 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 SITE_ID = 1
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': False,
+        },
+    },
+}
