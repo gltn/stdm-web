@@ -252,7 +252,7 @@
     $('#entityTable tbody').on('click', 'tr', function () {
       var data_row = entityTables.row(this).data();
       console.log('Hii ndio maneno')
-      console.log(data_row)
+      console.log(data_row[0])
       var list_id = data_row[0];
       // var list_id = $(this).attr('class');
       var profile = $("#profiles :selected").val();
@@ -261,7 +261,6 @@
         type: 'POST',
         traditional: true,
         success: function (data) {
-          console.log(data);
           $('#view_more').html(data);
           document.getElementById('view_more').scrollIntoView({
             behavior: 'smooth'

@@ -19,6 +19,7 @@ from app.config_reader import GetStdmConfig, GetConfig
 from stdm_config.mobile_reader import FindEntitySubmissions
 from koboextractor import KoboExtractor
 import requests
+from django.contrib import messages
 
 
 # Mobile Component
@@ -260,12 +261,19 @@ def entity_columns(request, profile_name, entity_name):
     return render(request, 'dashboard/mobile_entity_columns.html', {'entity_columns_list': entity_columns_list, })
 
 
+@login_required
 def KoboFormView(request):
-    url = 'https://kobo.humanitarianresponse.info/api/v2/assets/axPo5r5hcP88m5zc9n6poX/data/'
-    headers = {'Authorization': 'Token 4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7'}
-    r = requests.post(url, headers=headers)
-    kobo_configs = KoboConfiguration.objects.all().first()
-    return render(request, 'dashboard/kobo_data.html', {'data': r.text, 'kobo_settings': kobo_configs})
+    if request.user.is_mobile_user:
+        url = 'https://kobo.humanitarianresponse.info/api/v2/assets/axPo5r5hcP88m5zc9n6poX/data/'
+        headers = {
+            'Authorization': 'Token 4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7'}
+        r = requests.post(url, headers=headers)
+        kobo_configs = KoboConfiguration.objects.all().first()
+        return render(request, 'dashboard/kobo_data.html', {'data': r.text, 'kobo_settings': kobo_configs})
+    else:
+        messages.error(
+            request, 'Not allowed to view this dashboard. Contact the administrator!')
+        return render(request, 'dashboard/forbiden.html')
 
 
 KOBO_TOKEN = "4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7"
