@@ -89,7 +89,7 @@ def STDMReader(request):
                 default_profile = configs.default_profile
 
         profiler = stdm_config.profile(default_profile)
-        LOGGER.info("Target Profile", profiler)
+        # LOGGER.info("Target Profile", profiler)
         str_summary = str_summaries(profiler)
         entities = GetProfileEntities(profiler)
         zipped_summaries = None
@@ -223,7 +223,7 @@ def entity_columns_to_query(entity):
 
 def fetch_entity_records(entity):
     columns = entity_columns_to_query(entity)
-    LOGGER.info("%s columns to fetch %s", entity.name, columns)
+    # LOGGER.info("%s columns to fetch %s", entity.name, columns)
     joined_columns = ','.join(columns)
     return "SELECT {} FROM {}_view".format(joined_columns, entity.name)
 
@@ -263,8 +263,7 @@ def EntityDetailView(request, profile_name, entity_short_name):
 
         with connection.cursor() as cursor:
             query = fetch_entity_records(entity)
-            LOGGER.info("%s entity details full query %s",
-                        entity_short_name, query)
+            # LOGGER.info("%s entity details full query %s",entity_short_name, query)
             cursor.execute(query)
             data1 = cursor.fetchall()
             items = [zip([key[0] for key in cursor.description], row)
@@ -279,8 +278,8 @@ def EntityDetailView(request, profile_name, entity_short_name):
             spatial_results = entity_geojson(entity)
     except Exception as e:
         errors = "An exception has occured. Cause: {}".format(str(e.args))
-        LOGGER.info(errors)
-    LOGGER.info(items)
+        # LOGGER.info(errors)
+    # LOGGER.info(items)
 
     return render(request, 'dashboard/entity.html', {'entity': entity, 'profile': profile_name, 'entity_name': entity_name, 'data': items, 'columns': columns, 'has_spatial_column': has_spatial_column, 'is_str_entity': is_str_entity, 'lookup_summaries': lookup_summaries, 'spatial_result': spatial_results, "errors": errors})
 
@@ -425,15 +424,24 @@ def EntityRecordViewMore(request, profile_name, entity_short_name, id):
         return render(request, 'dashboard/no_config.html',)
     stdm_config = GetStdmConfig("Web")
     result = None
+    entity_names = None
+    is_spatial_entity = False
     profile = stdm_config.profile(profile_name)
     current_entity = profile.entity(entity_short_name)
+    print('Checking spatial', current_entity.has_geometry_column())
+
     current_social_tenure = profile.social_tenure
     if(current_social_tenure.is_str_party_entity(current_entity)):
         result = FetchPartySTR(profile, current_entity, id)
     if (current_social_tenure.is_str_spatial_unit_entity(current_entity)):
         result = FetchSpUnitSTR(profile, current_entity, id)
-    print('Final Result', result)
-    return render(request, 'dashboard/view_more.html', {'result': result, 'entity': entity_short_name, 'id': id})
+    for key, value in result.items():
+        entity_names = key
+    actual_entity = profile.entity(entity_names)
+    if actual_entity.has_geometry_column():
+        is_spatial_entity = True
+
+    return render(request, 'dashboard/view_more.html', {'result': result, 'entity': entity_short_name, 'id': id, 'is_spatial_entity': is_spatial_entity})
 
 
 def FetchSpUnitSTR(profile, spu_entity, record_id):
@@ -455,10 +463,7 @@ def FetchSpUnitSTR(profile, spu_entity, record_id):
 
         # str_query = 'select '+tenure_type_column+ ",".join(str_columns)+ ' from '+ str_table_name+' join '+ party.name +' on ' +party.name+'.'+ str_relation.parent_column+' ='+ str_table_name+'.'+str_relation.child_column +' '+ tenure_type_join
 
-        print("FULL QUERY", str_query)
-
         data = queryWithColumnNames(str_query)
-        print(data)
         if data:
             result[party.short_name] = data
     return result
@@ -481,7 +486,6 @@ def FetchPartySTR(profile, party_entity, record_id):
             str_columns), spu_unit_view, str_table_name, spu_unit_view, spu_unit_view, str_relation.parent_column, str_table_name, str_relation.child_column, str_table_name, party_entity_str_relation.child_column, record_id)
 
         data = queryWithColumnNames(str_query)
-        print(data)
         if data:
             result[spu_unit.short_name] = data
     return result

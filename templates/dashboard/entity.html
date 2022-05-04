@@ -180,10 +180,10 @@
 
     var pos = [];
     {% for column in columns %}
-    pos.push("{{column}}")   // first_name{% endfor %}
-    console.log('The columns', pos)
-    var index = pos.indexOf('Id')
+    pos.push("{{column}}")
+    {% endfor %}
 
+    var index = pos.indexOf('Id')
     console.log('Position value', index)
     var entityTables = $('#entityTable').DataTable();
     entityTables.destroy();
@@ -251,8 +251,6 @@
     entityTables.columns.adjust().draw();
     $('#entityTable tbody').on('click', 'tr', function () {
       var data_row = entityTables.row(this).data();
-      console.log('Hii ndio maneno')
-      console.log(data_row[0])
       var list_id = data_row[0];
       // var list_id = $(this).attr('class');
       var profile = $("#profiles :selected").val();

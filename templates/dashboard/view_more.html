@@ -1,44 +1,51 @@
 <div class="col-md-12">
-  <div class="col-12 col-sm-12">
-    <div class="card card-primary" id="profile_details">
-      <div class="card-header">
-        <h4>Tenure Information</h4>
-      </div>
-      <div class="card-body">
-        {% if result %}
-        {% for key,values in result.items %}
-        <h4>{{key}}</h4>
-        <hr>
-        <table id="{{key}}1" class="table table-bordered table-striped" style="width:100%">
-          <thead>
-            {% for col in values.0.0 %}
-            <th>{{col}}</th>
-            {% endfor %}
-          </thead>
-          <tbody>
-            {% for value in values %}
-            <tr>
-              {% for data in value.1 %}
-              <td>{{data}}</td>
-              {% endfor %}
-            </tr>
-            {% endfor %}
-          </tbody>
-
-        </table>
-        <br>
-        <hr>
-        {% endfor %}
-        {% else %}
-        <p>Tenure relationship not defined <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i></p>
-        {% endif %}
-      </div>
+    <div class="col-12 col-sm-12">
+        <div class="card card-primary" id="profile_details">
+            <div class="card-header">
+                <h4>Tenure Information</h4>
+            </div>
+            <div class="card-body">
+                {% if result %}
+                    {% for key,values in result.items %}
+                        <h4>{{ key }}</h4>
+                        <hr>
+                        <table id="{{ key }}1"
+                               class="table table-bordered table-striped"
+                               style="width:100%">
+                            <thead>
+                                {% for col in values.0.0 %}<th>{{ col }}</th>{% endfor %}
+                            </thead>
+                            <tbody>
+                                {% for value in values %}
+                                    <tr>
+                                        {% for data in value.1 %}<td>{{ data }}</td>{% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <br>
+                        <hr>
+                    {% endfor %}
+                {% else %}
+                    <p>
+                        Tenure relationship not defined <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                    </p>
+                {% endif %}
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <script>
   $(function () {
-    {% for key, values in result.items %}
+    var posMore = [];
+    
+    {% for key, values in result.items %} 
+    {% for col in values.0.0 %}   
+    posMore.push("{{col}}")       
+    var spatials = posMore.indexOf('Spatial Geometry')
+    var indexMore = posMore.indexOf('Id')   
+    {% endfor %}
+
     var viewMoreTable = $('#{{key}}1').DataTable({
       dom: 'Bfrtip',
       buttons: [
@@ -55,7 +62,12 @@
       },
 
       "columnDefs": [
-        { width: '20%', targets: 0 },
+        {% comment %} { width: '20%', targets: 0 }, {% endcomment %}
+        {
+          "targets": [spatials],
+          "visible": false,
+          "searchable": false
+        },
 
         { targets: '_all', render: function (data, type, row, meta) { return (data == 'None') ? "" : data; } },
         { "className": "dt-body-center", "targets": "_all" }
@@ -63,16 +75,18 @@
       ]
 
     });
+    {% if is_spatial_entity == True %}
+    console.log('Clickable')
     $('#{{key}}1 tbody').on('click', 'tr', function () {
       var data_row = viewMoreTable.row(this).data();
-      var list_id = data_row[0];
+      var list_id = data_row[indexMore];
       var profile = $("#profiles :selected").val();
       $.ajax({
-        url: "geojson/profile/" + profile + "/entity/{{key}}/" + "2",
+        url: "geojson/profile/" + profile + "/entity/{{key}}/" + list_id,
         type: 'POST',
+
         traditional: true,
         success: function (data) {
-          console.log(data);
           $('#view_more_location').html(data);
           document.getElementById('view_more_location').scrollIntoView({
             behavior: 'smooth'
@@ -82,6 +96,7 @@
       });
 
     });
+    {% endif %}
     {% endfor %}
 
 
