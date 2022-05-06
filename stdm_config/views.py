@@ -268,16 +268,14 @@ def EntityDetailView(request, profile_name, entity_short_name):
             data1 = cursor.fetchall()
             items = [zip([key[0] for key in cursor.description], row)
                      for row in data1]
-
             for key in cursor.description:
                 columns.append(toHeader(key[0]))
-
         lookup_summaries = EntityLookupSummaries(prof, entity)
         spatial_results = None
         if has_spatial_column:
             spatial_results = entity_geojson(entity)
     except Exception as e:
-        errors = "An exception has occured. Cause: {}".format(str(e.args))
+        errors = "This entity has some errors: {}".format(str(e.args))
         # LOGGER.info(errors)
     # LOGGER.info(items)
 

@@ -1,24 +1,29 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-    crossorigin="" />
+<link rel="stylesheet"
+      href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}"/>
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""/>
 <script src="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.js' %}"></script>
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-    crossorigin=""></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 <div class="col-md-12">
     <div class="col-12 col-sm-12">
         <div class="card card-primary" id="profile_details">
             <div class="card-header">
-                <h4>Location on Map</h4>
+                <h5 class="card-title">Location on Map</h5>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
             </div>
             <div class="card-body">
                 <div id="mapdiv">
-                    <div id="mapView" style="height: 70vh;
-                                                                            width: auto;
-                                                                            box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                    </div>
+                    <div id="mapView"
+                         style="height: 70vh;
+                                width: auto;
+                                box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
                 </div>
             </div>
         </div>
@@ -81,7 +86,7 @@
     var layerFeatures = L.geoJson(geom, {
         style: layerStyle.default,
     }).addTo(map);
-    map.fitBounds(layerFeatures.getBounds());
+    map.fitBounds(layerFeatures.getBounds(), {padding: [50, 50]});
 
 
     var baseLayers = {

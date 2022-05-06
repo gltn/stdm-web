@@ -14,7 +14,7 @@ urlpatterns = [
     path('mobile/entities/<profile_name>/<entity_name>',
          entity_columns, name='mobile_entities'),
     path('mobile/entities/<profile_name>/', tables, name='tables'),
-    path('mobile/kobo/', KoboFormView, name='kobo'),
+    path('mobile/data/', KoboFormView, name='kobo'),
     path('mobile/kobo/submissions/data', KoboView, name='kobodata'),
     path('mobile/kobo/submissions/visualization',
          VisualizationView, name='visuals'),

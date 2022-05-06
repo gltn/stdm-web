@@ -1,5 +1,10 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'dashboard/leaflet/easy-button.css' %}">
+<style>
+  .toolbar {
+    float: left;
+  }
+</style>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
@@ -30,29 +35,39 @@
             <div class="tab-content" id="custom-tabs-four-tabContent">
               <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details"
                 aria-labelledby="profile_details-tab">
-                <div class="card card-primary" id="profile_details" style="display: none;
+                <div class="card card-primary card-outline" id="profile_details" style="display: none;
                                                     width: 100%;">
-                  <h4>{{ entity.ui_display }}</h4>
-                  {% if errors %}<span class="badge badge-danger">{{ errors }}</span>{% endif %}
-                  <hr>
-                  <table id="entityTable" class="table table-bordered table-striped" style="width:100%;
+
+                  <div class="card-header">
+                    <h5 class="card-title">{{ entity.ui_display }}</h5>
+                    <div class="card-tools">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    {% if errors %}<span class="badge badge-danger">{{ errors }}</span>{% endif %}
+                    <hr>
+                    <table id="entityTable" class="table table-bordered table-striped" style="width:100%;
                                                           cursor:pointer;">
-                    <thead>
-                      <tr>
-                        {% for column in columns %}<th>{{ column }}</th>{% endfor %}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for row in data %}
-                      <tr>
-                        {% for dt in row %}<td>{{ dt.1 }}</td>{% endfor %}
-                        <!-- {% if is_str_entity  %}
+                      <thead>
+                        <tr>
+                          {% for column in columns %}<th>{{ column }}</th>{% endfor %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for row in data %}
+                        <tr>
+                          {% for dt in row %}<td>{{ dt.1 }}</td>{% endfor %}
+                          <!-- {% if is_str_entity  %}
                           <td><button id='moreView' class="{% if dt.0 == 'id' %}{{dt.1}}{% endif %}">View More</button></td>
                           {% endif %}                         -->
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
                 <div class="row" id="view_more"></div>
                 <hr>
@@ -232,7 +247,7 @@
       processing: true,
 
       "columnDefs": [
-        { width: '20%', targets: 0 },
+        // { width: '20%', targets: 0 },
         {
           "targets": [index],
           "visible": false,
@@ -439,7 +454,7 @@
     position: 'topleft',
     draw: {
       polygon: {
-        allowIntersection: false, // Restricts shapes to simple polygons
+        allowIntersection: true, // Restricts shapes to simple polygons
         drawError: {
           color: '#e1e100', // Color the shape will turn when intersects
           message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
@@ -498,7 +513,7 @@
     geom.features.forEach(function (layer1) {
       var intersect;
       try {
-        intersect = turf.intersect(layer1, layer.toGeoJSON());
+        intersect = turf.intersect(layer.toGeoJSON(), layer1);
       } catch (e) {
         // console.log(e)
         intersect = undefined
@@ -552,6 +567,12 @@
       }
       data.push(arr)
     }
+    var featureCount = featuresWithin.length;
+    // if (featureCount == 1) {
+    //   $("#feature-count").html(featureCount + " feature selected");
+    // } else {
+    //   $("#feature-count").html(featureCount + " features selected");
+    // }
 
     var dataTable;
     dataTable = $('#sttable').DataTable({
@@ -563,7 +584,7 @@
       "scrollX": true,
       data: data,
       columns: columns,
-      dom: 'Blfrtip',
+      dom: '<"toolbar">Blfrtip',
       lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
       select: {
         style: 'single'
@@ -626,7 +647,7 @@
       ],
 
       "columnDefs": [
-        { width: '20%', targets: 0 },
+        // { width: '20%', targets: 0 },
         {
           "targets": [index, index_leaf_map],
           "visible": false,
@@ -638,6 +659,7 @@
 
     });
     mymap.spin(false);
+    $("div.toolbar").html('<b>' + featureCount + ' features selected </b>');
 
     document.getElementById('toolbar').scrollIntoView({
       behavior: 'smooth'
@@ -655,12 +677,7 @@
       });
     });
 
-    var featureCount = featuresWithin.length;
-    if (featureCount == 1) {
-      $("#feature-count").html(featureCount + " feature selected");
-    } else {
-      $("#feature-count").html(featureCount + " features selected");
-    }
+
 
   }
 

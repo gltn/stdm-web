@@ -1,3 +1,33 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+}
+.errorlist {
+  color: red;
+}
+.brand-link {
+    display: flex;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    padding: 0.8125rem 0.5rem;
+    transition: width .3s ease-in-out;
+    white-space: nowrap;
+}
+.brand-link .brand-image {
+    float: left;
+    /* line-height: .8; */
+    margin-left: 0.9rem;
+    margin-right: 0.5rem;
+    margin-top: 5px;
+    max-height: 33px;
+    width: 70%;
+}
 .font-weight-light {
   font-size: 24px;
   font-weight: 800 !important;
@@ -24,7 +54,7 @@
 
 .login-box,
 .register-box {
-  width: 960px;
+  width: 30%;
 }
 .logos-to-bottom {
   position: absolute;
@@ -351,9 +381,9 @@ margin: 0 auto;
 .form-control {
     display: block;
     width: 100%;
-    /* height: calc(2.25rem + 2px); */
+    height: calc(1.95rem);
     /* padding: 0.375rem 0.75rem; */
-    /* font-size: 1rem; */
+    font-size: 0.9rem;
     /* padding-top: 2px; */
     font-weight: 400;
     line-height: 1rem;
@@ -366,5 +396,6 @@ margin: 0 auto;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 .form-group {
-    margin-top: 0.6rem;
+    margin-top: 0.1rem;
+    margin-bottom: 0rem;
 }

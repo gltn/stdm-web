@@ -263,17 +263,12 @@ def entity_columns(request, profile_name, entity_name):
 
 @login_required
 def KoboFormView(request):
-    if request.user.is_mobile_user:
-        url = 'https://kobo.humanitarianresponse.info/api/v2/assets/axPo5r5hcP88m5zc9n6poX/data/'
-        headers = {
-            'Authorization': 'Token 4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7'}
-        r = requests.post(url, headers=headers)
-        kobo_configs = KoboConfiguration.objects.all().first()
-        return render(request, 'dashboard/kobo_data.html', {'data': r.text, 'kobo_settings': kobo_configs})
-    else:
-        messages.error(
-            request, 'Not allowed to view this dashboard. Contact the administrator!')
-        return render(request, 'dashboard/forbiden.html')
+
+    url = 'https://kobo.humanitarianresponse.info/api/v2/assets/axPo5r5hcP88m5zc9n6poX/data/'
+    headers = {'Authorization': 'Token 4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7'}
+    r = requests.post(url, headers=headers)
+    kobo_configs = KoboConfiguration.objects.all().first()
+    return render(request, 'dashboard/kobo_data.html', {'data': r.text, 'kobo_settings': kobo_configs})
 
 
 KOBO_TOKEN = "4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7"
@@ -297,8 +292,10 @@ def KoboView(request):
     choice_lists = kobo.get_choices(asset)
     questions = kobo.get_questions(asset=asset, unpack_multiples=True)
     # Get data submitted after a certain time
-    new_data = kobo.get_data(
-        asset_uid, submitted_after=submission_date, limit=20)
+    if submission_date:
+        new_data = kobo.get_data(asset_uid, submitted_after=submission_date)
+    else:
+        new_data = kobo.get_data(asset_uid)
     # print(new_data)
     new_results = kobo.sort_results_by_time(
         new_data['results'])  # Sort list by time

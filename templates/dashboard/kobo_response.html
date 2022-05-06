@@ -1,37 +1,43 @@
 {% load static %}
 {% with data=data %}
-{% if data %}
-<h4> Submissions</h4>
-
-<table id="koboTable" class="table table-bordered table-striped" style="width:100%;cursor:pointer;">
-  <thead>
-    <tr>
-      {% for col in columns %}
-      <th id='{{col|cut:" "}}'>{{col}}</th>
-      {% endfor %}
-    </tr>
-  </thead>
-  <tbody>
-    {% for key,values in data.items %}
-    <tr>
-
-      {% for ky, val in values.items %}
-      <td>{{val}}</td>
-      {% endfor %}
-
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% else %}
-<h4> Submissions</h4>
-<p>No submissions available!
-  {% endif %}
-
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-    integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
-  <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-  <script>
+    {% if data %}
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Submissions</h5>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="koboTable"
+                       class="table table-bordered table-striped"
+                       style="width:100%;
+                              cursor:pointer;">
+                    <thead>
+                        <tr>
+                            {% for col in columns %}<th id='{{ col|cut:" " }}'>{{ col }}</th>{% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key,values in data.items %}
+                            <tr>
+                                {% for ky, val in values.items %}<td>{{ val }}</td>{% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <h4>Submissions</h4>
+        <p>
+            No submissions available!
+        {% endif %}
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+        <script>
     var today = new Date().toISOString().slice(0, 10)
     var dataTableSet;
     dataTableSet = $("#koboTable").DataTable({
@@ -118,12 +124,12 @@
 
 
     });
-  </script>
-  <!-- <script>
+        </script>
+        <!-- <script>
     $(document).ready(function () {
       $('#koboTable').on('shown.bs.collapse', function () {
         $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
       });
     });
-  </script> -->
-  {% endwith %}
+          </script> -->
+    {% endwith %}

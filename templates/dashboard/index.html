@@ -1,155 +1,159 @@
-{% extends "dashboard/base.html"%}
+{% extends "dashboard/base.html" %}
 {% load static %}
-{% block title %}Dashboard {% endblock %}
+{% block title %}Dashboard{% endblock %}
 {% block profiler %}
-{% with profiles=profiles %}
-  {{ block.super }}
-{% endwith %}
+    {% with profiles=profiles %}{{ block.super }}{% endwith %}
 {% endblock profiler %}
 <!-- Loading entities -->
 {% block profiler_entities %}
-{% with entities=entities %}
-  {{ block.super }}
-{% endwith %}
+    {% with entities=entities %}{{ block.super }}{% endwith %}
 {% endblock profiler_entities %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}" />
-<script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script> 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-
-<script src="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.js' %}"></script>
-<link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.draw.css' %}" />
-<script src="{% static 'dashboard/dist/maps/leaflet.draw.js' %}"></script>
-<script src="{% static 'dashboard/dist/maps/spin.min.js' %}"></script>
-<script src="{% static 'dashboard/dist/maps/leaflet.spin.min.js' %}"></script>
-<script src="{% static 'dashboard/dist/js/loadingoverlay.js' %}"></script>
-<script src="https://unpkg.com/@turf/turf@5.1.6/turf.min.js"></script>
-
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-     
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    
-    <section class="content" id="entity-details">
-      <!-- <div id="spinner">
+    <link rel="stylesheet"
+          href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}"/>
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+    <link rel="stylesheet"
+          href="{% static 'dashboard/dist/maps/leaflet.draw.css' %}"/>
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid"></div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <section class="content" id="entity-details">
+            <!-- <div id="spinner">
         <img id="loading-image" src="{% static 'dashboard/loader/loader.gif' %}" />
       </div> -->
-      <div class="container-fluid">
-        <div id="summary-sections">
-        <!-- Info boxes -->
-        <div class="row" id="summary">
-          {% if summaries %}
-          {% for summary,counts,type in summaries %}
-          
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">              
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
-
-              <div class="info-box-content">
-                <a href="#" id="{{type}}"><span class="info-box-text">{{summary}}</span></a>
-                  <span class="info-box-number">{{counts}}</span>                
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-        
-          {% endfor %}
-          {% endif %}
-        
-        </div>
-        {% if str_summary %}    
-        <div class="row">
-          <div class="col-12">
-            <!-- Custom Tabs -->
-            <div class="card card-primary card-outline">
-              <div class="card-header d-flex p-0">
-                <h3 class="card-title p-3">Tenure Type Summary</h3>
-                <ul class="nav nav-pills ml-auto p-2">
-                  <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Summary</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Chart</a></li>
-                  
-                </ul>
-              </div><!-- /.card-header -->
-              <div class="card-body">
-                <div class="tab-content">
-                  <div class="tab-pane active" id="tab_1">
-                    <div class="row">                
-                      {% for summary in str_summary %}                     
-                      <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box mb-3">
-                          <span class="info-box-icon bg-info elevation-1"><i class="fas fa-home"></i></span>                
-                          <div class="info-box-content">
-                            <span class="info-box-text">{{summary.1}}</span>
-                            <span class="info-box-number">{{summary.0}}</span>
-                          </div>
-                          <!-- /.info-box-content -->
+            <div class="container-fluid">
+                <div id="summary-sections">
+                    <!-- Info boxes -->
+                    <div class="row" id="summary">
+                        {% if summaries %}
+                            {% for summary,counts,type in summaries %}
+                                <div class="col-12 col-sm-6 col-md-3">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+                                        <div class="info-box-content">
+                                            <a href="#" id="{{ type }}"><span class="info-box-text">{{ summary }}</span></a>
+                                            <span class="info-box-number">{{ counts }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% if str_summary %}
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Custom Tabs -->
+                                <div class="card card-primary card-outline">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Tenure Type Summary</h3>
+                                        <div class="card-tools">
+                                            <ul class="nav nav-pills ml-auto p-2">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" href="#tab_1" data-toggle="tab">Summary</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#tab_2" data-toggle="tab">Chart</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab_1">
+                                                <div class="row">
+                                                    {% for summary in str_summary %}
+                                                        <div class="col-12 col-sm-6 col-md-3">
+                                                            <div class="info-box mb-3">
+                                                                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-home"></i></span>
+                                                                <div class="info-box-content">
+                                                                    <span class="info-box-text">{{ summary.1 }}</span>
+                                                                    <span class="info-box-number">{{ summary.0 }}</span>
+                                                                </div>
+                                                                <!-- /.info-box-content -->
+                                                            </div>
+                                                            <!-- /.info-box -->
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                            <div class="tab-pane" id="tab_2">
+                                                <div id="tenure-chart"  style="height: 30vh;"></div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                        </div>
+                                        <!-- /.tab-content -->
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- ./card -->
+                            </div>
+                            <!-- /.col -->
                         </div>
-                        <!-- /.info-box -->
-                      </div>
-                                                         
-                      {% endfor %}   
-                      </div> 
-                  </div>
-                  <!-- /.tab-pane -->
-                  <div class="tab-pane" id="tab_2">
-                    <div id="tenure-chart"  style="height: 30vh;"></div>
-                  </div>
-                  <!-- /.tab-pane -->
-                 
+                    {% endif %}
+                    <!-- /.row -->
                 </div>
-                <!-- /.tab-content -->
-              </div><!-- /.card-body -->
+                {% if summaries %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-primary card-outline">
+                                <div class="card-header">
+                                    <h5 class="card-title">Entity Summary</h5>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <button id="column" disabled>Column chart</button>
+                                    <button id="bar">Bar chart</button>
+                                    <button id="line">Line chart</button>
+                                    <button id="spline">Spline chart</button>
+                                    <button id="pie">Pie chart</button>
+                                    <hr>
+                                    <div id="strChart" style="height: 40vh;"></div>
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                {% endif %}
+                <!-- /.row -->
+                <!-- /.row -->
             </div>
-            <!-- ./card -->
-          </div>
-          <!-- /.col -->
-        </div>
-        {% endif %}
-        <!-- /.row -->
-     
-      </div>
-      {% if summaries %}
-        <div class="row">
-          <div class="col-12">
-              <div class="card card-primary card-outline">
-                <h3 class="card-title p-3">Entity Summary</h3>
-                
-                <div class="card-body">
-                  <button id="column" disabled>Column chart</button>
-                  <button id="bar">Bar chart</button>
-                  <button id="line">Line chart</button>
-                  <button id="spline">Spline chart</button>
-                  <button id="pie">Pie chart</button>
-                  <hr>
-                  <div id="strChart" style="height: 40vh;"></div>
-                </div>
-              </div>
-        
-              <!-- /.card -->
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
-        </div>
-        {% endif %}
-        <!-- /.row -->
-
-       
-        <!-- /.row -->
-      </div><!--/. container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
-
-
-<script>
+            <!--/. container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <script src="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.js' %}"></script>
+    <script src="{% static 'dashboard/dist/maps/leaflet.draw.js' %}"></script>
+    <script src="{% static 'dashboard/dist/maps/spin.min.js' %}"></script>
+    <script src="{% static 'dashboard/dist/maps/leaflet.spin.min.js' %}"></script>
+    <script src="{% static 'dashboard/dist/js/loadingoverlay.js' %}"></script>
+    {% comment %} <script src="https://unpkg.com/@turf/turf@5.1.6/turf.min.js"></script> {% endcomment %}
+    <script src='https://unpkg.com/@turf/turf@6.2.0-alpha.1/dist/turf.min.js'></script>
+    <script>
   $(document).ready(function () {
   
 $("#dynamicDiv").on("click", "li", function() {
@@ -200,8 +204,8 @@ $("#summary").on("click", "a", function() {
 
     });
 
-</script>
-<script>
+    </script>
+    <script>
   $(document).ready(function () {
     
     $('#profiles').change(function(){        
@@ -230,8 +234,8 @@ $("#summary").on("click", "a", function() {
 });
     });
 
-</script>
-<script type="text/javascript">
+    </script>
+    <script type="text/javascript">
   $(function () {
     Highcharts.setOptions({
         lang: {
@@ -437,6 +441,5 @@ $("#summary").on("click", "a", function() {
   });
 
   });
-</script>
-
+    </script>
 {% endblock content %}
