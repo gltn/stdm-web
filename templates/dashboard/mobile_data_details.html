@@ -59,7 +59,7 @@
                                             {% endif %}
                                             {% if data.reason_occupation %}
                                                 <li class="list-group-item">
-                                                    <b>Reason for Occupation</b> <a class="float-right">{% autoescape on %}{{ data.reason_occupation|linebreaksbr }}{% endautoescape %}</a>
+                                                    <b>Reason for Occupation</b> <a class="float-right">{{ data.reason_occupation|safe }}</a>
                                                 </li>
                                             {% endif %}
                                             {% if data.risk_level %}
@@ -74,7 +74,7 @@
                                             {% endif %}
                                              {% if data.major_problems %}
                                                 <li class="list-group-item">
-                                                    <b>Major Problems</b> <a class="float-right">{{ data.major_problems }}</a>
+                                                    <b>Major Problems</b> <a class="float-right">{{ data.major_problems|safe }}</a>
                                                 </li>
                                             {% endif %}
                                             
@@ -126,7 +126,7 @@
                                             {% endif %}
                                             {% if data.reason_occupation %}
                                                 <li class="list-group-item">
-                                                    <b>Reason for Occupation</b> <a class="float-right">{{ data.reason_occupation }}</a>
+                                                    <b>Reason for Occupation</b> <a class="float-right">{{ data.reason_occupation|safe }}</a>
                                                 </li>
                                             {% endif %}
                                             {% if data.risk_level %}
@@ -141,7 +141,7 @@
                                             {% endif %}
                                             {% if data.major_problems %}
                                                 <li class="list-group-item">
-                                                    <b>Major Problems</b> <a class="float-right">{{ data.major_problems }}</a>
+                                                    <b>Major Problems</b> <a class="float-right">{{ data.major_problems|safe }}</a>
                                                 </li>
                                             {% endif %}
                                         </ul>
@@ -234,7 +234,7 @@
                                                 <h4>Services in the Settlement</h4>
                                                 <ul class="list-group list-group-unbordered mb-3">                                                        
                                                     <li class="list-group-item">
-                                                        <b>Public services available in the settlement:</b> <a class="float-right">{{ data.services_in_settlement }}</a>
+                                                        <b>Public services available in the settlement:</b> <a class="float-right">{{ data.services_in_settlement|safe }}</a>
                                                     </li>                                                    
                                                 </ul>
                                                 {% endif %}
@@ -243,12 +243,12 @@
                                                 <ul class="list-group list-group-unbordered mb-3">
                                                     {% if data.development_projects %}
                                                         <li class="list-group-item">
-                                                            <b>Type of ongoing development projects:</b> <a class="float-right">{{ data.development_projects }}</a>
+                                                            <b>Type of ongoing development projects:</b> <a class="float-right">{{ data.development_projects|safe }}</a>
                                                         </li>
                                                     {% endif %}
                                                     {% if data.priorities_identified %}
                                                         <li class="list-group-item">
-                                                            <b>Major priorities identified:</b> <a class="float-right">{{ data.priorities_identified }}</a>
+                                                            <b>Major priorities identified:</b> <a class="float-right">{{ data.priorities_identified|safe }}</a>
                                                         </li>
                                                     {% endif %}
                                                 </ul>
@@ -362,22 +362,22 @@
                                         <div class="col-6">
                                             {% if data.major_source_of_income %}
                                                 <li class="list-group-item">
-                                                    <b>Major Sources of Income:</b> <a class="float-right">{{ data.major_source_of_income }}</a>
+                                                    <b>Major Sources of Income:</b> <a class="float-right">{{ data.major_source_of_income|safe }}</a>
                                                 </li>
                                             {% endif %}
                                             {% if data.income_levels_per_month %}
                                                 <li class="list-group-item">
-                                                    <b>Average Income Levels Per Month:</b> <a class="float-right">{{ data.income_levels_per_month }}</a>
+                                                    <b>Average Income Levels Per Month:</b> <a class="float-right">{{ data.income_levels_per_month|safe }}</a>
                                                 </li>
                                             {% endif %}
                                             {% if data.saving_schemes_available %}
                                                 <li class="list-group-item">
-                                                    <b>Types of Savings Schemes Available:</b> <a class="float-right">{{ data.saving_schemes_available }}</a>
+                                                    <b>Types of Savings Schemes Available:</b> <a class="float-right">{{ data.saving_schemes_available|safe }}</a>
                                                 </li>
                                             {% endif %}
                                             {% if data.expenditure_item_per_month %}
                                                 <li class="list-group-item">
-                                                    <b>Highest Expenditure Item Per Month:</b> <a class="float-right">{{ data.expenditure_item_per_month }}</a>
+                                                    <b>Highest Expenditure Item Per Month:</b> <a class="float-right">{{ data.expenditure_item_per_month|safe }}</a>
                                                 </li>
                                             {% endif %}
                                             <!-- /.tab-content -->
@@ -395,7 +395,7 @@
                                         <div class="col-6">
                                             {% if data.common_health_facilities %}
                                                 <li class="list-group-item">
-                                                    <b>Most Common Health Facilities:</b> <a class="float-right">{{ data.common_health_facilities }}</a>
+                                                    <b>Most Common Health Facilities:</b> <a class="float-right">{{ data.common_health_facilities|safe }}</a>
                                                 </li>
                                             {% endif %}
                                             {% if data.cases_of_covid19 %}
@@ -454,7 +454,7 @@
                                             {% endif %}
                                             {% if data.tenure_challenges %}
                                                 <li class="list-group-item">
-                                                    <b>Major land tenure challenges:</b> <a class="float-right">{{ data.tenure_challenges|linebreaksbr }}</a>
+                                                    <b>Major land tenure challenges:</b> <a class="float-right">{{ data.tenure_challenges|safe }}</a>
                                                 </li>
                                             {% endif %}
                                             
