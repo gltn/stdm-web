@@ -59,7 +59,7 @@
                                             {% endif %}
                                             {% if data.reason_occupation %}
                                                 <li class="list-group-item">
-                                                    <b>Reason for Occupation</b> <a class="float-right">{{ data.reason_occupation }}</a>
+                                                    <b>Reason for Occupation</b> <a class="float-right">{% autoescape on %}{{ data.reason_occupation|linebreaksbr }}{% endautoescape %}</a>
                                                 </li>
                                             {% endif %}
                                             {% if data.risk_level %}
@@ -234,7 +234,7 @@
                                                 <h4>Services in the Settlement</h4>
                                                 <ul class="list-group list-group-unbordered mb-3">                                                        
                                                     <li class="list-group-item">
-                                                        <b>Public services available in the settlement</b> <a class="float-right">{{ data.services_in_settlement }}</a>
+                                                        <b>Public services available in the settlement:</b> <a class="float-right">{{ data.services_in_settlement }}</a>
                                                     </li>                                                    
                                                 </ul>
                                                 {% endif %}
@@ -243,12 +243,12 @@
                                                 <ul class="list-group list-group-unbordered mb-3">
                                                     {% if data.development_projects %}
                                                         <li class="list-group-item">
-                                                            <b>Type of ongoing development projects</b> <a class="float-right">{{ data.development_projects }}</a>
+                                                            <b>Type of ongoing development projects:</b> <a class="float-right">{{ data.development_projects }}</a>
                                                         </li>
                                                     {% endif %}
                                                     {% if data.priorities_identified %}
                                                         <li class="list-group-item">
-                                                            <b>Major priorities identified</b> <a class="float-right">{{ data.priorities_identified }}</a>
+                                                            <b>Major priorities identified:</b> <a class="float-right">{{ data.priorities_identified }}</a>
                                                         </li>
                                                     {% endif %}
                                                 </ul>
@@ -362,22 +362,22 @@
                                         <div class="col-6">
                                             {% if data.major_source_of_income %}
                                                 <li class="list-group-item">
-                                                    <b>Major Sources of Income</b> <a class="float-right">{{ data.major_source_of_income }}</a>
+                                                    <b>Major Sources of Income:</b> <a class="float-right">{{ data.major_source_of_income }}</a>
                                                 </li>
                                             {% endif %}
                                             {% if data.income_levels_per_month %}
                                                 <li class="list-group-item">
-                                                    <b>Average Income Levels Per Month</b> <a class="float-right">{{ data.income_levels_per_month }}</a>
+                                                    <b>Average Income Levels Per Month:</b> <a class="float-right">{{ data.income_levels_per_month }}</a>
                                                 </li>
                                             {% endif %}
                                             {% if data.saving_schemes_available %}
                                                 <li class="list-group-item">
-                                                    <b>Types of Savings Schemes Available</b> <a class="float-right">{{ data.saving_schemes_available }}</a>
+                                                    <b>Types of Savings Schemes Available:</b> <a class="float-right">{{ data.saving_schemes_available }}</a>
                                                 </li>
                                             {% endif %}
                                             {% if data.expenditure_item_per_month %}
                                                 <li class="list-group-item">
-                                                    <b>Highest Expenditure Item Per Month</b> <a class="float-right">{{ data.expenditure_item_per_month }}</a>
+                                                    <b>Highest Expenditure Item Per Month:</b> <a class="float-right">{{ data.expenditure_item_per_month }}</a>
                                                 </li>
                                             {% endif %}
                                             <!-- /.tab-content -->
@@ -392,11 +392,23 @@
                                     aria-labelledby="health-tab">
                                 <div class="container-fluid">
                                     <div class="row">
-                                        <div class="col-12 col-md-12">
-                                            <nav class="navbar navbar-expand navbar-light float-right">
-                                                <ul class="navbar-nav">
-                                                </ul>
-                                            </nav>
+                                        <div class="col-6">
+                                            {% if data.common_health_facilities %}
+                                                <li class="list-group-item">
+                                                    <b>Most Common Health Facilities:</b> <a class="float-right">{{ data.common_health_facilities }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.cases_of_covid19 %}
+                                                <li class="list-group-item">
+                                                    <b>Were there cases of Covid-19:</b> <a class="float-right">{{ data.cases_of_covid19 }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.reported_cases %}
+                                                <li class="list-group-item">
+                                                    <b>How many reported cases:</b> <a class="float-right">{{ data.reported_cases }}</a>
+                                                </li>
+                                            {% endif %}                                            
+                                            <!-- /.tab-content -->
                                         </div>
                                     </div>
                                     <br>
@@ -409,11 +421,19 @@
                                     aria-labelledby="housing-tab">
                                 <div class="container-fluid">
                                     <div class="row">
-                                        <div class="col-12 col-md-12">
-                                            <nav class="navbar navbar-expand navbar-light float-right">
-                                                <ul class="navbar-nav">
-                                                </ul>
-                                            </nav>
+                                        <div class="col-6">
+                                            {% if data.renting_population %}
+                                                <li class="list-group-item">
+                                                    <b>Renting Population:</b> <a class="float-right">{{ data.renting_population }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.structure_owners %}
+                                                <li class="list-group-item">
+                                                    <b>Population of structure owners:</b> <a class="float-right">{{ data.structure_owners }}</a>
+                                                </li>
+                                            {% endif %}
+                                            
+                                            <!-- /.tab-content -->
                                         </div>
                                     </div>
                                     <br>
@@ -426,11 +446,19 @@
                                     aria-labelledby="access-tab">
                                 <div class="container-fluid">
                                     <div class="row">
-                                        <div class="col-12 col-md-12">
-                                            <nav class="navbar navbar-expand navbar-light float-right">
-                                                <ul class="navbar-nav">
-                                                </ul>
-                                            </nav>
+                                       <div class="col-6">
+                                            {% if data.govt_owned %}
+                                                <li class="list-group-item">
+                                                    <b>Proportion of land owned by government:</b> <a class="float-right">{{ data.govt_owned }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.tenure_challenges %}
+                                                <li class="list-group-item">
+                                                    <b>Major land tenure challenges:</b> <a class="float-right">{{ data.tenure_challenges|linebreaksbr }}</a>
+                                                </li>
+                                            {% endif %}
+                                            
+                                            <!-- /.tab-content -->
                                         </div>
                                     </div>
                                     <br>

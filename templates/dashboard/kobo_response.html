@@ -23,7 +23,7 @@
                     <tbody>
                         {% for key,values in data.items %}
                             <tr>
-                                {% for ky, val in values.items %}<td>{{ val }}</td>{% endfor %}
+                                {% for ky, val in values.items %}<td>{{ val|linebreaksbr }}</td>{% endfor %}
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -40,6 +40,7 @@
         <script>
     var today = new Date().toISOString().slice(0, 10)
     var dataTableSet;
+    var collapsedGroups = {};
     dataTableSet = $("#koboTable").DataTable({
       "scrollY": 400,
       "searching": true,
@@ -52,6 +53,7 @@
       select: {
         style: 'single'
       },
+      order: [[2, 'asc'],[0, 'desc']],
       buttons: [
         {
           extend: 'excelHtml5',
@@ -83,12 +85,9 @@
           },
         }
       ],
-       "columnDefs": [
-        { targets: '_all', render: function (data, type, row, meta) { return (data == 'None') ? "" : data; } },
-        { "className": "dt-body-center", "targets": "_all" }
-
-      ]
+     
     });
+    
     $('#koboTable tbody').on('click', 'tr', function () {
       var data_row = dataTableSet.row(this).data();      
       var column = dataTableSet.column('DateOfProfiling:name').data();

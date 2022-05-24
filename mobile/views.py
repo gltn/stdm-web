@@ -327,9 +327,11 @@ def KoboView(request):
         paired = {}
         for col in columns_to_check:
             if col in row.keys():
-                paired[col] = row.get(col).get("answer_label")
+                paired[col] = (row.get(col).get(
+                    "answer_label")).replace(';', '\n')
             else:
                 paired[col] = ''
+            print(paired)
         data_use[n] = paired
         n += 1
     table_columns = []
