@@ -1,19 +1,19 @@
 {% load static %}
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-    crossorigin="" />
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-    crossorigin=""></script>
-
-<div class="card card-primary" id="summary" style="display: block; width: 100%;">
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+<div class="card card-primary"
+     id="summary"
+     style="display: block;
+            width: 100%;">
     <div class="row">
         <div class="col-md-12">
             <!-- DIRECT CHAT WARNING -->
             <div class="card card-primary shadow-sm">
                 <div class="card-header">
-                    <h3 class="card-title">Name of Settlement: {{data.settlement}}</h3>
+                    <h3 class="card-title">Name of Settlement: {{ data.settlement }}</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
@@ -21,243 +21,434 @@
                     </div>
                 </div>
                 <!-- /.card-header -->
-
                 <div class="card-body">
                     <div class="row">
-
-                        <div class="col-md-3">
-                            <div class="card card-success">
-                                <!-- Add the bg color to the header using any of the bg-* classes -->
-                                <div class="card-header">
-                                    <h3 class="card-title">Settlement Information</h3>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-group list-group-unbordered mb-3">
-                                        <li class="list-group-item">
-                                            <b>Name of City</b> <a class="float-right">{{data.city}}</a>
-
-                                        </li>
-
-                                        <li class="list-group-item">
-                                            <b>Name of Ward</b> <a class="float-right">{{data.ward}}</a>
-
-
-                                        </li>
-                                        <li class="list-group-item">
-
-                                            <b>Type of Settlement</b> <a
-                                                class="float-right">{{data.type_of_settlement}}</a>
-
-
-                                        </li>
-                                        <li class="list-group-item">
-                                            <b>First Year of Occupation</b> <a
-                                                class="float-right">{{data.year_occupation}}</a>
-
-                                        </li>
-                                        <li class="list-group-item">
-                                            <b>Reason for Occupation</b> <a
-                                                class="float-right">{{data.reason_occupation}}</a>
-
-                                        </li>
-                                        <li class="list-group-item">
-                                            <b>Risk Level of the Settlement</b> <a
-                                                class="float-right">{{data.risk_level}}</a>
-
-                                        </li>
-                                        <li class="list-group-item">
-                                            <b>Total Area</b> <a class="float-right">{{data.total_area}}</a>
-
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-6">
-                            <div id="mapdiv">
-                                <div id="mapid" style="height: 66vh; width: auto;box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card card-warning">
-                                <!-- Add the bg color to the header using any of the bg-* classes -->
-
-                                <div class="card-header">
-                                    <h3 class="card-title">Housing Tenure Information</h3>
-                                </div>
-                                <div class="card-footer p-0">
-                                    <ul class="nav flex-column">
-                                        <li class="list-group-item">
-                                            <b>Renting Population</b> <a class="float-right">{{data.renting_population}}</a>
-
-                                        </li>
-                                        <li class="list-group-item">
-                                            <b>Population of structure owners</b> <a
-                                                class="float-right">{{data.structure_owners}}</a>
-
-                                        </li>
-
-
-                                    </ul>
+                        {% if data.location %}
+                            <div class="col-md-4">
+                                <div class="card card-success">
+                                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                                    <div class="card-header">
+                                        <h3 class="card-title">Basic Information</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group list-group-unbordered mb-3">
+                                            {% if data.date_of_profiling %}
+                                                <li class="list-group-item">
+                                                    <b>Date of Profiling</b> <a class="float-right">{{ data.date_of_profiling }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.city %}
+                                                <li class="list-group-item">
+                                                    <b>Name of City</b> <a class="float-right">{{ data.city }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.ward %}
+                                                <li class="list-group-item">
+                                                    <b>Name of Ward</b> <a class="float-right">{{ data.ward }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.type_of_settlement %}
+                                                <li class="list-group-item">
+                                                    <b>Type of Settlement</b> <a class="float-right">{{ data.type_of_settlement }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.year_occupation %}
+                                                <li class="list-group-item">
+                                                    <b>First Year of Occupation</b> <a class="float-right">{{ data.year_occupation }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.reason_occupation %}
+                                                <li class="list-group-item">
+                                                    <b>Reason for Occupation</b> <a class="float-right">{{ data.reason_occupation }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.risk_level %}
+                                                <li class="list-group-item">
+                                                    <b>Risk Level of the Settlement</b> <a class="float-right">{{ data.risk_level }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.total_area %}
+                                                <li class="list-group-item">
+                                                    <b>Total Area</b> <a class="float-right">{{ data.total_area }}</a>
+                                                </li>
+                                            {% endif %}
+                                             {% if data.major_problems %}
+                                                <li class="list-group-item">
+                                                    <b>Major Problems</b> <a class="float-right">{{ data.major_problems }}</a>
+                                                </li>
+                                            {% endif %}
+                                            
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card card-warning">
-                                <!-- Add the bg color to the header using any of the bg-* classes -->
-
-                                <div class="card-header">
-                                    <h3 class="card-title">Services Information</h3>
-                                </div>
-                                <div class="card-footer p-0">
-                                    <ul class="nav flex-column">
-                                        <li class="list-group-item">
-                                            <b>Public Services Available</b> <a
-                                                class="float-right">{{data.most_de_es}}</a>
-
-                                        </li>
-                                    </ul>
+                            <div class="col-md-8">
+                                <div id="mapdiv">
+                                    <div id="mapid"
+                                         style="height: 52vh;
+                                                width: auto;
+                                                box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
                                 </div>
                             </div>
-                            <div class="card card-warning">
-                                <!-- Add the bg color to the header using any of the bg-* classes -->
-
-                                <div class="card-header">
-                                    <h3 class="card-title">Profiling Information</h3>
-                                </div>
-                                <div class="card-footer p-0">
-                                    <ul class="nav flex-column">
-                                        <li class="list-group-item">
-                                            <b>Date of Profiling</b> <a
-                                                class="float-right">{{data.date_of_profiling}}</a>
-
-                                        </li>
-
-
-
-                                    </ul>
+                        {% else %}
+                            <div class="col-md-12">
+                                <div class="card card-success">
+                                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                                    <div class="card-header">
+                                        <h3 class="card-title">Basic Information</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group list-group-unbordered mb-3">
+                                            {% if data.date_of_profiling %}
+                                                <li class="list-group-item">
+                                                    <b>Date of Profiling</b> <a class="float-right">{{ data.date_of_profiling }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.city %}
+                                                <li class="list-group-item">
+                                                    <b>Name of City</b> <a class="float-right">{{ data.city }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.ward %}
+                                                <li class="list-group-item">
+                                                    <b>Name of Ward</b> <a class="float-right">{{ data.ward }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.type_of_settlement %}
+                                                <li class="list-group-item">
+                                                    <b>Type of Settlement</b> <a class="float-right">{{ data.type_of_settlement }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.year_occupation %}
+                                                <li class="list-group-item">
+                                                    <b>First Year of Occupation</b> <a class="float-right">{{ data.year_occupation }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.reason_occupation %}
+                                                <li class="list-group-item">
+                                                    <b>Reason for Occupation</b> <a class="float-right">{{ data.reason_occupation }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.risk_level %}
+                                                <li class="list-group-item">
+                                                    <b>Risk Level of the Settlement</b> <a class="float-right">{{ data.risk_level }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.total_area %}
+                                                <li class="list-group-item">
+                                                    <b>Total Area</b> <a class="float-right">{{ data.total_area }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.major_problems %}
+                                                <li class="list-group-item">
+                                                    <b>Major Problems</b> <a class="float-right">{{ data.major_problems }}</a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card card-success">
-
-                                <div class="card-header">
-                                    <h3 class="card-title">Land Tenure Information</h3>
-                                </div>
-                                <div class="card-footer p-0">
-                                    <ul class="nav flex-column">
-                                        <li class="list-group-item">
-                                            <b>Proportion Gov't Owned</b> <a class="float-right">{{data.govt_owned}}</a>
-
-                                        </li>
-                                        <li class="list-group-item">
-                                            <b>Major Land Tenure Challenges</b> <a class="float-right">{{data.tenure_challenges}}</a>
-
-                                        </li>
-
-
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
+                        {% endif %}
                     </div>
                 </div>
-
             </div>
             <!--/.direct-chat -->
         </div>
         <div class="col-md-12">
-            <div class="card card-warning">
-                <div class="card-header">
-                    <h3 class="card-title">Household Information</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
+            <div class="col-12 col-sm-12">
+                <div class="card card-primary card-outline card-outline-tabs">
+                    <div class="card-header p-0 border-bottom-0" id="changing-tabs">
+                        <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active"
+                                   id="services-tab"
+                                   data-toggle="pill"
+                                   href="#services"
+                                   role="tab"
+                                   aria-controls="services"
+                                   aria-selected="true">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   id="demographics-tab"
+                                   data-toggle="pill"
+                                   href="#demographics"
+                                   role="tab"
+                                   aria-controls="demographics"
+                                   aria-selected="false"
+                                   style="display:block">Demographics</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   id="livelihood-tab"
+                                   data-toggle="pill"
+                                   href="#livelihood"
+                                   role="tab"
+                                   aria-controls="livelihood"
+                                   aria-selected="false"
+                                   style="display:block">Livelihood</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   id="health-tab"
+                                   data-toggle="pill"
+                                   href="#health"
+                                   role="tab"
+                                   aria-controls="health"
+                                   aria-selected="false"
+                                   style="display:block">Health Access</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   id="housing-tab"
+                                   data-toggle="pill"
+                                   href="#housing"
+                                   role="tab"
+                                   aria-controls="housing"
+                                   aria-selected="false"
+                                   style="display:block">Housing Tenure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   id="access-tab"
+                                   data-toggle="pill"
+                                   href="#access"
+                                   role="tab"
+                                   aria-controls="access"
+                                   aria-selected="false"
+                                   style="display:block">Access To Land</a>
+                            </li>
+                        </ul>
                     </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="info-box">
-                                        <span class="info-box-icon bg-info"><i class="fas fa-home"></i></span>
-
-                                        <div class="info-box-content">
-                                            <span class="info-box-text">Households</span>
-                                            <span class="info-box-number">{{data.household_number}}</span>
+                    <div class="card-body">
+                        <div class="tab-content" id="custom-tabs-four-tabContent">
+                            <div class="tab-pane fade show active"
+                                 role="tabpanel"
+                                 id="services"
+                                 aria-labelledby="profile_details-tab">
+                                  <div class="container-fluid">
+                                        <div class="row">                                           
+                                            <div class="col-6">                                               
+                                                <div class="tab-content">
+                                                {% if data.services_in_settlement %}
+                                                <h4>Services in the Settlement</h4>
+                                                <ul class="list-group list-group-unbordered mb-3">                                                        
+                                                    <li class="list-group-item">
+                                                        <b>Public services available in the settlement</b> <a class="float-right">{{ data.services_in_settlement }}</a>
+                                                    </li>                                                    
+                                                </ul>
+                                                {% endif %}
+                                                {% if data.development_projects or data.priorities_identified %}
+                                                <h4>Priorities Services</h4>
+                                                <ul class="list-group list-group-unbordered mb-3">
+                                                    {% if data.development_projects %}
+                                                        <li class="list-group-item">
+                                                            <b>Type of ongoing development projects</b> <a class="float-right">{{ data.development_projects }}</a>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% if data.priorities_identified %}
+                                                        <li class="list-group-item">
+                                                            <b>Major priorities identified</b> <a class="float-right">{{ data.priorities_identified }}</a>
+                                                        </li>
+                                                    {% endif %}
+                                                </ul>
+                                                {% endif %}
+                                                
+                                                        
+                                                </div>
+                                                <!-- /.tab-content -->
+                                                    
+                                               
+                                                <!-- /.tab-content -->
+                                            </div>
+                                            <!-- /.card-body -->
                                         </div>
-                                        <!-- /.info-box-content -->
                                     </div>
-                                    <!-- /.info-box -->
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-md-3">
-                                    <div class="info-box">
-                                        <span class="info-box-icon bg-success"><i class="fas fa-users"></i></span>
-
-                                        <div class="info-box-content">
-                                            <span class="info-box-text">Population</span>
-                                            <span class="info-box-number">{{data.total_population}}</span>
+                            </div>                            
+                            <div class="tab-pane fade"
+                                    id="demographics"
+                                    role="tabpanel"
+                                    aria-labelledby="demographics-tab">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="info-box">
+                                                                <span class="info-box-icon bg-info"><i class="fas fa-home"></i></span>
+                                                                <div class="info-box-content">
+                                                                    <span class="info-box-text">Households</span>
+                                                                    <span class="info-box-number">{{ data.household_number }}</span>
+                                                                </div>
+                                                                <!-- /.info-box-content -->
+                                                            </div>
+                                                            <!-- /.info-box -->
+                                                        </div>
+                                                        <!-- /.col -->
+                                                        <div class="col-md-6">
+                                                            <div class="info-box">
+                                                                <span class="info-box-icon bg-success"><i class="fas fa-users"></i></span>
+                                                                <div class="info-box-content">
+                                                                    <span class="info-box-text">Population</span>
+                                                                    <span class="info-box-number">{{ data.total_population }}</span>
+                                                                </div>
+                                                                <!-- /.info-box-content -->
+                                                            </div>
+                                                            <!-- /.info-box -->
+                                                        </div>
+                                                        <!-- /.col -->
+                                                        <div class="col-md-6">
+                                                            <div class="info-box">
+                                                                <span class="info-box-icon bg-warning"><i class="fas fa-male"></i></span>
+                                                                <div class="info-box-content">
+                                                                    <span class="info-box-text">Males</span>
+                                                                    <span class="info-box-number">{{ data.males }}</span>
+                                                                </div>
+                                                                <!-- /.info-box-content -->
+                                                            </div>
+                                                            <!-- /.info-box -->
+                                                        </div>
+                                                        <!-- /.col -->
+                                                        <div class="col-md-6">
+                                                            <div class="info-box">
+                                                                <span class="info-box-icon bg-danger"><i class="fas fa-female"></i></span>
+                                                                <div class="info-box-content">
+                                                                    <span class="info-box-text">Females</span>
+                                                                    <span class="info-box-number">{{ data.females }}</span>
+                                                                </div>
+                                                                <!-- /.info-box-content -->
+                                                            </div>
+                                                            <!-- /.info-box -->
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                </div>
+                                                <!-- /.row -->
+                                                <div class="col-md-8">
+                                                    <button id="column" disabled>
+                                                        Column chart
+                                                    </button>
+                                                    <button id="bar">
+                                                        Bar chart
+                                                    </button>
+                                                    <button id="line">
+                                                        Line chart
+                                                    </button>
+                                                    <button id="spline">
+                                                        Spline chart
+                                                    </button>
+                                                    <button id="pie">
+                                                        Pie chart
+                                                    </button>
+                                                    
+                                                    <div id="settlementChart" style="height: 40vh;">
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <!-- /.info-box-content -->
                                     </div>
-                                    <!-- /.info-box -->
+                                    <br>
+                                    
                                 </div>
-                                <!-- /.col -->
-                                <div class="col-md-3">
-                                    <div class="info-box">
-                                        <span class="info-box-icon bg-warning"><i class="fas fa-male"></i></span>
-
-                                        <div class="info-box-content">
-                                            <span class="info-box-text">Males</span>
-                                            <span class="info-box-number">{{data.males}}</span>
+                            </div>                          
+                            <div class="tab-pane fade"
+                                    id="livelihood"
+                                    role="tabpanel"
+                                    aria-labelledby="livelihood-tab">
+                                <div class="container-fluid">
+                                    <div class="row">                                       
+                                        <div class="col-6">
+                                            {% if data.major_source_of_income %}
+                                                <li class="list-group-item">
+                                                    <b>Major Sources of Income</b> <a class="float-right">{{ data.major_source_of_income }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.income_levels_per_month %}
+                                                <li class="list-group-item">
+                                                    <b>Average Income Levels Per Month</b> <a class="float-right">{{ data.income_levels_per_month }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.saving_schemes_available %}
+                                                <li class="list-group-item">
+                                                    <b>Types of Savings Schemes Available</b> <a class="float-right">{{ data.saving_schemes_available }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if data.expenditure_item_per_month %}
+                                                <li class="list-group-item">
+                                                    <b>Highest Expenditure Item Per Month</b> <a class="float-right">{{ data.expenditure_item_per_month }}</a>
+                                                </li>
+                                            {% endif %}
+                                            <!-- /.tab-content -->
                                         </div>
-                                        <!-- /.info-box-content -->
+                                        <!-- /.card-body -->
                                     </div>
-                                    <!-- /.info-box -->
                                 </div>
-                                <!-- /.col -->
-                                <div class="col-md-3">
-                                    <div class="info-box">
-                                        <span class="info-box-icon bg-danger"><i class="fas fa-female"></i></span>
-
-                                        <div class="info-box-content">
-                                            <span class="info-box-text">Females</span>
-                                            <span class="info-box-number">{{data.females}}</span>
+                            </div>
+                            <div class="tab-pane fade"
+                                    id="health"
+                                    role="tabpanel"
+                                    aria-labelledby="health-tab">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12">
+                                            <nav class="navbar navbar-expand navbar-light float-right">
+                                                <ul class="navbar-nav">
+                                                </ul>
+                                            </nav>
                                         </div>
-                                        <!-- /.info-box-content -->
                                     </div>
-                                    <!-- /.info-box -->
+                                    <br>
+                                    
                                 </div>
-                                <!-- /.col -->
+                            </div>
+                            <div class="tab-pane fade"
+                                    id="housing"
+                                    role="tabpanel"
+                                    aria-labelledby="housing-tab">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12">
+                                            <nav class="navbar navbar-expand navbar-light float-right">
+                                                <ul class="navbar-nav">
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    
+                                </div>
+                            </div>
+                            <div class="tab-pane fade"
+                                    id="access"
+                                    role="tabpanel"
+                                    aria-labelledby="access-tab">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12">
+                                            <nav class="navbar navbar-expand navbar-light float-right">
+                                                <ul class="navbar-nav">
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    
+                                </div>
+                            </div>
+                                
                             </div>
                         </div>
-                        <!-- /.row -->
-                        <div class="col-md-6">
-                            <button id="column" disabled>Column chart</button>
-                            <button id="bar">Bar chart</button>
-                            <button id="line">Line chart</button>
-                            <button id="spline">Spline chart</button>
-                            <button id="pie">Pie chart</button>
-                            <hr>
-                            <div id="settlementChart" style="height: 40vh;"></div>
-                        </div>
-                    </div>
-
-
+                    
                 </div>
             </div>
+            <!-- /.card -->
         </div>
+      
     </div>
-
-
 </div>
-
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-    integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script>
     var usgsImagery = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {

@@ -192,21 +192,29 @@
                 </ul>
             </div>
             <!-- /.sidebar-footer -->
-            <div class="brand-link-footer">
+            {% comment %} <div class="brand-link-footer">
                 <div class="row">
                     <div class="col-md-6">
                         <a href="https://gltn.net/" target="_blank">
-                            <img src="{% static 'dashboard/dist/img/gltn.png' %}"
-                                 style="max-width: 90%; max-height: 70%; padding-top:2px; "/>
+                            <img src="{% static 'dashboard/dist/img/gltn.png' %}" style="max-width: 90%; max-height: 70%; padding-top:2px; "/>
                         </a>
                     </div>
                     <div class="col-md-6">
                         <a href="https://unhabitat.org/" target="_blank">
-                            <img src="{% static 'dashboard/dist/img/unhabitat.png' %}"
-                                 style="max-width: 90%; max-height: 70%; padding-top:2px; "/>
+                            <img src="{% static 'dashboard/dist/img/unhabitat.png' %}" style="max-width: 90%; max-height: 70%; padding-top:2px; "/>
                         </a>
                     </div>
                 </div>
+            </div> {% endcomment %}
+            <div class="sidebar-custom">
+                <a href="https://gltn.net/" target="_blank">
+                    <img src="{% static 'dashboard/dist/img/gltn.png' %}"
+                         style="max-width: 20%; max-height: 70%; padding-top:2px; "/>
+                </a>
+                <a href="https://unhabitat.org/" target="_blank">
+                    <img src="{% static 'dashboard/dist/img/unhabitat.png' %}"
+                         style="max-width: 20%; max-height: 70%; padding-top:2px; "/>
+                </a>
             </div>
         </div>
         <!-- /.sidebar -->

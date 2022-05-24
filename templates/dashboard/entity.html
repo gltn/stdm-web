@@ -31,7 +31,7 @@
             </ul>
           </div>
           <div class="card-body">
-            <hr>
+
             <div class="tab-content" id="custom-tabs-four-tabContent">
               <div class="tab-pane fade show active" role="tabpanel" id="profile_tab_details"
                 aria-labelledby="profile_details-tab">
@@ -48,8 +48,8 @@
                   </div>
                   <div class="card-body">
                     {% if errors %}<span class="badge badge-danger">{{ errors }}</span>{% endif %}
-                    <hr>
-                    <table id="entityTable" class="table table-bordered table-striped" style="width:100%;
+
+                    <table id="entityTable" class="table display compact table-striped" style="width:100%;
                                                           cursor:pointer;">
                       <thead>
                         <tr>
@@ -70,7 +70,7 @@
                   </div>
                 </div>
                 <div class="row" id="view_more"></div>
-                <hr>
+
                 <div class="row" id="view_more_location"></div>
               </div>
               {% if entity.has_geometry_column == True %}
@@ -106,7 +106,7 @@
                 <div class="container-fluid">
                   <div class="row">
                     <h4>{{ entity.ui_display }}</h4>
-                    <hr>
+
                     <div class="col-12">
                       <div class="card card-primary card-outline">
                         <div class="card-header d-flex p-0">
@@ -139,7 +139,7 @@
                               <button id="line">Line chart</button>
                               <button id="spline">Spline chart</button>
                               <button id="pie">Pie chart</button>
-                              <hr>
+
                               <div id="{{ key|cut:' ' }}" style="height: 30vh;"></div>
                             </div>
                             {% else %}
@@ -153,7 +153,7 @@
                               <button id="pie">
                                 Pie chart
                               </button>
-                              <hr>
+
                               <div id="{{ key|cut:' ' }}" style="height: 30vh;">
                               </div>
                             </div>
@@ -239,7 +239,7 @@
           },
         }
       ],
-      "scrollY": 400,
+      // "scrollY": 400,
       "searching": true,
       hideEmptyCols: true,
       mark: true,
@@ -263,7 +263,7 @@
     //   $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
     // });
     $('#entityTable').DataTable().draw();
-    entityTables.columns.adjust().draw();
+    $('#entityTable').DataTable().columns.adjust().draw();
     $('#entityTable tbody').on('click', 'tr', function () {
       var data_row = entityTables.row(this).data();
       var list_id = data_row[0];

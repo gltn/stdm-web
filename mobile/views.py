@@ -263,12 +263,14 @@ def entity_columns(request, profile_name, entity_name):
 
 @login_required
 def KoboFormView(request):
-
-    url = 'https://kobo.humanitarianresponse.info/api/v2/assets/axPo5r5hcP88m5zc9n6poX/data/'
-    headers = {'Authorization': 'Token 4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7'}
-    r = requests.post(url, headers=headers)
     kobo_configs = KoboConfiguration.objects.all().first()
-    return render(request, 'dashboard/kobo_data.html', {'data': r.text, 'kobo_settings': kobo_configs})
+    if kobo_configs:
+        kpi = kobo_configs.kpi_url
+        token = kobo_configs.token
+        kobo = KoboExtractor(token, kpi, debug=True)
+        assets = kobo.list_assets()
+
+    return render(request, 'dashboard/kobo_data.html', {'kobo_settings': kobo_configs, 'assets': assets['results']})
 
 
 KOBO_TOKEN = "4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7"
@@ -284,10 +286,6 @@ def KoboView(request):
     kpi_url = kpi + "/api/v2"
     # Limit the no of rcrods fetched
     kobo = KoboExtractor(token, kpi_url, debug=True)
-    assets = kobo.list_assets()
-    print('These are assets', assets['results'][2])
-    # asset_uid = assets['results'][0]['uid']
-    # asset_uid = "axPo5r5hcP88m5zc9n6poX"
     asset = kobo.get_asset(asset_uid)
     choice_lists = kobo.get_choices(asset)
     questions = kobo.get_questions(asset=asset, unpack_multiples=True)
@@ -310,8 +308,12 @@ def KoboView(request):
                         'group_zh1kn53/Proportion_of_renting_population', 'group_zh1kn53/Population_of_structure_owners',
                         'group_rc8eq43/Proportion_of_land_owned_by_government', 'group_hs99t35/What_are_the_most_de_es_in_the_settlement',
                         'group_rc8eq43/Major_land_tenure_challenges', 'group_pb5nd79/Total_number_of_households', 'group_pb5nd79/Total_Population',
-                        'group_pb5nd79/Number_of_males', 'group_pb5nd79/Number_of_females', 'group_km9hr22/Record_settlement_location']
-
+                        'group_pb5nd79/Number_of_males', 'group_pb5nd79/Number_of_females', 'group_km9hr22/settlement_location', 
+                        'group_xf3ce54/What_are_other_major_problems_', 'group_hs99t35/Type_of_ongoing_development_projects', 
+                        'group_yr55q84/Major_priorities_identified', 'group_hs99t35/Public_services_avai_le_in_the_settlement', 
+                        'group_pb5nd79/Major_source_of_income', 'group_pb5nd79/Average_income_levels_per_month',
+                        'group_pb5nd79/Types_of_saving_schemes_available', 'group_pb5nd79/Highest_expenditure_item_per_m', 
+                        'group_hs99t35/Most_common_health_facilities', 'group_km9hr22/Were_there_cases_of_Covid_19', 'group_km9hr22/How_many_reported_cases', ]
     for result in new_results:  # new_results is a list of list of dicts
         labeled_results.append(kobo.label_result(
             unlabeled_result=result, choice_lists=choice_lists, questions=questions, unpack_multiples=True))
@@ -321,33 +323,25 @@ def KoboView(request):
     data_use1 = []
     for rec in labeled_results:
         record_results.append(rec["results"])
-    for res in record_results:
+    for row in record_results:
         paired = {}
-        for key, value in res.items():
-            if key in columns_to_check:
-                if value['answer_label']:
-                    paired[key] = value['answer_label']
-                else:
-                    print('Lacks value')
-                    paired[key] = '-'
+        for col in columns_to_check:
+            if col in row.keys():
+                paired[col] = row.get(col).get("answer_label")
+            else:
+                paired[col] = ''
         data_use[n] = paired
         n += 1
     table_columns = []
-    table_columns_raw = []
     for key, value in data_use.items():
         for ky, val in value.items():
-            table_columns_raw.append(key)
             format_ky = ky.split("/", 1)[1]
             if toHeader(format_ky) not in table_columns:
                 table_columns.append(toHeader(format_ky))
-    final_data = {}
-    print('Table columns', table_columns_raw)
-
     return render(request, 'dashboard/kobo_response.html', {'data': data_use, 'columns': table_columns})
 
 
 @ csrf_exempt
 def VisualizationView(request):
     data = json.loads(request.GET.get('data'))
-    print(data)
     return render(request, 'dashboard/mobile_data_details.html', {'data': data, })

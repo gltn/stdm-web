@@ -72,7 +72,7 @@
                                                         <input type="text"
                                                                class="form-control"
                                                                id="kpiurl"
-                                                               value="https://kobo.humanitarianresponse.info"
+                                                               value="{{ kobo_settings.kpi_url }}"
                                                                disabled>
                                                     </div>
                                                     <div class="col-md-8 form-group required">
@@ -80,16 +80,23 @@
                                                         <input type="text"
                                                                class="form-control"
                                                                id="token"
-                                                               value="4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7"
+                                                               value="{{ kobo_settings.token }}"
                                                                readonly>
                                                     </div>
                                                     <div class="col-md-8 form-group required">
-                                                        <label for="validationDefault03" class="control-label">Asset ID</label>
-                                                        <input type="text"
-                                                               class="form-control"
-                                                               id="asset"
-                                                               value="aJMrhsBp2Lcga24aFBTTga"
-                                                               readonly>
+                                                        <label for="validationDefault03" class="control-label">Form</label>
+                                                        <select id="koboforms" name="assets" class="form-control">
+                                                            <option value="sample">
+                                                                -----
+                                                            </option>
+                                                            {% for a in assets %}
+                                                                {% if a.name %}
+                                                                    <option value="{{ a.uid }}">
+                                                                        {{ a.name }}
+                                                                    </option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </select>
                                                     </div>
                                                     <div class="col-md-8 form-group">
                                                         <label class="control-label">Submission Date (Start Date To Filter)</label>
@@ -115,7 +122,7 @@
                                                     <div id="KoboSubmissions"></div>
                                                 </div>
                                             </div>
-                                            <div id="subSummaries" style="display: none;">
+                                            <div id="subSummaries">
                                                 <hr>
                                             </div>
                                         </div>
@@ -148,20 +155,28 @@
       $('#img').show();
       kpi = $("#kpiurl").val();
       token = $("#token").val();
-      asset = $("#asset").val();
       subDate = $("#subDate").val();
-      $.ajax({
-        url: '/mobile/kobo/submissions/data',
-        data: { kpi: kpi, token: token, asset: asset, subDate: subDate },
-        dataType: 'html',
-        cache: true,
-        async: true,
-        success: function (json) {
-          $('#KoboSubmissions').html(json);
-          $('#img').hide();
-        },
+      if (!($("#koboforms :selected").val() == 'sample')){
+          asset = $("#koboforms :selected").val();
+          $.ajax({
+            url: '/mobile/kobo/submissions/data',
+            data: { kpi: kpi, token: token, asset: asset, subDate: subDate },
+            dataType: 'html',
+            cache: true,
+            async: true,
+            success: function (json) {
+                $('#KoboSubmissions').html(json); 
+                $('#img').hide();  
+                 $('#subSummaries').css('display', 'none');             
+            },
 
-      })
+        })
+      }else{
+          alert('Select a valid form name');
+          $('#img').hide();
+      }
+      
+      
 
 
 
