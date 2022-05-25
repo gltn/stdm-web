@@ -56,6 +56,10 @@ body {
 .register-box {
   width: 60%;
 }
+
+.login-box-custom,{
+  width: 60%;
+}
 .logos-to-bottom {
   position: absolute;
   bottom: 1%;

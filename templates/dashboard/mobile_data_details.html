@@ -231,7 +231,7 @@
                                             <div class="col-6">                                               
                                                 <div class="tab-content">
                                                 {% if data.services_in_settlement %}
-                                                <h4>Services in the Settlement</h4>
+                                                <h4><b>Services in the Settlement</b></h4>
                                                 <ul class="list-group list-group-unbordered mb-3">                                                        
                                                     <li class="list-group-item">
                                                         <b>Public services available in the settlement:</b> <a class="float-right">{{ data.services_in_settlement|safe }}</a>
@@ -239,7 +239,7 @@
                                                 </ul>
                                                 {% endif %}
                                                 {% if data.development_projects or data.priorities_identified %}
-                                                <h4>Priorities Services</h4>
+                                                <h4><b>Priorities Services</b></h4>
                                                 <ul class="list-group list-group-unbordered mb-3">
                                                     {% if data.development_projects %}
                                                         <li class="list-group-item">
@@ -360,6 +360,7 @@
                                 <div class="container-fluid">
                                     <div class="row">                                       
                                         <div class="col-6">
+                                        <ul class="list-group list-group-unbordered mb-3">
                                             {% if data.major_source_of_income %}
                                                 <li class="list-group-item">
                                                     <b>Major Sources of Income:</b> <a class="float-right">{{ data.major_source_of_income|safe }}</a>
@@ -381,6 +382,7 @@
                                                 </li>
                                             {% endif %}
                                             <!-- /.tab-content -->
+                                        </ul>
                                         </div>
                                         <!-- /.card-body -->
                                     </div>
@@ -393,6 +395,7 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-6">
+                                        <ul class="list-group list-group-unbordered mb-3">
                                             {% if data.common_health_facilities %}
                                                 <li class="list-group-item">
                                                     <b>Most Common Health Facilities:</b> <a class="float-right">{{ data.common_health_facilities|safe }}</a>
@@ -409,6 +412,7 @@
                                                 </li>
                                             {% endif %}                                            
                                             <!-- /.tab-content -->
+                                        </ul>
                                         </div>
                                     </div>
                                     <br>
@@ -422,6 +426,7 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-6">
+                                        <ul class="list-group list-group-unbordered mb-3">
                                             {% if data.renting_population %}
                                                 <li class="list-group-item">
                                                     <b>Renting Population:</b> <a class="float-right">{{ data.renting_population }}</a>
@@ -432,7 +437,7 @@
                                                     <b>Population of structure owners:</b> <a class="float-right">{{ data.structure_owners }}</a>
                                                 </li>
                                             {% endif %}
-                                            
+                                        </ul>
                                             <!-- /.tab-content -->
                                         </div>
                                     </div>
@@ -447,6 +452,7 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                        <div class="col-6">
+                                       <ul class="list-group list-group-unbordered mb-3">
                                             {% if data.govt_owned %}
                                                 <li class="list-group-item">
                                                     <b>Proportion of land owned by government:</b> <a class="float-right">{{ data.govt_owned }}</a>
@@ -457,7 +463,7 @@
                                                     <b>Major land tenure challenges:</b> <a class="float-right">{{ data.tenure_challenges|safe }}</a>
                                                 </li>
                                             {% endif %}
-                                            
+                                        </ul>
                                             <!-- /.tab-content -->
                                         </div>
                                     </div>
@@ -503,6 +509,7 @@
     var b = parseInt(array[0]);
     var c = parseInt(array[1]);
     var marker = L.marker([b, c]).addTo(mymap);
+    mymap.setView([b, c], 13);
     // var newMarker1 = new L.marker(-0.526575, 36.948538).addTo(mymap);
     // var newMarker = new L.marker(loc).addTo(mymap);
 
