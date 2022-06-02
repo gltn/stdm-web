@@ -264,6 +264,7 @@ def entity_columns(request, profile_name, entity_name):
 @login_required
 def KoboFormView(request):
     kobo_configs = KoboConfiguration.objects.all().first()
+    assets = None
     if kobo_configs:
         kpi = kobo_configs.kpi_url
         token = kobo_configs.token

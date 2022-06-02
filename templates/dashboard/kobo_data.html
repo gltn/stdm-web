@@ -70,23 +70,23 @@
                                                 <h4>Fill in the form:</h4>
                                                 <form class="row g-3" id="koboform">
                                                     <div class="col-md-8 form-group required">
-                                                        <label for="validationDefault01" class="control-label">KPI-URL</label>
+                                                        <label for="validationDefault01" class="control-label" hidden>KPI-URL</label>
                                                         <input type="text"
                                                                class="form-control"
                                                                id="kpiurl"
                                                                value="{{ kobo_settings.kpi_url }}"
-                                                               disabled>
+                                                               hidden>
                                                     </div>
                                                     <div class="col-md-8 form-group required">
-                                                        <label for="validationDefault02" class="control-label">Server Token</label>
+                                                        <label for="validationDefault02" class="control-label" hidden>Server Token</label>
                                                         <input type="text"
                                                                class="form-control"
                                                                id="token"
                                                                value="{{ kobo_settings.token }}"
-                                                               readonly>
+                                                               hidden>
                                                     </div>
                                                     <div class="col-md-8 form-group required">
-                                                        <label for="validationDefault03" class="control-label">Form</label>
+                                                        <label for="validationDefault03" class="control-label">Select Form</label>
                                                         <select id="koboforms" name="assets" class="form-control">
                                                             <option value="sample">
                                                                 -----
