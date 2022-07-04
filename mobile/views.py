@@ -288,6 +288,7 @@ def KoboView(request):
     # Limit the no of rcrods fetched
     kobo = KoboExtractor(token, kpi_url, debug=True)
     asset = kobo.get_asset(asset_uid)
+    print('These are my assets',asset)
     choice_lists = kobo.get_choices(asset)
     questions = kobo.get_questions(asset=asset, unpack_multiples=True)
     # Get data submitted after a certain time
@@ -332,7 +333,7 @@ def KoboView(request):
                     "answer_label")).replace(';', '\n')
             else:
                 paired[col] = ''
-            print(paired)
+            # print(paired)
         data_use[n] = paired
         n += 1
     table_columns = []

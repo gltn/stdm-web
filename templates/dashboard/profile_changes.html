@@ -135,15 +135,13 @@
   $(document).ready(function () {
     $('#profiles').change(function(){        
         $.ajax({
-                url: "/api/" + this.value,
-                type: 'POST',
-                traditional: true,      
-                success: function (data) {   
-                    console.log(data);          
-                    $('#entity-details').html(data);             
-                    
-                }
-            });
+          url: "/api/" + this.value,
+          type: 'POST',
+          traditional: true,      
+          success: function (data) {                                
+              $('#entity-details').html(data);              
+          }
+      });
 });
 
 $("#dynamicDiv").on("click", "li", function() {

@@ -171,15 +171,14 @@ def ProfileUpdatingView(request, profile):
     entities = []
     profiler = stdm_config.profile(profile)
     str_summary = str_summaries(profiler)
-
     entities = GetProfileEntities(profiler)
-
     zipped_summaries = None
     summaries = None
     if entities:
         summaries = EntitiesCount(profiler, entities)
-        zipped_summaries = zip(
-            summaries["name"][:4], summaries["count"][:4], summaries["type"][:4])
+        zipped_summaries = zip(summaries["name"][:4], summaries["count"][:4], summaries["type"][:4])
+    print(summaries)
+    print('Zipped summaries',zipped_summaries)
     return render(request, 'dashboard/profile_changes.html', {'entities': entities, 'str_summary': str_summary, 'summaries': zipped_summaries, 'charts': summaries})
 
 
@@ -275,7 +274,8 @@ def EntityDetailView(request, profile_name, entity_short_name):
         if has_spatial_column:
             spatial_results = entity_geojson(entity)
     except Exception as e:
-        errors = "This entity has some errors: {}".format(str(e.args))
+        # errors = "This entity has some errors: {}".format(str(e.args))
+        errors = "This entity has errors. Kindly contact the administrator for more details"
         # LOGGER.info(errors)
     # LOGGER.info(items)
 
