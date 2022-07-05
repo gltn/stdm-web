@@ -154,14 +154,7 @@
                             </a>
                         </li>
                     {% endif %}
-                    {% comment %} <li class="nav-item">
-              <a href="{% url 'mobile_sync' %}" class="nav-link">
-                <i class="nav-icon fas fa-refresh"></i>
-                <p>
-                  Mobile Data Sync
-                </p>
-              </a>
-                    </li> {% endcomment %}
+                   
                     <li class="nav-header">IMPORTANT LINKS</li>
                     <li class="nav-item">
                         <a href="{% url 'settings' %}" class="nav-link">
@@ -171,62 +164,33 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-file"></i>
-                            <p>
-                                Documentation
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-question"></i>
-                            <p>
-                                Help
-                            </p>
-                        </a>
-                    </li>
-                    <hr>
                     <hr>
                 </ul>
-            </div>
-            <!-- /.sidebar-footer -->
-            {% comment %} <div class="brand-link-footer">
+                <div class="brand-link-footer-new">
                 <div class="row">
                     <div class="col-md-6">
                         <a href="https://gltn.net/" target="_blank">
-                            <img src="{% static 'dashboard/dist/img/gltn.png' %}" style="max-width: 90%; max-height: 70%; padding-top:2px; "/>
+                            <img src="{% static 'dashboard/dist/img/gltn.png' %}" style="max-width: 100%; max-height: 70%; padding-top:2px; "/>
                         </a>
                     </div>
                     <div class="col-md-6">
                         <a href="https://unhabitat.org/" target="_blank">
-                            <img src="{% static 'dashboard/dist/img/unhabitat.png' %}" style="max-width: 90%; max-height: 70%; padding-top:2px; "/>
+                            <img src="{% static 'dashboard/dist/img/unhabitat.png' %}" style="max-width: 100%; max-height: 70%; padding-top:2px; "/>
                         </a>
                     </div>
                 </div>
-            </div> {% endcomment %}
-            <div class="sidebar-custom">
-                <a href="https://gltn.net/" target="_blank">
-                    <img src="{% static 'dashboard/dist/img/gltn.png' %}"
-                         style="max-width: 20%; max-height: 70%; padding-top:2px; "/>
-                </a>
-                <a href="https://unhabitat.org/" target="_blank">
-                    <img src="{% static 'dashboard/dist/img/unhabitat.png' %}"
-                         style="max-width: 20%; max-height: 70%; padding-top:2px; "/>
-                </a>
             </div>
+            </div>
+            <!-- /.sidebar-footer -->
+           
+           
         </div>
         <!-- /.sidebar -->
     </aside>
     <!-- Content Wrapper. Contains page content -->
     {% block content %}{% endblock %}
     <!-- /.content-wrapper -->
-    <!-- Control Sidebar -->
-    {% comment %} <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside> {% endcomment %}
-    <!-- /.control-sidebar -->
+   
     <!-- Main Footer -->
     <footer class="main-footer"
             id="footer"

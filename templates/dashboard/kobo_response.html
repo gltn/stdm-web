@@ -59,7 +59,7 @@
           extend: 'excelHtml5',
           text: '<i class="fa fa-file-excel-o"> Export to Excel</i>',
           titleAttr: 'Excel',
-          title: '_Excel_Export_' + today,
+          title: 'Excel_Export_' + today,
           exportOptions: {
             columns: ':visible'
           },
@@ -68,7 +68,7 @@
           extend: 'csvHtml5',
           text: '<i class="fa fa-file-text-o"> Export to CSV</i>',
           titleAttr: 'CSV',
-          title: '_CSV_Export_' + today,
+          title: 'CSV_Export_' + today,
           exportOptions: {
             columns: ':visible'
           },
@@ -77,12 +77,13 @@
           extend: 'pdfHtml5',
           text: '<i class="fa fa-file-pdf-o"> Export to PDF</i>',
           titleAttr: 'PDF',
-          title: '_PDF_Export_' + today,
+          title: 'PDF_Export_' + today,
           orientation: 'landscape',
-          pageSize: 'LEGAL',
-          exportOptions: {
-            columns: ':visible'
-          },
+          pageSize: 'A0',
+          //customize: function (doc) { 
+            //doc.defaultStyle.fontSize = 4; //2,3,4,
+            //doc.styles.tableHeader.fontSize = 4; //2, 3, 4, etc 
+          //}
         }
       ],
      

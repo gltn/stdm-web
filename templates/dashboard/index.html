@@ -209,11 +209,8 @@ $("#summary").on("click", "a", function() {
           url: "/profile/api/" + this.value,
           type: 'POST',
           traditional: true,    
-          success: function (data) {   
-            console.log(data);          
-              $('#dynamicDiv').html(data);
-              
-              
+          success: function (data) {                       
+              $('#dynamicDiv').html(data);            
           }
       });
       $.ajax({
@@ -221,7 +218,6 @@ $("#summary").on("click", "a", function() {
           type: 'POST',
           traditional: true,      
           success: function (data) {   
-            console.log(data);          
               $('#entity-details').html(data);               
           }
       });

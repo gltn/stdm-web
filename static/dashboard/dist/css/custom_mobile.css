@@ -82,25 +82,10 @@ body {
   color: #2e5aa7;
 }
 
-
-.layout-navbar-fixed .wrapper .brand-link-footer {
-  overflow: hidden;
-  position: fixed;
-  bottom: 0;
-  transition: width 0.3s ease-in-out;
-  width: 242px;
-  z-index: 1035;
-  background-color: #343a40;
-  border-top: 1px solid #4b545c;
-  padding: 0.68rem;
-}
-.brand-link-footer {
-    display: inline-block;
-    font-size: 1.25rem;
-    line-height: 1.5;
-    padding: 0.8125rem 0.5rem;
-    transition: width .3s ease-in-out;
-    white-space: nowrap;
+.brand-link-footer-new {
+    position: absolute;
+    bottom: 0;
+    padding-right: 3px;
 }
 
 .tab-content > .tab-pane {

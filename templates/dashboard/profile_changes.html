@@ -3,54 +3,23 @@
         <div id="summary-sections">
         <!-- Info boxes -->
         <div class="row" id="summary">
-          
-          {% if summaries %}
-          {% for summary,counts,type in summaries %}
-          {% if 'Party' in summary %} 
-                            
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">              
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user"></i></span>
-              <div class="info-box-content">
-                <a href="#" id="{{type}}"><span class="info-box-text">{{summary}}</span></a>
-                  <span class="info-box-number">{{counts}}</span>                
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          
-          {% elif 'Spatial Unit' in summary %} 
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">              
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-map"></i></span>
-
-              <div class="info-box-content">
-                <a href="#" id="{{type}}"><span class="info-box-text">{{summary}}</span></a>
-                  <span class="info-box-number">{{counts}}</span>                
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          {% else %}
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">              
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
-
-              <div class="info-box-content">
-                <a href="#" id="{{type}}"><span class="info-box-text">{{summary}}</span></a>
-                  <span class="info-box-number">{{counts}}</span>                
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          {% endif %}
-          {% endfor %}
-          {% endif %}
-        
+            {% if summaries %}
+                {% for summary,counts,type in summaries %}
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+                            <div class="info-box-content">
+                                <a href="#" id="{{ type }}"><span class="info-box-text">{{ summary }}</span></a>
+                                <span class="info-box-number">{{ counts }}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
+        
         {% if str_summary %}    
         <div class="row">
           <div class="col-12">
@@ -126,8 +95,6 @@
         </div>
         {% endif %}
         <!-- /.row -->
-
-       
         <!-- /.row -->
       </div><!--/. container-fluid -->
 
@@ -147,34 +114,39 @@
 $("#dynamicDiv").on("click", "li", function() {
     var list_id = $(this).attr('id');
     var profile = $("#profiles :selected").val();
-    console.log('Entity',list_id)
-    console.log('Profile',profile)
+    $('#entity-details').html('<div style="height: 500px;"><div class="loading"></div></div>');
     $.ajax({
           url: profile + "/entity/" + list_id,
           type: 'POST',
-          traditional: true,      
-          success: function (data) { 
-            console.log(data);
-              $('#entity-details').html(data);             
-              
+          traditional: true, 
+          success: function (data) {               
+            $('#entity-details').html(data); 
+            $('#profile_tab_details').append('<div id="myloader" style="height: 500px;"><div class="loading"></div></div>');
+           setTimeout(function(){ 
+            document.getElementById('myloader').remove();
+             $('#profile_details').show()
+            }, 2000);      
           }
+          
       });
-    
 });
 $("#summary").on("click", "a", function() {
     var list_id = $(this).attr('id');
     var profile = $("#profiles :selected").val();
     console.log('Entity clicked',list_id)
     console.log('Profile',profile)
+    $('#entity-details').html('<div style="height: 500px;"><div class="loading"></div></div>');
     $.ajax({
           url: profile + "/entity/" + list_id,
           type: 'POST',
           traditional: true,      
-          success: function (data) {   
-            console.log(data); 
-
-              $('#entity-details').html(data);             
-              
+          success: function (data) {               
+            $('#entity-details').html(data); 
+            $('#profile_tab_details').append('<div id="myloader" style="height: 500px;"><div class="loading"></div></div>');
+           setTimeout(function(){ 
+            document.getElementById('myloader').remove();
+             $('#profile_details').show()
+            }, 2000);      
           }
       });
     
@@ -204,10 +176,7 @@ $("#summary").on("click", "a", function() {
           },
 
           xAxis: {
-              categories:  [{% for x in str_summary %} '{{x.1}}',{% endfor %} ]            
-                
-              // {{charts.name|safe}}
-                     
+              categories:  [{% for x in str_summary %} '{{x.0}}',{% endfor %} ]                                 
       },
 
       yAxis: {
@@ -248,7 +217,7 @@ $("#summary").on("click", "a", function() {
       series: [
           {
               showInLegend: false,
-              "data": [{% for x in str_summary %} {{x.0}},{% endfor %} ]  
+              "data": [{% for x in str_summary %} {{x.1}},{% endfor %} ]  
           
           }
 

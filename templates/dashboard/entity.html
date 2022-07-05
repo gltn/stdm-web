@@ -16,6 +16,7 @@
                 <a class="nav-link active" id="profile_details-tab" data-toggle="pill" href="#profile_tab_details"
                   role="tab" aria-controls="profile_tab_details" aria-selected="true">Records</a>
               </li>
+              {% if not errors %}
               {% if entity.has_geometry_column == True %}
               <li class="nav-item">
                 <a class="nav-link" id="maps-tab" data-toggle="pill" href="#maps" role="tab" aria-controls="maps"
@@ -27,6 +28,7 @@
                 <a class="nav-link" id="sum-tab" data-toggle="pill" href="#sum" role="tab" aria-controls="sum"
                   aria-selected="false" style="display:block">Summaries</a>
               </li>
+              {% endif %}
               {% endif %}
             </ul>
           </div>
@@ -73,6 +75,7 @@
 
                 <div class="row" id="view_more_location"></div>
               </div>
+              {% if not errors %}
               {% if entity.has_geometry_column == True %}
               <div class="tab-pane fade" id="maps" role="tabpanel" aria-labelledby="maps-tab">
                 <div class="container-fluid">
@@ -100,6 +103,7 @@
                   </div>
                 </div>
               </div>
+              {% endif %}
               {% endif %}
               {% if lookup_summaries %}
               <div class="tab-pane fade" id="sum" role="tabpanel" aria-labelledby="sum-tab">
@@ -233,8 +237,7 @@
           titleAttr: 'PDF',
           title: '{{entity.short_name}}' + '_PDF_Export_' + today,
           orientation: 'landscape',
-          pageSize: 'LEGAL',
-         
+          pageSize: 'LEGAL',         
           pageSize : 'A3',
           
         }
@@ -245,7 +248,6 @@
       mark: true,
       scrollX: "100%",
       processing: true,
-
       "columnDefs": [
         // { width: '20%', targets: 0 },
         {
