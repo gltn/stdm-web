@@ -40,6 +40,9 @@
     </head>
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
         <div class="wrapper">
+        <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__shake" src="{% static 'dashboard/dist/img/logo.png' %}" alt="STDM" height="60" width="60">
+        </div>
             <!-- Navbar -->
             <nav class="main-header navbar navbar-expand"
                  id="header"
@@ -103,8 +106,9 @@
         <!-- Brand Logo -->
         <span class="brand-link">
             <a class="current" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-            <img src="{{ configs.logo.url }}" alt="STDM Web" class="brand-image">
+            <img src="{{ configs.logo.url }}" alt="STDM Web" class="brand-image"><span class="font-weight-light">Social Tenure Domain Model</span>
         </span>
+        
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- Sidebar Menu -->
