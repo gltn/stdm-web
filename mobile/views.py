@@ -20,6 +20,8 @@ from stdm_config.mobile_reader import FindEntitySubmissions
 from koboextractor import KoboExtractor
 import requests
 from django.contrib import messages
+from itertools import groupby
+from operator import countOf, itemgetter
 
 
 # Mobile Component
@@ -264,20 +266,22 @@ def entity_columns(request, profile_name, entity_name):
 @login_required
 def KoboFormView(request):
     kobo_configs = KoboConfiguration.objects.all().first()
+    assets_results = None
     assets = None
     if kobo_configs:
         kpi = kobo_configs.kpi_url
         token = kobo_configs.token
         kobo = KoboExtractor(token, kpi, debug=True)
         assets = kobo.list_assets()
+        if assets:
+            assets_results = assets['results']
 
-    return render(request, 'dashboard/kobo_data.html', {'kobo_settings': kobo_configs, 'assets': assets['results']})
+    return render(request, 'dashboard/kobo_data.html', {'kobo_settings': kobo_configs, 'assets': assets_results})
 
 
 KOBO_TOKEN = "4de3b0a34f2824b424cbbe93e1bd3461d6b7dac7"
 KPI = "https://kobo.humanitarianresponse.info"
 ASSET = "axPo5r5hcP88m5zc9n6poX"
-
 
 def KoboView(request):
     kpi = request.GET.get('kpi', None)
@@ -288,7 +292,6 @@ def KoboView(request):
     # Limit the no of rcrods fetched
     kobo = KoboExtractor(token, kpi_url, debug=True)
     asset = kobo.get_asset(asset_uid)
-    print('These are my assets',asset)
     choice_lists = kobo.get_choices(asset)
     questions = kobo.get_questions(asset=asset, unpack_multiples=True)
     # Get data submitted after a certain time
@@ -328,22 +331,61 @@ def KoboView(request):
     for row in record_results:
         paired = {}
         for col in columns_to_check:
-            if col in row.keys():
-                paired[col] = (row.get(col).get(
-                    "answer_label")).replace(';', '\n')
+            if col in row.keys():                
+                col_formatted = col.split("/", 1)[1]                
+                paired[col_formatted] = (row.get(col).get("answer_label")).replace(';', '\n')
             else:
-                paired[col] = ''
+                col_formatted = col.split("/", 1)[1]
+                paired[col_formatted] = "-"
             # print(paired)
         data_use[n] = paired
         n += 1
     table_columns = []
     for key, value in data_use.items():
         for ky, val in value.items():
-            format_ky = ky.split("/", 1)[1]
-            if toHeader(format_ky) not in table_columns:
-                table_columns.append(toHeader(format_ky))
-    return render(request, 'dashboard/kobo_response.html', {'data': data_use, 'columns': table_columns})
+            if toHeader(ky) not in table_columns:
+                table_columns.append(toHeader(ky))
+    formatted_result = []    
+    for key, value in data_use.items():
+        record = {}
+        for ky, val in value.items():
+            record[ky] = val
+        formatted_result.append(record)
+    city_profile = []
+    #sort the list of items
+    formatted_result.sort(key=lambda x:x['Name_of_the_city'])
+    for k, v in groupby(formatted_result, key=lambda x: x['Name_of_the_city']):
+        households = 0
+        counts = 0
+        population = 0
+        tenure_challenges = []
+        public_services = []
+        total_area = 0
+        city_details = {}
+        city_details['Name'] = k        
+        for d in v:
+            households += int(d['Total_number_of_households'])
+            counts += 1
+            total_area += float(d['Settlement_total_area'])
+            population += int(d['Total_Population'])
+            if d['Major_land_tenure_challenges']:
+                if d['Major_land_tenure_challenges'] not in tenure_challenges:
+                    tenure_challenges.append(d['Major_land_tenure_challenges'])
+            if d['Public_services_avai_le_in_the_settlement']:
+                if d['Public_services_avai_le_in_the_settlement'] not in public_services:
+                    public_services.append(d['Public_services_avai_le_in_the_settlement'])
 
+        city_details['Settlement_Count'] = counts
+        city_details['Number_of_Households'] = households
+        city_details['Total_Settlement_Area'] = total_area
+        city_details['Population'] = population
+        city_details['Average_household_size'] = int((population/households) if households != 0 else 0)
+        city_details['Major_Tenure_Challenges'] = tenure_challenges
+        city_details['Public_Services'] = public_services
+        city_profile.append(city_details)
+
+
+    return render(request, 'dashboard/kobo_response.html', {'data': formatted_result, 'columns': table_columns,'city_profiles':city_profile})
 
 @ csrf_exempt
 def VisualizationView(request):
