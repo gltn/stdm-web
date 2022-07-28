@@ -360,6 +360,7 @@ def KoboView(request):
         population = 0
         tenure_challenges = []
         public_services = []
+        settlement_types = []
         total_area = 0
         city_details = {}
         city_details['Name'] = k        
@@ -374,7 +375,10 @@ def KoboView(request):
             if d['Public_services_avai_le_in_the_settlement']:
                 if d['Public_services_avai_le_in_the_settlement'] not in public_services:
                     public_services.append(d['Public_services_avai_le_in_the_settlement'])
-
+            if d['Type_of_the_settlement']:
+                settlement_types.append(d['Type_of_the_settlement'])
+                # [{key: len([x for x in group])} for key, group in groupby(v, key=lambda x: x['Type_of_the_settlement'])]
+        settlement_types_dict = {x: settlement_types.count(x) for x in settlement_types}
         city_details['Settlement_Count'] = counts
         city_details['Number_of_Households'] = households
         city_details['Total_Settlement_Area'] = total_area
@@ -382,7 +386,9 @@ def KoboView(request):
         city_details['Average_household_size'] = int((population/households) if households != 0 else 0)
         city_details['Major_Tenure_Challenges'] = tenure_challenges
         city_details['Public_Services'] = public_services
+        city_details['Settlement_Type'] = settlement_types_dict
         city_profile.append(city_details)
+    
 
 
     return render(request, 'dashboard/kobo_response.html', {'data': formatted_result, 'columns': table_columns,'city_profiles':city_profile})

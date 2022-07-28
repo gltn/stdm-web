@@ -27,6 +27,7 @@
      <div class="tab-pane fade show active" role="tabpanel" id="city_details" aria-labelledby="city_profiles">
         <div class="row">
           <div class="col-md-12">
+          
           {% regroup data by Name_of_the_city as cities %}
             {% for city in cities %} 
             
@@ -80,7 +81,10 @@
                               </li>
                               <li class="list-group-item">
                                   <b>Public Services Available:</b> <a class="float-right">{% for service in profile.Public_Services %}{{service|linebreaksbr}}{% endfor %}</a>
-                              </li>                          
+                              </li>  
+                              <li class="list-group-item">
+                                  <b>Settlement Type:</b> <a class="float-right">{% for service,count in profile.Settlement_Type.items %}{{service}}: {{count}}<br>{% endfor %}</a>
+                              </li>                         
                             
                              
                      </ul>
