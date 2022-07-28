@@ -336,7 +336,7 @@ def KoboView(request):
                 paired[col_formatted] = (row.get(col).get("answer_label")).replace(';', '\n')
             else:
                 col_formatted = col.split("/", 1)[1]
-                paired[col_formatted] = "-"
+                paired[col_formatted] = ""
             # print(paired)
         data_use[n] = paired
         n += 1
@@ -370,14 +370,18 @@ def KoboView(request):
             total_area += float(d['Settlement_total_area'])
             population += int(d['Total_Population'])
             if d['Major_land_tenure_challenges']:
-                if d['Major_land_tenure_challenges'] not in tenure_challenges:
-                    tenure_challenges.append(d['Major_land_tenure_challenges'])
+                challenges = d['Major_land_tenure_challenges'].split("\n")
+                for challenge in challenges:
+                    if challenge not in tenure_challenges and challenge != '':
+                        tenure_challenges.append(challenge)
             if d['Public_services_avai_le_in_the_settlement']:
-                if d['Public_services_avai_le_in_the_settlement'] not in public_services:
-                    public_services.append(d['Public_services_avai_le_in_the_settlement'])
+                services = d['Public_services_avai_le_in_the_settlement'].split("\n")
+                for service in services:
+                    if service not in public_services and service != '':
+                        public_services.append(service)
             if d['Type_of_the_settlement']:
                 settlement_types.append(d['Type_of_the_settlement'])
-                # [{key: len([x for x in group])} for key, group in groupby(v, key=lambda x: x['Type_of_the_settlement'])]
+        
         settlement_types_dict = {x: settlement_types.count(x) for x in settlement_types}
         city_details['Settlement_Count'] = counts
         city_details['Number_of_Households'] = households
@@ -388,6 +392,7 @@ def KoboView(request):
         city_details['Public_Services'] = public_services
         city_details['Settlement_Type'] = settlement_types_dict
         city_profile.append(city_details)
+        
     
 
 

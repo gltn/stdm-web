@@ -171,12 +171,15 @@ def ProfileUpdatingView(request, profile):
     entities = []
     profiler = stdm_config.profile(profile)
     str_summary = str_summaries(profiler)
+
     entities = GetProfileEntities(profiler)
+
     zipped_summaries = None
     summaries = None
     if entities:
         summaries = EntitiesCount(profiler, entities)
-        zipped_summaries = zip(summaries["name"][:4], summaries["count"][:4], summaries["type"][:4])
+        zipped_summaries = zip(
+            summaries["name"][:4], summaries["count"][:4], summaries["type"][:4])
     return render(request, 'dashboard/profile_changes.html', {'entities': entities, 'str_summary': str_summary, 'summaries': zipped_summaries, 'charts': summaries})
 
 
@@ -210,11 +213,8 @@ def LooukupSummary(child_entity, ers):
 
 
 def entity_columns_to_query(entity):
-    columns = []
+    columns = get_entity_columns(entity)
     LOGGER.info("Entity columns %s", entity.columns.values())
-    for column in entity.columns.values():
-        if column not in entity.geometry_columns() and column not in entity.foreign_key_columns():
-            columns.append(column.name)
     return columns
 
 
@@ -232,7 +232,6 @@ def EntityDetailView(request, profile_name, entity_short_name):
         return render(request, 'dashboard/no_config.html',)
     stdm_config = GetStdmConfig("Web")
     prof = stdm_config.profile(profile_name)
-    columns = []
     has_spatial_column = False
     is_str_entity = False
     errors = None
@@ -272,7 +271,6 @@ def EntityDetailView(request, profile_name, entity_short_name):
         if has_spatial_column:
             spatial_results = entity_geojson(entity)
     except Exception as e:
-        # errors = "This entity has some errors: {}".format(str(e.args))
         errors = "This entity has errors. Kindly contact the administrator for more details. In the meantime, you can try another entity."
         # LOGGER.info(errors)
     # LOGGER.info(items)
@@ -399,20 +397,6 @@ def SummaryUpdatingView(request, profile):
     return render(request, 'dashboard/summarsy.html', {'entities': entities, 'str_summary': str_summary})
 
 
-def CheckColumnInDB(entity):
-    # SELECT column_name FROM information_schema.columns WHERE table_name='be_household';
-    query = "SELECT column_name FROM information_schema.columns WHERE table_name='{}';".format(
-        entity.name)
-    cols = []
-    result = []
-    with connection.cursor() as cursor:
-        cursor.execute(query)
-        cols = cursor.fetchall()
-    for col in cols:
-        result.append(col[0])
-    return result
-
-
 @csrf_exempt
 def EntityRecordViewMore(request, profile_name, entity_short_name, id):
     config = GetConfig("Web")
@@ -448,7 +432,7 @@ def FetchSpUnitSTR(profile, spu_entity, record_id):
 
     spu_relation = getStrRelation(profile, spu_entity, str_table_name)
 
-    str_columns = get_entity_columns(profile, str_entity)
+    str_columns = get_entity_columns(str_entity)
     result = {}
     for party in parties:
         str_relation = getStrRelation(profile, party, str_table_name)
@@ -473,7 +457,7 @@ def FetchPartySTR(profile, party_entity, record_id):
     party_entity_str_relation = getStrRelation(
         profile, party_entity, str_table_name)
     result = {}
-    str_columns = get_entity_columns(profile, str_entity)
+    str_columns = get_entity_columns(str_entity)
     for spu_unit in spatial_units:
         str_relation = getStrRelation(profile, spu_unit, str_table_name)
 
@@ -493,7 +477,8 @@ def getStrRelation(profile, entity, str_table_name):
             return relation
 
 
-def get_db_columns(entity):
+def get_db_columns(entity) -> list:
+    # SELECT column_name FROM information_schema.columns WHERE table_name='be_household';
     query = "SELECT column_name FROM information_schema.columns WHERE table_name='{}';".format(
         entity.name)
     cols = []
@@ -506,9 +491,9 @@ def get_db_columns(entity):
     return result
 
 
-def get_entity_columns(profile, entity):
+def get_entity_columns(entity):
     query_columns = []
-    db_columns = CheckColumnInDB(entity)
+    db_columns = get_db_columns(entity)
     for col in entity.columns.values():
         # , 'SERIAL'
         if col.name in db_columns and col.TYPE_INFO not in ['GEOMETRY', 'FOREIGN_KEY', 'SERIAL']:

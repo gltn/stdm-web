@@ -47,60 +47,50 @@
                   {% if profile.Name == city.grouper %}
                    <div class="col-md-4">
                       <ul class="list-group list-group-unbordered mb-3">
-                          
                           <li class="list-group-item">
                               <b>No of Settlement:</b> <a class="float-right">{{profile.Settlement_Count}}</a>
+                          </li>                        
+                          
+                          <li class="list-group-item">
+                              <b>Settlement Total Areas:</b> <a class="float-right">{{profile.Total_Settlement_Area}} Sq.KM</a>
+                          </li>                      
+                      
+                          <li class="list-group-item">
+                              <b>Total Families/Households:</b> <a class="float-right">{{profile.Number_of_Households}}</a>
                           </li>
-                          
-                          
-                              <li class="list-group-item">
-                                  <b>Settlement Total Areas:</b> <a class="float-right">{{profile.Total_Settlement_Area}} Sq.KM</a>
-                              </li>
-                          
-                          
-                              <li class="list-group-item">
-                                  <b>Total Families/Households:</b> <a class="float-right">{{profile.Number_of_Households}}</a>
-                              </li>
-                          
-                          
-                              <li class="list-group-item">
-                                  <b>Average Household Size:</b> <a class="float-right">{{profile.Average_household_size}}</a>
-                              </li>
-                          
-                          
-                        
-                             
-                          
-                          
+                      
+                      
+                          <li class="list-group-item">
+                              <b>Average Household Size:</b> <a class="float-right">{{profile.Average_household_size}}</a>
+                          </li>
                       </ul>
                     </div>
                     <div class="col-md-6">
-                     <ul class="list-group list-group-unbordered mb-3">                     
-                              <li class="list-group-item">
-                                  <b>Major Tenure Challenges:</b> <a class="float-right">{% for service in profile.Major_Tenure_Challenges %}{{service|linebreaksbr}}{% endfor %}</a>
-                              </li>
-                              <li class="list-group-item">
-                                  <b>Public Services Available:</b> <a class="float-right">{% for service in profile.Public_Services %}{{service|linebreaksbr}}{% endfor %}</a>
-                              </li>  
-                              <li class="list-group-item">
-                                  <b>Settlement Type:</b> <a class="float-right">{% for service,count in profile.Settlement_Type.items %}{{service}}: {{count}}<br>{% endfor %}</a>
-                              </li>                         
-                            
-                             
-                     </ul>
-
+                      <ul class="list-group list-group-unbordered mb-3">                     
+                        <li class="list-group-item">
+                            <b>Major Tenure Challenges:</b> <a class="float-right">{% for service in profile.Major_Tenure_Challenges %}{{service|linebreaksbr}}<br>{% endfor %}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Public Services Available:</b> <a class="float-right">{% for service in profile.Public_Services %}{{service|linebreaksbr}}<br>{% endfor %}</a>
+                        </li>  
+                        <li class="list-group-item">
+                            <b>Settlement Type:</b> <a class="float-right"><div id="settlement_type_{{ city.grouper|cut:' ' }}"></div></a>
+                        </li>                     
+                      </ul>
                     </div>
                     {% endif %}
                     {% endfor %}
-                    <table id="koboTable_{{ city.grouper|cut:' ' }}" class="table table-bordered table-striped" style="cursor:pointer;">
+                  <div class="row">
+                  <div class="col-md-12">
+
+                    <table id="koboTable_{{ city.grouper|cut:' ' }}" class="table table-bordered table-striped" style="width:90%;height:auto;cursor:pointer;">
                       <thead>
                           <tr>
                               {% for col in columns %}<th id='{{ col|cut:" " }}'>{{ col }}</th>{% endfor %}
                           </tr>
                       </thead>
                       <tbody>
-                        {% for dt in city.list %} 
-                                                 
+                        {% for dt in city.list %}                                                  
                             <tr>
                                 {% for value in dt.values %}
                                   <td>{{ value|linebreaksbr }}</td>
@@ -109,6 +99,8 @@
                           {% endfor %}
                       </tbody>
                   </table>
+                   </div>
+                  </div>
                     </div>
                   </div>
               </div>
@@ -162,7 +154,7 @@
     var today = new Date().toISOString().slice(0, 10)
    
     var dataTableSet = $("#koboTable").DataTable({
-      "scrollY": 400,
+      //"scrollY": 400,
       "searching": true,
       hideEmptyCols: true,
       mark: true,
@@ -173,7 +165,7 @@
       select: {
         style: 'single'
       },
-      order: [[2, 'asc'],[0, 'desc']],
+      order: [[1, 'asc'],[0, 'desc']],
       buttons: [
         {
           extend: 'excelHtml5',
@@ -366,5 +358,50 @@
       });
       
     </script>
+    <script type='text/javascript'>
+ // Build the chart
+ $('#settlement_type_{{city.Name|cut:' '}}').highcharts({
+  chart: {
+    plotBackgroundColor: null,
+    plotBorderWidth: null,
+    plotShadow: false,
+    type: 'pie'
+  },
+  title: {
+    text: 'Informal Settlements by Type'
+  },
+  tooltip: {
+    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+  },
+  accessibility: {
+    point: {
+      valueSuffix: '%'
+    }
+  },
+  plotOptions: {
+    pie: {
+      allowPointSelect: true,
+      cursor: 'pointer',
+      dataLabels: {
+        enabled: false
+      },
+      showInLegend: true
+    }
+  },
+  series: [{
+    name: 'Settlements',
+    colorByPoint: true,
+    data: [
+      {% for service,count in city.Settlement_Type.items %}
+      {
+        name: '{{service}}',
+        y: {{count}}
+      },    
+      {% endfor %}
+     ]
+  }]
+});
+ </script>
  {% endfor %}
+ 
     {% endwith %}
