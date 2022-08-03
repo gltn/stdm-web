@@ -1,6 +1,8 @@
 {% load static %}
+<link rel="stylesheet"  href="{% static 'dashboard/dist/css/accordions.css' %}"/>
 {% with data=data city_profiles=city_profiles %}
     {% if data %}
+   
     <div class="card-header p-0 border-bottom-0" id="changing-tabs">
         <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
             <li class="nav-item">
@@ -10,7 +12,7 @@
                 href="#city_details"
                 role="tab"
                 aria-controls="city_details"
-                aria-selected="true">City Profiles</a>
+                aria-selected="true">Settlement Profiles</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
@@ -30,86 +32,86 @@
           
           {% regroup data by Name_of_the_city as cities %}
             {% for city in cities %} 
-            
-              <div class="card collapsed-card">
-                 <br>
-                  <div class="card-header">
-                    <h2 class="card-title" data-card-widget="collapse">{{city.grouper}}</h2>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>    
-                </div>
-                  <div class="card-body">
-                  <div class="row">
-                  {% for profile in city_profiles %}
-                  {% if profile.Name == city.grouper %}
-                   <div class="col-md-4">
-                      <ul class="list-group list-group-unbordered mb-3">
-                          <li class="list-group-item">
-                              <b>No of Settlement:</b> <a class="float-right">{{profile.Settlement_Count}}</a>
-                          </li>                        
-                          
-                          <li class="list-group-item">
-                              <b>Settlement Total Areas:</b> <a class="float-right">{{profile.Total_Settlement_Area}} Sq.KM</a>
-                          </li>                      
-                      
-                          <li class="list-group-item">
-                              <b>Total Families/Households:</b> <a class="float-right">{{profile.Number_of_Households}}</a>
-                          </li>
-                      
-                      
-                          <li class="list-group-item">
-                              <b>Average Household Size:</b> <a class="float-right">{{profile.Average_household_size}}</a>
-                          </li>
-                      </ul>
-                    </div>
-                    <div class="col-md-6">
-                      <ul class="list-group list-group-unbordered mb-3">                     
-                        <li class="list-group-item">
-                            <b>Major Tenure Challenges:</b> <a class="float-right">{% for service in profile.Major_Tenure_Challenges %}{{service|linebreaksbr}}<br>{% endfor %}</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Public Services Available:</b> <a class="float-right">{% for service in profile.Public_Services %}{{service|linebreaksbr}}<br>{% endfor %}</a>
-                        </li>  
-                        <li class="list-group-item">
-                            <b>Settlement Type:</b> <a class="float-right"><div id="settlement_type_{{ city.grouper|cut:' ' }}"></div></a>
-                        </li>                     
-                      </ul>
-                    </div>
-                    {% endif %}
-                    {% endfor %}
-                  <div class="row">
-                  <div class="col-md-12">
 
-                    <table id="koboTable_{{ city.grouper|cut:' ' }}" class="table table-bordered table-striped" style="width:90%;height:auto;cursor:pointer;">
-                      <thead>
-                          <tr>
-                              {% for col in columns %}<th id='{{ col|cut:" " }}'>{{ col }}</th>{% endfor %}
-                          </tr>
-                      </thead>
-                      <tbody>
-                        {% for dt in city.list %}                                                  
-                            <tr>
-                                {% for value in dt.values %}
-                                  <td>{{ value|linebreaksbr }}</td>
-                                {% endfor %}
-                            </tr>
-                          {% endfor %}
-                      </tbody>
-                  </table>
-                   </div>
-                  </div>
+            <div id="accordion" class="accordion">
+              <div class="card mb-0">
+                <div class="card-header collapsed" data-toggle="collapse" href="#collapseOne_{{ city.grouper|cut:' ' }}">
+                    <a class="card-title">
+                        City/Town:  <strong>{{city.grouper}}</strong>
+                    </a>
+                </div>
+                <div id="collapseOne_{{ city.grouper|cut:' ' }}" class="card-body collapse" data-parent="#accordion" >
+                    {% for profile in city_profiles %}
+                      {% if profile.Name == city.grouper %}
+                      <div class="row">
+                        <div class="col-md-12">                        
+                            <div class="col-md-6">
+                              <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b>No of Profiled Settlements:</b> <a class="float-right">{{profile.Settlement_Count}}</a>
+                                </li>                       
+                                
+                                <li class="list-group-item">
+                                    <b>Total Profiled Settlement Area:</b> <a class="float-right">{{profile.Total_Settlement_Area}} Sq.KM</a>
+                                </li>                      
+                            
+                                <li class="list-group-item">
+                                    <b>Total Families/Households:</b> <a class="float-right"><div id="population_{{ city.grouper|cut:' ' }}"></div></a>
+                                </li>                      
+                            
+                                {% comment %} <li class="list-group-item">
+                                    <b>Average Household Size:</b> <a class="float-right">{{profile.Average_household_size}}</a>
+                                </li> {% endcomment %}
+                                <li class="list-group-item">
+                                  <b>Major Tenure Challenges:</b> <a class="float-right">{% for service in profile.Major_Tenure_Challenges %}{{service|linebreaksbr}}<br>{% endfor %}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Public Services Available:</b> <a class="float-right">{% for service in profile.Public_Services %}{{service|linebreaksbr}}<br>{% endfor %}</a>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="col-md-6">
+                              <ul class="list-group list-group-unbordered mb-3">                    
+                                <li class="list-group-item">
+                                    <b>Settlement Type:</b> <a class="float-right"><div id="settlement_type_{{ city.grouper|cut:' ' }}"></div></a>
+                                </li>                     
+                              </ul>
+                            </div>
+
+                        </div>
+                      </div>
+                      {% endif %}
+                    {% endfor %}
+                    <hr>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <table id="koboTable_{{ city.grouper|cut:' ' }}" class="table table-bordered table-striped" style="width:90%;height:auto;cursor:pointer;">
+                          <thead>
+                              <tr>
+                                  {% for col in columns %}<th id='{{ col|cut:" " }}'>{{ col }}</th>{% endfor %}
+                              </tr>
+                          </thead>
+                          <tbody>
+                            {% for dt in city.list %}                                                  
+                                <tr>
+                                    {% for value in dt.values %}
+                                      <td>{{ value|linebreaksbr }}</td>
+                                    {% endfor %}
+                                </tr>
+                              {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                  </div>
+                </div>
               </div>
+            </div>                  
             {% endfor %}
               
+          
           </div>
         </div>
-        
-        </div>
+      </div>
           <div class="tab-pane fade show" role="tabpanel" id="submissions" aria-labelledby="submits">
               <div class="card">
                 <div class="card-header">
@@ -258,8 +260,7 @@
       var today = new Date().toISOString().slice(0, 10)
       
       console.log('These are cities', '{{city.Name}}');
-      var table_name;
-      table_name = $("#koboTable_{{city.Name|cut:' '}}").DataTable({
+      var table_name = $("#koboTable_{{city.Name|cut:' '}}").DataTable({
         "scrollY": 400,
         "searching": true,
         hideEmptyCols: true,
@@ -398,6 +399,51 @@
         y: {{count}}
       },    
       {% endfor %}
+     ]
+  }]
+});
+ </script>
+    <script type='text/javascript'>
+ // Build the chart
+ $('#population_{{city.Name|cut:' '}}').highcharts({
+  chart: {
+    plotBackgroundColor: null,
+    plotBorderWidth: null,
+    plotShadow: false,
+    type: 'pie'
+  },
+
+  tooltip: {
+    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+  },
+  accessibility: {
+    point: {
+      valueSuffix: '%'
+    }
+  },
+  plotOptions: {
+    pie: {
+      allowPointSelect: true,
+      cursor: 'pointer',
+      dataLabels: {
+        enabled: false
+      },
+      showInLegend: true
+    }
+  },
+  series: [{
+    name: 'Number of Households',
+    colorByPoint: true,
+    data: [
+      {
+        name: 'Number of Households',
+        y: {{city.Number_of_Households}}
+      },  
+       {
+        name: 'Total Population',
+        y: {{city.Population}}
+      },  
+      
      ]
   }]
 });

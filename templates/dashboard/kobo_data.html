@@ -15,8 +15,8 @@
     <script src="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.js' %}"></script>
     <link rel="stylesheet"
           href="{% static 'dashboard/dist/maps/leaflet.draw.css' %}"/>
-           <link href="https://cdn.datatables.net/rowgroup/1.0.2/css/rowGroup.dataTables.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.datatables.net/rowgroup/1.0.2/js/dataTables.rowGroup.min.js"></script>
+    <link href="https://cdn.datatables.net/rowgroup/1.0.2/css/rowGroup.dataTables.min.css" rel="stylesheet" type="text/css" />
+    
     <script src="{% static 'dashboard/dist/maps/leaflet.draw.js' %}"></script>
     <script src="{% static 'dashboard/dist/maps/spin.min.js' %}"></script>
     <script src="{% static 'dashboard/dist/maps/leaflet.spin.min.js' %}"></script>
@@ -53,7 +53,7 @@
                                                href="#profile_tab_details"
                                                role="tab"
                                                aria-controls="profile_tab_details"
-                                               aria-selected="true">Mobile Data Form</a>
+                                               aria-selected="true">Settlement Information</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -67,7 +67,7 @@
                                                  id="profile_details"
                                                  style="display: block;
                                                         width: 100%;">
-                                                <h4>Fill in the form:</h4>
+                                                
                                                 <form class="row g-3" id="koboform">
                                                     <div class="col-md-8 form-group required">
                                                         <label for="validationDefault01" class="control-label" hidden>KPI-URL</label>
@@ -113,7 +113,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
-                                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                                        <button class="btn btn-primary" type="submit">Load Data</button>
                                                         <img src="{% static 'dashboard/loader/loader.gif' %}"
                                                              id="img"
                                                              style="display:none"/>
