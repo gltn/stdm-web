@@ -4,13 +4,16 @@ from django.conf.urls.static import static
 from .views import *
 from stdm_config.views import STDMReader
 from django.contrib.auth import views as auth_views
+from django.views.generic.base import RedirectView
 
 
 urlpatterns = [
-    path('', STDMReader, name='dashboard'),
+    # path('', STDMReader, name='dashboard'),
+    path('', RedirectView.as_view(url='/mobile/data', permanent=False), name='dashboard'),
     path('map/', MapView.as_view(), name='map'),
     path('data-import/', ImportView.as_view(), name='data'),
-    path('settings/', SettingsView, name='settings'),
+    # path('settings/', SettingsView, name='settings'),
+    path('settings', RedirectView.as_view(url='/mobile/data', permanent=False), name='settings'),
     path('settings/update/<pk>', SettingsUpdateView.as_view(), name='settings_update'),
     path('profiles/', ProfileListView.as_view(), name='profiles'),
     path('accounts/login/', user_login, name='login'),

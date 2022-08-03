@@ -16,7 +16,7 @@
     <link rel="stylesheet"
           href="{% static 'dashboard/dist/maps/leaflet.draw.css' %}"/>
     <link href="https://cdn.datatables.net/rowgroup/1.0.2/css/rowGroup.dataTables.min.css" rel="stylesheet" type="text/css" />
-    
+    <link rel="stylesheet"  href="{% static 'dashboard/dist/css/accordions.css' %}"/>
     <script src="{% static 'dashboard/dist/maps/leaflet.draw.js' %}"></script>
     <script src="{% static 'dashboard/dist/maps/spin.min.js' %}"></script>
     <script src="{% static 'dashboard/dist/maps/leaflet.spin.min.js' %}"></script>
@@ -30,6 +30,13 @@
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/g/mark.js(jquery.mark.min.js)"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.10.13/features/mark.js/datatables.mark.js"></script>
+    <style>
+        .accordion .card-header .card-title {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin: 0;
+        }
+    </style>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <div class="content-header">
