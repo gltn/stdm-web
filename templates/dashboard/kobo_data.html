@@ -2,19 +2,13 @@
 {% load static %}
 {% block title %}Mobile Dashboard{% endblock %}
 {% block content %}
-    <link rel="stylesheet"
-          href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}"/>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css"/>
+    <link rel="stylesheet"  href="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.css' %}"/>
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css"/>
     <script src="{% static 'dashboard/plugins/jquery/jquery.min.js' %}"></script>
-    <link rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-          crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"  />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <script src="{% static 'dashboard/dist/maps/leaflet.groupedlayercontrol.js' %}"></script>
-    <link rel="stylesheet"
-          href="{% static 'dashboard/dist/maps/leaflet.draw.css' %}"/>
+    <link rel="stylesheet" href="{% static 'dashboard/dist/maps/leaflet.draw.css' %}"/>
     <link href="https://cdn.datatables.net/rowgroup/1.0.2/css/rowGroup.dataTables.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet"  href="{% static 'dashboard/dist/css/accordions.css' %}"/>
     <script src="{% static 'dashboard/dist/maps/leaflet.draw.js' %}"></script>
@@ -177,7 +171,8 @@
             success: function (json) {
                 $('#KoboSubmissions').html(json); 
                 $('#img').hide();  
-                 $('#subSummaries').css('display', 'none');             
+                 $('#subSummaries').css('display', 'none');   
+                 console.log(json)          
             },
 
         })

@@ -1,10 +1,5 @@
 {% load static %}
 
-<link rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-      crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 
 {% with data=data city_profiles=city_profiles %}
     {% if data %}
@@ -93,7 +88,7 @@
                               </ul> 
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">                              
-                              <div id="mapdivs">
+                              <div id="mapdiv">
                                     <div id="map_{{city.grouper|cut:' '}}" style="height: 52vh;  width: auto;box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
                               </div>
                             </div>
@@ -167,6 +162,9 @@
         {% endif %}
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"   crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
          <script type="text/javascript">
         
     var today = new Date().toISOString().slice(0, 10)
@@ -276,7 +274,7 @@
       var today = new Date().toISOString().slice(0, 10)
       
       console.log('These are cities', '{{city.Name}}');
-      var table_name = $("#koboTable_{{city.Name|cut:' '}}").DataTable({
+      $("#koboTable_{{city.Name|cut:' '}}").DataTable({
         "scrollY": 400,
         "searching": true,
         hideEmptyCols: true,
@@ -321,8 +319,7 @@
       });
       
       $('#koboTable_{{city.Name|cut:' '}} tbody').on('click', 'tr', function () {
-        var data_row = table_name.row(this).data();      
-        var column = table_name.column('DateOfProfiling:name').data();
+        var data_row = $("#koboTable_{{city.Name|cut:' '}}").DataTable({retrieve: true,searching:false,lengthChange:false}).row(this).data();      
         var settlement = data_row[2]
         data_load = {
           'date_of_profiling': data_row[0],
@@ -473,35 +470,54 @@
   }]
 });
  </script>
+
+ {% endfor %}
+ 
  <script>
+ 
     var usgsImagery = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
         maxZoom: 20,
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
-    var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
-    });
-    var mymap = L.map("map_{{city.Name|cut:' '}}", {
-        zoom: 5,
-        center: [0.830522, 37.729050],
-        layers: [cartoLight],
-        minZoom: 1,
-        zoomControl: true,
-        attributionControl: false
-    });
-    var str = "{{data.location}}";
-    var index = str.indexOf(' ', str.indexOf(' ') + 1);
-    var firstChunk = str.substr(0, index);
-    var loc = firstChunk.split(/[ ,]+/).join(',');
-    var array = loc.split(',');
-    var b = parseInt(array[0]);
-    var c = parseInt(array[1]);
-    var marker = L.marker([b, c]).addTo(mymap);
-    mymap.setView([b, c], 13);
     
-</script>
+    var array = [];
+    {% for city in city_profiles %}
+    array.push("{{city.Name|cut:' '}}");
+    console.log(array)
+    {% endfor %}
+    array.forEach(function (value, i) {      
+      function search() {
+        request = 'http://api.geonames.org/searchJSON?q=' +  value  + '&maxRows=1&username=maxstdm';
+        $.ajax({
+          url: request,
+          type: "POST",
+          dataType: "json",
+          success: function (result) {
+            lat = result.geonames[0].lat
+            lng = result.geonames[0].lng
+            var marker = L.marker([lat, lng]);
+            var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+            });
+            L.map("map_"+ value, {
+              layers: [cartoLight, marker],
+              minZoom: 1,
+              zoomControl: true,
+              attributionControl: false
+            }).setView([lat, lng], 13);
+            
+          
+          },
+        })
+      }
+      search();
 
- {% endfor %}
+    });
+  
+     
+  
+</script>
+ 
  
     {% endwith %}
