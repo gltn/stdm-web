@@ -1,7 +1,8 @@
 {% load static %}
 
-
 {% with data=data city_profiles=city_profiles %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
+
     {% if data %}
    
     <div class="card-header p-0 border-bottom-0" id="changing-tabs">
@@ -87,10 +88,8 @@
                       
                               </ul> 
                             </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">                              
-                              <div id="mapdiv">
-                                    <div id="map_{{city.grouper|cut:' '}}" style="height: 52vh;  width: auto;box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
-                              </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">                          
+                              <div id="map_{{city.grouper|cut:' '}}" style="height: 52vh;width: auto;box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
                             </div>
                         
                       </div>
@@ -160,14 +159,64 @@
         <p>
             No submissions available!
         {% endif %}
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"   crossorigin=""/>
-        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+       
+        
+         <script>
+ 
+    var usgsImagery = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+    var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+      });
+   
+    var array = [];
+    {% for city in city_profiles %}
+    array.push("{{city.Name|cut:' '}}");
+    console.log(array)
+    {% endfor %}
+    array.forEach(function (value, i) {      
+      function search() {
+        request = 'http://api.geonames.org/searchJSON?q=' +  value  + '&maxRows=1&username=maxstdm';
+        $.ajax({
+          url: request,
+          type: "POST",
+          dataType: "json",
+          success: function (result) {
+            lat = result.geonames[0].lat
+            lng = result.geonames[0].lng
+            var marker = L.marker([lat, lng]);
+            
+            var mappy = L.map("map_"+ value, {
+              zoom: 5,
+              center: [0.830522, 37.729050],
+              layers: [cartoLight, marker],
+              minZoom: 1,
+              zoomControl: true,
+              attributionControl: false
+            });
+            mappy.setView([lat, lng], 10);
+                    
+            
 
+          },
+        })
+      }
+      search();
+
+    });
+  
+     
+  
+</script>
          <script type="text/javascript">
         
     var today = new Date().toISOString().slice(0, 10)
+    $("#koboTable").DataTable();
    
     var dataTableSet = $("#koboTable").DataTable({
       //"scrollY": 400,
@@ -272,8 +321,7 @@
 {% for city in city_profiles %}
     <script type="text/javascript">        
       var today = new Date().toISOString().slice(0, 10)
-      
-      console.log('These are cities', '{{city.Name}}');
+         
       $("#koboTable_{{city.Name|cut:' '}}").DataTable({
         "scrollY": 400,
         "searching": true,
@@ -473,51 +521,7 @@
 
  {% endfor %}
  
- <script>
- 
-    var usgsImagery = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-        maxZoom: 20,
-        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-    });
-    
-    var array = [];
-    {% for city in city_profiles %}
-    array.push("{{city.Name|cut:' '}}");
-    console.log(array)
-    {% endfor %}
-    array.forEach(function (value, i) {      
-      function search() {
-        request = 'http://api.geonames.org/searchJSON?q=' +  value  + '&maxRows=1&username=maxstdm';
-        $.ajax({
-          url: request,
-          type: "POST",
-          dataType: "json",
-          success: function (result) {
-            lat = result.geonames[0].lat
-            lng = result.geonames[0].lng
-            var marker = L.marker([lat, lng]);
-            var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
-                maxZoom: 19,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
-            });
-            L.map("map_"+ value, {
-              layers: [cartoLight, marker],
-              minZoom: 1,
-              zoomControl: true,
-              attributionControl: false
-            }).setView([lat, lng], 13);
-            
-          
-          },
-        })
-      }
-      search();
 
-    });
-  
-     
-  
-</script>
  
  
     {% endwith %}
