@@ -22,7 +22,7 @@ body {
 .brand-link .brand-image {
     float: left;
     /* line-height: .8; */
-    margin-left: 0.9rem;
+    margin-left: 0.3rem;
     margin-right: 0.5rem;
     margin-top: -4px;
     max-height: 40px;
@@ -34,6 +34,14 @@ body {
   margin-top: 10px;
   margin-left: -8px;
 }
+.nav-sidebar>.nav-item .nav-icon {
+  margin-left: 0.8rem;
+  font-size: 1.2rem;
+  margin-right: 0.8rem;
+  text-align: center;
+  width: 1.6rem;
+}
+
 .login-page,
 .register-page {
   -ms-flex-align: center;
