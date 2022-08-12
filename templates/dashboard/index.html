@@ -222,11 +222,35 @@ $("#summary").on("click", "a", function() {
           }
       });
      
-});
     });
+    });
+</script>
+<script> 
 
-    </script>
-    <script type="text/javascript">
+$('#stdmdashboard').click(function(){   
+    var selected_profile = $("#profiles").val();  
+    $.ajax({
+        url: "/profile/api/" + selected_profile,
+        type: 'POST',
+        traditional: true,    
+        success: function (data) {                       
+            $('#dynamicDiv').html(data);            
+        }
+    });
+    $.ajax({
+        url: "/api/" + selected_profile,
+        type: 'POST',
+        traditional: true,      
+        success: function (data) {   
+            $('#entity-details').html(data);               
+        }
+    });
+    
+});
+    
+</script>
+
+<script type="text/javascript">
   $(function () {
     Highcharts.setOptions({
         lang: {
