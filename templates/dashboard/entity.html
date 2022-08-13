@@ -1,5 +1,6 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'dashboard/leaflet/easy-button.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/dist/css/custom.css' %}">
 <style>
   .toolbar {
     float: left;
@@ -52,14 +53,14 @@
                     {% if errors %}<span class="badge badge-danger">{{ errors }}</span>
                     {% else %}
                     {% if data %}
-                    <table id="entityTable" class="table display compact table-striped" style="width:100%;
-                                                          cursor:pointer;">
+                    <table id="entityTable" class="table table-bordered display nowrap" style="width:100%;cursor:pointer;">
                       <thead>
                         <tr>
                           {% for column in columns %}<th>{{ column }}</th>{% endfor %}
                         </tr>
                       </thead>
                       <tbody>
+                      
                         {% for row in data %}
                         <tr>
                           {% for dt in row %}<td>{{ dt.1 }}</td>{% endfor %}
@@ -196,10 +197,7 @@
   integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
 <script>
   $(function () {
-    // $("#entityTable").DataTable({
-    //   "responsive": true,
-    //   "autoWidth": true,
-    // });
+
     let today = new Date().toISOString().slice(0, 10)
 
     var pos = [];
@@ -213,11 +211,17 @@
     entityTables.destroy();
     entityTables = $('#entityTable').DataTable({
       dom: 'Blfrtip',
-      lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
       select: {
         style: 'single'
       },
-      "autoWidth": true,
+      autoWidth: true,      
+      "scrollY": "400px",
+      "searching": true,
+      hideEmptyCols: true,
+      "scrollCollapse":true,
+      mark: true,
+      scrollX: "100%",
+      processing: true,
       buttons: [
         {
           extend: 'excelHtml5',
@@ -248,30 +252,11 @@
           
         }
       ],
-      // "scrollY": 400,
-      "searching": true,
-      hideEmptyCols: true,
-      mark: true,
-      scrollX: "100%",
-      processing: true,
-      "columnDefs": [
-        // { width: '20%', targets: 0 },
-        {
-          "targets": [index],
-          "visible": false,
-          "searchable": false
-        },
-        { targets: '_all', render: function (data, type, row, meta) { return (data == 'None') ? "" : data; } },
-        { "className": "dt-body-center", "targets": "_all" }
-
-      ]
-
+     
+     
     });
-    // $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-    //   $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-    // });
-    $('#entityTable').DataTable().draw();
-    $('#entityTable').DataTable().columns.adjust().draw();
+  
+    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
     $('#entityTable tbody').on('click', 'tr', function () {
       var data_row = entityTables.row(this).data();
       var list_id = data_row[0];

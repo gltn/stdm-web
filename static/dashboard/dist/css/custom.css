@@ -337,25 +337,31 @@ div.dataTables_processing {
   margin-top: 22px;
 }
 
-.dataTables_scrollHeadInner {
+/* .dataTables_scrollHeadInner {
   width: 100% !important;
 }
 
 .dataTables_scrollHeadInner > table {
   width: 100% !important;
+  text-align: center;
+  white-space: nowrap;
 }
 /* .dataTable {
   text-align: center;
 } */
-table.dataTable thead th,
+/* table.dataTable thead th,
 table.dataTable tfoot th {
   text-align: center;
+  white-space: nowrap;
 }
 table.dataTable thead th,
 table.dataTable thead td {
-  padding: 10px 18px 10px 5px;
-  border-right: 1px solid #dddddd;
+  border-right: 1px solid #DEE2E6;
 }
+table.dataTable tbody th,
+table.dataTable tbody td {
+  white-space: nowrap;
+}  */
 
 
 .form-group.required .control-label:after {
