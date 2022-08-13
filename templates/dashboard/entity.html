@@ -205,7 +205,7 @@
     pos.push("{{column}}")
     {% endfor %}
 
-    var index = pos.indexOf('Id')
+    var index = pos.indexOf('id')
     console.log('Position value', index)
     var entityTables = $('#entityTable').DataTable();
     entityTables.destroy();
@@ -252,6 +252,16 @@
           
         }
       ],
+      "columnDefs": [
+        {
+          "targets": [index],
+          "visible": false,
+          "searchable": false
+        },
+        { targets: '_all', render: function (data, type, row, meta) { return (data == 'None') ? "-" : data; } },
+        { "className": "dt-body-center", "targets": "_all" }
+
+      ]
      
      
     });
