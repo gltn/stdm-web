@@ -1,8 +1,9 @@
 {% load static %}
-
-{% with data=data city_profiles=city_profiles %}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
-
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     {% if data %}
    
     <div class="card-header p-0 border-bottom-0" id="changing-tabs">
@@ -89,7 +90,7 @@
                               </ul> 
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">                          
-                              <div id="map_{{city.grouper|cut:' '}}" style="height: 52vh;width: auto;box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
+                              <div id="map_{{city.grouper|cut:' '}}" style="height: 500px"></div>
                             </div>
                         
                       </div>
@@ -157,56 +158,49 @@
     {% else %}
         <h4>Submissions</h4>
         <p>
-            No submissions available!
+          No submissions available!
+        </p>
         {% endif %}
         <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-       
+        {% comment %} <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script> {% endcomment %}
         
-         <script>
- 
-    var usgsImagery = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-        maxZoom: 20,
-        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-    });
-    var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
-          maxZoom: 19,
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
-      });
-   
+        
+  <script type="text/javascript">
+
     var array = [];
     {% for city in city_profiles %}
     array.push("{{city.Name|cut:' '}}");
-    console.log(array)
     {% endfor %}
-    array.forEach(function (value, i) {      
-      function search() {
-        request = 'http://api.geonames.org/searchJSON?q=' +  value  + '&maxRows=1&username=maxstdm';
-        $.ajax({
-          url: request,
-          type: "POST",
-          dataType: "json",
-          success: function (result) {
-            lat = result.geonames[0].lat
-            lng = result.geonames[0].lng
-            var marker = L.marker([lat, lng]);
-            
-            var mappy = L.map("map_"+ value, {
-              zoom: 5,
-              center: [0.830522, 37.729050],
-              layers: [cartoLight, marker],
-              minZoom: 1,
-              zoomControl: true,
-              attributionControl: false
-            });
-            mappy.setView([lat, lng], 10);
-                    
-            
-
-          },
-        })
-      }
-      search();
+    array.forEach(function (value, i) {
+      var lat = null;
+      var lng = null;
+      request = 'http://api.geonames.org/searchJSON?q=' +  value  + '&maxRows=1&username=maxstdm';
+      $.ajax({
+        url: request,
+        type: "POST",
+        async: false,
+        dataType: "json",
+        success: function (result) {
+          lat = result.geonames[0].lat
+          lng = result.geonames[0].lng
+        },
+      })
+      
+      console.log('This is the value', value)
+      console.log('This is the lat', lat)
+      console.log('This is the lng', lng)                  
+      let map = L.map("map_"+ value).setView([lat, lng], 10);
+      L.marker([lat, lng]).addTo(map);
+       L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+      
+    $('#accordion').on('shown.bs.collapse', function (e) {
+        map.invalidateSize();
+    })
+    $('.collapse').on('bsTransitionEnd', function(e) {
+       map.invalidateSize();
+    })
 
     });
   
@@ -436,25 +430,42 @@
     enabled: false
   },
   tooltip: {
-    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    pointFormat: '<b>{point.percentage:.1f}%</b>'
   },
+  plotOptions: {
+      series: {
+          dataLabels: {
+              enabled: true,
+              distance: -30,
+              color:'white'
+          }
+      }
+  },        
   accessibility: {
     point: {
       valueSuffix: '%'
     }
   },
   plotOptions: {
-    pie: {
-      allowPointSelect: true,
-      cursor: 'pointer',
-      dataLabels: {
-        enabled: false
-      },
-      showInLegend: true
-    }
+      pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          innerSize: '40%',
+          size: "100%",
+          dataLabels: {
+              enabled: true,
+              distance: 4,
+              connectorShape: 'straight',
+              connectorColor: '#000',
+              format: '<b>{point.name}</b><br>{point.percentage:.1f} %',
+              style: {
+                  fontWeight: 'normal',
+                  color: '#000'
+              }
+          }
+      }
   },
   series: [{
-    name: 'Settlements',
     colorByPoint: true,
     data: [
       {% for service,count in city.Settlement_Type.items %}
@@ -478,7 +489,7 @@
   },
 
   tooltip: {
-    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    pointFormat: '<b>{point.percentage:.1f}%</b>'
   },
   title: {
     text: ''
@@ -492,17 +503,25 @@
     }
   },
   plotOptions: {
-    pie: {
-      allowPointSelect: true,
-      cursor: 'pointer',
-      dataLabels: {
-        enabled: false
-      },
-      showInLegend: true
-    }
+      pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          innerSize: '40%',
+          size: "100%",
+          dataLabels: {
+              enabled: true,
+              distance: 4,
+              connectorShape: 'straight',
+              connectorColor: '#000',
+              format: '<b>{point.name}</b><br>{point.percentage:.1f} %',
+              style: {
+                  fontWeight: 'normal',
+                  color: '#000'
+              }
+          }
+      }
   },
   series: [{
-    name: 'Number of Households',
     colorByPoint: true,
     data: [
       {
@@ -522,6 +541,3 @@
  {% endfor %}
  
 
- 
- 
-    {% endwith %}
