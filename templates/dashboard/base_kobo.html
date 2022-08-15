@@ -103,7 +103,7 @@
                         </a>
                     </li>
                     <hr>
-                    {% if user.is_web_user %}
+                    {% comment %} {% if user.is_web_user %}
                         <li class="nav-item btn-primary">
                             <a href="{% url 'dashboard' %}" class="nav-link">
                                 <i class="nav-icon fas fa-cloud"></i>
@@ -112,7 +112,7 @@
                                 </p>
                             </a>
                         </li>
-                    {% endif %} 
+                    {% endif %}  {% endcomment %}
                    
                 </ul>
                 <div class="brand-link-footer-new">
