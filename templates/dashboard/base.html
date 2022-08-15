@@ -106,7 +106,7 @@
         <!-- Brand Logo -->
         <span class="brand-link">
             <a class="current" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-            <img src="{{ configs.logo.url }}" alt="STDM Web" class="brand-image"><span class="font-weight-light">Social Tenure Domain Model</span>
+            <img src="{% static 'dashboard/dist/img/logo.png' %}" alt="STDM Web" class="brand-image"><span class="font-weight-light">Social Tenure Domain Model</span>
         </span>
         
         <!-- Sidebar -->
@@ -119,8 +119,8 @@
                     data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                    <li class="nav-item has-treeview">
-                        <a href="{% url 'dashboard' %}" class="nav-link">
+                    <li class="nav-item has-treeview" title="Dashboard">
+                        <a href="#" id="stdmdashboard" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
                                 Dashboard
@@ -131,7 +131,7 @@
                         {% block profiler_entities %}
                             {% if entities %}
                                 {% for entity in entities %}
-                                    <li class="nav-item" id="{{ entity.short_name }}">
+                                    <li class="nav-item" id="{{ entity.short_name }}" title="{{ entity.ui_display }}">
                                         <a href="#" class="nav-link">
                                             <i class="nav-icon fas fa-th"></i>
                                             <p>
@@ -149,7 +149,7 @@
                     </div>
                     <hr>
                     {% if user.is_mobile_user %}
-                        <li class="nav-item btn-primary">
+                        <li class="nav-item" title="Mobile Dashboard">
                             <a href="{% url 'kobo' %}" class="nav-link">
                                 <i class="nav-icon fas fa-mobile"></i>
                                 <p>
@@ -158,7 +158,7 @@
                             </a>
                         </li>
                     {% endif %}
-                   
+{% comment %}                    
                     <li class="nav-header">IMPORTANT LINKS</li>
                     <li class="nav-item">
                         <a href="{% url 'settings' %}" class="nav-link">
@@ -167,7 +167,7 @@
                                 Settings
                             </p>
                         </a>
-                    </li>
+                    </li> {% endcomment %}
                     <hr>
                 </ul>
                 <div class="brand-link-footer-new">

@@ -94,7 +94,7 @@ DATABASES = {
         'OPTIONS': {
             'options': '-c search_path=config,public,information_schema'
         },
-        'NAME': 'ug_test',
+        'NAME': 'configuration',
         'USER': 'postgres',
         'PASSWORD': 'maestro123',
         'HOST': 'localhost',
@@ -105,7 +105,7 @@ DATABASES = {
         'OPTIONS': {
             'options': '-c search_path=config'
         },
-        'NAME': 'ug_test',
+        'NAME': 'configuration',
         'USER': 'postgres',
         'PASSWORD': 'maestro123',
         'HOST': 'localhost',

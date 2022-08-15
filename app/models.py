@@ -208,14 +208,13 @@ class Configuration(models.Model):
     complete = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name_plural = 'Configuration'
+        verbose_name_plural = 'System Configuration'
 
 
 @receiver(post_save, sender=Configuration)
 # @transaction.atomic
 def create_views(sender, instance, **kwargs):
     if instance.config_type == 'Web':
-        print('Hii inarudiwa')
         InitConfig()
         Configuration.objects.filter(config_type="Web").update(complete=True)
 
@@ -225,7 +224,16 @@ class KoboConfiguration(models.Model):
     token = models.CharField(max_length=250)
 
     class Meta:
-        verbose_name_plural = 'Kobo Configs'
+        verbose_name_plural = 'Kobo Configurations'
+
+
+class EntityError(models.Model):
+    entity = models.CharField(max_length=250)
+    error_description = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'Entity Error Logs'
 
 
 class Setting(models.Model):

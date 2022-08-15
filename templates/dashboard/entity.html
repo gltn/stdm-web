@@ -49,8 +49,9 @@
                     </div>
                   </div>
                   <div class="card-body">
-                    {% if errors %}<span class="badge badge-danger">{{ errors }}</span>{% endif %}
-
+                    {% if errors %}<span class="badge badge-danger">{{ errors }}</span>
+                    {% else %}
+                    {% if data %}
                     <table id="entityTable" class="table display compact table-striped" style="width:100%;
                                                           cursor:pointer;">
                       <thead>
@@ -62,13 +63,15 @@
                         {% for row in data %}
                         <tr>
                           {% for dt in row %}<td>{{ dt.1 }}</td>{% endfor %}
-                          <!-- {% if is_str_entity  %}
-                          <td><button id='moreView' class="{% if dt.0 == 'id' %}{{dt.1}}{% endif %}">View More</button></td>
-                          {% endif %}                         -->
+                                                  
                         </tr>
                         {% endfor %}
                       </tbody>
                     </table>
+                    {% else %}
+                    <p> No records available for this Entity </p>
+                    {% endif %}
+                    {% endif %}
                   </div>
                 </div>
                 <div class="row" id="view_more"></div>
@@ -112,6 +115,7 @@
                     <h4>{{ entity.ui_display }}</h4>
 
                     <div class="col-12">
+                    
                       <div class="card card-primary card-outline">
                         <div class="card-header d-flex p-0">
                           <h3 class="card-title p-3">Look-Up Summary</h3>
@@ -169,6 +173,7 @@
                         </div>
                         <!-- /.card-body -->
                       </div>
+                    
                       <!-- /.tab-content -->
                     </div>
                     <!-- /.card-body -->
@@ -212,6 +217,7 @@
       select: {
         style: 'single'
       },
+      "autoWidth": true,
       buttons: [
         {
           extend: 'excelHtml5',
@@ -298,7 +304,7 @@
 <script src="{% static 'dashboard/leaflet/easy-button.js' %}"></script>
 {% if entity.has_geometry_column == True %}
 <script type="text/javascript">
-  let today = new Date().toISOString().slice(0, 10)
+  //let today = new Date().toISOString().slice(0, 10)
   var pos = [];
   {% for column in columns %} pos.push("{{column}}")   // first_name{% endfor %}
   console.log('The columns', pos)
@@ -422,7 +428,7 @@
     }
 
   }
-  var geom = {{ spatial_result | safe}};
+  var geom = {{ spatial_result|safe}};
 
   var layerFeatures = L.geoJson(geom, {
     style: layerStyle.default,
