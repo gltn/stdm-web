@@ -53,11 +53,15 @@
                     {% if errors %}<span class="badge badge-danger">{{ errors }}</span>
                     {% else %}
                     {% if data %}
-                    <table id="entityTable" class="table table-bordered display nowrap" style="width:100%;cursor:pointer;">
+                    {% comment %} <table id="entityTable" class="table table-bordered display nowrap" style="width:100%;cursor:pointer;"> {% endcomment %}
+                    <table id="entityTable" class="table table-striped table-bordered display" cellspacing="0" width="100%">
                       <thead>
+                      
+                      
                         <tr>
-                          {% for column in columns %}<th>{{ column }}</th>{% endfor %}
+                           {% for col in columns %}<th>{{ col }}</th>{% endfor %}
                         </tr>
+                       
                       </thead>
                       <tbody>
                       
@@ -209,19 +213,21 @@
     console.log('Position value', index)
     var entityTables = $('#entityTable').DataTable();
     entityTables.destroy();
+    
+    
     entityTables = $('#entityTable').DataTable({
       dom: 'Blfrtip',
       select: {
         style: 'single'
       },
-      autoWidth: true,      
-      "scrollY": "400px",
-      "searching": true,
+      scrollY: 400,
+      searching: true,
       hideEmptyCols: true,
-      "scrollCollapse":true,
+      scrollCollapse:true,
       mark: true,
       scrollX: "100%",
       processing: true,
+      responsive: true,
       buttons: [
         {
           extend: 'excelHtml5',
@@ -252,7 +258,7 @@
           
         }
       ],
-      "columnDefs": [
+      columnDefs: [
         {
           "targets": [index],
           "visible": false,
@@ -265,8 +271,12 @@
      
      
     });
-  
-    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+     //$('#entityTable').DataTable().columns.adjust();
+    //$("#entityTable").DataTable().search("").draw();
+    setTimeout(function(){ $(window).trigger('resize'); }, 500);
+    
+
+
     $('#entityTable tbody').on('click', 'tr', function () {
       var data_row = entityTables.row(this).data();
       var list_id = data_row[0];
@@ -295,6 +305,14 @@
 
   });
 </script>
+<script>
+
+ $($.fn.dataTable.tables(true)).DataTable().columns.adjust().responsive.recalc();
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+      $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+      });
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
 <script src="{% static 'dashboard/leaflet/easy-button.js' %}"></script>
 {% if entity.has_geometry_column == True %}

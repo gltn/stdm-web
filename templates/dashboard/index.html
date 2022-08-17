@@ -161,11 +161,18 @@ $("#dynamicDiv").on("click", "li", function() {
           type: 'POST',
           traditional: true, 
           success: function (data) {               
-            $('#entity-details').html(data); 
+            $('#entity-details').html(data);            
             $('#profile_tab_details').append('<div id="myloader" style="height: 500px;"><div class="loading"></div></div>');
            setTimeout(function(){ 
-            document.getElementById('myloader').remove();
+            document.getElementById('myloader').remove();             
              $('#profile_details').show()
+              $($.fn.dataTable.tables(true)).DataTable().columns.adjust().responsive.recalc();
+              $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+                $($.fn.dataTable.tables(true)).DataTable()
+                    .columns.adjust();
+                });
+                $(window).trigger('resize');
+            
             }, 2000);      
           }
           
@@ -184,11 +191,18 @@ $("#summary").on("click", "a", function() {
           type: 'POST',
           traditional: true,      
           success: function (data) {               
-            $('#entity-details').html(data); 
+            $('#entity-details').html(data);            
             $('#profile_tab_details').append('<div id="myloader" style="height: 500px;"><div class="loading"></div></div>');
            setTimeout(function(){ 
             document.getElementById('myloader').remove();
              $('#profile_details').show()
+             $($.fn.dataTable.tables(true)).DataTable().columns.adjust().responsive.recalc();
+              $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+                $($.fn.dataTable.tables(true)).DataTable()
+                    .columns.adjust();
+                }); 
+                $(window).trigger('resize');
+             
             }, 2000);      
           }
       });
@@ -387,6 +401,8 @@ $('#stdmdashboard').click(function(){
     checkIfInverted = function(check, nameOfButton) {
       if (check) {
         chart.inverted = !chart.inverted;
+        //chart.series[0] = [];
+        //chart.yAxis[0] = [];
         chart.xAxis[0].update({}, false);
         chart.yAxis[0].update({}, false);
       }
@@ -457,4 +473,10 @@ $('#stdmdashboard').click(function(){
 
   });
     </script>
+<script>
+    $($.fn.dataTable.tables(true)).DataTable().columns.adjust().responsive.recalc();
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+        $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+    });
+</script>
 {% endblock content %}
