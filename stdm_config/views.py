@@ -273,6 +273,7 @@ def EntityDetailView(request, profile_name, entity_short_name):
     except Exception as e:
         errors = "This entity has errors. Kindly contact the administrator for more details. Contact the Administrator for details."
         EntityError.objects.create(entity=entity.name, error_description=e)
+    print(columns)
 
     return render(request, 'dashboard/entity.html', {'entity': entity, 'profile': profile_name, 'entity_name': entity_name, 'data': items, 'columns': columns, 'has_spatial_column': has_spatial_column, 'is_str_entity': is_str_entity, 'lookup_summaries': lookup_summaries, 'spatial_result': spatial_results, "errors": errors})
 
