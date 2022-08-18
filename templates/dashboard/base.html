@@ -148,7 +148,7 @@
                         {% endblock profiler_entities %}
                     </div>
                     <hr>
-                    {% if user.is_mobile_user %}
+                    {% comment %} {% if user.is_mobile_user %}
                         <li class="nav-item" title="Mobile Dashboard">
                             <a href="{% url 'kobo' %}" class="nav-link">
                                 <i class="nav-icon fas fa-mobile"></i>
@@ -157,7 +157,7 @@
                                 </p>
                             </a>
                         </li>
-                    {% endif %}
+                    {% endif %} {% endcomment %}
 {% comment %}                    
                     <li class="nav-header">IMPORTANT LINKS</li>
                     <li class="nav-item">
