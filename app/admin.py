@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import *
 from django.contrib.admin.models import LogEntry
+from django.contrib.auth.models import User
 
 
 class LogEntryAdmin(admin.ModelAdmin):
@@ -11,6 +12,17 @@ admin.site.register(LogEntry, LogEntryAdmin)
 @admin.register(EntityError)
 class EntityErrorAdmin(admin.ModelAdmin):
     list_display = ('entity', 'date')
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+    # actions = None
+    # list_display_links = None
 # Register your models here.
 
 
@@ -37,6 +49,6 @@ class KoboConfigurationAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(User)
+# class UserAdmin(admin.ModelAdmin):
+#     pass
