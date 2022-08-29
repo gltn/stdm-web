@@ -59,50 +59,45 @@ def checkEntity(prefix):
 
 
 @login_required
-# @user_passes_test(lambda u: u.is_web_user)
-def STDMReader(request):
-    if request.user.is_web_user:
-        config = GetConfig("Web")
-        if config is None or not config.complete:
-            return render(request, 'dashboard/no_config.html',)
-        stdm_config = GetStdmConfig("Web")
-        profiles_list = []
-        entities = []
-        default_profile = None
-        configs = None
-        columns = []
-        for profile in stdm_config.profiles.values():
-            profiles_list.append(profile.name)
-        if profiles_list:
-            # Get settings details and retrieve default settings
-            if Setting.objects.exists():
-                configs = Setting.objects.all().first()
-                if configs:
-                    if configs.default_profile in profiles_list:
-                        default_profile = configs.default_profile
-                    else:
-                        default_profile = profiles_list[0]
-            else:
-                configs = Setting.objects.create(
-                    default_profile=profiles_list[0])
-                configs.save()
-                default_profile = configs.default_profile
+def STDMReader(request):    
+    config = GetConfig("Web")
+    if config is None or not config.complete:
+        return render(request, 'dashboard/no_config.html',)
+    stdm_config = GetStdmConfig("Web")
+    profiles_list = []
+    entities = []
+    default_profile = None
+    configs = None
+    columns = []
+    for profile in stdm_config.profiles.values():
+        profiles_list.append(profile.name)
+    if profiles_list:
+        # Get settings details and retrieve default settings
+        if Setting.objects.exists():
+            configs = Setting.objects.all().first()
+            if configs:
+                if configs.default_profile in profiles_list:
+                    default_profile = configs.default_profile
+                else:
+                    default_profile = profiles_list[0]
+        else:
+            configs = Setting.objects.create(
+                default_profile=profiles_list[0])
+            configs.save()
+            default_profile = configs.default_profile
 
-        profiler = stdm_config.profile(default_profile)
-        # LOGGER.info("Target Profile", profiler)
-        str_summary = str_summaries(profiler)
-        entities = GetProfileEntities(profiler)
-        zipped_summaries = None
-        summaries = None
-        if entities:
-            summaries = EntitiesCount(profiler, entities)
-            zipped_summaries = zip(
-                summaries["name"][:4], summaries["count"][:4], summaries["type"][:4])
-        return render(request, 'dashboard/index.html', {'configs': configs, 'default_profile': default_profile, 'profiles': profiles_list, 'columns': columns, 'entities': entities, 'summaries': zipped_summaries, 'charts': summaries, 'str_summary': str_summary})
-    else:
-        messages.error(
-            request, 'Not allowed to view this dashboard. Contact the administrator!')
-        return render(request, 'dashboard/forbiden.html')
+    profiler = stdm_config.profile(default_profile)
+    # LOGGER.info("Target Profile", profiler)
+    str_summary = str_summaries(profiler)
+    entities = GetProfileEntities(profiler)
+    zipped_summaries = None
+    summaries = None
+    if entities:
+        summaries = EntitiesCount(profiler, entities)
+        zipped_summaries = zip(
+            summaries["name"][:4], summaries["count"][:4], summaries["type"][:4])
+    return render(request, 'dashboard/index.html', {'configs': configs, 'default_profile': default_profile, 'profiles': profiles_list, 'columns': columns, 'entities': entities, 'summaries': zipped_summaries, 'charts': summaries, 'str_summary': str_summary})
+    
 
 
 def GetProfileEntities(profile):

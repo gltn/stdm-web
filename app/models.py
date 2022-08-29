@@ -158,15 +158,9 @@ def get_columns_for_str(profile, entity):
 
 def entity_records_query(profile, entity):
     query_joins = create_parent_joins(profile, entity)
-
     query_join_columns = get_columns(profile, entity)
-    # using set()
-    # to remove duplicated
-    # from list
     query_join_columns = list(set(query_join_columns))
-
-    query = "SELECT {0} FROM {1} {2}".format(
-            ','.join(query_join_columns), entity.name, query_joins)
+    query = "SELECT {0} FROM {1} {2}".format(','.join(query_join_columns), entity.name, query_joins)
     print(">>>>>>Entity Querey", query)
     return query
 
@@ -258,11 +252,11 @@ class Setting(models.Model):
         verbose_name_plural = 'Site Settings'
 
 
-class User(AbstractUser):
-    is_web_user = models.BooleanField(
-        default=False, help_text='Designates whether the user can access the web/stdm dashboard')
-    is_mobile_user = models.BooleanField(
-        default=False, help_text='Designates whether the user can access the mobile dashboard')
+# class User(AbstractUser):
+#     is_web_user = models.BooleanField(
+#         default=False, help_text='Designates whether the user can access the web/stdm dashboard')
+#     is_mobile_user = models.BooleanField(
+#         default=False, help_text='Designates whether the user can access the mobile dashboard')
 
-    class Meta:
-        verbose_name_plural = "System Users"
+#     class Meta:
+#         verbose_name_plural = "System Users"

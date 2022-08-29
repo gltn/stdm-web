@@ -84,7 +84,7 @@ SERIALIZATION_MODULES = {
 
 WSGI_APPLICATION = 'stdmweb.wsgi.application'
 
-AUTH_USER_MODEL = "app.User"
+AUTH_USER_MODEL = "auth.User"
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -94,7 +94,7 @@ DATABASES = {
         'OPTIONS': {
             'options': '-c search_path=config,public,information_schema'
         },
-        'NAME': 'configuration',
+        'NAME': 'yx',
         'USER': 'postgres',
         'PASSWORD': 'maestro123',
         'HOST': 'localhost',
@@ -105,7 +105,7 @@ DATABASES = {
         'OPTIONS': {
             'options': '-c search_path=config'
         },
-        'NAME': 'configuration',
+        'NAME': 'yx',
         'USER': 'postgres',
         'PASSWORD': 'maestro123',
         'HOST': 'localhost',
