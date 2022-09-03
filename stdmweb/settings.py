@@ -94,7 +94,7 @@ DATABASES = {
         'OPTIONS': {
             'options': '-c search_path=config,public,information_schema'
         },
-        'NAME': 'yx',
+        'NAME': 'stdmweb1',
         'USER': 'postgres',
         'PASSWORD': 'maestro123',
         'HOST': 'localhost',
@@ -105,7 +105,7 @@ DATABASES = {
         'OPTIONS': {
             'options': '-c search_path=config'
         },
-        'NAME': 'yx',
+        'NAME': 'stdmweb1',
         'USER': 'postgres',
         'PASSWORD': 'maestro123',
         'HOST': 'localhost',

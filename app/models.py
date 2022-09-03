@@ -9,6 +9,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from stdm_config import StdmConfigurationReader, StdmConfiguration
 import os
+import logging as LOGGER
 from django.conf import settings
 
 
@@ -18,7 +19,7 @@ def InitConfig():
     reader = StdmConfigurationReader(CONFIG_PATH)
     reader.load()
     stdm_config = StdmConfiguration.instance()
-    print(">>>>Config Path", CONFIG_PATH)
+    LOGGER.info("Config Path: " + CONFIG_PATH)
     # iterating over the ordereddict
     profiles = stdm_config.profiles
     run(profiles)
@@ -69,15 +70,17 @@ def CreateSTRSummaryView(profile):
 
 
 def create_materialized_view(view_name, query):
-    create_view = "CREATE MATERIALIZED VIEW  IF NOT EXISTS public."+view_name + " AS "
-    finale_view_query = create_view + query
-    print(view_name)
+    create_view = "CREATE MATERIALIZED VIEW  IF NOT EXISTS public.{} AS {}".format(
+        view_name, query)
+    finale_view_query = create_view
+    LOGGER.info("Running View Query  for {}. \n Query: {}".format(
+        view_name, finale_view_query))
     CursorExecuteCommit(finale_view_query)
 
 
 def initializeViews(profile):
     for entity in profile.user_entities():
-        view_name = entity.name+"_view"
+        view_name = "{}_view".format(entity.name)
         query = entity_records_query(profile, entity)
         create_materialized_view(view_name, query)
     CreateSTRSummaryView(profile)
@@ -86,19 +89,27 @@ def initializeViews(profile):
 
 
 def create_parent_joins(profile, entity):
-    joins = ''
+    joins = set()
+    parent_aliases = {}
+    index = 0
     for en in entity.parents():
         en_parent_relations = profile.parent_relations(en)
         for relation in en_parent_relations:
             if (relation.parent.name == profile.prefix+'_social_tenure_relationship'):
                 en_parent_relations.remove(relation)
             if (entity.name == relation.child.name and relation.parent.TYPE_INFO == 'VALUE_LIST'):
-                join = 'left join ' + en.name + ' ' + en.name+' on ' + en.name+'.' + \
-                    relation.parent_column + '= ' + relation.child.name+'.' + relation.child_column
-                joins += " "
-                joins += join
-
-    return joins
+                en_name = en.name
+                if (en.name in parent_aliases):
+                    parent_aliases[en.name] = int(parent_aliases[en.name]) + 1
+                    en_name = en.name + str(parent_aliases[en.name])
+                else:
+                    parent_aliases[en.name] = 1
+                join = 'left join {0} {1} on {1}.{2} = {3}.{4}'.format(
+                    en.name, en_name, relation.parent_column,  relation.child.name, relation.child_column)
+                joins.add(join)
+    LOGGER.info(joins)
+    s = " ".join(joins)
+    return s
 
 
 def get_db_columns(entity):
@@ -121,7 +132,7 @@ def social_tenure_relationship_view(profile):
     columns = get_columns_for_str(profile, str_entity)
     str_query = "select {} from {} {};".format(
         ','.join(columns), str_table_name, query_joins)
-    print('QUERY', str_query)
+    LOGGER.info('QUERY: \n{}'.format(str_query))
 
     create_materialized_view(str_table_name+'_view', str_query)
 
@@ -160,13 +171,14 @@ def entity_records_query(profile, entity):
     query_joins = create_parent_joins(profile, entity)
     query_join_columns = get_columns(profile, entity)
     query_join_columns = list(set(query_join_columns))
-    query = "SELECT {0} FROM {1} {2}".format(','.join(query_join_columns), entity.name, query_joins)
-    print(">>>>>>Entity Querey", query)
+    query = "SELECT {0} FROM {1} {2}".format(
+        ','.join(query_join_columns), entity.name, query_joins)
+    LOGGER.info("Entity records Query \n{}".format(query))
     return query
 
 
 def createEntityCountQuery(profile):
-    view_name = profile.prefix+"_entities_summary_view"
+    view_name = "{}_entities_summary_view".format(profile.prefix)
     query = "select table_name," +\
             " (xpath('/row/cnt/text()', xml_count))[1]::text::int as count" +\
         " from (" +\
